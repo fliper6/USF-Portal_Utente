@@ -1,0 +1,37 @@
+CMS 
+- CMS e Balcão na mesma página ou separados - Sim 
+- Qual a melhor palavra para a secção da informação (folhetos / boletins/ etc) - Documentos
+- Perfis para os utentes para poderem comentar nas publicações? - Não interessa
+- O filtro vai mudando à medida que vamos percorrendo a árvore? Quando chegamos à "folha" da árvore de conceitos, o filtro desaparece? 
+- Campos do formulário para adicionar ficheiro? - Quem e quando só para os médicos +  tamanho e tipo (utentes só titulto e data e tamanho)
+- Algo assim? --> https://dl.acm.org/ccs - Sim 
+- Admin podem mudar os contactos 
+
+Balcão
+- No formulário, o número de utente e nome vêm já preenchidos porque o cliente já está logged in? Sim, por default e pode mudar se não for para a própria
+- Para quem é que a pessoa pode pedir medicamentos para além dela própria? Como controlar?
+ 
+- Que campos pomos no formulário do pedido de consulta programada?
+- Deixar a área da data/hora em texto para dar mais liberdade ao utente? Ou pôr um date picker?
+- Dropdown dos médicos?
+
+- O perfil faz mais sentido ser privado certo? 
+
+- Os médicos têm uma página que aceita pedidos / recusa pedidos? Os pedidos têm um estado de aceite / recusado / pendente? E quando está pendente pode ser cancelado pelo utente?
+- Todos os médicos têm acesso a todos os pedidos de medicação e consulta ou só da área? 
+- E têm acesso a um histórico dos pedidos recusados/aceites já finalizados?
+
+- Admin tem permissões para apagar qualquer comentário? E publicação do feed de notícias? E o perfil de médico?
+- Maneira de distinguir os perfis - um admin pode dar privilégios de médico/admin a outros utilizadores? Temos de ter uma 
+interface para esse propósito? Tipo uma lista de utilizadores? 
+
+- Sistema de notificações?
+- Que dados para registar? (mail, nome, pass, numero utente, telefone)
+
+
+
+
+- Secretários clínicos
+- click com copy do pedido 
+- recusar com mensagem para o utente
+- 
