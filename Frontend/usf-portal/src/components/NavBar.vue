@@ -34,7 +34,7 @@
         </div>
       </router-link>
 
-            <div class="separador">
+       <div class="separador">
         <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
@@ -44,7 +44,7 @@
           />
       </div>
 
-      <router-link to="/files" class="titulo" style="color:#595959">
+      <router-link to="/files" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changeColor('/files')">
             <b :class="this.color=='/files'? 'selected' : 'default'">Ficheiros</b>
@@ -52,7 +52,7 @@
         </div>
       </router-link>
 
-            <div class="separador">
+      <div class="separador">
         <v-img
             alt="Vuetify Logo"
             class="shrink mr-2"
@@ -62,7 +62,7 @@
           />
       </div>
 
-      <router-link to="/about" class="titulo" style="color:#595959">
+      <router-link to="/about" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changeColor('/about')">
             <b :class="this.color=='/about'? 'selected' : 'default'">Encontre-nos</b>
@@ -80,7 +80,7 @@
           />
       </div>
 
-      <router-link to="/balcao" class="titulo" style="color:#595959">
+      <router-link to="/balcao" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changeColor('/balcao')">
             <b :class="this.color=='/balcao'? 'selected' : 'default'">Balcão Eletrónico</b>
