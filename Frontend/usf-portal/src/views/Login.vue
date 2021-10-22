@@ -13,8 +13,8 @@
                 >Login</v-btn>
             </template>
             
-            <v-tabs v-model="tab" show-arrows color="rgb(17, 78, 138)" background-color="white" icons-and-text light grow>
-                <v-tabs-slider color="rgb(17, 78, 138)"></v-tabs-slider>
+            <v-tabs v-model="tab" show-arrows color="#800000" background-color="white" icons-and-text light grow>
+                <v-tabs-slider class="col"></v-tabs-slider>
                 <v-tab v-for="i in tabs" :key="i.name" >
                     <v-icon large class="tab">{{ i.icon }}</v-icon>
                     <div class="caption py-1" >{{ i.name }}</div>
@@ -27,9 +27,9 @@
                                 <v-col cols="12">
                                     <v-text-field 
                                     type="text" 
-                                    v-model="username" 
+                                    v-model="email" 
                                     :rules="[rules.required]"
-                                    label="Username">
+                                    label="Email">
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
@@ -54,7 +54,7 @@
                             class="white--text" 
                             elevation="1" 
                             v-on:click="login()" 
-                            color="rgb(17, 78, 138)"
+                            color="#800000"
                             >Login</v-btn>
                         </v-card-actions>
 
@@ -70,9 +70,17 @@
                                 <v-col cols="12">
                                     <v-text-field 
                                     type="text" 
+                                    v-model="email" 
+                                    :rules="[rules.required,rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containdp]"
+                                    label="Email" >
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-text-field 
+                                    type="text" 
                                     v-model="username" 
-                                    :rules="[rules.required,rules.length, rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
-                                    label="Username" >
+                                    :rules="[rules.required,rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
+                                    label="Full Name" >
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
@@ -80,7 +88,7 @@
                                     :append-icon="valueRegistarPass ? 'mdi-eye' : 'mdi-eye-off'" 
                                     :type="valueRegistarPass ? 'password' : 'text'"
                                     :rules="[rules.required]"  
-                                    v-model="password" label="Password"
+                                    v-model="passRegist" label="Password"
                                     @click:append="() => (valueRegistarPass = !valueRegistarPass)">
                                     </v-text-field>
                                 </v-col>
@@ -106,7 +114,7 @@
                             class="white--text" 
                             elevation="1" 
                             v-on:click="register()" 
-                            color="rgb(17, 78, 138)"
+                            color="#800000"
                             >Register</v-btn>
                         </v-card-actions>
           
@@ -139,13 +147,13 @@
                     containa: v => !v.includes('"') || `Can't contain ' " '`,
                     containpe: v => !v.includes("'") || "Can't contain ' ' '",
                     containdp: v => !v.includes(':') || "Can't contain ':'",
-                    containp: v => !v.includes('.') || "Can't contain '.",
-                    length: v => (v || '' ).length <= 20 || 'Username should be 20 characters or less'
+                    containp: v => !v.includes('.') || "Can't contain '."
                 },
-                username: "",
-                password: "",
-                passverify: "",
                 email: "",
+                password: "",
+                passRegist:"",
+                passverify: "",
+                username: "",
                 type: "password",
                 valueLogin: String,
                 valueRegistarPass: String,
@@ -159,7 +167,7 @@
         },
         computed: {
             passwordMatch() {
-                return () => this.password === this.passverify || "Password must match";
+                return () => this.passRegist === this.passverify || "Password must match";
             }
         },  
         headers: {
@@ -177,9 +185,10 @@
                     .catch(() => {
                         this.alert = true
                         this.loading = false
-                        this.message = "Username or password not valid!"
+                        this.message = "Email or password not valid!"
                     })*/
                     localStorage.setItem('jwt',json)
+                    localStorage.setItem('jwt',this.email)
                     this.$router.go()
                     this.dialog = false
                     this.loading = false
@@ -187,7 +196,7 @@
             login() {
                 this.loading = true
                 var json = {}
-                json['username'] = this.username
+                json['email'] = this.email
                 json['password'] = this.password
                 this.postLogin(json)
             },
@@ -196,8 +205,8 @@
                 /*
                 this.loading=true
                 var json = {}
-                json['username'] = this.username
-                json['password'] = this.password
+                json['email'] = this.email
+                json['password'] = this.passRegist
                 json['name'] = this.username
                 json['dataRegisto'] = new Date().toISOString();
                 
@@ -225,11 +234,18 @@
     #login {
         margin: auto;
     }
+    
     .alert {
         text-align: center;
         color: red;
     }
+    
     .tab {
         color: #CCCCCC;
     }
+    
+    .col{
+        color: #800000;
+    }
+
 </style>
