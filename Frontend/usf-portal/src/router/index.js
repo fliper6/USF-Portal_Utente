@@ -29,6 +29,11 @@ const routes = [
     path: '/balcao/medicacao',
     name: 'Medicacao',
     component: () => import(/* webpackChunkName: "about" */ '../views/Medicacao.vue')
+  },
+  {
+    path: '/utilizadores/privilegios',
+    name: 'EditarPrivilegiosUtilizador',
+    component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
   }
 ]
 

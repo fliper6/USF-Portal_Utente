@@ -66,25 +66,106 @@
         </span>
         </div>
       </router-link>
+      
+      <div class="d-flex align-center" v-if="!this.admin">
+        
+        <div class="separador">
+          <v-img
+              class="shrink mr-2"
+              contain
+              src="@/assets/separador.png"
+              width="3"
+            />
+        </div>
 
-      <div class="separador">
+        <router-link to="/balcao" class="titulo">
+          <div class="d-flex align-center">
+          <span v-on:click="changePath('/balcao')">
+              <b :class="this.path=='/balcao'? 'selected' : 'default'">Balcão Eletrónico</b>
+          </span>
+          </div>
+        </router-link>
+
+      </div>
+
+      
+      <div class="d-flex align-center" v-if="this.admin&&this.token">
+        <div class="separador">
         <v-img
             class="shrink mr-2"
             contain
             src="@/assets/separador.png"
             width="3"
           />
+        </div>
+
+        <router-link to="/medicacao" class="titulo">
+          <div class="d-flex align-center">
+          <span v-on:click="changePath('/medicacao')">
+              <b :class="this.path=='/medicacao'? 'selected' : 'default'">Medicação</b>
+          </span>
+          </div>
+        </router-link>
+
+        <div class="separador">
+          <v-img
+              class="shrink mr-2"
+              contain
+              src="@/assets/separador.png"
+              width="3"
+            />
+        </div>
+
+        <router-link to="/consultas" class="titulo">
+          <div class="d-flex align-center">
+          <span v-on:click="changePath('/consultas')">
+              <b :class="this.path=='/consultas'? 'selected' : 'default'">Consultas</b>
+          </span>
+          </div>
+        </router-link>
+
+        
+        <div class="separador">
+          <v-img
+              class="shrink mr-2"
+              contain
+              src="@/assets/separador.png"
+              width="3"
+            />
+        </div>
+
+        <router-link to="/sugestoes" class="titulo">
+          <div class="d-flex align-center">
+          <span v-on:click="changePath('/sugestoes')">
+              <b :class="this.path=='/sugestoes'? 'selected' : 'default'">Sugestões</b>
+          </span>
+          </div>
+        </router-link>
       </div>
 
-      <router-link to="/balcao" class="titulo">
-        <div class="d-flex align-center">
-        <span v-on:click="changePath('/balcao')">
-            <b :class="this.path=='/balcao'? 'selected' : 'default'">Balcão Eletrónico</b>
-        </span>
-        </div>
-      </router-link>
-
       <v-spacer></v-spacer>
+
+      <div class="d-flex align-center" v-if="this.admin&&this.token">
+        
+        <router-link to="/utilizadores/privilegios" class="titulo">
+          <div class="d-flex align-center">
+          <span v-on:click="changePath('/utilizadores/privilegios')">
+              <b :class="this.path=='/utilizadores/privilegios'? 'selected' : 'default'">Utilizadores</b>
+          </span>
+          </div>
+        </router-link>
+
+        <div class="separador">
+          <v-img
+              class="shrink mr-2"
+              contain
+              src="@/assets/separador.png"
+              width="3"
+            />
+        </div>
+
+      </div>
+      
 
       <div v-if="this.token" class="dropdown">
         <Dropdown></Dropdown>
@@ -109,7 +190,8 @@ export default {
   name: 'App',
   data: () => ({
     token: localStorage.getItem('jwt'),
-    path: '/'
+    path: '/',
+    admin: false
   }),
   components: {
     Login,
