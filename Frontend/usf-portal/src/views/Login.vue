@@ -80,7 +80,15 @@
                                     type="text" 
                                     v-model="username" 
                                     :rules="[rules.required,rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
-                                    label="Full Name" >
+                                    label="Nome Completo" >
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-text-field 
+                                    type="text" 
+                                    v-model="n_utente" 
+                                    :rules="[rules.required,rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
+                                    label="Número de Utente" >
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
@@ -99,7 +107,7 @@
                                     :rules="[rules.required, passwordMatch]" 
                                     block 
                                     v-model="passverify"
-                                    label="Confirm Password"
+                                    label="Confirmar Password"
                                     @click:append="() => (valueRegistarConfirPass = !valueRegistarConfirPass)">
                                     </v-text-field>
                                 </v-col>
@@ -115,7 +123,7 @@
                             elevation="1" 
                             v-on:click="register()" 
                             color="#800000"
-                            >Register</v-btn>
+                            >Registar</v-btn>
                         </v-card-actions>
           
                     </v-card>
@@ -138,7 +146,7 @@
                 tab: 0,
                 tabs: [
                     {name:"Login", icon:"mdi-account"},
-                    {name:"Register", icon:"mdi-account-outline"}
+                    {name:"Registar", icon:"mdi-account-outline"}
                 ],
                 rules: {
                     required: value => !!value || "This camp is required.",
@@ -154,6 +162,7 @@
                 passRegist:"",
                 passverify: "",
                 username: "",
+                n_utente: "",
                 type: "password",
                 valueLogin: String,
                 valueRegistarPass: String,
@@ -208,6 +217,7 @@
                 json['email'] = this.email
                 json['password'] = this.passRegist
                 json['name'] = this.username
+                json['utente'] = this.n_utente
                 json['dataRegisto'] = new Date().toISOString();
                 
                 axios.post("http://localhost:13000/login/register", json)
@@ -247,5 +257,6 @@
     .col{
         color: #800000;
     }
+
 
 </style>

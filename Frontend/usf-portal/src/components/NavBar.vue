@@ -2,6 +2,7 @@
   <v-app >
     <v-app-bar
     app
+    color="white"
     >
       <router-link to="/">
         <div class="d-flex align-center">

@@ -9,7 +9,7 @@
               mdi-account-circle-outline
             </v-icon>
         </template>
-        <v-list>
+        <v-list style="padding:0">
           <v-list-item class="opcao">
             <router-link class="opcao" :to="'/utilizador/' + email">
                 <b>Perfil</b>
@@ -58,6 +58,7 @@
 .opcao:hover{
   background-color: #ddd;
 }
+
 
 
 
