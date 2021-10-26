@@ -10,7 +10,8 @@ var consultaSchema = new mongoose.Schema({
     contacto: {
         tipo: {type: Number, required: true}, // 0 - email, 1 - sms
         valor: {type: String, required: true}
-    }
+    },
+    estado: {type: Number, required: true, default: 0} // 0- Pendente, 1- Aceite, 2- Recusada
   });
 
 module.exports = mongoose.model('pedido_consulta', consultaSchema)
