@@ -12,5 +12,5 @@ module.exports.inserir = ctc => {
 }
 
 module.exports.alterar = ctc => {
-    return User.findByIdAndUpdate({_id: ctc._id}, ctc, {new: true})
+    return Contacto.findByIdAndUpdate({_id: ctc._id}, ctc, {new: true})
 }
