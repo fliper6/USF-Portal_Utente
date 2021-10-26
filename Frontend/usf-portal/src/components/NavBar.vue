@@ -67,7 +67,7 @@
         </div>
       </router-link>
       
-      <div class="d-flex align-center" v-if="!this.admin">
+      <div class="d-flex align-center" v-if="this.token!='admin'">
         
         <div class="separador">
           <v-img
@@ -89,7 +89,7 @@
       </div>
 
       
-      <div class="d-flex align-center" v-if="this.admin&&this.token">
+      <div class="d-flex align-center" v-if="this.token=='admin'">
         <div class="separador">
         <v-img
             class="shrink mr-2"
@@ -145,7 +145,7 @@
 
       <v-spacer></v-spacer>
 
-      <div class="d-flex align-center" v-if="this.admin&&this.token">
+      <div class="d-flex align-center" v-if="this.token=='admin'">
         
         <router-link to="/utilizadores/privilegios" class="titulo">
           <div class="d-flex align-center">
@@ -191,7 +191,6 @@ export default {
   data: () => ({
     token: localStorage.getItem('jwt'),
     path: '/',
-    admin: false
   }),
   components: {
     Login,
