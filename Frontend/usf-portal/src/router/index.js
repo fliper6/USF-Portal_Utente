@@ -35,6 +35,12 @@ const routes = [
     name: 'EditarPrivilegiosUtilizador',
     component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
   }
+  ,
+  {
+    path: '*',
+    name: 'Error',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue')
+  }
 ]
 
 const router = new VueRouter({
