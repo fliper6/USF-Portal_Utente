@@ -1,12 +1,17 @@
 <!-- Vue SFC -->
 <template>
   <div class="files">
-    <h1>Página dos ficheiros</h1>
     <treeselect 
       v-model="value"
       :multiple="true" :options="options" 
       :flatten-search-results="true"
       placeholder="Filtar por..."/>
+    <br/>
+    <v-data-table
+      :headers="headers"
+      :items="desserts"
+      :items-per-page="5"
+      class="elevation-1"/>
   </div>
 </template>
 
@@ -38,7 +43,28 @@
           id: 'c',
           label: 'Outros',
         } ],
+        headers: [
+          {
+            text: 'Título',
+            align: 'start',
+            sortable: false,
+            value: 'titulo',
+          },
+          { text: 'Data', value: 'data' },
+          { text: 'Tamanho', value: 'tamanho' },
+          { text: 'Formato', value: 'formato' },
+          { text: 'Criador', value: 'criador' },
+        ],
+        desserts: [
+          {
+            titulo: 'Mitos sobre cancro e oncologia',
+            data: '11/12/2020',
+            tamanho: '625 KB',
+            formato: '.pdf',
+            criador: 'Ana Ramos',
+          }
+        ]
       }
-    },
+    }
   }
 </script>
