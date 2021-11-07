@@ -11,9 +11,9 @@
         <div>
           <select v-model="medicacao.medico" form="formMed" class="select">
             <option value="volvo"></option>
-            <option value="saab">Saab</option>
-            <option value="opel">Opel</option>
-            <option value="audi">Audi</option>
+            <option value="saab">Nuno Cunha</option>
+            <option value="opel">Pedro Parente</option>
+            <option value="audi">Joaquim Silva</option>
           </select>
         </div>
         <label class="label">4.Medicamentos crónicos pretendidos</label>
@@ -56,7 +56,7 @@ export default {
     text-align: left;
     padding: 40px;
     border-radius: 10px;
-    transform: translate(90%, -26%);
+    transform: translate(55%, -26%);
   }
   .label {
     color:black;
@@ -79,7 +79,7 @@ export default {
   .h1 {
     color:lightseagreen;
     font-size: 2em;
-    transform: translate(34%, 100%);
+    transform: translate(36%, 100%);
   }
   .p1{
     font-size: 0.7em;
@@ -87,7 +87,7 @@ export default {
     max-width: 700px;
     margin: 20px-auto;
     padding: 100px 30px;
-    transform: translate(60%, -20%);
+    transform: translate(35%, -20%);
   }
   .p2{
     font-size: 0.7em;
