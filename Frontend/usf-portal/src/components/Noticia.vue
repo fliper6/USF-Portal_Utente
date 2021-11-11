@@ -22,19 +22,19 @@ export default {
 <style scoped>
 .container {
   width: 80vw;
-  border-bottom: 1px solid #800000;
+  border-bottom: 1px solid var(--primary-color);
   padding-bottom: 30px;
 }
 
 .meta {
   font-size: 0.7em !important;
-  color: gray;
+  color: var(--gray);
   margin-left:3px;
 }
 
 .title {
   font-size: 2em !important;
-  color: #800000;
+  color: var(--primary-color);
   margin-bottom: 15px;
 }
 

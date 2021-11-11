@@ -16,9 +16,10 @@ export default {
 </script>
 
 <style>
+@import './utils/colors.css';
+
+
 #app{
   margin: 2% 5%;
 }
-
-
 </style>
