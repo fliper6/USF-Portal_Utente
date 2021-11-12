@@ -13,9 +13,6 @@
 export default {
   name: 'Noticia',
   props: ["noticia"],
-  mounted () {
-    console.log(this.noticia.text.split('\n'))
-  }
 }
 </script>
 
@@ -24,6 +21,7 @@ export default {
   width: 80vw;
   border-bottom: 1px solid var(--primary-color);
   padding-bottom: 30px;
+  margin-bottom: 20px
 }
 
 .meta {
