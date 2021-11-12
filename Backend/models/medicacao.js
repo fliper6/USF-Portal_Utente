@@ -9,7 +9,8 @@ var medicacaoSchema = new mongoose.Schema({
     contacto: {
         tipo: {type: Number, required: true}, // 0 - email, 1 - sms
         valor: {type: String, required: true}
-    }
+    },
+    data_criacao: {type: Date, default: Date.now, required: true}
   });
 
-module.exports = mongoose.model('pedido_medicacao', medicacaoSchema)
+module.exports = mongoose.model('medicacao', medicacaoSchema)

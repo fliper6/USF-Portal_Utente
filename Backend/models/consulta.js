@@ -14,4 +14,4 @@ var consultaSchema = new mongoose.Schema({
     estado: {type: Number, required: true, default: 0} // 0- Pendente, 1- Aceite, 2- Recusada
   });
 
-module.exports = mongoose.model('pedido_consulta', consultaSchema)
+module.exports = mongoose.model('consulta', consultaSchema)
