@@ -81,7 +81,6 @@ export default {
   .info-area button {
     padding: 1em;
     margin-bottom: 1em;
-
   }
   .button{
     padding:  3px;
@@ -151,7 +150,4 @@ export default {
     margin: 10px;
     padding: 5%;
   }
-
-
-
 </style>
