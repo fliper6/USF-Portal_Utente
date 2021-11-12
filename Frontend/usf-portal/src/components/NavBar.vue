@@ -168,7 +168,7 @@
       
 
       <div v-if="this.token" class="dropdown">
-        <Dropdown></Dropdown>
+          <Dropdown @clicked="changePath" :path="this.path.split('/')[1]"></Dropdown>
       </div>
       <div v-else>
           <Login></Login>
@@ -190,16 +190,18 @@ export default {
   name: 'App',
   data: () => ({
     token: localStorage.getItem('jwt'),
-    path: '/',
+    path: window.location.pathname,
   }),
   components: {
     Login,
     Dropdown
   },
   methods: {
-      changePath(newPath) {
-          this.path = newPath
-      }
+    changePath(newPath) {
+      console.log('o path antigo ->',this.path)
+      console.log('o path novo ->',newPath)
+      this.path = newPath
+    }
   }
 };
 </script>
