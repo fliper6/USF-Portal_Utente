@@ -45,7 +45,7 @@
       <router-link to="/files" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changePath('/files')">
-            <b :class="this.path=='/files'? 'selected' : 'default'">Ficheiros</b>
+            <b :class="this.path=='/files'? 'selected' : 'default'">Documentos</b>
         </span>
         </div>
       </router-link>
