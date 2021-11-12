@@ -5,6 +5,7 @@
               v-bind="attrs"
               v-on="on"
               size="50"
+              :color="path=='utilizador'? '#800000' : '#595959'"
             >
               mdi-account-circle-outline
             </v-icon>
@@ -12,7 +13,9 @@
         <v-list style="padding:0">
           <v-list-item class="opcao">
             <router-link class="opcao" :to="'/utilizador/' + email">
-                <b>Perfil</b>
+                <span v-on:click="changePath('/utilizador')">
+                    <b>Perfil</b>
+                </span>
             </router-link>
           </v-list-item>
           <v-list-item class="opcao">
@@ -28,20 +31,21 @@
 //import jwt from 'jsonwebtoken'
     export default {
         name: "dropdown",
-        data() {
-          return {
+        data: () => ({
             token: localStorage.getItem('jwt'),
             email: "joaobarreiro@gmail.com"
-          }
-        },
-        created() {
+        }),
+        props: {
+          path: String
         },
         methods: {
             handleLogout() {
                 localStorage.clear();
             },
-        },
-          
+            changePath (pathname) {
+              this.$emit('clicked', pathname)
+            }
+        },         
     }
 </script>
 
