@@ -58,6 +58,7 @@ export default {
     display: flex;
     align-content: center;
     flex-direction: column;
+    width: 100%;
   }
   .title-area{
     display: flex;
@@ -65,7 +66,7 @@ export default {
     flex-direction: column;
     align-items: center;
     align-self: center;
-    width: 50vw;
+    width: 50vw !important;
   }
   .form-area{
     display: flex;
@@ -82,10 +83,7 @@ export default {
   .info-area input {
     width: 100%;
   }
-  .info-area button {
-    padding: 1em;
-    margin-bottom: 1em;
-  }
+
   .button{
     padding:  3px;
     background-color: lightseagreen;
@@ -93,17 +91,11 @@ export default {
     border-radius: 5px;
     margin-top: 20px;
   }
-  .cab-area{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 25px;
-  }
+
   .label{
     color:black;
     display: inline-block;
-    margin: 25px 0 15px;
+    margin: 15px 0;
     font-size: 1em;
     letter-spacing: 0.5px;
     font-weight: bold;
@@ -112,21 +104,16 @@ export default {
     display: block;
     padding: 10px 6px;
     height:30px;
-    max-width: 700px;
     box-sizing: border-box;
     border: 1px solid black;
     color: #555
   }
-  .check{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-  }
+
   .h1 {
     color:lightseagreen;
     font-size: 3em;
   }
+  
   .p1{
     font-size: 0.9em;
     text-align: center;
@@ -137,15 +124,5 @@ export default {
     height:30px;
     border: 1px solid black;
   }
-  .sub{
-    padding:  3px;
-    background-color: lightseagreen;
-    border: 1px solid lightseagreen;
-    border-radius: 5px;
-    width: 23%;
-  }
-  .input-radio{
-    margin: 10px;
-    padding: 5%;
-  }
+
 </style>
