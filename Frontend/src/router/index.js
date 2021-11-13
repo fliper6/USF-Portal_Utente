@@ -41,6 +41,11 @@ const routes = [
   }
   ,
   {
+    path: '/utilizador/:id',
+    name: 'Perfil',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Perfil.vue')
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue')
