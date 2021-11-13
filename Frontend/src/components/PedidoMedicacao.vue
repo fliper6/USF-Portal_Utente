@@ -13,12 +13,11 @@
         <input type="number" class="input-text" required v-model="medicacao.numUtente">
         <label class="label">3.Médico de Família</label>
         <div class="select-area">
-          <select v-model="medicacao.medico" form="formMed" class="select">
-            <option value="volvo"></option>
-            <option value="saab">Nuno Cunha</option>
-            <option value="opel">Pedro Parente</option>
-            <option value="audi">Joaquim Silva</option>
-          </select>
+          <v-select
+          :items="medicacao.medico"
+          filled
+          label="Filled style"
+          ></v-select>
         </div>
         <label class="label">4.Medicamentos crónicos pretendidos</label>
         <p class="p2">Por favor escreva o nome do medicamento, a dosagem (em mg ou gr), o número de comprimidos e o número de embalagens que pretende.
@@ -46,8 +45,8 @@ export default {
         nome: "",
         numUtent: "",
         medicamentos: "",
-        medico: "",
-        formato: ""
+        medico: ["Nuno Cunha"],
+        formato: "",
       }
     }  
   }
@@ -100,7 +99,7 @@ export default {
     color:black;
     display: inline-block;
     margin: 25px 0 15px;
-    font-size: 0.8em;
+    font-size: 1em;
     letter-spacing: 0.5px;
     font-weight: bold;
   }
@@ -121,16 +120,15 @@ export default {
   }
   .h1 {
     color:lightseagreen;
-    font-size: 2em;
+    font-size: 3em;
   }
   .p1{
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-align: center;
-    max-width: 700px;
     padding: 10px 30px;
   }
   .p2{
-    font-size: 0.7em;
+    font-size: 1em;
     max-width: 700px;
     width: 200%;
   }

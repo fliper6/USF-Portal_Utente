@@ -31,8 +31,6 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
             <option value="telenf">Pedido de contato telefónico - enfermagem</option>
           </select>
         </div>
-        <p class="p2">Por favor escreva o nome do medicamento, a dosagem (em mg ou gr), o número de comprimidos e o número de embalagens que pretende.
-Ex: Metformina 500 mg, 60 comprimidos, 2 caixas</p>
       </div>    
       <div><button type="submit" class="button">Submeter</button></div>  
     </form>
@@ -57,7 +55,7 @@ export default {
 
 <style>
   .wrapper{
-    width: 800px;
+    width: 50vw;
     margin: 5% auto;
   }
   .title-area{
@@ -69,11 +67,13 @@ export default {
   .form-area{
     display: flex;
     justify-content: center;
+    width: 50vw !important;
   }
   .info-area{
+    display: flex;
+    justify-content: center;
     flex-direction: column;
-    flex:1;
-    order:1;
+    width: 50vw !important;
     margin-right:2em;
   }
   .info-area input {
@@ -101,7 +101,7 @@ export default {
     color:black;
     display: inline-block;
     margin: 25px 0 15px;
-    font-size: 0.8em;
+    font-size: 1em;
     letter-spacing: 0.5px;
     font-weight: bold;
   }
@@ -122,10 +122,10 @@ export default {
   }
   .h1 {
     color:lightseagreen;
-    font-size: 2em;
+    font-size: 3em;
   }
   .p1{
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-align: center;
     max-width: 700px;
     padding: 10px 30px;
