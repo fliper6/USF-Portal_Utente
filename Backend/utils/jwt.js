@@ -1,4 +1,4 @@
-const SECRET = 'LEI2021_SECRET_!_HASH'
+const SECRET = 'PI_2021_SECRET_!_HASH'
 
 const jwt = require("jsonwebtoken");
 
