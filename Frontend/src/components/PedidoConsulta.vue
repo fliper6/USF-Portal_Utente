@@ -55,18 +55,22 @@ export default {
 
 <style>
   .wrapper{
-    width: 50vw;
-    margin: 5% auto;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
   }
   .title-area{
     display: flex;
     align-content: center;
     flex-direction: column;
     align-items: center;
+    align-self: center;
+    width: 50vw;
   }
   .form-area{
     display: flex;
     justify-content: center;
+    align-self: center;
     width: 50vw !important;
   }
   .info-area{
@@ -74,7 +78,6 @@ export default {
     justify-content: center;
     flex-direction: column;
     width: 50vw !important;
-    margin-right:2em;
   }
   .info-area input {
     width: 100%;
@@ -88,7 +91,7 @@ export default {
     background-color: lightseagreen;
     border: 1px solid lightseagreen;
     border-radius: 5px;
-    width: 12%;
+    margin-top: 20px;
   }
   .cab-area{
     display: flex;
@@ -127,8 +130,6 @@ export default {
   .p1{
     font-size: 0.9em;
     text-align: center;
-    max-width: 700px;
-    padding: 10px 30px;
   }
 
   .select{
