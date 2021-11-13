@@ -65,7 +65,7 @@ router.post('/logout', (req,res) => {
 router.put('/nivel/:nr_utente', (req,res) => {
   User.alterar({ nr_utente: req.params.nr_utente, nivel: "medico"})
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
-    .catch(e => {console.log(e); res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."})})
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })
 
 module.exports = router;
