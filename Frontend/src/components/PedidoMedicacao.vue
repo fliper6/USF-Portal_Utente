@@ -15,9 +15,10 @@
         <div class="select-area">
           <v-select
           :items="medicacao.medico"
-          filled
-          label="Filled style"
-          ></v-select>
+          label="Médico de família"
+          dense
+          outlined
+        ></v-select>
         </div>
         <label class="label">4.Medicamentos crónicos pretendidos</label>
         <p class="p2">Por favor escreva o nome do medicamento, a dosagem (em mg ou gr), o número de comprimidos e o número de embalagens que pretende.
@@ -45,7 +46,7 @@ export default {
         nome: "",
         numUtent: "",
         medicamentos: "",
-        medico: ["Nuno Cunha"],
+        medico: ["Nuno Cunha", "Pedro Parente", "Joaquim Silva"],
         formato: "",
       }
     }  
@@ -86,7 +87,7 @@ export default {
     background-color: lightseagreen;
     border: 1px solid lightseagreen;
     border-radius: 5px;
-    width: 12%;
+    margin-top: 10px;
   }
   .cab-area{
     display: flex;
@@ -109,7 +110,7 @@ export default {
     width: 200%;
     height:30px;
     box-sizing: border-box;
-    border: 1px solid black;
+    border: 1px solid #96918F;
     color: #555
   }
   .check{
@@ -131,11 +132,6 @@ export default {
     font-size: 1em;
     max-width: 700px;
     width: 200%;
-  }
-  .select{
-    width:200px;
-    height:30px;
-    border: 1px solid black;
   }
   .sub{
     padding:  3px;
