@@ -9,7 +9,14 @@ const jwt = require('jsonwebtoken')
 const SECRET = JWTUtils.SECRET
 
 // Obter lista de utilizadores
-router.get('/listar', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+router.get('/listarUsers', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+  User.listarUsers()
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
+})
+
+// Obter lista de utentes
+router.get('/listarUtentes', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
   User.listarUtentes()
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
@@ -17,7 +24,7 @@ router.get('/listar', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 
 // Validar token (JWT EXPIRATION DATE)
 router.get('/validar/:token', (req,res) => {
-  jwt.verify(req.params.token,secret,function(e,decoded){
+  jwt.verify(req.params.token,SECRET,function(e,decoded){
     if(e){
       res.status(404).jsonp({error: "O token é inválido. " + e})
     }
@@ -27,7 +34,7 @@ router.get('/validar/:token', (req,res) => {
 
 // SEMI WIP
 // Buscar info de um user
-router.get('/info/:nr_utente', JWTUtils.validate, JWTUtils.compareNrUtente, (req,res) => {
+router.get('/info/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => {
     res.status(200).jsonp(req.user)
 })
 
@@ -35,11 +42,13 @@ router.get('/info/:nr_utente', JWTUtils.validate, JWTUtils.compareNrUtente, (req
 router.post('/login', passport.authenticate('login'), (req,res) => {
   if (req.user.success) {
     jwt.sign({
+      _id: req.user.user._id,
       nome: req.user.user.nome,
       email: req.user.user.email, 
       nr_utente: req.user.user.nr_utente,
       nr_telemovel: req.user.user.nr_telemovel,
       nivel: req.user.user.nivel,
+      dataRegisto: req.user.user.dataRegisto,
       sub: 'PORTAL_UTENTE_2021'}, 
       SECRET,
       {expiresIn: "1m"},
@@ -66,15 +75,15 @@ router.post('/logout', (req,res) => {
 })
 
 // Aumentar nivel de privilegio de um user para medico
-router.put('/nivel/:nr_utente', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-  User.alterar({ nr_utente: req.params.nr_utente, nivel: "medico"})
+router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+  User.alterar({ _id: req.params._id, nivel: "medico"})
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })
 
 // Alterar utilizador
-router.put('/alterar/:nr_utente', JWTUtils.validate, JWTUtils.compareNrUtente, (req,res) => {
-  if(!req.body.nr_utente) req.body.nr_utente = req.params.nr_utente 
+router.put('/alterar/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => {
+  if(!req.body._id) req.body._id = req.params._id 
   User.alterar(req.body)
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))

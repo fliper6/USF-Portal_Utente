@@ -7,6 +7,13 @@ module.exports.listar = () => {
         .exec()
 }
 
+module.exports.listarUsers = () => {
+    return User
+        .find({nivel: {$not: {$eq: 'admin'}} }, {password: 0, _id: 0, __v: 0})
+        .sort('nome') // ou -nome para descending
+        .exec()
+}
+
 module.exports.listarUtentes = () => {
     return User
         .find({nivel: 'utente'}, {password: 0, _id: 0, __v: 0, nivel: 0})
@@ -48,5 +55,5 @@ module.exports.remover = email => {
 }
 
 module.exports.alterar = user => {
-    return User.findOneAndUpdate({nr_utente: user.nr_utente}, user, {new: true})
+    return User.findOneAndUpdate({_id: user._id}, user, {new: true})
 }

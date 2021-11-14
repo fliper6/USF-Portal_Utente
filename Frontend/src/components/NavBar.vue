@@ -67,7 +67,7 @@
         </div>
       </router-link>
       
-      <div class="d-flex align-center" v-if="this.token!='admin'">
+      <div class="d-flex align-center" v-if="this.nivel!='admin'">
         
         <div class="separador">
           <v-img
@@ -89,7 +89,7 @@
       </div>
 
       
-      <div class="d-flex align-center" v-if="this.token=='admin'">
+      <div class="d-flex align-center" v-if="this.nivel=='admin'">
         <div class="separador">
         <v-img
             class="shrink mr-2"
@@ -145,7 +145,7 @@
 
       <v-spacer></v-spacer>
 
-      <div class="d-flex align-center" v-if="this.token=='admin'">
+      <div class="d-flex align-center" v-if="this.nivel=='admin'">
         
         <router-link to="/utilizadores/privilegios" class="titulo">
           <div class="d-flex align-center">
@@ -185,13 +185,19 @@
 <script>
 
 import Login from '@/views/Login.vue';
-import Dropdown from '@/components/Dropdown.vue'
+import Dropdown from '@/components/Dropdown.vue';
+import jwt from 'jsonwebtoken';
+//import axios from 'axios'
+
 export default {
   name: 'App',
-  data: () => ({
-    token: localStorage.getItem('jwt'),
-    path: window.location.pathname,
-  }),
+  data () {
+    return {
+      token: localStorage.getItem('jwt'),
+      nivel: "",
+      path: window.location.pathname
+    }
+  },
   components: {
     Login,
     Dropdown
@@ -201,6 +207,20 @@ export default {
       console.log('o path antigo ->',this.path)
       console.log('o path novo ->',newPath)
       this.path = newPath
+    }
+  },
+  created(){
+    if (this.token) {
+      this.nivel = jwt.decode(this.token).nivel/*
+      axios.get("http://localhost:3333/users/validar/" + this.token)
+        .then( () => {
+          console.log(this.nivel)
+        })
+        .catch(() => {
+          alert("A sua sessão foi expirada!")
+          localStorage.clear()
+          this.$router.go()
+        })*/
     }
   }
 };
