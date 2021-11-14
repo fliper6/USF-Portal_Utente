@@ -13,5 +13,5 @@ historicos (pedidos de medicaçao, consulta, sugestoes?)
 MEDICOS
 responder a medicaçao e consultas
 ver sugestoes
-lista de utilizadores 
+lista de utilizadores  [DONE]
 poder alterar privilegio do utilizador [DONE]

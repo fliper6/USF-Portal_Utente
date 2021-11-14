@@ -8,6 +8,13 @@ const jwt = require('jsonwebtoken')
 
 const SECRET = JWTUtils.SECRET
 
+// Obter lista de utilizadores
+router.get('/listar', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+  User.listarUtentes()
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
+})
+
 // Validar token (JWT EXPIRATION DATE)
 router.get('/validar/:token', (req,res) => {
   jwt.verify(req.params.token,secret,function(e,decoded){
