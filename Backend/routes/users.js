@@ -58,9 +58,8 @@ router.post('/logout', (req,res) => {
   res.send(req.body)
 })
 
-// WIP PORQUE ISTO PRECISA DE TOKEN DE MEDICO
 // Aumentar nivel de privilegio de um user para medico
-router.put('/nivel/:nr_utente', (req,res) => {
+router.put('/nivel/:nr_utente', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
   User.alterar({ nr_utente: req.params.nr_utente, nivel: "medico"})
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))

@@ -24,4 +24,9 @@ module.exports.compareNrUtente = (req,res,next) => {
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
+module.exports.isMedico = (req,res,next) => {
+    if (req.user.nivel === "medico") next()
+    else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
+}
+
 module.exports.SECRET = SECRET
