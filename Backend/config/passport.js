@@ -5,17 +5,21 @@ const User = require('../controllers/user');
 
 module.exports = function(passport) {
     passport.use('login', new LocalStrategy(
-      {usernameField: 'username'}, (username, password, done) => {
-        User.consultar(username, username)
+      //{usernameField: 'username'}, (username, password, done) => {
+      {usernameField: 'email'}, (email, password, done) => {
+        //User.consultar(username, username)
+        User.consultarEmail(email)
           .then(dados => {
             const user = dados
-            if(!user) { return done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail ou número de utente e/ou password.'})}
+            //if(!user) { return done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail ou número de utente e/ou password.'})}
+            if(!user) { return done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail e/ou password.'})}
             bcrypt.compare(password, user.password, function(err, result) {
               if(result) {
                 done(null, {strat: 'login', success: true, user})
               }
               else {
-                done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail ou número de utente e/ou password.'})
+                //done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail ou número de utente e/ou password.'})
+                done(null, {strat: 'login', success: false, message: 'Combinação inválida de e-mail e/ou password.'})
               }
             });
           })
@@ -24,11 +28,15 @@ module.exports = function(passport) {
     )
 
     passport.use('signup', new LocalStrategy(
-      {usernameField: 'nr_utente', passReqToCallback: true}, 
-      (req, nr_utente, password, done) => {
-        User.consultar(req.body.email, req.body.nr_utente)
+      //{usernameField: 'nr_utente', passReqToCallback: true}, 
+      {usernameField: 'email', passReqToCallback: true}, 
+      //(req, nr_utente, password, done) => {
+      (req, email, password, done) => {
+        //User.consultar(req.body.email, req.body.nr_utente)
+        User.consultarEmail(email)
           .then(dados => {
-            if (dados) return done(null, {strat: 'signup', success: false, message: 'E-mail e/ou número de utente já se encontram em uso.'})
+            //if (dados) return done(null, {strat: 'signup', success: false, message: 'E-mail e/ou número de utente já se encontram em uso.'})
+            if (dados) return done(null, {strat: 'signup', success: false, message: 'E-mail já se encontra em uso.'})
             else {
               bcrypt.hash(password, 10, function(err, hash) {
                 User.inserir({
@@ -37,7 +45,8 @@ module.exports = function(passport) {
                   password: hash,
                   nr_utente: req.body.nr_utente,
                   nr_telemovel: req.body.nr_telemovel,
-                  nivel: "utente"
+                  nivel: "utente",
+                  dataRegisto: new Date()
                 })
                 .then(dados => {
                   return done(null, {strat: 'signup', success: true, user: dados})

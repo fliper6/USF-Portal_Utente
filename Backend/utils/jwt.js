@@ -24,8 +24,13 @@ module.exports.compareNrUtente = (req,res,next) => {
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
+module.exports.compareId = (req,res,next) => {
+    if(req.user._id === req.params._id) next()
+    else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
+}
+
 module.exports.isMedico = (req,res,next) => {
-    if (req.user.nivel === "medico") next()
+    if (req.user.nivel === "medico" || req.user.nivel === "admin") next()
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
