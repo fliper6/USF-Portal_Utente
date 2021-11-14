@@ -18,6 +18,7 @@ db.once('open', function() {
 
 var usersRouter = require('./routes/users');
 var contactosRouter = require('./routes/contactos');
+var documentosRouter = require('./routes/documentos')
 var medicacaoRouter = require('./routes/medicacao');
 var sugestaoRouter = require('./routes/sugestao');
 
@@ -31,6 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', usersRouter);
 app.use('/contactos', contactosRouter);
+app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
 app.use('/sugestao', sugestaoRouter);
 
