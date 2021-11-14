@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div class="editor-buttons">
+      <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
+        <v-icon large>mdi-format-bold</v-icon>
+      </button>
+      <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
+        <v-icon large>mdi-format-italic</v-icon>
+      </button>
+      <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
+        <v-icon large>mdi-format-strikethrough</v-icon>
+      </button>
+    </div>
     <bubble-menu
       class="bubble-menu"
       :tippy-options="{ duration: 100 }"
@@ -7,16 +18,16 @@
       v-if="editor"
     >
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'is-active': editor.isActive('bold') }">
-        Bold
+        <v-icon dense color="white">mdi-format-bold</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'is-active': editor.isActive('italic') }">
-        Italic
+        <v-icon dense color="white">mdi-format-italic</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
-        Strike
+        <v-icon dense color="white">mdi-format-strikethrough</v-icon>
       </button>
     </bubble-menu>
-    <editor-content class="editor" :editor="editor" />
+    <editor-content :editor="editor" />
     <button class="see" v-on:click="printHTML">See HTML</button>
   </div>
 </template>
@@ -49,6 +60,11 @@ export default {
 
   mounted() {
     this.editor = new Editor({
+      editorProps: {
+        attributes: {
+          class: 'editor',
+        }
+      },
       content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
       extensions: [
         StarterKit,
@@ -68,10 +84,35 @@ export default {
   padding: 5px;
   color:white
 }
+
 .editor {
-  border: var(--primary-color) solid 1px;
-  border-radius: 5px;
+  border-right: var(--black) solid 1px;
+  border-bottom: var(--black) solid 1px;
+  border-left: var(--black) solid 10px;
+  border-radius: 0px 0px 3.5px 3.5px;
   margin-bottom: 10px;
-  padding-bottom: 0px;
+  padding: 13px;
+  height:70vh;
+
+  outline: none;
 }
+
+.editor-buttons {
+  border: var(--black) solid 1px;
+  border-left: var(--black) solid 10px;
+  border-radius: 3.5px 3.5px 0px 0px;
+  padding: 13px;
+}
+
+.editor-buttons button{
+  margin: 0 5px
+}
+
+.bubble-menu {
+  background-color: #333333;
+  padding: 4px;
+  border-radius: 4px;
+  opacity: 0.7;
+}
+
 </style>
