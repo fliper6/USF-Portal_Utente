@@ -12,6 +12,7 @@ require('./config/passport')(passport)
 
 // ROUTES
 var usersRouter = require('./routes/users');
+var consultasRouter = require('./routes/consultas');
 var contactosRouter = require('./routes/contactos');
 var documentosRouter = require('./routes/documentos')
 var medicacaoRouter = require('./routes/medicacao');
@@ -37,6 +38,7 @@ app.use(passport.session());
 
 // ROUTES MIDDLEWARE
 app.use('/users', usersRouter);
+app.use('/consultas', consultasRouter);
 app.use('/contactos', contactosRouter);
 app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
