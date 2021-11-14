@@ -18,14 +18,10 @@ router.get('/validar/:token', (req,res) => {
   }) 
 })
 
+// SEMI WIP
 // Buscar info de um user
-router.get('/info/:nr_utente', JWTUtils.validate, (req,res) => {
-  if(req.user.nr_utente === req.params.nr_utente){
+router.get('/info/:nr_utente', JWTUtils.validate, JWTUtils.compareNrUtente, (req,res) => {
     res.status(200).jsonp(req.user)
-  }
-  else{
-    res.status(403).jsonp({erro: "Não tem acesso à operação."})
-  }
 })
 
 // Login de um user, retorna token
@@ -56,14 +52,24 @@ router.post('/registar', passport.authenticate('signup'), (req,res) => {
   else res.status(500).jsonp({error: req.user.message}) 
 })
 
+// WIP
 // Logout (blacklist)
 router.post('/logout', (req,res) => {
   res.send(req.body)
 })
 
+// WIP PORQUE ISTO PRECISA DE TOKEN DE MEDICO
 // Aumentar nivel de privilegio de um user para medico
 router.put('/nivel/:nr_utente', (req,res) => {
   User.alterar({ nr_utente: req.params.nr_utente, nivel: "medico"})
+    .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
+})
+
+// Alterar utilizador
+router.put('/alterar/:nr_utente', JWTUtils.validate, JWTUtils.compareNrUtente, (req,res) => {
+  if(!req.body.nr_utente) req.body.nr_utente = req.params.nr_utente 
+  User.alterar(req.body)
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })

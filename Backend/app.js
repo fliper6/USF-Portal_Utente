@@ -42,7 +42,7 @@ app.use('/sugestao', sugestaoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    next("Rota Inexistente", req,res, next);
+    next("Rota Inexistente", req,res,next);
 });
 
 app.use(function(error, req, res, next) {
