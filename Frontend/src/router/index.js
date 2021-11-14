@@ -10,6 +10,11 @@ const routes = [
     component: Home
   },
   {
+    path: '/publicar',
+    name: 'Criar Notícia',
+    component: () => import(/* webpackChunkName: "about" */ '../views/AddNoticia.vue')
+  },
+  {
     path: '/about',
     name: 'About',
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
@@ -39,7 +44,12 @@ const routes = [
     name: 'EditarPrivilegiosUtilizador',
     component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
   }
-  ,
+,
+  {
+    path: '/utilizador/:id',
+    name: 'Perfil',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Perfil.vue')
+  },
   {
     path: '*',
     name: 'Error',

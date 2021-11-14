@@ -2,20 +2,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors');
+var passport = require('passport');
+var session = require("express-session");
 
-var mongoose = require('mongoose');
+// PASSPORT + MONGODB
+require('./config/database')
+require('./config/passport')(passport)
 
-mongoose.connect('mongodb://127.0.0.1:27017/USF_PORTAL_UTENTE', 
-      { useNewUrlParser: true,
-        useUnifiedTopology: true,
-        serverSelectionTimeoutMS: 5000});
-  
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'Erro de conexão ao MongoDB...'));
-db.once('open', function() {
-  console.log("Conexão ao MongoDB realizada com sucesso.")
-});
-
+// ROUTES
 var usersRouter = require('./routes/users');
 var contactosRouter = require('./routes/contactos');
 var documentosRouter = require('./routes/documentos')
@@ -24,17 +19,41 @@ var sugestaoRouter = require('./routes/sugestao');
 
 var app = express();
 
+// OTHER MIDDLEWARE
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+// PASSPORT MIDDLEWARE
+app.use(session({
+    secret: "PI2021",
+    resave: true,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// ROUTES MIDDLEWARE
 app.use('/users', usersRouter);
 app.use('/contactos', contactosRouter);
 app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
 app.use('/sugestao', sugestaoRouter);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+    next("Rota Inexistente", req,res,next);
+});
+
+app.use(function(error, req, res, next) {
+    // set locals, only providing error in development
+    res.locals.message = error.message;
+    res.locals.error = req.app.get('env') === 'development' ? error : {};
+  
+    // render the error 
+    res.status(error.status || 500).jsonp({error});
+});
 
 module.exports = app;
