@@ -5,7 +5,7 @@ var userSchema = new mongoose.Schema({
     email: {type: String, required: true},
     password: {type: String, required: true},
     nr_utente: {type: String, required: true},
-    nr_telemovel: {type: String, required: true},
+    nr_telemovel: {type: String}, // nao colocar required true
     nivel: {type: String, required: true}, // utente, medico, admin,
     dataRegisto: {type: Date, required: true}
   });
