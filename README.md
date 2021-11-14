@@ -1,12 +1,12 @@
 # USF - Portal do Utente
 
-## Frontend setup
+## Frontend setup + run
 ```
 npm install
 npm run serve
 ```
 
-## Backend setup
+## Backend setup + run
 ```
 npm install
 npm start
