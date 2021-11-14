@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 var contactoSchema = new mongoose.Schema({
-    contactos: String,
+    morada: String,
     email: String,
     telefone: String,
     horario_atendimento: String,

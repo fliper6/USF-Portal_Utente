@@ -1,46 +1,46 @@
 var express = require('express');
 var router = express.Router();
 
-let Contacto = require('../controllers/contacto')
+let Consulta = require('../controllers/consulta')
 
-//Devolve todos as contactos
+//Devolve todos as consultas
 router.get('/', function(req, res) {
-    Contacto.listar()
+    Consulta.listar()
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });
 
-//Devolve a contacto de um id especifico
+//Devolve a consulta de um id especifico
 router.get('/:id', function(req, res) {
-  Contacto.consultar(req.params.id)
+  Consulta.consultar(req.params.id)
     .then(dados => res.status(200).jsonp(dados) )
     .catch(e => res.status(404).jsonp({error: e}))
 });
 
-// Devolver os contactos para um email
-router.get('/contactos/:email', function(req, res) {
-    Contacto.listarEmail(req.params.email)
+// Devolver histórico de consultas de um utente
+router.get('/historico/:nr_utente', function(req, res) {
+    Consulta.listarNrUtente(req.params.nr_utente)
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });
 
-// Inserir uma contacto
+// Inserir uma consulta
 router.post('/', function(req, res){
-    Contacto.inserir(req.body)
+    Consulta.inserir(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-// Alterar uma contacto
+// Alterar uma consulta
 router.put('/', function(req, res){
-    Contacto.alterar(req.body)
+    Consulta.alterar(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 })
 
-// Remover uma contacto
+// Remover uma consulta
 router.delete('/:id', function(req, res) {
-    Contacto.remover(req.params.id)
+    Consulta.remover(req.params.id)
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 });
