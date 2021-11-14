@@ -24,7 +24,7 @@ router.get('/listarUtentes', JWTUtils.validate, JWTUtils.isMedico, (req,res) => 
 
 // Validar token (JWT EXPIRATION DATE)
 router.get('/validar/:token', (req,res) => {
-  jwt.verify(req.params.token,secret,function(e,decoded){
+  jwt.verify(req.params.token,SECRET,function(e,decoded){
     if(e){
       res.status(404).jsonp({error: "O token é inválido. " + e})
     }
