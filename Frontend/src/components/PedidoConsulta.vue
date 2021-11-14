@@ -14,22 +14,21 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <input type="number" class="input-text" required v-model="consulta.numUtente">
         <label class="label">3.Médico de Família</label>
         <div class="select-area">
-          <select v-model="consulta.medico" form="formMed" class="select">
-            <option value="volvo"></option>
-            <option value="saab">Nuno Cunha</option>
-            <option value="opel">Pedro Parente</option>
-            <option value="audi">Joaquim Silva</option>
-          </select>
+          <v-select
+          :items="consulta.medico"
+          label="Médico de família"
+          dense
+          outlined
+        ></v-select>
         </div>
         <label class="label">4.O que pretende?</label>
         <div class="select-area">
-          <select v-model="consulta.objetivo" form="formMed" class="select">
-            <option value="agendar">Agendar consulta médica</option>
-            <option value="confirmar">Confirmar dia e hora da consulta (médica ou de enfermagem)</option>
-            <option value="desmarcar">Desmarcar consulta (médica ou de enfermagem)</option>
-            <option value="telmed">Pedido de contato telefónico - médico</option>
-            <option value="telenf">Pedido de contato telefónico - enfermagem</option>
-          </select>
+          <v-select
+          :items="consulta.objetivo"
+          label="O que pretende?"
+          dense
+          outlined
+        ></v-select>
         </div>
       </div>    
       <div><button type="submit" class="button">Submeter</button></div>  
@@ -45,8 +44,9 @@ export default {
       consulta: {
         nome: "",
         numUtent: "",
-        medico: "",
-        objetivo: ""
+        medico: ["Nuno Cunha", "Pedro Parente", "Joaquim Silva"],
+        objetivo: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
+        "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"]
       }
     }  
   }
@@ -89,7 +89,7 @@ export default {
     background-color: lightseagreen;
     border: 1px solid lightseagreen;
     border-radius: 5px;
-    margin-top: 20px;
+    margin-top: 5px;
   }
 
   .label{
@@ -105,7 +105,7 @@ export default {
     padding: 10px 6px;
     height:30px;
     box-sizing: border-box;
-    border: 1px solid black;
+    border: 1px solid #96918F;
     color: #555
   }
 
