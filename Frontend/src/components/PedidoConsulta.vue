@@ -31,8 +31,6 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
             <option value="telenf">Pedido de contato telefónico - enfermagem</option>
           </select>
         </div>
-        <p class="p2">Por favor escreva o nome do medicamento, a dosagem (em mg ou gr), o número de comprimidos e o número de embalagens que pretende.
-Ex: Metformina 500 mg, 60 comprimidos, 2 caixas</p>
       </div>    
       <div><button type="submit" class="button">Submeter</button></div>  
     </form>
@@ -57,51 +55,48 @@ export default {
 
 <style>
   .wrapper{
-    width: 800px;
-    margin: 5% auto;
+    display: flex;
+    align-content: center;
+    flex-direction: column;
+    width: 100%;
   }
   .title-area{
     display: flex;
     align-content: center;
     flex-direction: column;
     align-items: center;
+    align-self: center;
+    width: 50vw !important;
   }
   .form-area{
     display: flex;
     justify-content: center;
+    align-self: center;
+    width: 50vw !important;
   }
   .info-area{
+    display: flex;
+    justify-content: center;
     flex-direction: column;
-    flex:1;
-    order:1;
-    margin-right:2em;
+    width: 50vw !important;
   }
   .info-area input {
     width: 100%;
   }
-  .info-area button {
-    padding: 1em;
-    margin-bottom: 1em;
-  }
+
   .button{
     padding:  3px;
     background-color: lightseagreen;
     border: 1px solid lightseagreen;
     border-radius: 5px;
-    width: 12%;
+    margin-top: 20px;
   }
-  .cab-area{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    border-radius: 25px;
-  }
+
   .label{
     color:black;
     display: inline-block;
-    margin: 25px 0 15px;
-    font-size: 0.8em;
+    margin: 15px 0;
+    font-size: 1em;
     letter-spacing: 0.5px;
     font-weight: bold;
   }
@@ -109,26 +104,19 @@ export default {
     display: block;
     padding: 10px 6px;
     height:30px;
-    max-width: 700px;
     box-sizing: border-box;
     border: 1px solid black;
     color: #555
   }
-  .check{
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    align-items: center;
-  }
+
   .h1 {
     color:lightseagreen;
-    font-size: 2em;
+    font-size: 3em;
   }
+  
   .p1{
-    font-size: 0.7em;
+    font-size: 0.9em;
     text-align: center;
-    max-width: 700px;
-    padding: 10px 30px;
   }
 
   .select{
@@ -136,15 +124,5 @@ export default {
     height:30px;
     border: 1px solid black;
   }
-  .sub{
-    padding:  3px;
-    background-color: lightseagreen;
-    border: 1px solid lightseagreen;
-    border-radius: 5px;
-    width: 23%;
-  }
-  .input-radio{
-    margin: 10px;
-    padding: 5%;
-  }
+
 </style>

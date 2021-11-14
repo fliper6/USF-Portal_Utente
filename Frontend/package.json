@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "@riophae/vue-treeselect": "^0.4.0",
+    "@tiptap/starter-kit": "^2.0.0-beta.140",
+    "@tiptap/vue-2": "^2.0.0-beta.68",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "jsonwebtoken": "^8.5.1",
