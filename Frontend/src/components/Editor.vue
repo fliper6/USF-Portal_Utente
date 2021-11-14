@@ -2,24 +2,24 @@
   <div>
     <div class="editor-buttons">
       <button @click="editor.commands.undo()">
-        <v-icon large>mdi-undo</v-icon>
+        <v-icon>mdi-undo</v-icon>
       </button>
       <button @click="editor.commands.redo()">
-        <v-icon large>mdi-redo</v-icon>
+        <v-icon>mdi-redo</v-icon>
       </button>
       <button class="separator"/>
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'button-active': editor.isActive('bold') }">
-        <v-icon large>mdi-format-bold</v-icon>
+        <v-icon>mdi-format-bold</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'button-active': editor.isActive('italic') }">
-        <v-icon large>mdi-format-italic</v-icon>
+        <v-icon>mdi-format-italic</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'button-active': editor.isActive('strike') }">
-        <v-icon large>mdi-format-strikethrough</v-icon>
+        <v-icon>mdi-format-strikethrough</v-icon>
       </button>
       <button class="separator"/>
       <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-        <v-icon large>mdi-link-plus</v-icon>
+        <v-icon>mdi-link-plus</v-icon>
       </button>
     </div>
     <bubble-menu
