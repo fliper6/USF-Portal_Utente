@@ -10,28 +10,38 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
         <input type="text" class="input-text" required v-model="consulta.nome">
-        <label class="label">2. Número de utente (Serviço Nacional de Saúde)</label>
+        <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
         <input type="number" class="input-text" required v-model="consulta.numUtente">
-        <label class="label">3.Médico de Família</label>
+        <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
+        <input type="number" class="input-text" v-model="consulta.numUtentePedido">
+        <label class="label">4.Médico de Família</label>
         <div class="select-area">
           <v-select
           :items="consulta.medico"
+          v-model="consulta.medico"
           label="Médico de família"
           dense
           outlined
         ></v-select>
         </div>
-        <label class="label">4.O que pretende?</label>
+        <label class="label">5.O que pretende?</label>
         <div class="select-area">
           <v-select
           :items="consulta.objetivo"
+          v-model="consulta.objetivo"
           label="O que pretende?"
           dense
           outlined
         ></v-select>
         </div>
       </div>    
-      <div><button type="submit" class="button">Submeter</button></div>  
+      <div>
+        <v-btn
+        class="button"
+        @click="sendPedidoCons">
+        Submeter
+        </v-btn>
+      </div>  
     </form>
     </div>
   </div>  
@@ -44,6 +54,7 @@ export default {
       consulta: {
         nome: "",
         numUtent: "",
+        numUtentePedido: "",
         medico: ["Nuno Cunha", "Pedro Parente", "Joaquim Silva"],
         objetivo: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
         "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"]
@@ -86,10 +97,8 @@ export default {
 
   .button{
     padding:  3px;
-    background-color: lightseagreen;
-    border: 1px solid lightseagreen;
-    border-radius: 5px;
-    margin-top: 5px;
+    background-color: lightseagreen !important;
+    margin-top: 10px;
   }
 
   .label{
