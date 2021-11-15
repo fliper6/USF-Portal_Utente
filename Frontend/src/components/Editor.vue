@@ -19,6 +19,9 @@
       </button>
       <button class="separator"/>
       <add-link @add-link="newLink"/>
+      <button @click="addImage()">
+        <v-icon>mdi-image-plus</v-icon>
+      </button>
     </div>
     <bubble-menu
       class="bubble-menu"
@@ -87,6 +90,9 @@ export default {
         .extendMarkRange('link')
         .setLink({ href: "//" + event })
         .run()
+    },
+    addImage () {
+      
     }
   },
 
