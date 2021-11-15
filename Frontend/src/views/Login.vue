@@ -23,7 +23,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container pa-0>
-                                <p v-if="alert" class="alert">{{this.message}}</p>
+                                <p v-if="alertLogin" class="alert">{{this.message}}</p>
                                 <v-col cols="12">
                                     <v-text-field 
                                     type="text" 
@@ -66,7 +66,7 @@
                     <v-card>
                         <v-card-text>
                             <v-container pa-0>
-                                <p v-if="alert" class="alert">{{this.message_reg}}</p>
+                                <p v-if="alertRegist" class="alert">{{this.message_reg}}</p>
                                 <v-col cols="12">
                                     <v-text-field 
                                     type="text" 
@@ -89,6 +89,19 @@
                                     v-model="n_utente" 
                                     :rules="[rules.required,rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
                                     label="Número de Utente" >
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-text-field 
+                                    type="text" 
+                                    v-model="n_telemovel" 
+                                    :rules="[rules.containv,rules.containpv,rules.containa,rules.containpe,rules.containp,rules.containdp]"
+                                    >
+                                    <template v-slot:label>
+                                      <div>
+                                      Número de Telemóvel <small>(opcional)</small>
+                                      </div>
+                                    </template>
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
@@ -138,7 +151,7 @@
 
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
     export default {
         name: 'Login',
         data() {
@@ -149,13 +162,13 @@
                     {name:"Registar", icon:"mdi-account-outline"}
                 ],
                 rules: {
-                    required: value => !!value || "This camp is required.",
-                    containv: v => !v.includes(',') || "Can't contain ','",
-                    containpv: v => !v.includes(';') || "Can't contain ';'",
-                    containa: v => !v.includes('"') || `Can't contain ' " '`,
-                    containpe: v => !v.includes("'") || "Can't contain ' ' '",
-                    containdp: v => !v.includes(':') || "Can't contain ':'",
-                    containp: v => !v.includes('.') || "Can't contain '."
+                    required: value => !!value || "Este campo é obrigatório.",
+                    containv: v => !v.includes(',') || "Não pode conter ','",
+                    containpv: v => !v.includes(';') || "Não pode conter ';'",
+                    containa: v => !v.includes('"') || `Não pode conter ' " '`,
+                    containpe: v => !v.includes("'") || "Não pode conter ' ' '",
+                    containdp: v => !v.includes(':') || "Não pode conter ':'",
+                    containp: v => !v.includes('.') || "Não pode conter '."
                 },
                 email: "",
                 password: "",
@@ -163,13 +176,15 @@
                 passverify: "",
                 username: "",
                 n_utente: "",
+                n_telemovel: "",
                 type: "password",
                 valueLogin: String,
                 valueRegistarPass: String,
                 valueRegistarConfirPass: String,
                 message:'',
                 message_reg : '',
-                alert: false,
+                alertLogin: false,
+                alertRegist: false,
                 loading: false,
                 dialog: false,
             }
@@ -184,7 +199,7 @@
         },   
         methods: {
             postLogin(json) {
-               /* axios.post("http://localhost:13000/login", json)
+                axios.post("http://localhost:3333/users/login", json)
                     .then(data => {
                         localStorage.setItem('jwt',data.data.token)
                         this.$router.go()
@@ -192,15 +207,10 @@
                         this.loading = false
                     })
                     .catch(() => {
-                        this.alert = true
+                        this.alertLogin = true
                         this.loading = false
-                        this.message = "Email or password not valid!"
-                    })*/
-                    localStorage.setItem('jwt',json)
-                    localStorage.setItem('jwt',this.email)
-                    this.$router.go()
-                    this.dialog = false
-                    this.loading = false
+                        this.message = "Email ou password inválidos!"
+                    })
             },
             login() {
                 this.loading = true
@@ -211,26 +221,22 @@
             },
             
             register() {
-                /*
                 this.loading=true
                 var json = {}
                 json['email'] = this.email
                 json['password'] = this.passRegist
-                json['name'] = this.username
-                json['utente'] = this.n_utente
-                json['dataRegisto'] = new Date().toISOString();
-                
-                axios.post("http://localhost:13000/login/register", json)
+                json['nome'] = this.username
+                json['nr_utente'] = this.n_utente
+                json['nr_telemovel'] = this.n_telemovel
+                axios.post("http://localhost:3333/users/registar", json)
                     .then( () => {
-                        json['password'] = this.password
                         this.postLogin(json)
-                        this.loading = true
                     })
-                    .catch(err => {
-                        this.alert = true
+                    .catch(() => {
+                        this.alertRegist = true
                         this.loading = false
-                        this.message_reg = err.response.data.message
-                    })  */  
+                        this.message_reg = "Não foi possível efetuar o registo!"
+                    })  
             },
                        
         }
