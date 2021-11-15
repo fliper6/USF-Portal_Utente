@@ -38,7 +38,7 @@
                 v-bind:color="med ? '#CCCCCC' : '#AFE2DD'"
                 @click="pedidoM"
               >
-                Peidos de Medicação
+                Pedidos de Medicação
               </v-btn>
             </v-col>
             <v-col>
@@ -48,7 +48,7 @@
                 v-bind:color="cons ? '#CCCCCC' : '#AFE2DD'"
                 @click="pedidoC"
               >
-                Peidos de Consulta
+                Pedidos de Consulta
               </v-btn>
             </v-col>
             <v-col>
