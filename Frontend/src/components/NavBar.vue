@@ -80,7 +80,7 @@
 
 
         <div class="dropdown" :class="this.path.split('/')[1]=='balcao'? 'selected' : 'default'">
-          <DropBalcao @clicked="changePath"></DropBalcao>
+          <DropBalcao @clicked="changePath" :path="this.path.split('/')[1]"></DropBalcao>
         </div>
 
       </div>

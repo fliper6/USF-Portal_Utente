@@ -3,6 +3,7 @@
         <template v-slot:activator="{ on, attrs }">
           <div class="d-flex align-center titulo" v-bind="attrs" v-on="on">
             <b>Balcão Eletrónico</b>
+            <v-icon size="16" :color="path=='balcao'? '#800000' : '#595959'">mdi-arrow-down</v-icon>
           </div>
         </template>
 
@@ -38,6 +39,9 @@
         data: () => ({
             token: localStorage.getItem('jwt'),
         }),
+        props: {
+          path: String
+        },
         methods: {
           changePath (pathname) {
             this.$emit('clicked', pathname)
