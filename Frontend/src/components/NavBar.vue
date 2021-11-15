@@ -163,9 +163,11 @@
               width="3"
             />
         </div>
-
       </div>
       
+      <div class="d-flex align-center" style="margin-right:10px">
+        <b :class="'default'"> {{nome.split(' ')[0]}} </b>
+      </div>
 
       <div v-if="this.token" class="dropdown">
           <Dropdown @clicked="changePath" :path="this.path.split('/')[1]"></Dropdown>
@@ -195,6 +197,7 @@ export default {
     return {
       token: localStorage.getItem('jwt'),
       nivel: "",
+      nome: "",
       path: window.location.pathname
     }
   },
@@ -209,10 +212,10 @@ export default {
   },
   created(){
     if (this.token) {
-      this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/users/validar/" + this.token)
         .then( () => {
-          console.log(this.nivel)
+          this.nivel = jwt.decode(this.token).nivel
+          this.nome = jwt.decode(this.token).nome
         })
         .catch(() => {
           localStorage.clear()
