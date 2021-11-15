@@ -187,7 +187,7 @@
 import Login from '@/views/Login.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import jwt from 'jsonwebtoken';
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -204,23 +204,21 @@ export default {
   },
   methods: {
     changePath(newPath) {
-      console.log('o path antigo ->',this.path)
-      console.log('o path novo ->',newPath)
       this.path = newPath
     }
   },
   created(){
     if (this.token) {
-      this.nivel = jwt.decode(this.token).nivel/*
+      this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/users/validar/" + this.token)
         .then( () => {
           console.log(this.nivel)
         })
         .catch(() => {
-          alert("A sua sessão foi expirada!")
           localStorage.clear()
-          this.$router.go()
-        })*/
+          window.location.pathname = '/'
+          alert("A sua sessão foi expirada!")
+        })
     }
   }
 };
