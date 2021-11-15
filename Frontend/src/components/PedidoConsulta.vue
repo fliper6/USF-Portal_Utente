@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="title-area">
-      <h1 class="h1">Pedido de Contato</h1>
+      <h1 class="h1">Pedido de Consulta</h1>
       <p class="p1">Preencha cuidadosamente o formulário.
 Este formulário não pode ser usado para consulta no próprio dia (consulta urgente).</p>
     </div>
