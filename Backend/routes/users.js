@@ -51,7 +51,7 @@ router.post('/login', passport.authenticate('login'), (req,res) => {
       dataRegisto: req.user.user.dataRegisto,
       sub: 'PORTAL_UTENTE_2021'}, 
       SECRET,
-      {expiresIn: "1m"},
+      {expiresIn: "4h"},
       function(e, token) {
         if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
         else res.status(201).jsonp({token})
