@@ -78,13 +78,10 @@
             />
         </div>
 
-        <router-link to="/balcao" class="titulo">
-          <div class="d-flex align-center">
-          <span v-on:click="changePath('/balcao')">
-              <b :class="this.path=='/balcao'? 'selected' : 'default'">Balcão Eletrónico</b>
-          </span>
-          </div>
-        </router-link>
+
+        <div class="dropdown" :class="this.path.split('/')[1]=='balcao'? 'selected' : 'default'">
+          <DropBalcao @clicked="changePath"></DropBalcao>
+        </div>
 
       </div>
 
@@ -188,6 +185,7 @@
 
 import Login from '@/views/Login.vue';
 import Dropdown from '@/components/Dropdown.vue';
+import DropBalcao from '@/components/DropBalcao.vue';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 
@@ -203,7 +201,8 @@ export default {
   },
   components: {
     Login,
-    Dropdown
+    Dropdown,
+    DropBalcao
   },
   methods: {
     changePath(newPath) {
