@@ -22,6 +22,13 @@ router.get('/listarUtentes', JWTUtils.validate, JWTUtils.isMedico, (req,res) => 
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
 })
 
+// Obter lista de medicos
+router.get('/listarMedicos', JWTUtils.validate, JWTUtils.isUtente, (req,res) => {
+  User.listarMedicos()
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
+})
+
 // Validar token (JWT EXPIRATION DATE)
 router.get('/validar/:token', (req,res) => {
   jwt.verify(req.params.token,SECRET,function(e,decoded){
