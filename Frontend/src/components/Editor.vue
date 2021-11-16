@@ -19,9 +19,7 @@
       </button>
       <button class="separator"/>
       <add-link @add-link="newLink"/>
-      <button @click="addImage()">
-        <v-icon>mdi-image-plus</v-icon>
-      </button>
+      <add-image @add-image="addImage" />
     </div>
     <bubble-menu
       class="bubble-menu"
@@ -56,16 +54,19 @@ import {
   BubbleMenu,
 } from '@tiptap/vue-2'
 import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
 import StarterKit from '@tiptap/starter-kit'
 import AddLink from "./Editor/AddLink.vue"
 import SetLink from "./Editor/SetLink.vue"
+import AddImage from "./Editor/AddImage.vue"
 
 export default {
   components: {
     EditorContent,
     BubbleMenu,
     AddLink,
-    SetLink
+    SetLink,
+    AddImage
   },
 
   data() {
@@ -91,8 +92,10 @@ export default {
         .setLink({ href: "//" + event })
         .run()
     },
-    addImage () {
-      
+    addImage (event) {
+      if (event) {
+        this.editor.chain().focus().setImage({ src: event }).run()
+      }
     }
   },
 
@@ -107,6 +110,7 @@ export default {
       extensions: [
         StarterKit,
         Link,
+        Image
       ],
     })
   },
@@ -172,7 +176,7 @@ export default {
   background-color: #333333;
   padding: 4px;
   border-radius: 4px;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 
