@@ -1,14 +1,31 @@
 <template>
-  <PedidoConsulta/>
+  <div v-if="this.token">
+    <PedidoConsulta/>
+  </div>
+
+  <div v-else style="text-align: center;" >
+    <h1> Para aceder a esta página é necessário iniciar sessão!</h1>
+    <div>
+      <Login></Login>
+    </div>
+  </div>
 </template>  
 
 <script>
 import PedidoConsulta from '../components/PedidoConsulta.vue'
+import Login from '@/views/Login.vue';
+
 export default {
   name: 'Consulta',
-    components: {
-      PedidoConsulta
+  data () {
+    return {
+      token: localStorage.getItem('jwt')
     }
+  },
+  components: {
+    PedidoConsulta,
+    Login
+  }
 }
 </script>
 

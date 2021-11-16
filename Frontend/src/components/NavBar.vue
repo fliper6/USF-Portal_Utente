@@ -78,13 +78,10 @@
             />
         </div>
 
-        <router-link to="/balcao" class="titulo">
-          <div class="d-flex align-center">
-          <span v-on:click="changePath('/balcao')">
-              <b :class="this.path=='/balcao'? 'selected' : 'default'">Balcão Eletrónico</b>
-          </span>
-          </div>
-        </router-link>
+
+        <div class="dropdown" :class="this.path.split('/')[1]=='balcao'? 'selected' : 'default'">
+          <DropBalcao @clicked="changePath" :path="this.path.split('/')[1]"></DropBalcao>
+        </div>
 
       </div>
 
@@ -163,9 +160,11 @@
               width="3"
             />
         </div>
-
       </div>
       
+      <div class="d-flex align-center" style="margin-right:10px">
+        <b :class="'default'"> {{nome.split(' ')[0]}} </b>
+      </div>
 
       <div v-if="this.token" class="dropdown">
           <Dropdown @clicked="changePath" :path="this.path.split('/')[1]"></Dropdown>
@@ -186,8 +185,9 @@
 
 import Login from '@/views/Login.vue';
 import Dropdown from '@/components/Dropdown.vue';
+import DropBalcao from '@/components/DropBalcao.vue';
 import jwt from 'jsonwebtoken';
-//import axios from 'axios'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -195,32 +195,32 @@ export default {
     return {
       token: localStorage.getItem('jwt'),
       nivel: "",
+      nome: "",
       path: window.location.pathname
     }
   },
   components: {
     Login,
-    Dropdown
+    Dropdown,
+    DropBalcao
   },
   methods: {
     changePath(newPath) {
-      console.log('o path antigo ->',this.path)
-      console.log('o path novo ->',newPath)
       this.path = newPath
     }
   },
   created(){
     if (this.token) {
-      this.nivel = jwt.decode(this.token).nivel/*
       axios.get("http://localhost:3333/users/validar/" + this.token)
         .then( () => {
-          console.log(this.nivel)
+          this.nivel = jwt.decode(this.token).nivel
+          this.nome = jwt.decode(this.token).nome
         })
         .catch(() => {
-          alert("A sua sessão foi expirada!")
           localStorage.clear()
-          this.$router.go()
-        })*/
+          window.location.pathname = '/'
+          alert("A sua sessão foi expirada!")
+        })
     }
   }
 };
