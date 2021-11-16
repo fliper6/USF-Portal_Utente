@@ -14,8 +14,9 @@ require('./config/passport')(passport)
 var usersRouter = require('./routes/users');
 var consultasRouter = require('./routes/consultas');
 var contactosRouter = require('./routes/contactos');
-var documentosRouter = require('./routes/documentos')
+var documentosRouter = require('./routes/documentos');
 var medicacaoRouter = require('./routes/medicacao');
+var noticiasRouter = require('./routes/noticias');
 var sugestaoRouter = require('./routes/sugestao');
 
 var app = express();
@@ -42,6 +43,7 @@ app.use('/consultas', consultasRouter);
 app.use('/contactos', contactosRouter);
 app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
+app.use('/noticias', noticiasRouter);
 app.use('/sugestao', sugestaoRouter);
 
 // catch 404 and forward to error handler
