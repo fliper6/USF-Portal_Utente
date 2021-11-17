@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const JWTUtils = require('../utils/jwt')
 let Contacto = require('../controllers/contacto')
 
 //Devolve todos as contactos

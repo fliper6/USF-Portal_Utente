@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+const JWTUtils = require('../utils/jwt')
 let Consulta = require('../controllers/consulta')
 
 //Devolve todos as consultas
