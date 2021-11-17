@@ -34,4 +34,10 @@ module.exports.isMedico = (req,res,next) => {
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
+module.exports.isUtente = (req,res,next) => {
+    if (req.user.nivel === "utente" || req.user.nivel === "medico" || req.user.nivel === "admin") next()
+    else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
+}
+
+
 module.exports.SECRET = SECRET

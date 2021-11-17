@@ -2,25 +2,24 @@
   <div>
     <div class="editor-buttons">
       <button @click="editor.commands.undo()">
-        <v-icon large>mdi-undo</v-icon>
+        <v-icon>mdi-undo</v-icon>
       </button>
       <button @click="editor.commands.redo()">
-        <v-icon large>mdi-redo</v-icon>
+        <v-icon>mdi-redo</v-icon>
       </button>
       <button class="separator"/>
       <button @click="editor.chain().focus().toggleBold().run()" :class="{ 'button-active': editor.isActive('bold') }">
-        <v-icon large>mdi-format-bold</v-icon>
+        <v-icon>mdi-format-bold</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleItalic().run()" :class="{ 'button-active': editor.isActive('italic') }">
-        <v-icon large>mdi-format-italic</v-icon>
+        <v-icon>mdi-format-italic</v-icon>
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'button-active': editor.isActive('strike') }">
-        <v-icon large>mdi-format-strikethrough</v-icon>
+        <v-icon>mdi-format-strikethrough</v-icon>
       </button>
       <button class="separator"/>
-      <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
-        <v-icon large>mdi-link-plus</v-icon>
-      </button>
+      <add-link @add-link="newLink"/>
+      <add-image @add-image="addImage" />
     </div>
     <bubble-menu
       class="bubble-menu"
@@ -36,10 +35,15 @@
       </button>
       <button @click="editor.chain().focus().toggleStrike().run()" :class="{ 'is-active': editor.isActive('strike') }">
         <v-icon dense color="white">mdi-format-strikethrough</v-icon>
+      <button class="separator"/>
       </button>
+      <set-link @set-link="setLink"/>
+      <button @click="editor.chain().focus().unsetLink().run()" >
+        <v-icon dense color="white" style="margin-left:3px">mdi-link-off</v-icon>
+      </button> 
     </bubble-menu>
     <editor-content :editor="editor" />
-    <button class="see" v-on:click="printHTML">See HTML</button>
+    <v-btn class="see" v-on:click="printHTML">See HTML</v-btn>
   </div>
 </template>
 
@@ -49,12 +53,20 @@ import {
   EditorContent,
   BubbleMenu,
 } from '@tiptap/vue-2'
+import Link from '@tiptap/extension-link'
+import Image from '@tiptap/extension-image'
 import StarterKit from '@tiptap/starter-kit'
+import AddLink from "./Editor/AddLink.vue"
+import SetLink from "./Editor/SetLink.vue"
+import AddImage from "./Editor/AddImage.vue"
 
 export default {
   components: {
     EditorContent,
-    BubbleMenu
+    BubbleMenu,
+    AddLink,
+    SetLink,
+    AddImage
   },
 
   data() {
@@ -66,6 +78,24 @@ export default {
   methods: {
     printHTML () {
       console.log(this.editor.getHTML())
+    },
+    newLink (event) {
+      console.log(event)
+      this.editor.commands.insertContent('<a href="//' + event.link + '">' + event.text + '</a>')
+    },
+    setLink (event) {
+      console.log(event)
+      this.editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: "//" + event })
+        .run()
+    },
+    addImage (event) {
+      if (event) {
+        this.editor.chain().focus().setImage({ src: event }).run()
+      }
     }
   },
 
@@ -79,6 +109,8 @@ export default {
       content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
       extensions: [
         StarterKit,
+        Link,
+        Image
       ],
     })
   },
@@ -90,10 +122,10 @@ export default {
 </script>
 <style>
 .see {
-  background: var(--primary-color);
+  background: var(--primary-color) !important;
   border-radius: 5px;
-  padding: 5px;
-  color:white
+  padding: 5px !important;
+  color:white !important;
 }
 
 .editor {
@@ -123,7 +155,7 @@ export default {
   padding: 13px;
 }
 
-.editor-buttons i{
+.editor-buttons button{
   margin: 0 5px;
   padding: 2px
 }
@@ -144,7 +176,7 @@ export default {
   background-color: #333333;
   padding: 4px;
   border-radius: 4px;
-  opacity: 0.7;
+  opacity: 0.85;
 }
 
 

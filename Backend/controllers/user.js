@@ -21,6 +21,13 @@ module.exports.listarUtentes = () => {
         .exec()
 }
 
+module.exports.listarMedicos = () => {
+    return User
+        .find({nivel: 'medico'}, {password: 0, _id: 0, __v: 0, nivel: 0})
+        .sort('nome') // ou -nome para descending
+        .exec()
+}
+
 module.exports.consultar = (email, nr_utente) => {
     return User
         .findOne( {$or: [ {email}, {nr_utente} ]} )

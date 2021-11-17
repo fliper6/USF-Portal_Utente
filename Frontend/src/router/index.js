@@ -35,6 +35,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Medicacao.vue')
   },
   {
+    path: '/formConfirm',
+    name: 'FormConfirm',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FormConfirm.vue')
+  },
+  {
     path: '/balcao/consulta',
     name: 'Consulta',
     component: () => import(/* webpackChunkName: "about" */ '../views/Consulta.vue')
@@ -43,8 +48,7 @@ const routes = [
     path: '/utilizadores/privilegios',
     name: 'EditarPrivilegiosUtilizador',
     component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
-  }
-,
+  },
   {
     path: '/utilizador/:id',
     name: 'Perfil',

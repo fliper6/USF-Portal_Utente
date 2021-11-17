@@ -9,48 +9,146 @@
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
         <input type="text" class="input-text" required v-model="medicacao.nome">
-        <label class="label">2. Número de utente (Serviço Nacional de Saúde)</label>
+        <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
         <input type="number" class="input-text" required v-model="medicacao.numUtente">
-        <label class="label">3.Médico de Família</label>
+        <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
+        <p class="p2">Caso pretenda pedir medicação para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
+        <input type="number" class="input-text" v-model="medicacao.numUtentePedido">
+        <label class="label">4.Médico de Família</label>
         <div class="select-area">
           <v-select
-          :items="medicacao.medico"
+          :items= meds
+          v-model="medicacao.medico"
           label="Médico de família"
           dense
           outlined
         ></v-select>
         </div>
-        <label class="label">4.Medicamentos crónicos pretendidos</label>
+        <label class="label">5.Medicamentos crónicos pretendidos</label>
         <p class="p2">Por favor escreva o nome do medicamento, a dosagem (em mg ou gr), o número de comprimidos e o número de embalagens que pretende.
-Ex: Metformina 500 mg, 60 comprimidos, 2 caixas</p>
+Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
         <input type="text" class="input-text" required v-model="medicacao.medicamentos">
-          <label class="label">5. Forma em que pretende que lhe sejam enviadas as receitas</label>
+          <label class="label">6. Forma em que pretende que lhe sejam enviadas as receitas</label>
       </div>    
           <div class="check">
             <label for="SMS">SMS</label>
-            <input type="radio" class="input-radio" required v-model="medicacao.formato" value="SMS">
+            <input type="radio" class="input-radio" @click="showTele = true; showEmail = false" required v-model="medicacao.contacto" value="SMS">
             <label for="Email">Email</label>
-            <input type="radio"  class="input-radio" required v-model="medicacao.formato" value="Email">
+            <input type="radio"  class="input-radio" @click="showEmail = true; showTele = false" required v-model="medicacao.contacto" value="Email">
           </div>
-        <div><button type="submit" class="button">Submeter</button></div>  
+          <modal v-if="showTele" @close="showTele = false">
+              <label class="label">Número de telemóvel</label>
+              <input type="text" class="input-modal" v-model="medicacao.telemovel">
+          </modal>
+          <modal v-if="showEmail" @close="showEmail = false">
+              <label class="label">Email</label>
+              <input type="text" class="input-modal" v-model="medicacao.email">
+          </modal>
+        <div>
+          <v-btn
+          class="button"
+          @click="sendPedidoMed">
+          Submeter
+          </v-btn>
+        </div> 
     </form>
     </div>
   </div>  
 </template>
 
 <script>
+import axios from 'axios'
+import jwt from 'jsonwebtoken';
 export default {
+  props: ["token"],
   data() {
     return {
       medicacao: {
         nome: "",
-        numUtent: "",
+        numUtente: "",
+        numUtentePedido: "",
         medicamentos: "",
-        medico: ["Nuno Cunha", "Pedro Parente", "Joaquim Silva"],
-        formato: "",
-      }
+        medico: "",
+        contacto: "",
+        telemovel: "",
+        email: ""
+      },
+      meds: [],
+      showEmail: "",
+      showTele: "",
     }  
+  },
+  methods: {
+    sendPedidoMed: function(){
+      axios({
+      method: 'post',
+      url: "http://localhost:3333/medicacao",
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+      }, 
+      data: {
+        nome: this.medicacao.nome,
+        nr_utente_titular: parseInt(this.medicacao.numUtente),
+        nr_utente_pedido: parseNumOpcional(this.medicacao.numUtentePedido),
+        medicacao: this.medicacao.medicamentos,
+        medico: this.medicacao.medico,
+        contacto: {
+          tipo: converteContacto(this.medicacao.contacto),
+          valor: (this.medicacao.contacto == 'SMS') ?  this.medicacao.telemovel : this.medicacao.email
+        }
+      }
+    })
+    function converteContacto(cont){
+      if(cont == "SMS"){
+        return 1
+      }
+      else if (cont == "Email"){
+        return 0
+      }
+    }
+
+    function parseNumOpcional(num){
+      if(num == ""){
+        return null
+      }
+      else{
+        return parseInt(num)
+      }
+    }
+    this.$router.push("/formConfirm")
+    }
+  },
+  created(){
+    axios.get("http://localhost:3333/users/validar/" + this.token)
+      .then( () => {
+        this.medicacao.numUtente = jwt.decode(this.token).nr_utente
+        this.medicacao.email = jwt.decode(this.token).email
+        this.medicacao.telemovel = jwt.decode(this.token).nr_telemovel
+        this.medicacao.nome = jwt.decode(this.token).nome
+      })
+      .catch(() => {
+        localStorage.clear()
+        window.location.pathname = '/'
+        alert("A sua sessão foi expirada!")
+      })
+    axios({
+      method: 'get',
+      url: "http://localhost:3333/users/listarMedicos",
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+      }, 
+      data: {}
+      })
+      .then(meds => {
+        meds.data.forEach(med=> {
+          this.meds.push(med.nome)
+        });
+      })
+    
+       
   }
+  
+  
 }
 </script>
 
@@ -84,10 +182,8 @@ export default {
   }
   .button{
     padding:  3px;
-    background-color: lightseagreen;
-    border: 1px solid lightseagreen;
-    border-radius: 5px;
-    margin-top: 10px;
+    background-color: lightseagreen !important;
+    margin-top: 20px;
   }
   .cab-area{
     display: flex;
@@ -107,7 +203,16 @@ export default {
   .input-text {
     display: block;
     padding: 10px 6px;
-    width: 200%;
+    width: 100%;
+    height:30px;
+    box-sizing: border-box;
+    border: 1px solid #96918F;
+    color: #555
+  }
+  .input-modal {
+    display: block;
+    padding: 10px 6px;
+    width: 96%;
     height:30px;
     box-sizing: border-box;
     border: 1px solid #96918F;
@@ -136,8 +241,6 @@ export default {
   .sub{
     padding:  3px;
     background-color: lightseagreen;
-    border: 1px solid lightseagreen;
-    border-radius: 5px;
     width: 23%;
   }
   .input-radio{
