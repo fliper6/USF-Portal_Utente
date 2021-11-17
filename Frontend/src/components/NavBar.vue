@@ -67,7 +67,7 @@
         </div>
       </router-link>
       
-      <div class="d-flex align-center" v-if="this.nivel!='admin'">
+      <div class="d-flex align-center">
         
         <div class="separador">
           <v-img
@@ -86,7 +86,7 @@
       </div>
 
       
-      <div class="d-flex align-center" v-if="this.nivel=='admin'">
+      <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
         <div class="separador">
         <v-img
             class="shrink mr-2"
