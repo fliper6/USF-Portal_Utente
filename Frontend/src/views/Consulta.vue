@@ -1,6 +1,6 @@
 <template>
   <div v-if="this.token">
-    <PedidoConsulta/>
+    <PedidoConsulta :token="this.token"/>
   </div>
 
   <div v-else style="text-align: center;" >

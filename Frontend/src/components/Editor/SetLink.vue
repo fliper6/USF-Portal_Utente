@@ -49,7 +49,6 @@ export default {
   methods: {
     setLink() {
       this.dialog = false
-      console.log(this.link)
       this.$emit("set-link", this.link)
       this.link = ""
     }

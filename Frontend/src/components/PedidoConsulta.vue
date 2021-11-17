@@ -18,7 +18,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <label class="label">4.Médico de Família</label>
         <div class="select-area">
           <v-select
-          :items="consulta.medico"
+          :items=meds
           v-model="consulta.medico"
           label="Médico de família"
           dense
@@ -28,7 +28,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <label class="label">5.O que pretende?</label>
         <div class="select-area">
           <v-select
-          :items="consulta.objetivo"
+          :items=objs
           v-model="consulta.objetivo"
           label="O que pretende?"
           dense
@@ -49,18 +49,77 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
 </template>
 
 <script>
+import axios from 'axios'
+import jwt from 'jsonwebtoken';
 export default {
+  props: ["token"],
   data() {
     return {
       consulta: {
         nome: "",
         numUtent: "",
         numUtentePedido: "",
-        medico: ["Nuno Cunha", "Pedro Parente", "Joaquim Silva"],
-        objetivo: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
+        medico: "",
+        objetivo: ""
+      },
+      meds:[],
+      objs: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
         "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"]
-      }
     }  
+  },
+  methods: {
+    sendPedidoCons: function(){
+      axios({
+      method: 'post',
+      url: "http://localhost:3333/consultas",
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+      }, 
+      data: {
+        nome: this.consulta.nome,
+        nr_utente_titular: parseInt(this.consulta.numUtente),
+        nr_utente_pedido: parseNumOpcional(this.consulta.numUtentePedido),
+        medico: this.consulta.medico,
+        tipo: this.consulta.objetivo
+      }
+    })
+    function parseNumOpcional(num){
+      if(num == ""){
+        return null
+      }
+      else{
+        return parseInt(num)
+      }
+    }
+    this.$router.push("/formConfirm")
+    }
+  },
+  created(){
+    axios.get("http://localhost:3333/users/validar/" + this.token)
+      .then( () => {
+        this.consulta.numUtente = jwt.decode(this.token).nr_utente
+        this.consulta.nome = jwt.decode(this.token).nome
+      })
+      .catch(() => {
+        localStorage.clear()
+        window.location.pathname = '/'
+        alert("A sua sessão foi expirada!")
+      })
+    axios({
+      method: 'get',
+      url: "http://localhost:3333/users/listarMedicos",
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+      }, 
+      data: {}
+      })
+      .then(meds => {
+        meds.data.forEach(med=> {
+          this.meds.push(med.nome)
+        });
+      })
+    
+       
   }
 }
 </script>
