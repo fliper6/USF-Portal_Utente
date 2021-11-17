@@ -9,21 +9,21 @@ module.exports.listar = () => {
 
 module.exports.listarUsers = () => {
     return User
-        .find({nivel: {$not: {$eq: 'admin'}} }, {password: 0, _id: 0, __v: 0})
+        .find({nivel: {$not: {$eq: 'admin'}} }, {password: 0, __v: 0})
         .sort('nome') // ou -nome para descending
         .exec()
 }
 
 module.exports.listarUtentes = () => {
     return User
-        .find({nivel: 'utente'}, {password: 0, _id: 0, __v: 0, nivel: 0})
+        .find({nivel: 'utente'}, {password: 0, __v: 0, nivel: 0})
         .sort('nome') // ou -nome para descending
         .exec()
 }
 
 module.exports.listarMedicos = () => {
     return User
-        .find({nivel: 'medico'}, {password: 0, _id: 0, __v: 0, nivel: 0})
+        .find({nivel: 'medico'}, {password: 0, __v: 0, nivel: 0})
         .sort('nome') // ou -nome para descending
         .exec()
 }

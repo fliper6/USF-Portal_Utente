@@ -81,9 +81,9 @@ router.post('/logout', (req,res) => {
   res.send(req.body)
 })
 
-// Aumentar nivel de privilegio de um user para medico
-router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-  User.alterar({ _id: req.params._id, nivel: "medico"})
+// Mudar nivel de privilegio de um user
+router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
+  User.alterar({ _id: req.params._id, nivel: req.body.nivel})
     .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })
