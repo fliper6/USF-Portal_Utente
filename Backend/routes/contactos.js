@@ -18,7 +18,7 @@ router.get('/:id', function(req, res) {
 });
 
 // Devolver os contactos para um email
-router.get('/contactos/:email', function(req, res) {
+router.get('/:email', function(req, res) {
     Contacto.listarEmail(req.params.email)
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
