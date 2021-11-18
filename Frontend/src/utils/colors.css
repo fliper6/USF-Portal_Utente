@@ -1,10 +1,25 @@
 :root {
-  --primary-color: #800000;
-  /*
-  --secondary-color: 
-  --tertiary-color:
-  */
+  --primary-color: #800000; /*Texto*/
+  --secondary-color: #c2ede9; /*Botões*/
+  --grey1-color: #efefef; /*Backgrounds*/
+  --grey2-color: #e0e0e0; /*Para botões secundários*/
+  --grey3-color: #595959; /*Para texto*/
   --black: #101010;
   --white: #FAFAFA;
-  --gray: gray;
+}
+
+.button-principal {
+  background-color: var(--secondary-color) !important;
+}
+
+.button-secundário {
+  background-color: var(--grey2-color) !important;
+}
+
+/*Botões para formulários (v-dialog)*/
+.button-confirmar{
+  color: var(--primary-color) !important;
+}
+.button-cancelar{
+  color: var(--grey3-color) !important;
 }

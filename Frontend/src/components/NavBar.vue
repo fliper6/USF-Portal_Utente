@@ -16,15 +16,10 @@
         </div>
       </router-link>
 
-      <div class="separador">
-        <v-img
-            class="shrink mr-2"
-            contain
-            src="@/assets/separador.png"
-            width="3"
-          />
+      <div style="height:40px; margin: 0px 15px;">
+        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
-      
+ 
       <router-link to="/" class="titulo" >
         <div class="d-flex align-center">
         <span v-on:click="changePath('/')">
@@ -33,13 +28,8 @@
         </div>
       </router-link>
 
-       <div class="separador">
-        <v-img
-            class="shrink mr-2"
-            contain
-            src="@/assets/separador.png"
-            width="3"
-          />
+      <div style="height:40px; margin: 0px 15px;">
+        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
       <router-link to="/files" class="titulo">
@@ -50,13 +40,8 @@
         </div>
       </router-link>
 
-      <div class="separador">
-        <v-img
-            class="shrink mr-2"
-            contain
-            src="@/assets/separador.png"
-            width="3"
-          />
+      <div style="height:40px; margin: 0px 15px;">
+        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
       <router-link to="/about" class="titulo">
@@ -69,15 +54,9 @@
       
       <div class="d-flex align-center">
         
-        <div class="separador">
-          <v-img
-              class="shrink mr-2"
-              contain
-              src="@/assets/separador.png"
-              width="3"
-            />
-        </div>
-
+      <div style="height:40px; margin: 0px 15px;">
+        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+      </div>
 
         <div class="dropdown" :class="this.path.split('/')[1]=='balcao'? 'selected' : 'default'">
           <DropBalcao @clicked="changePath" :path="this.path.split('/')[1]"></DropBalcao>
@@ -87,13 +66,8 @@
 
       
       <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
-        <div class="separador">
-        <v-img
-            class="shrink mr-2"
-            contain
-            src="@/assets/separador.png"
-            width="3"
-          />
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
         </div>
 
         <router-link to="/medicacao" class="titulo">
@@ -104,13 +78,8 @@
           </div>
         </router-link>
 
-        <div class="separador">
-          <v-img
-              class="shrink mr-2"
-              contain
-              src="@/assets/separador.png"
-              width="3"
-            />
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
         </div>
 
         <router-link to="/consultas" class="titulo">
@@ -122,13 +91,8 @@
         </router-link>
 
         
-        <div class="separador">
-          <v-img
-              class="shrink mr-2"
-              contain
-              src="@/assets/separador.png"
-              width="3"
-            />
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
         </div>
 
         <router-link to="/sugestoes" class="titulo">
@@ -152,13 +116,8 @@
           </div>
         </router-link>
 
-        <div class="separador">
-          <v-img
-              class="shrink mr-2"
-              contain
-              src="@/assets/separador.png"
-              width="3"
-            />
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
         </div>
       </div>
       

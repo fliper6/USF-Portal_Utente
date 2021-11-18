@@ -4,7 +4,7 @@
       <v-col>
         <v-dialog v-model="dialog" width="750" style="overflow-x: hidden;">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn style="background-color:#AFE2DD; margin-bottom:30px;" v-bind="attrs" v-on="on">
+            <v-btn  class="button-principal" v-bind="attrs" v-on="on">
               + Novo Documento
             </v-btn>
           </template>
@@ -50,8 +50,8 @@
 
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="grey" text @click="dialog2 = false"> Cancelar </v-btn>
-                        <v-btn color="rgb(128, 0, 0)" text @click="addCategoria()"> Confirmar </v-btn>
+                        <v-btn class="button-cancelar" text @click="dialog2 = false"> Cancelar </v-btn>
+                        <v-btn class="button-confirmar"  text @click="addCategoria()"> Confirmar </v-btn>
                       </v-card-actions> 
                     </v-card>
                   </v-dialog> 
@@ -63,8 +63,8 @@
 
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="grey" text @click="dialog = false"> Cancelar </v-btn>
-              <v-btn color="rgb(128, 0, 0)" text @click="addDocumento()"> Confirmar </v-btn>
+              <v-btn class="button-cancelar" text @click="dialog = false"> Cancelar </v-btn>
+              <v-btn class="button-confirmar" text @click="addDocumento()"> Confirmar </v-btn>
             </v-card-actions> 
           </v-card>
         </v-dialog> 
