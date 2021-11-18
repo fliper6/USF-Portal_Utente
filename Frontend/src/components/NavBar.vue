@@ -64,47 +64,18 @@
 
       </div>
 
-      
-      <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
-        <div style="height:40px; margin: 0px 15px;">
-          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-        </div>
-
-        <router-link to="/medicacao" class="titulo">
-          <div class="d-flex align-center">
-          <span v-on:click="changePath('/medicacao')">
-              <b :class="this.path=='/medicacao'? 'selected' : 'default'">Medicação</b>
-          </span>
-          </div>
-        </router-link>
-
-        <div style="height:40px; margin: 0px 15px;">
-          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-        </div>
-
-        <router-link to="/consultas" class="titulo">
-          <div class="d-flex align-center">
-          <span v-on:click="changePath('/consultas')">
-              <b :class="this.path=='/consultas'? 'selected' : 'default'">Consultas</b>
-          </span>
-          </div>
-        </router-link>
-
-        
-        <div style="height:40px; margin: 0px 15px;">
-          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-        </div>
-
-        <router-link to="/sugestoes" class="titulo">
-          <div class="d-flex align-center">
-          <span v-on:click="changePath('/sugestoes')">
-              <b :class="this.path=='/sugestoes'? 'selected' : 'default'">Sugestões</b>
-          </span>
-          </div>
-        </router-link>
-      </div>
-
       <v-spacer></v-spacer>
+
+      <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
+
+        <div class="dropdown" :class="this.path.split('/')[1]=='gestao'? 'selected' : 'default'">
+          <DropGestao @clicked="changePath" :path="this.path.split('/')[1]"></DropGestao>
+        </div>  
+
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+        </div>
+      </div>
 
       <div class="d-flex align-center" v-if="this.nivel=='admin'">
         
@@ -145,6 +116,7 @@
 import Login from '@/views/Login.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import DropBalcao from '@/components/DropBalcao.vue';
+import DropGestao from '@/components/DropGestao.vue';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 
@@ -161,7 +133,8 @@ export default {
   components: {
     Login,
     Dropdown,
-    DropBalcao
+    DropBalcao,
+    DropGestao
   },
   methods: {
     changePath(newPath) {
