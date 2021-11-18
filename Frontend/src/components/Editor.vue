@@ -18,6 +18,19 @@
         <v-icon>mdi-format-strikethrough</v-icon>
       </button>
       <button class="separator"/>
+      <button @click="editor.chain().focus().setTextAlign('left').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'left' }) }">
+         <v-icon>mdi-format-align-left</v-icon>
+      </button>
+      <button @click="editor.chain().focus().setTextAlign('center').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'center' }) }">
+        <v-icon>mdi-format-align-center</v-icon>
+      </button>
+      <button @click="editor.chain().focus().setTextAlign('right').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'right' }) }">
+        <v-icon>mdi-format-align-right</v-icon>
+      </button>
+      <button @click="editor.chain().focus().setTextAlign('justify').run()" :class="{ 'is-active': editor.isActive({ textAlign: 'justify' }) }">
+        <v-icon>mdi-format-align-justify</v-icon>
+      </button>
+      <button class="separator"/>
       <add-link @add-link="newLink"/>
       <add-image @add-image="addImage" />
     </div>
@@ -55,6 +68,7 @@ import {
 } from '@tiptap/vue-2'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
+import TextAlign from '@tiptap/extension-text-align'
 import StarterKit from '@tiptap/starter-kit'
 import AddLink from "./Editor/AddLink.vue"
 import SetLink from "./Editor/SetLink.vue"
@@ -110,7 +124,10 @@ export default {
       extensions: [
         StarterKit,
         Link,
-        Image
+        Image,
+        TextAlign.configure({
+          types: ['heading', 'paragraph'],
+        })
       ],
     })
   },
@@ -121,6 +138,10 @@ export default {
 }
 </script>
 <style>
+.v-application--wrap {
+  min-height: 0 !important;
+}
+
 .see {
   background: var(--primary-color) !important;
   border-radius: 5px;
@@ -135,10 +156,18 @@ export default {
   border-radius: 0px 0px 3.5px 3.5px;
   margin-bottom: 10px;
   padding: 15px 25px;
-  height:65vh;
-  max-height:65vh;
+  height:60vh;
+  max-height:60vh;
 
   outline: none;
+}
+
+.editor img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 600px;
+  max-height: 500px
 }
 
 .ProseMirror {
