@@ -51,7 +51,7 @@
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="grey" text @click="dialog2 = false"> Cancelar </v-btn>
-                        <v-btn color="rgb(128, 0, 0)" text @click="dialog2 = false"> Confirmar </v-btn>
+                        <v-btn color="rgb(128, 0, 0)" text @click="addCategoria()"> Confirmar </v-btn>
                       </v-card-actions> 
                     </v-card>
                   </v-dialog> 
@@ -64,7 +64,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="grey" text @click="dialog = false"> Cancelar </v-btn>
-              <v-btn color="rgb(128, 0, 0)" text @click="dialog = false"> Confirmar </v-btn>
+              <v-btn color="rgb(128, 0, 0)" text @click="addDocumento()"> Confirmar </v-btn>
             </v-card-actions> 
           </v-card>
         </v-dialog> 
@@ -89,6 +89,7 @@
 </template>
 
 <script>
+  import axios from 'axios'
   //npm install --save @riophae/vue-treeselect
   import Treeselect from '@riophae/vue-treeselect'
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -105,6 +106,7 @@
         value2: null,
         valueFiltro: null,
         docsfiltrados: null,
+        options2: null,
         options: [ {
           id: 'medicina_interna',
           label: 'Medicina Interna',
@@ -134,6 +136,7 @@
           { text: 'Formato', value: 'formato' },
           { text: 'Criador', value: 'criador' },
         ],
+        docs2: null,
         docs: [
           {
             titulo: 'Mitos sobre cancro e oncologia',
@@ -166,9 +169,38 @@
           }
           else // se tiver vazio, não filtra
             this.docsfiltrados = this.docs
-        }
+        },
+        addCategoria: function () {
+          this.dialog2 = false;
+        },
+        addDocumento: function () {
+          this.dialog = false;
+        },
+        mudarVisibilidade: function () {
+        },
+        download: function () {
+        },
+
     },
     created() {
+      // Obter lista de documentos
+      axios.get("http://localhost:3333/documentos")
+        .then(data => {
+          this.docs2 = data.data
+        })
+        .catch(() => {
+          console.log("Ocorreu um erro ao obter a listagem de documentos.")
+        })
+      
+      // Obter árvore de categorias
+      axios.get("http://localhost:3333/tipos")
+        .then(data => {
+          this.options2 = data.data
+        })
+        .catch(() => {
+            console.log("Ocorreu um erro ao obter a árvore de categorias.")
+        })
+
       this.docsfiltrados = this.docs
     }
   }
