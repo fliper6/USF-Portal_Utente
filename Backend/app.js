@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cors = require('cors');
 var passport = require('passport');
 var session = require("express-session");
+var fs = require('fs');
 
 // PASSPORT + MONGODB
 require('./config/database')
@@ -20,6 +21,11 @@ var noticiasRouter = require('./routes/noticias');
 var sugestaoRouter = require('./routes/sugestao');
 
 var app = express();
+
+if (!fs.existsSync("./public")) { fs.mkdirSync("./public") }
+if (!fs.existsSync("./public/fileStore")) { fs.mkdirSync("./public/fileStore") }
+if (!fs.existsSync("./public/fileStore/documentos")) { fs.mkdirSync("./public/fileStore/documentos") }
+if (!fs.existsSync("./public/fileStore/noticias")) { fs.mkdirSync("./public/fileStore/noticias") }
 
 // OTHER MIDDLEWARE
 app.use(cors());
