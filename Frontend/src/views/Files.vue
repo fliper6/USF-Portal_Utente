@@ -95,7 +95,6 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
   export default {
-    valueArray: [],
     name: "Files",
     components: { Treeselect },
     data() {
@@ -105,25 +104,9 @@
         value: null,
         value2: null,
         valueFiltro: null,
-        docsfiltrados: null,
-        options2: null,
-        options: [ {
-          id: 'medicina_interna',
-          label: 'Medicina Interna',
-          children: [ {
-            id: 'pneumologia',
-            label: 'Pneumologia',
-          }, {
-            id: 'oncologia',
-            label: 'Oncologia',
-          } ],
-        }, {
-          id: 'cirurgia',
-          label: 'Cirurgia',
-        }, {
-          id: 'outros',
-          label: 'Outros',
-        } ],
+        docs: [],
+        docsfiltrados: [],
+        options: null,
         headers: [
           {
             text: 'Título',
@@ -131,29 +114,10 @@
             sortable: false,
             value: 'titulo',
           },
-          { text: 'Data', value: 'data' },
-          { text: 'Tamanho', value: 'tamanho' },
-          { text: 'Formato', value: 'formato' },
-          { text: 'Criador', value: 'criador' },
-        ],
-        docs2: null,
-        docs: [
-          {
-            titulo: 'Mitos sobre cancro e oncologia',
-            data: '11/12/2020',
-            tamanho: '625 KB',
-            formato: '.pdf',
-            criador: 'Ana Ramos',
-            especialidade: ["medicina_interna","oncologia"]
-          },
-          {
-            titulo: 'Cirurgia Plástica e os seus benefícios',
-            data: '09/01/2021',
-            tamanho: '540 KB',
-            formato: '.pdf',
-            criador: 'Patrícia Alves',
-            especialidade: ["cirurgia"]
-          }
+          { text: 'Data', value: 'data_publicacao' },
+          { text: 'Tamanho', value: 'ficheiro.tamanho' },
+          { text: 'Formato', value: 'ficheiro.nome_ficheiro' },
+          { text: 'Criador', value: 'nome_autor' },
         ]
       }
     },
@@ -162,7 +126,8 @@
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              var intersecao = (this.docs[i].especialidade).filter(value => (this.valueFiltro).includes(value));
+              var intersecao = (this.docs[i].categoria).filter(value => (this.valueFiltro).includes(value));
+              console.log(intersecao)
               if(intersecao.length > 0) 
                 this.docsfiltrados.push(this.docs[i])
             }
@@ -186,22 +151,27 @@
       // Obter lista de documentos
       axios.get("http://localhost:3333/documentos")
         .then(data => {
-          this.docs2 = data.data
+          this.docs = data.data
+          this.docs.forEach(item => {
+            item.data_publicacao = item.data_publicacao.slice(0,10)
+            item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
+          })
+          this.docsfiltrados = this.docs
         })
         .catch(() => {
           console.log("Ocorreu um erro ao obter a listagem de documentos.")
         })
       
       // Obter árvore de categorias
-      axios.get("http://localhost:3333/tipos")
+      axios.get("http://localhost:3333/documentos/categorias")
         .then(data => {
-          this.options2 = data.data
+          this.options = data.data.categorias
         })
         .catch(() => {
             console.log("Ocorreu um erro ao obter a árvore de categorias.")
         })
 
-      this.docsfiltrados = this.docs
+      
     }
   }
 </script>

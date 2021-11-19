@@ -1,0 +1,19 @@
+[
+    {
+        "titulo": "Falso Rastreio do Cancro da Mama",
+        "data_publicacao": "2021-11-19T01:47:03",
+        "visibilidade": true,
+        "nr_utente_autor": "603567922",
+        "nome_autor": "Rafaela Fernandes",
+        "categoria": ["medicina_interna","oncologia"],
+        "ficheiro": {
+            "nome_ficheiro": "RCM_Alerta_Blog.png",
+            "tamanho": "174.04 KB",
+            "tipo_mime": "image/png",
+            "diretoria": "public/fileStore/documentos/1637286423392-RCM_Alerta_Blog.png",
+            "_id": "61970217519aca6875b75a7c"
+        },
+        "_id": "61970217519aca6875b75a7b",
+        "__v": 0
+    }
+]
