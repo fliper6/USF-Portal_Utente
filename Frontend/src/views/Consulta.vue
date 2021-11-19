@@ -6,7 +6,7 @@
   <div v-else style="text-align: center;" >
     <h1> Para aceder a esta página é necessário iniciar sessão!</h1>
     <div>
-      <Login></Login>
+      <Login :isOpen="true" :show="false"></Login>
     </div>
   </div>
 </template>  

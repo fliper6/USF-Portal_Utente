@@ -100,7 +100,7 @@
           <Dropdown @clicked="changePath" :path="this.path.split('/')[1]"></Dropdown>
       </div>
       <div v-else>
-          <Login></Login>
+          <Login :isOpen="false" :show="true"></Login>
       </div>
 
     </v-app-bar>

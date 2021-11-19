@@ -1,8 +1,8 @@
    
 <template>
     <div id="login">
-        <v-dialog max-width="400px" v-model="dialog">
-            <template v-slot:activator="{ on }">
+        <v-dialog max-width="400px" v-model="isOpen">
+            <template v-if="show" v-slot:activator="{ on }">
                 <v-btn
                 color="grey"
                 text
@@ -187,7 +187,6 @@ import axios from 'axios'
                 alertLogin: false,
                 alertRegist: false,
                 loading: false,
-                dialog: false,
             }
         },
         computed: {
@@ -195,6 +194,10 @@ import axios from 'axios'
                 return () => this.passRegist === this.passverify || "Password must match";
             }
         },  
+        props: {
+            isOpen: Boolean,
+            show: Boolean
+        },
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },   
@@ -204,7 +207,7 @@ import axios from 'axios'
                     .then(data => {
                         localStorage.setItem('jwt',data.data.token)
                         this.$router.go()
-                        this.dialog = false
+                        this.isOpen = false
                         this.loading = false
                     })
                     .catch(() => {
