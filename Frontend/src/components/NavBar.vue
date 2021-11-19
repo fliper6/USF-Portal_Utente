@@ -23,7 +23,7 @@
       <router-link to="/" class="titulo" >
         <div class="d-flex align-center">
         <span v-on:click="changePath('/')">
-            <b :class="this.path=='/'? 'selected' : 'default'">Notícias</b>
+            <b :style="this.path=='/'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
         </span>
         </div>
       </router-link>
@@ -35,7 +35,7 @@
       <router-link to="/files" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changePath('/files')">
-            <b :class="this.path=='/files'? 'selected' : 'default'">Documentos</b>
+            <b :style="this.path=='/files'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
         </span>
         </div>
       </router-link>
@@ -47,7 +47,7 @@
       <router-link to="/about" class="titulo">
         <div class="d-flex align-center">
         <span v-on:click="changePath('/about')">
-            <b :class="this.path=='/about'? 'selected' : 'default'">Encontre-nos</b>
+            <b :style="this.path=='/about'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
         </span>
         </div>
       </router-link>
@@ -58,7 +58,7 @@
         <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
-        <div class="dropdown" :class="this.path.split('/')[1]=='balcao'? 'selected' : 'default'">
+        <div class="dropdown" :style="this.path.split('/')[1]=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
           <DropBalcao @clicked="changePath" :path="this.path.split('/')[1]"></DropBalcao>
         </div>
 
@@ -68,7 +68,7 @@
 
       <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
 
-        <div class="dropdown" :class="this.path.split('/')[1]=='gestao'? 'selected' : 'default'">
+        <div class="dropdown" :style="this.path.split('/')[1]=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
           <DropGestao @clicked="changePath" :path="this.path.split('/')[1]"></DropGestao>
         </div>  
 
@@ -82,7 +82,7 @@
         <router-link to="/utilizadores/privilegios" class="titulo">
           <div class="d-flex align-center">
           <span v-on:click="changePath('/utilizadores/privilegios')">
-              <b :class="this.path=='/utilizadores/privilegios'? 'selected' : 'default'">Utilizadores</b>
+              <b :style="this.path=='/utilizadores/privilegios'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
           </span>
           </div>
         </router-link>
@@ -93,7 +93,7 @@
       </div>
       
       <div class="d-flex align-center" style="margin-right:10px">
-        <b :class="'default'"> {{nome.split(' ')[0]}} </b>
+        <b style="color: var(--grey3-color)"> {{nome.split(' ')[0]}} </b>
       </div>
 
       <div v-if="this.token" class="dropdown">
@@ -161,23 +161,11 @@ export default {
 
 <style>
 
-.separador{
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
 .titulo{
     text-decoration: none;
     font-size: 20px;
 }
 
-.selected{
-    color: #800000;
-}
-
-.default{
-    color: #595959;
-}
 </style>
 
 
