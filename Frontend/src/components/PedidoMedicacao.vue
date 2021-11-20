@@ -36,20 +36,16 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
             <label for="Email">Email</label>
             <input type="radio"  class="input-radio" @click="showEmail = true; showTele = false" required v-model="medicacao.contacto" value="Email">
           </div>
-          <modal v-if="showTele" @close="showTele = false">
+          <modal v-if="showTele">
               <label class="label">Número de telemóvel</label>
               <input type="text" class="input-modal" v-model="medicacao.telemovel">
           </modal>
-          <modal v-if="showEmail" @close="showEmail = false">
+          <modal v-if="showEmail">
               <label class="label">Email</label>
               <input type="text" class="input-modal" v-model="medicacao.email">
           </modal>
         <div>
-          <v-btn
-          class="button"
-          @click="sendPedidoMed">
-          Submeter
-          </v-btn>
+          <v-btn class="button" @click="sendPedidoMed">Submeter</v-btn>
         </div> 
     </form>
     </div>
@@ -187,12 +183,11 @@ export default {
     margin-bottom: 1em;
   }
   .button{
-    padding:  3px;
-    background-color: lightseagreen !important;
+    padding: 3px;
     margin-top: 20px;
   }
   .label{
-    color:black;
+    color: var(--grey3-color);
     display: inline-block;
     margin: 25px 0 15px;
     font-size: 1em;
@@ -206,7 +201,7 @@ export default {
     height:30px;
     box-sizing: border-box;
     border: 1px solid #96918F;
-    color: #555
+    color: var(--grey3-color)
   }
   .input-modal {
     display: block;
@@ -215,25 +210,28 @@ export default {
     height:30px;
     box-sizing: border-box;
     border: 1px solid #96918F;
-    color: #555
+    color: var(--grey3-color)
   }
   .check{
     display: flex;
     flex-direction: row;
+    color: var(--grey3-color);
     align-content: center;
     align-items: center;
   }
   .h1 {
-    color:lightseagreen;
+    color: var(--primary-color);
     font-size: 3em;
   }
   .p1{
     font-size: 0.9em;
+    color: var(--grey3-color);
     text-align: center;
     padding: 10px 30px;
   }
   .p2{
     font-size: 1em;
+    color: var(--grey3-color);
     max-width: 700px;
     width: 200%;
   }

@@ -37,11 +37,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         </div>
       </div>    
       <div>
-        <v-btn
-        class="button"
-        @click="sendPedidoCons">
-        Submeter
-        </v-btn>
+        <v-btn class="button" @click="sendPedidoCons">Submeter</v-btn>
       </div>  
     </form>
     </div>
@@ -157,12 +153,12 @@ export default {
 
   .button{
     padding:  3px;
-    background-color: lightseagreen !important;
+    background-color: var(--secondary-color) !important;
     margin-top: 10px;
   }
 
   .label{
-    color:black;
+    color: var(--grey3-color);
     display: inline-block;
     margin: 15px 0;
     font-size: 1em;
@@ -175,23 +171,23 @@ export default {
     height:30px;
     box-sizing: border-box;
     border: 1px solid #96918F;
-    color: #555
+    color: var(--grey3-color);
   }
 
   .h1 {
-    color:lightseagreen;
+    color: var(--primary-color);
     font-size: 3em;
   }
   
   .p1{
     font-size: 0.9em;
     text-align: center;
+    color: var(--grey3-color);
   }
 
-  .select{
-    width:200px;
-    height:30px;
-    border: 1px solid black;
+  .p2{
+    color: var(--grey3-color);
   }
+
 
 </style>
