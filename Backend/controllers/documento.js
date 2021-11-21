@@ -1,9 +1,7 @@
 var Documento = require('../models/documento')
 
 module.exports.listar = () => {
-    return Documento
-        .find()
-        .exec()
+    return Documento.find().exec()
 }
 
 module.exports.inserir = doc => {
