@@ -58,4 +58,27 @@ module.exports.calcularTamanho = (bytes) => {
     }
 }
 
+// criar array com os ids de todas as categorias existentes
+module.exports.getIDsCategorias = arr => {
+    let aux = arr => {
+        arr.forEach(c => {
+            ids.push(c.id)
+            if ("children" in c) aux(c.children)
+        })
+    }
+
+    let ids = []
+    aux(arr)
+    return ids
+}
+
+module.exports.criarIdCategoria = (nova_categoria, ids) => {
+    let novo_id = nova_categoria.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/ /g,"_")
+    if (!ids.includes(novo_id)) return novo_id
+    
+    let i = 2
+    while (ids.includes(novo_id + i)) {i++}
+    return novo_id + i
+}
+
 module.exports.SECRET = SECRET

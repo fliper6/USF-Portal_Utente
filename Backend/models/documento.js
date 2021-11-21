@@ -6,7 +6,7 @@ var documentoSchema = new mongoose.Schema({
     visibilidade: {type: Boolean, required: true},
     nr_utente_autor: {type: String, required: true},
     nome_autor: {type: String, required: true},
-    categoria: {type: [String], required: true},
+    id_categoria: {type: String, required: true},
     ficheiro: {type: {
         nome_ficheiro: {type: String, required: true},
         tamanho: {type: String, required: true},

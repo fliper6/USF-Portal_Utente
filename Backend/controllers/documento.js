@@ -6,8 +6,9 @@ module.exports.listar = () => {
         .exec()
 }
 
-module.exports.inserir = docs => {
-    return Documento.insertMany(docs)
+module.exports.inserir = doc => {
+    var novo = new Documento(doc)
+    return novo.save()
 }
 
 module.exports.remover = _id => {

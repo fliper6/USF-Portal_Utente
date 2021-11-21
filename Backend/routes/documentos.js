@@ -29,69 +29,78 @@ router.get('/download', (req,res) => {
     res.download((__dirname + req.body.diretoria).replace(/\\/g, "/"));  
 })
 
-// Dar upload a documentos
-router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('documento'), (req,res) => {
-    let documentos = [];
-    let data_publicacao = new Date().toISOString().substr(0,19);
-
-    for (let i = 0; i < req.files.length; i++) {
-        let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
-        let nova_diretoria = (__dirname + 'public/fileStore/documentos/' + Date.now() + "-" + req.files[i].originalname).replace("routes","").replace(/\\/g, "/");
-
-        fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
-        let body = req.files.length == 1 ? req.body : req.body[i]
-        
-        documentos.push({
-            titulo: body.titulo,
-            data_publicacao,
-            visibilidade: true,
-            nr_utente_autor: body.nr_utente_autor,
-            nome_autor: body.nome_autor,
-            categoria: body.categoria, //para usar o Postman: JSON.parse(body.categoria),
-            ficheiro: {
-                nome_ficheiro: req.files[i].originalname,
-                tamanho: JWTUtils.calcularTamanho(req.files[i].size),
-                tipo_mime: req.files[i].mimetype,
-                diretoria: "public" + nova_diretoria.split("public")[1]
-            }
-        });
-    }
-
+// Inserir uma nova categoria na árvore
+router.post('/criar_categoria', (req,res) => {
     Categoria.listar()
         .then(dados => {
-            let novaCategoria = (categorias, novaArr, id, i) => {
-                let indice = !categorias.length ? -1 : categorias.findIndex(x => x.label == novaArr[i])
-                if (indice == -1) {
-                    let len = categorias.length
-                    let novaLetraID = !len ? "a" : String.fromCharCode(categorias[len-1].id.slice(-1).charCodeAt(0) + 1)
-
-                    categorias.push({id: id + novaLetraID, label: novaArr[i]})
-                    indice = categorias.length-1
-                }
-                
-                if (i < novaArr.length-1) {
-                    if (!("children" in categorias[indice])) categorias[indice].children = []
-                    categorias[indice].children = novaCategoria(categorias[indice].children, novaArr, categorias[indice].id, ++i)
-                }
-                return categorias
-            }
+            let categorias = dados !== null ? dados.categorias : []
             
-            // caso ainda não haja categorias
-            if (dados === null) dados = {categorias: []}
+            let ids = JWTUtils.getIDsCategorias(categorias)
+            let novo_id = JWTUtils.criarIdCategoria(req.body.nova_categoria, ids)
+            let nova_cat = {id: novo_id, label: req.body.nova_categoria, children: []}
 
-            for (let i = 0; i < documentos.length; i++) {
-                dados.categorias = novaCategoria(dados.categorias, documentos[i].categoria, "", 0)
+            if (req.body.id_pai === null) {
+                let nomes = categorias.map(x => x.label)
+
+                if (nomes.includes(req.body.nova_categoria)) {
+                    return res.status(201).jsonp({erro: "Já existe uma categoria com o mesmo nome neste local da árvore!"})
+                }
+                else categorias.push(nova_cat)
+            }
+            else if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
+            else {
+                let atualizarArvore = (nova_cat, id_pai, arr) => {
+                    for (let i = 0; i < arr.length; i++) {
+                        if (id_pai === null || arr[i].id == id_pai) {
+                            let nomes = arr[i].children.map(x => x.label)
+
+                            if (nomes.includes(req.body.nova_categoria)) {
+                                return res.status(201).jsonp({erro: "Já existe uma categoria com o mesmo nome neste local da árvore!"})
+                            }
+                            else {
+                                arr[i].children.push(nova_cat)
+                                return arr
+                            }
+                        }
+                        else if (!arr[i].children.length) arr[i].children = atualizarArvore(nova_cat, id_pai, arr[i].children)
+                    }
+                    return arr
+                }
+
+                categorias = atualizarArvore(nova_cat, req.body.id_pai, categorias)
             }
 
-            Categoria.atualizar(dados.categorias)
-                .then(d => {
-                    Documento.inserir(documentos)
-                        .then(dados => res.status(200).jsonp(dados))
-                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload aos documentos."}))
-                })
-                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload aos documentos."}))
+            Categoria.atualizar(categorias)
+                .then(dados => res.status(200).jsonp(dados))
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao atualizar a árvore de categorias de documentos."}))
         })
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao ir buscar a árvore de categorias de documentos."}))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
+})
+
+// Dar upload a um novo documento
+router.post('/', /* JWTUtils.validate, JWTUtils.isMedico, */ upload.single('documento'), (req,res) => {
+    let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
+    let nova_diretoria = (__dirname + 'public/fileStore/documentos/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
+    fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
+    
+    let documento = {
+        titulo: req.body.titulo,
+        data_publicacao: new Date().toISOString().substr(0,19),
+        visibilidade: true,
+        nr_utente_autor: req.body.nr_utente_autor,
+        nome_autor: req.body.nome_autor,
+        id_categoria: req.body.id_categoria,
+        ficheiro: {
+            nome_ficheiro: req.file.originalname,
+            tamanho: JWTUtils.calcularTamanho(req.file.size),
+            tipo_mime: req.file.mimetype,
+            diretoria: "public" + nova_diretoria.split("public")[1]
+        }
+    }
+    
+    Documento.inserir(documento)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload aos documentos."}))
 })
 
 // Tornar privado um documento
