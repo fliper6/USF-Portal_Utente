@@ -8,27 +8,27 @@
         </template>
 
         <v-list style="padding:0">
-          <v-list-item class="opcao">
-            <router-link class="opcao" :to="'/balcao/medicacao'">
+          <router-link class="opcao" :to="'/balcao/medicacao'">
+            <v-list-item class="opcao">
                 <span v-on:click="changePath('/balcao')">
                     <b>Pedido de medicação</b>
                 </span>
-            </router-link>
-          </v-list-item>
-          <v-list-item class="opcao">
-            <router-link class="opcao" :to="'/balcao/consulta'">
+            </v-list-item>
+          </router-link>
+          <router-link class="opcao" :to="'/balcao/consulta'">
+            <v-list-item class="opcao">
                 <span v-on:click="changePath('/balcao')">
                     <b>Pedido de consulta</b>
                 </span>
-            </router-link>
-          </v-list-item>
-          <v-list-item class="opcao">
-            <router-link class="opcao" :to="'/balcao/sugestao'">
+            </v-list-item>
+          </router-link>
+          <router-link class="opcao" :to="'/balcao/sugestao'">
+            <v-list-item class="opcao">
                 <span v-on:click="changePath('/balcao')">
                     <b>Sugestão</b>
                 </span>
-            </router-link>
-          </v-list-item>
+            </v-list-item>
+          </router-link>
         </v-list>
     </v-menu>
 </template>
