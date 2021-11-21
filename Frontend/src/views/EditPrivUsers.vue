@@ -1,5 +1,5 @@
 <template>
-    <div id="editprivusers">
+    <div v-if="this.nivel=='admin'" id="editprivusers">
         <v-container> 
             <v-row no-gutters>
 
@@ -104,16 +104,23 @@
              </v-list>      
         </v-container>
     </div>
+
+    <div v-else>
+      <Erro/>
+    </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import Erro from '@/views/Error.vue';
+import jwt from 'jsonwebtoken'
 
 export default {
   name: 'EditPrivUsers',
   data() {
     return {
       token: localStorage.getItem('jwt'),
+      nivel:"",
       listaInicial : [],
       listaFiltrada : [],
       levels : ['utente','medico','admin'],
@@ -188,8 +195,12 @@ export default {
       });
     } 
   },
+  components: {
+    Erro
+  },
   created() {
     if (this.token) {
+      this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/users/listarUsers", {headers: {'Authorization': `Bearer ${this.token}`}})
         .then( res => {
           this.listaInicial = res.data
