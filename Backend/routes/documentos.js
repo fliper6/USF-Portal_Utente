@@ -78,7 +78,7 @@ router.post('/criar_categoria', (req,res) => {
 })
 
 // Dar upload a um novo documento
-router.post('/', /* JWTUtils.validate, JWTUtils.isMedico, */ upload.single('documento'), (req,res) => {
+router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'), (req,res) => {
     let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
     let nova_diretoria = (__dirname + 'public/fileStore/documentos/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
     fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
@@ -87,7 +87,7 @@ router.post('/', /* JWTUtils.validate, JWTUtils.isMedico, */ upload.single('docu
         titulo: req.body.titulo,
         data_publicacao: new Date().toISOString().substr(0,19),
         visibilidade: true,
-        nr_utente_autor: req.body.nr_utente_autor,
+        _id_autor: req.body._id_autor,
         nome_autor: req.body.nome_autor,
         id_categoria: req.body.id_categoria,
         ficheiro: {
