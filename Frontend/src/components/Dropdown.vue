@@ -11,17 +11,15 @@
             </v-icon>
         </template>
         <v-list style="padding:0">
-          <v-list-item class="opcao">
-            <router-link class="opcao" :to="'/utilizador/' + email">
+          <router-link class="opcao" :to="'/utilizador/' + email">
+            <v-list-item class="opcao">
                 <span v-on:click="changePath('/utilizador')">
                     <b>Perfil</b>
                 </span>
-            </router-link>
-          </v-list-item>
-          <v-list-item class="opcao">
-            <a class="opcao" v-on:click="handleLogout()" href="/">
-                <b>Logout</b>
-            </a>
+            </v-list-item>
+          </router-link>
+          <v-list-item class="opcao" v-on:click="handleLogout()" href="/">
+            <b>Logout</b>
           </v-list-item>
         </v-list>
     </v-menu>

@@ -21,12 +21,12 @@ export default {
   margin-top: 100px;
 }
 .h1 {
-  color:lightseagreen;
+  color: var(--primary-color);
   font-size: 3em;
 }
 .button{
   padding:  3px;
-  background-color: lightseagreen !important;
+  background-color: var(--secondary-color) !important;
   margin-top: 20px;
 }
 .a{

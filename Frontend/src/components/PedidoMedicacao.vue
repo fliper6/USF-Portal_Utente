@@ -183,8 +183,9 @@ export default {
     margin-bottom: 1em;
   }
   .button{
-    padding: 3px;
-    margin-top: 20px;
+    padding:  3px;
+    background-color: var(--secondary-color) !important;
+    margin-top: 30px;
   }
   .label{
     color: var(--grey3-color);
