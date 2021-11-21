@@ -15,11 +15,11 @@
             <v-col style="margin: auto; padding: 0px 50px;">
               <v-text-field v-model="titulo" :counter="50" label="Título" required></v-text-field>
 
-              <p style="margin-bottom: 5px; color:#666666">Especialidade associada:</p>
+              <p style="margin-bottom: 5px; color:#666666">Categoria associada:</p>
               <v-row style="height: 55px;">
                 <v-col cols="11">
                   <treeselect
-                    v-model="value2"
+                    v-model="arvore"
                     :max-height="100"
                     :multiple="false" :options="options" 
                     :flatten-search-results="true"
@@ -34,9 +34,9 @@
                     </template>
 
                     <v-card>
-                      <v-card-title class="text-h5 grey lighten-2"> Adicionar nova especialidade</v-card-title> <br/>
+                      <v-card-title class="text-h5 grey lighten-2"> Adicionar nova categoria</v-card-title> <br/>
                       <v-col style="margin: auto; padding: 0px 50px;">
-                        <p style="margin-bottom: 5px; color:#666666">Ramo da especialidade</p>
+                        <p style="margin-bottom: 5px; color:#666666">Ramo da categoria</p>
                         <treeselect
                           v-model="value2"
                           :max-height="100"
@@ -44,20 +44,20 @@
                           :flatten-search-results="true"
                           placeholder="Tags"/> <br/>
 
-                        <v-text-field v-model="titulo" :counter="50" label="Nome da especialidade" required></v-text-field> <br/>
+                        <v-text-field v-model="titulo" :counter="50" label="Nome da categoria" required></v-text-field> <br/>
                       </v-col>
                       <v-divider></v-divider>
 
                       <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn class="button-cancelar" text @click="dialog2 = false"> Cancelar </v-btn>
-                        <v-btn class="button-confirmar"  text @click="addCategoria()"> Confirmar </v-btn>
+                        <v-btn class="button-confirmar" text @click="addCategoria()"> Confirmar </v-btn>
                       </v-card-actions> 
                     </v-card>
                   </v-dialog> 
                 </v-col> 
               </v-row> <br/>
-              <v-file-input truncate-length="15"></v-file-input>
+              <v-file-input truncate-length="15" v-model="ficheiro"></v-file-input>
             </v-col>
             <v-divider></v-divider>
 
@@ -89,41 +89,36 @@
 </template>
 
 <script>
-  import axios from 'axios'
-  //npm install --save @riophae/vue-treeselect
-  import Treeselect from '@riophae/vue-treeselect'
+  import Treeselect from '@riophae/vue-treeselect' //npm install --save @riophae/vue-treeselect
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import axios from 'axios'
+  //import jwt from 'jsonwebtoken';
 
   export default {
-    valueArray: [],
     name: "Files",
     components: { Treeselect },
     data() {
       return {
-        dialog: false,
-        dialog2: false,
-        value: null,
-        value2: null,
+        //token: localStorage.getItem('jwt'),
+
+        /* FILTRO */
         valueFiltro: null,
-        docsfiltrados: null,
-        options2: null,
-        options: [ {
-          id: 'medicina_interna',
-          label: 'Medicina Interna',
-          children: [ {
-            id: 'pneumologia',
-            label: 'Pneumologia',
-          }, {
-            id: 'oncologia',
-            label: 'Oncologia',
-          } ],
-        }, {
-          id: 'cirurgia',
-          label: 'Cirurgia',
-        }, {
-          id: 'outros',
-          label: 'Outros',
-        } ],
+        options: null,
+
+        /* + DOCUMENTO */
+        dialog: false,
+        nome: null,
+        titulo: null,
+        arvore: null,
+        ficheiro: null,
+
+        /* + CATEGORIA */
+        dialog2: false,
+        value2: null,
+
+        /* TABELA */
+        docs: [],
+        docsfiltrados: [],
         headers: [
           {
             text: 'Título',
@@ -131,29 +126,10 @@
             sortable: false,
             value: 'titulo',
           },
-          { text: 'Data', value: 'data' },
-          { text: 'Tamanho', value: 'tamanho' },
-          { text: 'Formato', value: 'formato' },
-          { text: 'Criador', value: 'criador' },
-        ],
-        docs2: null,
-        docs: [
-          {
-            titulo: 'Mitos sobre cancro e oncologia',
-            data: '11/12/2020',
-            tamanho: '625 KB',
-            formato: '.pdf',
-            criador: 'Ana Ramos',
-            especialidade: ["medicina_interna","oncologia"]
-          },
-          {
-            titulo: 'Cirurgia Plástica e os seus benefícios',
-            data: '09/01/2021',
-            tamanho: '540 KB',
-            formato: '.pdf',
-            criador: 'Patrícia Alves',
-            especialidade: ["cirurgia"]
-          }
+          { text: 'Data', value: 'data_publicacao' },
+          { text: 'Tamanho', value: 'ficheiro.tamanho' },
+          { text: 'Formato', value: 'ficheiro.nome_ficheiro' },
+          { text: 'Criador', value: 'nome_autor' },
         ]
       }
     },
@@ -162,7 +138,8 @@
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              var intersecao = (this.docs[i].especialidade).filter(value => (this.valueFiltro).includes(value));
+              var intersecao = (this.docs[i].categoria).filter(value => (this.valueFiltro).includes(value));
+              console.log(intersecao)
               if(intersecao.length > 0) 
                 this.docsfiltrados.push(this.docs[i])
             }
@@ -175,6 +152,23 @@
         },
         addDocumento: function () {
           this.dialog = false;
+          /*
+          var obj = {
+            documento: this.ficheiro,
+            titulo: this.titulo,
+            nome_autor: jwt.decode(this.token).nome,
+            nr_utente_autor: jwt.decode(this.token).nr_utente,
+            categoria: this.arvore
+          }
+          
+          axios.post("http://localhost:3333/documentos/" + this.token , obj)
+            .then(() => {
+              console.log("Ficheiro uploaded com sucesso!")
+            })
+            .catch(() => {
+              console.log("Ocorreu um erro ao obter ao dar upload ao documento.")
+            }) 
+          */
         },
         mudarVisibilidade: function () {
         },
@@ -186,22 +180,27 @@
       // Obter lista de documentos
       axios.get("http://localhost:3333/documentos")
         .then(data => {
-          this.docs2 = data.data
+          this.docs = data.data
+          this.docs.forEach(item => {
+            item.data_publicacao = item.data_publicacao.slice(0,10)
+            item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
+          })
+          this.docsfiltrados = this.docs
         })
         .catch(() => {
           console.log("Ocorreu um erro ao obter a listagem de documentos.")
         })
       
       // Obter árvore de categorias
-      axios.get("http://localhost:3333/tipos")
+      axios.get("http://localhost:3333/documentos/categorias")
         .then(data => {
-          this.options2 = data.data
+          this.options = data.data.categorias
         })
         .catch(() => {
             console.log("Ocorreu um erro ao obter a árvore de categorias.")
         })
 
-      this.docsfiltrados = this.docs
+      
     }
   }
 </script>

@@ -1,0 +1,18 @@
+[
+  {
+    "categorias": [
+       {"id": "medicina_interna",
+        "label": "Medicina Interna",
+        "children": [
+           {"id": "pneumologia",
+            "label": "Pneumologia"},
+           {"id": "oncologia",
+            "label": "Oncologia"}
+          ]}, 
+       {"id": "cirurgia",
+        "label": "Cirurgia"}, 
+       {"id": "outros",
+        "label": "Outros"} 
+    ]
+  }
+]

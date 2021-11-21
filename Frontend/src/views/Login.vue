@@ -1,8 +1,8 @@
    
 <template>
     <div id="login">
-        <v-dialog max-width="400px" v-model="dialog">
-            <template v-slot:activator="{ on }">
+        <v-dialog max-width="400px" v-model="isOpen">
+            <template v-if="show" v-slot:activator="{ on }">
                 <v-btn
                 color="grey"
                 text
@@ -13,10 +13,10 @@
                 >Login</v-btn>
             </template>
             
-            <v-tabs v-model="tab" show-arrows color="#800000" background-color="white" icons-and-text light grow>
-                <v-tabs-slider class="col"></v-tabs-slider>
+            <v-tabs v-model="tab" show-arrows color="var(--primary-color)" background-color="var(--white)" icons-and-text light grow>
+                <v-tabs-slider style="color: var(--primary-color)"></v-tabs-slider>
                 <v-tab v-for="i in tabs" :key="i.name" >
-                    <v-icon large class="tab">{{ i.icon }}</v-icon>
+                    <v-icon large>{{ i.icon }}</v-icon>
                     <div class="caption py-1" >{{ i.name }}</div>
                 </v-tab>
                 <v-tab-item>
@@ -54,7 +54,7 @@
                             class="white--text" 
                             elevation="1" 
                             v-on:click="login()" 
-                            color="#800000"
+                            color="var(--primary-color)"
                             >Login</v-btn>
                         </v-card-actions>
 
@@ -131,11 +131,12 @@
                             <v-btn 
                             :loading="loading" 
                             v-ripple="{ class: 'primary--text' }" 
-                            width="300" style="height:40px;" 
+                            width="300" 
+                            style="height:40px;" 
                             class="white--text" 
                             elevation="1" 
                             v-on:click="register()" 
-                            color="#800000"
+                            color="var(--primary-color)"
                             >Registar</v-btn>
                         </v-card-actions>
           
@@ -186,7 +187,6 @@ import axios from 'axios'
                 alertLogin: false,
                 alertRegist: false,
                 loading: false,
-                dialog: false,
             }
         },
         computed: {
@@ -194,6 +194,10 @@ import axios from 'axios'
                 return () => this.passRegist === this.passverify || "Password must match";
             }
         },  
+        props: {
+            isOpen: Boolean,
+            show: Boolean
+        },
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },   
@@ -203,7 +207,7 @@ import axios from 'axios'
                     .then(data => {
                         localStorage.setItem('jwt',data.data.token)
                         this.$router.go()
-                        this.dialog = false
+                        this.isOpen = false
                         this.loading = false
                     })
                     .catch(() => {
@@ -255,14 +259,5 @@ import axios from 'axios'
         text-align: center;
         color: red;
     }
-    
-    .tab {
-        color: #CCCCCC;
-    }
-    
-    .col{
-        color: #800000;
-    }
-
 
 </style>

@@ -1,7 +1,42 @@
 <template>
-    <div id="editprivusers">
+    <div v-if="this.nivel=='admin'" id="editprivusers">
         <v-container> 
             <v-row no-gutters>
+
+                <v-dialog v-model="dialog" width="400">
+                  <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
+                    <v-col style="margin: auto; padding: 0px 50px;">
+                      <p style="margin-bottom: 5px; color:var(--grey3-color)">
+                        Tem a certeza que quer alterar o nível do utilizador <b>{{nomeAlt}}</b> de <b>{{privAnt}}</b> para <b>{{privAlt}}</b> ?</p>
+                    </v-col>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn class="button-cancelar" text @click="cancelar()"> Cancelar </v-btn>
+                      <v-btn class="button-confirmar"  text @click="altNivel()"> Confirmar </v-btn>
+                    </v-card-actions> 
+                  </v-card>
+                </v-dialog> 
+
+                <v-dialog v-model="dialog2" width="400">
+                  <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+                    <v-col style="margin: auto; padding: 0px 50px;">
+                      <p style="margin-bottom: 5px; color:var(--grey3-color)">
+                        <span v-if="sucesso==true"> O nível do utilizador foi alterado com sucesso! </span>
+                        <span v-else> Não foi possível alterar o nível do utilizador! </span>
+                      </p>
+                    </v-col>
+                    <v-divider></v-divider>
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn v-if="sucesso==true" class="button-confirmar" text @click="alteracaoSucesso()"> Ok </v-btn>
+                      <v-btn v-else class="button-confirmar" text @click="alteracaoFail()"> Ok </v-btn>
+                    </v-card-actions> 
+                  </v-card>
+                </v-dialog> 
+
 
                 <v-col class="d-flex pa-2" sm="2">
                     <v-text-field
@@ -45,7 +80,7 @@
               <v-card class="pa-6" outlined >
                 <v-row >
                   <v-col cols="10" sm="10">
-                    <span style="color:#800000;font-size:20px"> 
+                    <span style="color:var(--primary-color);font-size:20px"> 
                       <b> {{item.nome}} </b> ({{ item.nivel }})
                     </span> 
                     <br/>
@@ -69,49 +104,74 @@
              </v-list>      
         </v-container>
     </div>
+
+    <div v-else>
+      <Erro/>
+    </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import Erro from '@/views/Error.vue';
+import jwt from 'jsonwebtoken'
 
 export default {
   name: 'EditPrivUsers',
   data() {
     return {
       token: localStorage.getItem('jwt'),
+      nivel:"",
       listaInicial : [],
       listaFiltrada : [],
       levels : ['utente','medico','admin'],
       name:"",
       email:"",
-      nivelFiltro:""
+      nivelFiltro:"",
+      dialog: false,
+      dialog2:false,
+      sucesso:false,
+      nomeAlt:"",
+      privAlt:"",
+      privAnt:"",
+      idAlt:""
     }
   },
   methods: {
     modificou(item) {
-      console.log(item.nome)
-      console.log(item.newPriv)
-      var confirmacao = "Tem a certeza que quer alterar o nível do utilizador '" + item.nome + "' para o nível '" + item.newPriv + "' ?"
-      if (confirm(confirmacao)) {
-        var json = {"nivel": item.newPriv}
-        axios.put("http://localhost:3333/users/nivel/"+item._id, json, {headers: {'Authorization': `Bearer ${this.token}`}})
+      this.nomeAlt = item.nome
+      this.privAlt = item.newPriv
+      this.privAnt = item.nivel
+      this.idAlt = item._id
+      this.dialog = true
+    },
+    cancelar() {
+      this.listaFiltrada.forEach(i => {
+        if (i._id==this.idAlt) i.newPriv=""
+      })
+      this.dialog = false
+    },
+    altNivel() {
+      this.dialog = false
+      var json = {"nivel": this.privAlt}
+        axios.put("http://localhost:3333/users/nivel/"+this.idAlt, json, {headers: {'Authorization': `Bearer ${this.token}`}})
           .then( () => {
-            alert("Alterado com sucesso!")
-            this.$router.go()
+            this.sucesso = true
+            this.dialog2 = true
           })
           .catch(err => {
-            alert("Não foi possível alterar o nível do utilizador!")
+            this.dialog2 = true
             console.log("Erro a alterar permissões de users:",err)
           })
-      }
-      else {
-        this.listaFiltrada.forEach(i => {
-          if (i.email==item.email) i.newPriv=""
-        })
-      }
     },
-    sorted(lista) {
-      return lista.sort((a,b) => (a.nome < b.nome) ? 1 : ((b.nome < a.nome) ? -1 : 0))
+    alteracaoSucesso() {
+      this.dialog2 = false 
+      this.$router.go()
+    },
+    alteracaoFail() {
+      this.listaFiltrada.forEach(i => {
+        if (i._id==this.idAlt) i.newPriv=""
+      })
+      this.dialog2 = false
     },
     filtro() {
       console.log(this.listaFiltrada)
@@ -135,8 +195,12 @@ export default {
       });
     } 
   },
+  components: {
+    Erro
+  },
   created() {
     if (this.token) {
+      this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/users/listarUsers", {headers: {'Authorization': `Bearer ${this.token}`}})
         .then( res => {
           this.listaInicial = res.data
