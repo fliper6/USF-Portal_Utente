@@ -1,18 +1,24 @@
 <template>
   <div class="container">
-    <div class="meta"> a {{noticia.data}} por {{noticia.autor}} </div>
-    <div class="title">{{noticia.title}}</div>
-    <div class="text" v-for="(line,n) in noticia.text.split('\n')" :key="n">{{line}}</div>
-    <div class="attachments">
-      <img class="image" v-for="(attachment,n) in noticia.attachments" :key="n" :src='attachment'/>
-    </div>
+    <div class="meta">{{tempo}} por {{noticia.nome_autor}} </div>
+    <div class="title">{{noticia.titulo}}</div>
+    <div v-html="noticia.corpo" />
   </div>
 </template>  
 
 <script>
 export default {
   name: 'Noticia',
-  props: ["noticia"],
+  props: ["noticia" , "timeAgo"],
+  data () {
+    return {
+      tempo: ''
+    }
+  },
+  mounted () {
+    let created = new Date(this.$props.noticia.data_criacao)
+    this.tempo = this.$props.timeAgo.format(created)
+  }
 }
 </script>
 
@@ -28,6 +34,7 @@ export default {
   font-size: 0.7em !important;
   color: var(--gray);
   margin-left:3px;
+  margin-bottom:5px;
 }
 
 .title {
@@ -45,8 +52,11 @@ export default {
   justify-content: center;
 }
 
-.image {
-  max-height: 400px;
-  max-width: 800px;
+.container >>> img {
+  display: block;
+  margin: 10px auto;
+  max-width: 400px;
+  max-height: 300px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 </style>
