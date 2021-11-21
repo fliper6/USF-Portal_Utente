@@ -100,7 +100,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
     
     Documento.inserir(documento)
         .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload aos documentos."}))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload ao documento."}))
 })
 
 // Tornar privado um documento
