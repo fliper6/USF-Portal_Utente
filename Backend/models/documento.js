@@ -4,7 +4,7 @@ var documentoSchema = new mongoose.Schema({
     titulo: {type: String, required: true},
     data_publicacao: {type: String, required: true},
     visibilidade: {type: Boolean, required: true},
-    _id_autor: {type: String, required: true},
+    _id_autor: {type: mongoose.Schema.Types.ObjectId, ref:"user", required: true},
     nome_autor: {type: String, required: true},
     id_categoria: {type: String, required: true},
     ficheiro: {type: {
