@@ -76,6 +76,22 @@
             <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
           </v-col>
         </v-row>
+        <v-row>
+          <v-divider>
+
+          </v-divider>
+        </v-row>
+        <v-row>
+          <v-col><h3>09/11/21</h3></v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            Metformina 500 mg, 60 comprimidos, 2 caixas
+          </v-col>
+          <v-col class="text-right">
+            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
+          </v-col>
+        </v-row>
       </v-container>
       </v-card>
     </v-container>
