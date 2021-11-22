@@ -13,8 +13,8 @@ router.get('/', JWTUtils.validate ,function(req, res) {
 });
 
 // Devolver histórico de pedidos de medicação de um utente
-router.get('/historico/:user', JWTUtils.validate , JWTUtils.compareId, function(req, res) {
-    Medicacao.listarPorUser(req.params.user)
+router.get('/historico/:_id', JWTUtils.validate , JWTUtils.compareId, function(req, res) {
+    Medicacao.listarPorUser(req.params._id)
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });

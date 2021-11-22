@@ -112,35 +112,25 @@
           </v-row>
         
       </v-card-actions>
-      <v-container>
+      <v-container v-for="(item,index) in medicacao" v-bind:key="item.id">
         <v-row>
-          <v-col><h3>09/11/21</h3></v-col>
+          <v-col><h3>{{item.data_criacao.split('T')[0]}}</h3></v-col>
         </v-row>
         <v-row>
           <v-col>
-            Metformina 500 mg, 60 comprimidos, 2 caixas
+            {{item.medicacao}}
           </v-col>
           <v-col class="text-right">
             <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
           </v-col>
         </v-row>
-        <v-row>
+        <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
           <v-col><v-divider>
 
           </v-divider></v-col>
           
         </v-row>
-        <v-row>
-          <v-col><h3>09/11/21</h3></v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            Metformina 500 mg, 60 comprimidos, 2 caixas
-          </v-col>
-          <v-col class="text-right">
-            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
-          </v-col>
-        </v-row>
+        
       </v-container>
       </v-card>
     </v-container>
@@ -175,20 +165,11 @@ import axios from 'axios'
     created(){
     if (this.token) {
       this.id = jwt.decode(this.token)._id
-      axios.get("http://localhost:3333/users/info/" + this.id,{headers:{'authorization':'Bearer '+ this.token}})
-        .then(data => {
-          console.log(data.data)
-          this.nome = data.data.nome
-          this.email = data.data.email
-          this.num = data.data.nr_utente
-          this.nivel = data.data.nivel
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      
-      
-      axios.get("http://localhost:3333/medicacao/historico/" + this.num, {headers:{'authorization':'Bearer '+ this.token}})
+      this.nome = jwt.decode(this.token).nome
+      this.email = jwt.decode(this.token).email
+      this.num = jwt.decode(this.token).nr_utente
+      this.nivel = jwt.decode(this.token).nivel
+      axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.medicacao = data.data
           console.log(data.data)
@@ -223,15 +204,14 @@ import axios from 'axios'
       data['nr_utente'] = this.num
       data['email'] = this.email
       axios.put("http://localhost:3333/users/alterar/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
-        .then( data => {
-          this.medicacao = data.data
-          console.log(data.data)
+        .then(data => {
+          localStorage.setItem('jwt',data.data.token)
         })
         .catch(err => {
           console.log(err)
         })
       this.editar = false
-      this.$router.go()
+      //this.$router.go()
     }
   }
   
