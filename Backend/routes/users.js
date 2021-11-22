@@ -84,7 +84,7 @@ router.post('/logout', (req,res) => {
 // Mudar nivel de privilegio de um user
 router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
   User.alterar({ _id: req.params._id, nivel: req.body.nivel})
-    .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
+    .then(dados => res.status(201).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })
 
@@ -92,7 +92,23 @@ router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
 router.put('/alterar/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => {
   if(!req.body._id) req.body._id = req.params._id 
   User.alterar(req.body)
-    .then(dados => res.status(200).jsonp({msg: "Ok. Alterações efetuadas"}))
+    .then(dados => {
+      jwt.sign({
+        _id: dados._id,
+        nome: dados.nome,
+        email: dados.email, 
+        nr_utente: dados.nr_utente,
+        nr_telemovel: dados.nr_telemovel,
+        nivel: dados.nivel,
+        dataRegisto: dados.dataRegisto,
+        sub: 'PORTAL_UTENTE_2021'}, 
+        SECRET,
+        {expiresIn: "4h"},
+        function(e, token) {
+          if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+          else res.status(201).jsonp({token})
+      })
+    })
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na alteração dos privilégios."}))
 })
 
