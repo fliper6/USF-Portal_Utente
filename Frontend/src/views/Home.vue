@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Noticia v-for="(noticia,n) in noticias" :noticia='noticia' :timeAgo="timeAgo" :key="n" />
+    <Noticia v-for="(noticia,n) in noticias" :noticia='noticia' @deleteMe="deleteMe" :timeAgo="timeAgo" :key="n" />
   </div>
 </template>
 
@@ -28,6 +28,11 @@ export default {
     axios.get('http://localhost:3333/noticias')
       .then(data => {console.log(data.data); this.noticias = data.data })
       .catch(err => console.log(err))
-  } 
+  } ,
+  methods: {
+    deleteMe(id) {
+      this.noticias = this.noticias.filter(elem => elem._id != id)
+    }
+  }
 }
 </script>
