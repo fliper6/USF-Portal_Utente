@@ -12,19 +12,20 @@ router.get('/', JWTUtils.validate ,function(req, res) {
     .catch(e => res.status(404).jsonp({error: e}))
 });
 
-//Devolve uma sugestão de um id especifico
-router.get('/:id', JWTUtils.validate , function(req, res) {
-    Sugestao.consultar(req.params.id)
-    .then(dados => res.status(200).jsonp(dados))
-    .catch(e => res.status(404).jsonp({error: e}))
-});
-
 // Devolver histórico de sugestões de um utente
 router.get('/historico/:user', JWTUtils.validate ,function(req, res) {
   Sugestao.listarNrUtente(req.params.user)
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 });
+
+//Devolve uma sugestão de um id especifico
+router.get('/:id', JWTUtils.validate , JWTUtils.compareId , function(req, res) {
+    Sugestao.consultar(req.params.id)
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(404).jsonp({error: e}))
+});
+
 
 // Inserir uma sugestão
 router.post('/', JWTUtils.validate ,function(req, res){
