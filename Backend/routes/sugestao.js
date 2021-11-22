@@ -20,7 +20,7 @@ router.get('/historico/:user', JWTUtils.validate ,function(req, res) {
 });
 
 //Devolve uma sugestão de um id especifico
-router.get('/:id', JWTUtils.validate , function(req, res) {
+router.get('/:id', JWTUtils.validate , JWTUtils.compareId , function(req, res) {
     Sugestao.consultar(req.params.id)
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
