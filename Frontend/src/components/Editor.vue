@@ -56,7 +56,7 @@
       </button> 
     </bubble-menu>
     <editor-content :editor="editor" />
-    <v-btn class="see" v-on:click="printHTML">See HTML</v-btn>
+    <v-btn class="see" v-on:click="submit">See HTML</v-btn>
   </div>
 </template>
 
@@ -90,8 +90,8 @@ export default {
   },
 
   methods: {
-    printHTML () {
-      console.log(this.editor.getHTML())
+    submit () {
+      this.$emit("submit", this.editor.getHTML())
     },
     newLink (event) {
       console.log(event)
@@ -142,11 +142,16 @@ export default {
   min-height: 0 !important;
 }
 
+.v-main {
+  padding-top: 40px !important;
+}
+
 .see {
   background: var(--primary-color) !important;
   border-radius: 5px;
   padding: 5px !important;
   color:white !important;
+  margin: 0;
 }
 
 .editor {
@@ -156,22 +161,21 @@ export default {
   border-radius: 0px 0px 3.5px 3.5px;
   margin-bottom: 10px;
   padding: 15px 25px;
-  height:60vh;
-  max-height:60vh;
-
+  height:55vh;
+  max-height:55vh;
   outline: none;
 }
 
 .editor img {
   display: block;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 600px;
-  max-height: 500px
+  margin: 10px auto;
+  max-width: 400px;
+  max-height: 300px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .ProseMirror {
-  max-height: 65vh;
+  max-height: 55vh;
   overflow-y: scroll;
 }
 
@@ -208,6 +212,8 @@ export default {
   opacity: 0.85;
 }
 
-
+fieldset {
+  color:black !important
+}
 
 </style>

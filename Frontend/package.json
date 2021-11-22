@@ -16,6 +16,7 @@
     "@tiptap/vue-2": "^2.0.0-beta.68",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
+    "javascript-time-ago": "^2.3.10",
     "jsonwebtoken": "^8.5.1",
     "vue": "^2.6.11",
     "vue-router": "^3.5.2",
