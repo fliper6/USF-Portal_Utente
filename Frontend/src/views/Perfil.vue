@@ -51,7 +51,7 @@
                 Pedidos de Consulta
               </v-btn>
             </v-col>
-            <v-col>
+            <v-col v-if="this.nivel=='utente'">
               <v-btn
                 block
                 depressed
@@ -66,7 +66,23 @@
       </v-card-actions>
       <v-container>
         <v-row>
-          <v-col><h2>09/11</h2></v-col>
+          <v-col><h3>09/11/21</h3></v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            Metformina 500 mg, 60 comprimidos, 2 caixas
+          </v-col>
+          <v-col class="text-right">
+            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-divider>
+
+          </v-divider>
+        </v-row>
+        <v-row>
+          <v-col><h3>09/11/21</h3></v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -84,6 +100,8 @@
 
 <script>
 import jwt from 'jsonwebtoken';
+import axios from 'axios'
+
 
   //npm install --save @riophae/vue-treeselect
   export default {
@@ -99,15 +117,26 @@ import jwt from 'jsonwebtoken';
         nome:'',
         num:'',
         email:'',
+        nivel:'',
+        medicacao:'',
         
       }
     },
     created(){
     if (this.token) {
+      this.id = jwt.decode(this.token)._id
       this.nome = jwt.decode(this.token).nome
       console.log('oi')
       this.email = jwt.decode(this.token).email
       this.num = jwt.decode(this.token).nr_utente
+      this.nivel = jwt.decode(this.token).nivel
+      axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        .then( data => {
+          this.medicacao = data.data
+          console.log(data.data)
+        })
+        .catch(() => {
+        })
     }
     },
     methods: {
