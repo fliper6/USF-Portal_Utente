@@ -1,7 +1,7 @@
 var Documento = require('../models/documento')
 
 module.exports.listar = () => {
-    return Documento.find().exec()
+    return Documento.find({visibilidade: true}).sort('-data_publicacao').exec()
 }
 
 module.exports.inserir = doc => {

@@ -1,7 +1,7 @@
 var Noticia = require('../models/Noticia')
 
 module.exports.listar = () => {
-    return Noticia.find().sort('-data_criacao').exec()
+    return Noticia.find({visibilidade: true}).sort('-data_criacao').exec()
 }
 
 module.exports.consultar = _id => {
