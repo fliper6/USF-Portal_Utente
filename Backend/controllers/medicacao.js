@@ -6,9 +6,9 @@ module.exports.listar = () => {
         .exec()
 }
 
-module.exports.listarPorUser = nr => {
+module.exports.listarPorUser = id => {
     return Medicacao
-        .find({nr_utente_titular: nr})
+        .find({user: id})
         .exec()
 }
 
