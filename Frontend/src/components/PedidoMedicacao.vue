@@ -60,6 +60,7 @@ export default {
   data() {
     return {
       medicacao: {
+        user: "",
         nome: "",
         numUtente: "",
         numUtentePedido: "",
@@ -76,24 +77,32 @@ export default {
   },
   methods: {
     sendPedidoMed: function(){
-      axios({
-      method: 'post',
-      url: "http://localhost:3333/medicacao",
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-      }, 
-      data: {
-        nome: this.medicacao.nome,
-        nr_utente_titular: parseInt(this.medicacao.numUtente),
-        nr_utente_pedido: parseNumOpcional(this.medicacao.numUtentePedido),
-        medicacao: this.medicacao.medicamentos,
-        medico: this.medicacao.medico,
-        contacto: {
-          tipo: converteContacto(this.medicacao.contacto),
-          valor: (this.medicacao.contacto == 'SMS') ?  this.medicacao.telemovel : this.medicacao.email
-        }
+      if(this.medicacao.nome == "" || this.medicacao.numUtente == "" || this.medicacao.medicamentos == "" || this.medicacao.medico == "" || this.medicacao.contacto == ""){
+        alert("Preencha todos os campos obrigatórios.")
       }
-    })
+      else{
+        axios({
+        method: 'post',
+        url: "http://localhost:3333/medicacao",
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+        }, 
+        data: {
+          nome: this.medicacao.nome,
+          user: this.medicacao.user,
+          nr_utente_titular: parseInt(this.medicacao.numUtente),
+          nr_utente_pedido: parseNumOpcional(this.medicacao.numUtentePedido),
+          medicacao: this.medicacao.medicamentos,
+          medico: this.medicacao.medico,
+          contacto: {
+            tipo: converteContacto(this.medicacao.contacto),
+            valor: (this.medicacao.contacto == 'SMS') ?  this.medicacao.telemovel : this.medicacao.email
+          }
+        }
+      })
+      this.$router.push("/formConfirm")
+    }
+      
     function converteContacto(cont){
       if(cont == "SMS"){
         return 1
@@ -111,7 +120,8 @@ export default {
         return parseInt(num)
       }
     }
-    this.$router.push("/formConfirm")
+    
+    
     }
   },
   created(){
@@ -121,6 +131,7 @@ export default {
         this.medicacao.email = jwt.decode(this.token).email
         this.medicacao.telemovel = jwt.decode(this.token).nr_telemovel
         this.medicacao.nome = jwt.decode(this.token).nome
+        this.medicacao.user = jwt.decode(this.token)._id
       })
       .catch(() => {
         localStorage.clear()

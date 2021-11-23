@@ -53,7 +53,7 @@ export default {
     return {
       consulta: {
         nome: "",
-        numUtent: "",
+        numUtente: "",
         numUtentePedido: "",
         medico: "",
         objetivo: ""
@@ -65,20 +65,31 @@ export default {
   },
   methods: {
     sendPedidoCons: function(){
-      axios({
-      method: 'post',
-      url: "http://localhost:3333/consultas",
-      headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-      }, 
-      data: {
-        nome: this.consulta.nome,
-        nr_utente_titular: parseInt(this.consulta.numUtente),
-        nr_utente_pedido: parseNumOpcional(this.consulta.numUtentePedido),
-        medico: this.consulta.medico,
-        tipo: this.consulta.objetivo
+      if(this.consulta.nome == "" || this.consulta.numUtente == "" || this.consulta.medico == "" || this.consulta.objetivo == ""){
+        alert("Preencha todos os campos obrigatórios.")
+        console.log(this.consulta.numUtente)
+        console.log(this.consulta.nome)
+        console.log(this.consulta.objetivo)
+        console.log(this.consulta.medico)
       }
-    })
+      else{
+        axios({
+        method: 'post',
+        url: "http://localhost:3333/consultas",
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+        }, 
+        data: {
+          nome: this.consulta.nome,
+          nr_utente_titular: parseInt(this.consulta.numUtente),
+          nr_utente_pedido: parseNumOpcional(this.consulta.numUtentePedido),
+          medico: this.consulta.medico,
+          tipo: this.consulta.objetivo
+        }
+      })
+      this.$router.push("/formConfirm")
+    }
+      
     function parseNumOpcional(num){
       if(num == ""){
         return null
@@ -87,7 +98,6 @@ export default {
         return parseInt(num)
       }
     }
-    this.$router.push("/formConfirm")
     }
   },
   created(){
