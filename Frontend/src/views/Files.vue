@@ -57,7 +57,7 @@
                   </v-dialog> 
                 </v-col> 
               </v-row> <br/>
-              <v-file-input truncate-length="15" v-model="ficheiro"></v-file-input>
+              <v-file-input truncate-length="15" v-model="file"></v-file-input>
             </v-col>
             <v-divider></v-divider>
 
@@ -92,14 +92,14 @@
   import Treeselect from '@riophae/vue-treeselect' //npm install --save @riophae/vue-treeselect
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import axios from 'axios'
-  //import jwt from 'jsonwebtoken';
+  import jwt from 'jsonwebtoken'
 
   export default {
     name: "Files",
     components: { Treeselect },
     data() {
       return {
-        //token: localStorage.getItem('jwt'),
+        token: localStorage.getItem('jwt'),
 
         /* FILTRO */
         valueFiltro: null,
@@ -110,7 +110,7 @@
         nome: null,
         titulo: null,
         arvore: null,
-        ficheiro: null,
+        file: null,
 
         /* + CATEGORIA */
         dialog2: false,
@@ -134,41 +134,49 @@
       }
     },
     methods: {
-        filtrar: function () {
-          if(this.valueFiltro.length > 0) { 
-            this.docsfiltrados = []
-            for(var i = 0; i < this.docs.length; i++) {
-              var intersecao = (this.docs[i].categoria).filter(value => (this.valueFiltro).includes(value));
-              console.log(intersecao)
-              if(intersecao.length > 0) 
-                this.docsfiltrados.push(this.docs[i])
-            }
-          }
-          else // se tiver vazio, não filtra
-            this.docsfiltrados = this.docs
-        },
         addCategoria: function () {
           this.dialog2 = false;
         },
         addDocumento: function () {
           this.dialog = false;
-          /*
-          var obj = {
-            documento: this.ficheiro,
-            titulo: this.titulo,
-            nome_autor: jwt.decode(this.token).nome,
-            nr_utente_autor: jwt.decode(this.token).nr_utente,
-            categoria: this.arvore
-          }
-          
-          axios.post("http://localhost:3333/documentos/" + this.token , obj)
-            .then(() => {
+
+          let formData = new FormData();
+          formData.append('documento', this.file)
+          formData.append('titulo', this.titulo)
+          formData.append('id_categoria', this.arvore)
+
+          console.log(jwt.decode(this.token).nivel)
+
+          axios.post("http://localhost:3333/documentos/", 
+             formData, 
+             {
+                headers: {
+                  'Content-Type': 'multipart/form-data', 
+                  'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+                }
+             }
+            ).then(() => {
               console.log("Ficheiro uploaded com sucesso!")
-            })
-            .catch(() => {
+
+                // Atualizar documentos
+                axios.get("http://localhost:3333/documentos")
+                  .then(data => {
+                    this.docs = data.data
+                    this.docs.forEach(item => {
+                      item.data_publicacao = item.data_publicacao.slice(0,10)
+                      item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
+                    })
+                    this.docsfiltrados = this.docs
+                  })
+                  .catch(() => {
+                    console.log("Ocorreu um erro ao obter a listagem de documentos.")
+                  })
+                  
+            }).catch(() => {
               console.log("Ocorreu um erro ao obter ao dar upload ao documento.")
             }) 
-          */
+
+          
         },
         mudarVisibilidade: function () {
         },
