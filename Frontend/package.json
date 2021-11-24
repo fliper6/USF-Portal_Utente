@@ -14,12 +14,17 @@
     "@tiptap/extension-text-align": "^2.0.0-beta.28",
     "@tiptap/starter-kit": "^2.0.0-beta.140",
     "@tiptap/vue-2": "^2.0.0-beta.68",
+    "@vue/composition-api": "^1.4.0",
+    "@vuelidate/core": "^2.0.0-alpha.32",
+    "@vuelidate/validators": "^2.0.0-alpha.25",
     "axios": "^0.23.0",
     "core-js": "^3.6.5",
     "javascript-time-ago": "^2.3.10",
     "jsonwebtoken": "^8.5.1",
+    "vee-validate": "^3.4.14",
     "vue": "^2.6.11",
     "vue-router": "^3.5.2",
+    "vuelidate": "^0.7.6",
     "vuetify": "^2.4.0"
   },
   "devDependencies": {
