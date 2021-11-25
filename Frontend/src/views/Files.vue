@@ -4,7 +4,7 @@
       <v-col>
         <v-dialog v-model="dialog" width="750" style="overflow-x: hidden;">
           <template v-slot:activator="{ on, attrs }">
-            <v-btn class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
+            <v-btn v-if="testNivel()==true" class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
               + Novo Documento
             </v-btn>
           </template>
@@ -65,7 +65,7 @@
                     </v-col> 
                   </v-row> <br/>
 
-                  <v-file-input truncate-length="15" v-model="file"></v-file-input>
+                  <v-file-input  @input="$v.file.$touch()" @blur="$v.file.$touch()" truncate-length="15" :error-messages="ficheiroErrors" v-model="file"></v-file-input> <br/>
 
                 </v-col>
                 <v-divider></v-divider>
@@ -111,18 +111,19 @@
     mixins: [validationMixin],
     name: "Files",
     components: {
-      Treeselect,
+      Treeselect
     },
 
     validations: {
       titulo: { required },
       arvore: { required },
-      file: { required },
+      file: { required }
     },
 
     data() {
       return {
         token: localStorage.getItem('jwt'),
+        nivel: 'utente',
 
         /* FILTRO */
         valueFiltro: null,
@@ -171,17 +172,29 @@
         //this.warning_arvore = true
         return errors
       },
+      ficheiroErrors () {
+        const errors = []
+        if (!this.$v.file.$dirty) return errors
+        !this.$v.file.required && errors.push('Ficheiro é um campo obrigatório.')
+        //this.warning_arvore = true
+        return errors
+      }
     },
 
     methods: {
-       // TO BE FIXED
+        testNivel: function () {
+          if(this.token) {
+            this.nivel = jwt.decode(this.token).nivel
+            if(this.nivel=='admin'||this.nivel=='medico')
+              return true
+          }
+          return false
+        },
         filtrar: function () {
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              var intersecao = (this.docs[i].categoria).filter(value => (this.valueFiltro).includes(value));
-              console.log(intersecao)
-              if(intersecao.length > 0) 
+              if(this.docs[i].id_categoria == this.valueFiltro) 
                 this.docsfiltrados.push(this.docs[i])
             }
           }
@@ -209,14 +222,12 @@
           if (this.$v.titulo.required && this.$v.arvore.required) {
             this.dialog = false;
 
-            console.log(jwt.decode(this.token).nivel)
+            console.log(jwt.decode(this.token))
             
             let formData = new FormData();
             formData.append('documento', this.file)
             formData.append('titulo', this.titulo)
             formData.append('id_categoria', this.arvore)
-
-            console.log(jwt.decode(this.token).nivel)
 
             axios.post("http://localhost:3333/documentos/", 
               formData, 
@@ -252,10 +263,8 @@
         },
         download: function () {
         },
-
     },
     created() {
-      
       // Obter lista de documentos
       axios.get("http://localhost:3333/documentos")
         .then(data => {

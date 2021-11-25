@@ -1,19 +1,60 @@
-[
-    {
-        "titulo": "Falso Rastreio do Cancro da Mama",
-        "data_publicacao": "2021-11-19T01:47:03",
-        "visibilidade": true,
-        "nr_utente_autor": "603567922",
-        "nome_autor": "Rafaela Fernandes",
-        "categoria": ["medicina_interna","oncologia"],
-        "ficheiro": {
-            "nome_ficheiro": "RCM_Alerta_Blog.png",
-            "tamanho": "174.04 KB",
-            "tipo_mime": "image/png",
-            "diretoria": "public/fileStore/documentos/1637286423392-RCM_Alerta_Blog.png",
-            "_id": "61970217519aca6875b75a7c"
-        },
-        "_id": "61970217519aca6875b75a7b",
-        "__v": 0
-    }
-]
+[{
+    "titulo": "Falso Rastreio do Cancro da Mama",
+    "data_publicacao": "2021-11-25T01:12:09",
+    "visibilidade": true,
+    "_id_autor": {
+        "$oid": "619265f2a251bdb1cd46375b"
+    },
+    "nome_autor": "Filipa Santos",
+    "id_categoria": "oncologia",
+    "ficheiro": {
+        "nome_ficheiro": "1637286423392-RCM_Alerta_Blog.png",
+        "tamanho": "174.04 KB",
+        "tipo_mime": "image/png",
+        "diretoria": "public/fileStore/documentos/1637802729098-1637286423392-RCM_Alerta_Blog.png",
+        "_id": {
+            "$oid": "619ee2e9149a383594879ee0"
+        }
+    },
+    "__v": 0
+},
+{
+    "titulo": "Resolução de Conflitos Éticos",
+    "data_publicacao": "2021-11-25T01:19:47",
+    "visibilidade": true,
+    "_id_autor": {
+        "$oid": "619265f2a251bdb1cd46375b"
+    },
+    "nome_autor": "Filipa Santos",
+    "id_categoria": "outros",
+    "ficheiro": {
+        "nome_ficheiro": "1637286304576-Panfleto - Resolução de conflitos éticos.pdf",
+        "tamanho": "397.16 KB",
+        "tipo_mime": "application/pdf",
+        "diretoria": "public/fileStore/documentos/1637803187348-1637286304576-Panfleto - Resolução de conflitos éticos.pdf",
+        "_id": {
+            "$oid": "619ee4b3149a383594879ee7"
+        }
+    },
+    "__v": 0
+},
+{
+    "titulo": "Recomendações - Atividade Física",
+    "data_publicacao": "2021-11-25T01:23:25",
+    "visibilidade": true,
+    "_id_autor": {
+        "$oid": "619265f2a251bdb1cd46375b"
+    },
+    "nome_autor": "Filipa Santos",
+    "id_categoria": "outros",
+    "ficheiro": {
+        "nome_ficheiro": "1637286195255-i027166.pdf",
+        "tamanho": "1.75 MB",
+        "tipo_mime": "application/pdf",
+        "diretoria": "public/fileStore/documentos/1637803405185-1637286195255-i027166.pdf",
+        "_id": {
+            "$oid": "619ee58d149a383594879eef"
+        }
+    },
+    "__v": 0
+}]
