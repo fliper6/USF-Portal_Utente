@@ -1,6 +1,7 @@
 :root {
   --primary-color: #800000; /*Texto*/
   --secondary-color: #c2ede9; /*Botões*/
+  --secondary-dark-color: #2a9b90; /*Highlight color para v-text-field, entre outros*/
   --grey1-color: #efefef; /*Backgrounds*/
   --grey2-color: #e0e0e0; /*Para botões secundários*/
   --grey3-color: #595959; /*Para texto*/

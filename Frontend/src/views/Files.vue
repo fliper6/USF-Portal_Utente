@@ -13,7 +13,7 @@
                 <v-card-title class="text-h5 grey lighten-2"> Carregar novo documento </v-card-title> <br/>
                 <v-col style="margin: auto; padding: 0px 50px;">
 
-                  <v-text-field @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" v-model="titulo" label="Título"></v-text-field> <br/>
+                  <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" v-model="titulo" label="Título"></v-text-field> <br/>
                   
                   <p style="margin-bottom: 5px; color:#666666">Categoria associada:</p>
                   <v-row style="height: 55px;">
@@ -44,20 +44,24 @@
                           <v-col style="margin: auto; padding: 0px 50px;">
                             <p style="margin-bottom: 5px; color:#666666">Ramo da categoria</p>
                             <treeselect
-                              v-model="value2"
+                              @input="$v.arvore_pai.$touch()" 
+                              @open="warning_arvore2 = false"
+                              :error-messages="arvorepaiErrors"
                               :max-height="100"
                               :multiple="false" :options="options" 
                               :flatten-search-results="true"
                               :normalizer="normalizer"
-                              placeholder="Tags"/> <br/>
-
-                            <v-text-field v-model="titulo" :counter="50" label="Nome da categoria"></v-text-field> <br/>
+                              v-model="arvore_pai"
+                              placeholder="Tags"/> 
+                            <span style="color: #ff5252; font-size: 12px;" v-if="this.warning_arvore2">Ramo da categoria é um campo obrigatório.</span>
+                            <br/>
+                            <v-text-field color=var(--secondary-dark-color) @input="$v.categoria.$touch()" @blur="$v.categoria.$touch()" :error-messages="categoriaErrors" v-model="categoria" :counter="50" label="Nome da categoria"></v-text-field> <br/>
                           </v-col>
                           <v-divider></v-divider>
 
                           <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn class="button-cancelar" text @click="dialog2 = false"> Cancelar </v-btn>
+                            <v-btn class="button-cancelar" text @click="close2()"> Cancelar </v-btn>
                             <v-btn class="button-confirmar" text @click="addCategoria()"> Confirmar </v-btn>
                           </v-card-actions> 
                         </v-card>
@@ -65,7 +69,7 @@
                     </v-col> 
                   </v-row> <br/>
 
-                  <v-file-input  @input="$v.file.$touch()" @blur="$v.file.$touch()" truncate-length="15" :error-messages="ficheiroErrors" v-model="file"></v-file-input> <br/>
+                  <v-file-input color=var(--secondary-dark-color) @input="$v.file.$touch()" @blur="$v.file.$touch()" truncate-length="15" :error-messages="ficheiroErrors" v-model="file"></v-file-input> <br/>
 
                 </v-col>
                 <v-divider></v-divider>
@@ -117,7 +121,9 @@
     validations: {
       titulo: { required },
       arvore: { required },
-      file: { required }
+      file: { required },
+      categoria: { required },
+      arvore_pai: { required },
     },
 
     data() {
@@ -138,7 +144,9 @@
 
         /* + CATEGORIA */
         dialog2: false,
-        value2: null,
+        arvore_pai: null,
+        warning_arvore2: false,
+        categoria: null,
 
         /* TABELA */
         docs: [],
@@ -169,16 +177,26 @@
         const errors = []
         if (!this.$v.arvore.$dirty) return errors
         !this.$v.arvore.required && errors.push('Categoria é um campo obrigatório.')
-        //this.warning_arvore = true
         return errors
       },
       ficheiroErrors () {
         const errors = []
         if (!this.$v.file.$dirty) return errors
         !this.$v.file.required && errors.push('Ficheiro é um campo obrigatório.')
-        //this.warning_arvore = true
         return errors
-      }
+      },
+      arvorepaiErrors () {
+        const errors = []
+        if (!this.$v.arvore_pai.$dirty) return errors
+        !this.$v.arvore_pai.required && errors.push('Ramo da categoria é um campo obrigatório.')
+        return errors
+      },
+      categoriaErrors () {
+        const errors = []
+        if (!this.$v.categoria.$dirty) return errors
+        !this.$v.categoria.required && errors.push('Categoria é um campo obrigatório.')
+        return errors
+      },
     },
 
     methods: {
@@ -203,17 +221,6 @@
         },
         normalizer(node) { 
           return { children: node.children && node.children.length ? node.children : 0 } 
-        },
-        addCategoria: function () {
-          this.dialog2 = false;
-        },
-        close() {
-          this.$v.$reset()
-          this.titulo = null
-          this.arvore = null
-          this.file = null
-          this.warning_arvore = false
-          this.dialog = false
         },
         addDocumento: function () {
           this.$v.$touch()
@@ -259,6 +266,53 @@
               })  
           }
         },
+        close() {
+          this.$v.$reset()
+          this.titulo = null
+          this.arvore = null
+          this.file = null
+          this.warning_arvore = false
+          this.dialog = false
+        },
+        addCategoria: function () {
+          this.$v.arvore_pai.$touch()
+          this.$v.categoria.$touch()
+          if (!this.$v.arvore_pai.required)
+            this.warning_arvore2 = true
+          if (this.$v.categoria.required && this.$v.arvore_pai.required) {
+            this.dialog2 = false;
+            
+            var obj = {
+              'nova_categoria': this.categoria,
+              'id_pai': this.arvore_pai
+            }
+
+            axios.post("http://localhost:3333/documentos/criar_categoria", obj, {
+              headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')},
+              }).then(() => {
+                console.log("Categoria adicionada com sucesso!")
+
+                  // Atualizar árvore de categorias
+                  axios.get("http://localhost:3333/documentos/categorias")
+                    .then(data => {
+                      this.options = data.data.categorias
+                    })
+                    .catch(() => {
+                        console.log("Ocorreu um erro ao obter a árvore de categorias.")
+                    })
+              }).catch(() => {
+                console.log("Ocorreu um erro ao adicionar a categoria.")
+              })  
+          }
+        },
+        close2() {
+          this.$v.categoria.$reset()
+          this.$v.arvore_pai.$reset()
+          this.arvore_pai = null
+          this.categoria = null
+          this.warning_arvore2 = false
+          this.dialog2 = false
+        },
         mudarVisibilidade: function () {
         },
         download: function () {
@@ -293,24 +347,3 @@
   }
 </script>
 
-<style>
-/* width */
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1; 
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888; 
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; 
-}
-</style>

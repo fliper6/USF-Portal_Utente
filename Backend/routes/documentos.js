@@ -30,7 +30,9 @@ router.get('/download', (req,res) => {
 })
 
 // Inserir uma nova categoria na árvore
-router.post('/criar_categoria', (req,res) => {
+router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    console.log(req.body)
+    console.log(req.body.id_pai)
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : []
