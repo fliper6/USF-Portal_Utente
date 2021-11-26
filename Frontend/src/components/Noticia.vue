@@ -34,15 +34,28 @@
       </v-menu>
     </div>
     <div v-html="noticia.corpo" />
+    <div class="files">
+      <File 
+        v-for="file,index in $props.noticia.ficheiros"  
+        :key="index" 
+        :file="file" 
+        icon="mdi-download"
+        @click-action="downloadFile"
+      />
+    </div>
   </div>
 </template>  
 
 <script>
 import axios from 'axios'
+import File from './Editor/File.vue'
 
 export default {
   name: 'Noticia',
   props: ["noticia" , "timeAgo"],
+  components: {
+    File
+  },
   data () {
     return {
       tempo: ''
@@ -65,6 +78,11 @@ export default {
         console.log(data);
         this.$emit('deleteMe', this.$props.noticia._id)
       }).catch(err => { console.log(err) });
+    },
+    downloadFile (file) {
+      axios.get('http://localhost:3333/documentos/download/' + file._id)
+      .then(data => console.log(data))
+      .catch(err => console.log(err))
     }
   }
 }
@@ -119,5 +137,13 @@ export default {
   max-width: 400px;
   max-height: 300px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.files {
+  width:100%;
+  display: grid;
+  grid-template-columns: repeat(6, 150px);
+  gap: 17px;
+  margin: 32px 0;
 }
 </style>

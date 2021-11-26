@@ -2,7 +2,13 @@
   <div>
     <v-text-field color="#000000" v-model="titulo" label="Titulo" required hide-details outlined dense></v-text-field>
     <div class="files">
-      <File v-for="file,index in files" class="file" :key="index" :file="file" @delete-me="deleteFile"/>
+      <File 
+        v-for="file,index in files" 
+        :key="index" 
+        :file="file" 
+        icon="mdi-delete"
+        @click-action="deleteFile"
+      />
     </div>
     <Editor @submit="submit" @new-file="upFile"/>
   </div>

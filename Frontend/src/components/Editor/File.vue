@@ -1,15 +1,15 @@
 <template>
     <div class="file" :title="$props.file.name">
       <div class='file-name'>
-        {{truncName($props.file.name)}}
+        {{truncName($props.file.name ? $props.file.name : $props.file.nome_ficheiro)}}
       </div>
     <div 
       class="delete-file"
       @mouseover="hover = true"
       @mouseleave="hover = false"
-      @click="deleteMe"
+      @click="clickAction"
     >
-      <v-icon :color="hover ? 'black' : 'gray'" dense>mdi-close</v-icon>
+      <v-icon :color="hover ? 'black' : 'gray'" dense>{{$props.icon}}</v-icon>
     </div>
   </div>
 </template>
@@ -17,17 +17,18 @@
 <script>
 export default {
   name: 'Link',
-  props: ['file'],
+  props: ['file','icon'],
   data () {
     return {
       hover: false
     }
   },
   methods: {
-    deleteMe() {
-      this.$emit('delete-me', this.$props.file)
+    clickAction() {
+      this.$emit('click-action', this.$props.file)
     },
     truncName(filename) {
+      console.log(filename)
       if(filename.length > 11) {
         let file = filename.split('.')
         let name = ''
