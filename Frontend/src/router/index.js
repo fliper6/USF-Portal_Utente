@@ -10,9 +10,14 @@ const routes = [
     component: Home
   },
   {
-    path: '/publicar',
+    path: '/noticia/publicar',
     name: 'Criar Notícia',
     component: () => import(/* webpackChunkName: "about" */ '../views/AddNoticia.vue')
+  },
+  {
+    path: '/noticia/editar/:id',
+    name: 'Editar Notícia',
+    component: () => import(/* webpackChunkName: "about" */ '../views/EditNoticia.vue')
   },
   {
     path: '/about',
