@@ -18,6 +18,13 @@ router.get('/', (req,res) => {
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
 })
 
+// Fazer download de um ficheiro de notícia
+/* router.get('/download/:id', (req,res) => {
+    Noticia.consultar(req.params.id)
+        .then(dados => res.download((__dirname + "/" + dados.ficheiro.diretoria).replace("routes","").replace(/\\/g, "/")))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."})) 
+}) */
+
 // Obter notícia por _id
 router.get('/:id', (req,res) => {
     Noticia.consultar(req.params.id)

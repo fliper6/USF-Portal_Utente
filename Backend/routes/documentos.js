@@ -25,14 +25,21 @@ router.get('/categorias', (req,res) => {
 })
 
 // Fazer download de um documento
-router.get('/download', (req,res) => {
-    res.download((__dirname + req.body.diretoria).replace(/\\/g, "/"));  
+router.get('/download/:id', (req,res) => {
+    Documento.consultar(req.params.id)
+        .then(dados => res.download((__dirname + "/" + dados.ficheiro.diretoria).replace("routes","").replace(/\\/g, "/")))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."})) 
+})
+
+// Obter documento por _id
+router.get('/:id', (req,res) => {
+    Documento.consultar(req.params.id)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."}))
 })
 
 // Inserir uma nova categoria na árvore
 router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    console.log(req.body)
-    console.log(req.body.id_pai)
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : []

@@ -4,6 +4,10 @@ module.exports.listar = () => {
     return Documento.find({visibilidade: true}).sort('-data_publicacao').exec()
 }
 
+module.exports.consultar = _id => {
+    return Documento.findOne({_id}).exec()
+}
+
 module.exports.inserir = doc => {
     var novo = new Documento(doc)
     return novo.save()
