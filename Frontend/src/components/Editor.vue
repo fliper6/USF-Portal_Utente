@@ -56,7 +56,8 @@
       </button> 
     </bubble-menu>
     <editor-content :editor="editor" />
-    <v-btn class="see" v-on:click="submit">See HTML</v-btn>
+    <v-btn class="button-cancelar" v-on:click="submit" text> Cancelar </v-btn>
+    <v-btn class="button-confirmar" v-on:click="submit" text> Enviar </v-btn>
   </div>
 </template>
 
@@ -82,13 +83,12 @@ export default {
     SetLink,
     AddImage
   },
-
+  props: ['conteudo'],
   data() {
     return {
       editor: null,
     }
   },
-
   methods: {
     submit () {
       this.$emit("submit", this.editor.getHTML())
@@ -120,7 +120,7 @@ export default {
           class: 'editor',
         }
       },
-      content: '<p>I’m running Tiptap with Vue.js. 🎉</p>',
+      content: this.$props.conteudo ? this.$props.conteudo : '<p>Nova notícia 📰</p>',
       extensions: [
         StarterKit,
         Link,
@@ -144,14 +144,6 @@ export default {
 
 .v-main {
   padding-top: 40px !important;
-}
-
-.see {
-  background: var(--primary-color) !important;
-  border-radius: 5px;
-  padding: 5px !important;
-  color:white !important;
-  margin: 0;
 }
 
 .editor {

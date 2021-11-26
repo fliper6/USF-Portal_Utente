@@ -26,7 +26,7 @@ export default {
     this.timeAgo = new TimeAgo('pt-PT')
 
     axios.get('http://localhost:3333/noticias')
-      .then(data => {console.log(data.data); this.noticias = data.data })
+      .then(data =>  this.noticias = data.data )
       .catch(err => console.log(err))
   } ,
   methods: {

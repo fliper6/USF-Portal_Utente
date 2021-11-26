@@ -24,7 +24,7 @@
             </v-list-item-icon>
             <v-list-item-title>Apagar</v-list-item-title>
           </v-list-item>
-          <v-list-item to="/publicar">
+          <v-list-item :to="'/noticia/editar/' + $props.noticia._id">
             <v-list-item-icon style="margin-right:5px">
               <v-icon small>mdi-pencil</v-icon>
             </v-list-item-icon>
@@ -49,6 +49,7 @@ export default {
     }
   },
   mounted () {
+    console.log(this.$props.noticia)
     let created = new Date(this.$props.noticia.data_criacao)
     this.tempo = this.$props.timeAgo.format(created)
   },
