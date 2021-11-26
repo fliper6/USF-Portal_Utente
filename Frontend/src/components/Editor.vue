@@ -33,6 +33,10 @@
       <button class="separator"/>
       <add-link @add-link="newLink"/>
       <add-image @add-image="addImage" />
+      <input ref="file" type="file" @change="upFile" hidden>
+      <button @click="addFile">
+        <v-icon dense>mdi-paperclip</v-icon>
+      </button>
     </div>
     <bubble-menu
       class="bubble-menu"
@@ -110,6 +114,13 @@ export default {
       if (event) {
         this.editor.chain().focus().setImage({ src: event }).run()
       }
+    },
+    addFile() {
+      let fileInputElement = this.$refs.file;
+      fileInputElement.click();
+    },
+    upFile(event) {
+      this.$emit('new-file', event.target.files[0])
     }
   },
 
@@ -181,8 +192,13 @@ export default {
 }
 
 .editor-buttons button{
+  border-radius: 3px;
   margin: 0 5px;
   padding: 2px
+}
+
+.editor-buttons button:hover{
+  background-color: #f3f3f3;
 }
 
 .button-active {
