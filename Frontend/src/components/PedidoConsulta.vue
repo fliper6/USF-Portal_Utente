@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       consulta: {
+        user: "",
         nome: "",
         numUtente: "",
         numUtentePedido: "",
@@ -67,10 +68,6 @@ export default {
     sendPedidoCons: function(){
       if(this.consulta.nome == "" || this.consulta.numUtente == "" || this.consulta.medico == "" || this.consulta.objetivo == ""){
         alert("Preencha todos os campos obrigatórios.")
-        console.log(this.consulta.numUtente)
-        console.log(this.consulta.nome)
-        console.log(this.consulta.objetivo)
-        console.log(this.consulta.medico)
       }
       else{
         axios({
@@ -80,6 +77,7 @@ export default {
           'Authorization': 'Bearer ' + localStorage.getItem('jwt')
         }, 
         data: {
+          user: this.consulta.user,
           nome: this.consulta.nome,
           nr_utente_titular: parseInt(this.consulta.numUtente),
           nr_utente_pedido: parseNumOpcional(this.consulta.numUtentePedido),
@@ -103,6 +101,7 @@ export default {
   created(){
     axios.get("http://localhost:3333/users/validar/" + this.token)
       .then( () => {
+        this.consulta.user = jwt.decode(this.token)._id
         this.consulta.numUtente = jwt.decode(this.token).nr_utente
         this.consulta.nome = jwt.decode(this.token).nome
       })
