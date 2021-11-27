@@ -280,20 +280,27 @@ import axios from 'axios'
         },
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
-        },   
+        },  
+        watch: {
+            'tab': function() {
+                this.$v.$reset()
+                this.alertRegisto=null
+                this.alertLogin=null
+            }
+        },
         methods: {
             close() {
               this.$v.$reset()
               this.emailLogin=""
               this.emailRegisto=""
               this.passLogin=""
-              this.passRegisto="",
-              this.passVerificacao="",
-              this.username="",
-              this.n_utente="",
-              this.n_telemovel="",
-              this.alertRegisto=null,
-              this.alertLogin=null,
+              this.passRegisto=""
+              this.passVerificacao=""
+              this.username=""
+              this.n_utente=""
+              this.n_telemovel=""
+              this.alertRegisto=null
+              this.alertLogin=null
               this.tab=0
             },
             postLogin(json) {
