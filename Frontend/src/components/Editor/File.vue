@@ -28,7 +28,6 @@ export default {
       this.$emit('click-action', this.$props.file)
     },
     truncName(filename) {
-      console.log(filename)
       if(filename.length > 11) {
         let file = filename.split('.')
         let name = ''

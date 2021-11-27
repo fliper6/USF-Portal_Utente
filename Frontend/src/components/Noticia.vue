@@ -80,7 +80,16 @@ export default {
       }).catch(err => { console.log(err) });
     },
     downloadFile (file) {
-      axios.get('http://localhost:3333/documentos/download/' + file._id)
+      axios.get('http://localhost:3333/documentos/download/' + this.$props.noticia._id,
+        {
+          id: file._id
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          },
+          responseType: 'blob'
+        })
       .then(data => console.log(data))
       .catch(err => console.log(err))
     }
