@@ -29,8 +29,6 @@
                                 
                                 <v-col cols="12">
                                     <v-text-field 
-                                    @input="$v.emailLogin.$touch()" 
-                                    @blur="$v.emailLogin.$touch()" 
                                     color=var(--secondary-dark-color)
                                     :error-messages="emailLoginErrors"
                                     type="text" 
@@ -40,9 +38,7 @@
                                 </v-col>
                                 
                                 <v-col cols="12">
-                                    <v-text-field 
-                                    @input="$v.passLogin.$touch()" 
-                                    @blur="$v.passLogin.$touch()" 
+                                    <v-text-field  
                                     color=var(--secondary-dark-color)
                                     :error-messages="passLoginErrors"
                                     :append-icon="valueLogin ? 'mdi-eye' : 'mdi-eye-off'" 
@@ -80,8 +76,6 @@
                                 
                                 <v-col cols="12">
                                     <v-text-field 
-                                    @input="$v.emailRegisto.$touch()" 
-                                    @blur="$v.emailRegisto.$touch()" 
                                     :error-messages="emailRegistoErrors"
                                     color=var(--secondary-dark-color)
                                     type="text" 
@@ -92,8 +86,6 @@
 
                                 <v-col cols="12">
                                     <v-text-field 
-                                    @input="$v.username.$touch()" 
-                                    @blur="$v.username.$touch()" 
                                     :error-messages="usernameErrors"
                                     color=var(--secondary-dark-color)
                                     type="text" 
@@ -104,8 +96,6 @@
 
                                 <v-col cols="12">
                                     <v-text-field 
-                                    @input="$v.n_utente.$touch()" 
-                                    @blur="$v.n_utente.$touch()" 
                                     :error-messages="nUtenteErrors"
                                     color=var(--secondary-dark-color)
                                     type="text" 
@@ -116,8 +106,6 @@
 
                                 <v-col cols="12">
                                     <v-text-field   
-                                    @input="$v.n_telemovel.$touch()" 
-                                    @blur="$v.n_telemovel.$touch()" 
                                     :error-messages="nTelemovelErrors"                               
                                     color=var(--secondary-dark-color)
                                     type="text" 
@@ -132,9 +120,7 @@
                                 </v-col>
 
                                 <v-col cols="12">
-                                    <v-text-field 
-                                    @input="$v.passRegisto.$touch()" 
-                                    @blur="$v.passRegisto.$touch()" 
+                                    <v-text-field  
                                     :error-messages="passRegistoErrors"
                                     color=var(--secondary-dark-color)
                                     :append-icon="valueRegistarPass ? 'mdi-eye' : 'mdi-eye-off'" 
@@ -146,8 +132,6 @@
 
                                 <v-col cols="12">
                                     <v-text-field 
-                                    @input="$v.passVerificacao.$touch()" 
-                                    @blur="$v.passVerificacao.$touch()" 
                                     :error-messages="passwordMatchErrors"
                                     color=var(--secondary-dark-color)
                                     :append-icon="valueRegistarConfirPass ? 'mdi-eye' : 'mdi-eye-off'" 
@@ -309,7 +293,8 @@ import axios from 'axios'
               this.n_utente="",
               this.n_telemovel="",
               this.alertRegisto=null,
-              this.alertLogin=null
+              this.alertLogin=null,
+              this.tab=0
             },
             postLogin(json) {
                 axios.post("http://localhost:3333/users/login", json)
