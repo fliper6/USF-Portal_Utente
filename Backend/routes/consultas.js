@@ -19,8 +19,8 @@ router.get('/:id', JWTUtils.validate, function(req, res) {
 });
 
 // Devolver histórico de consultas de um utente
-router.get('/historico/:nr_utente', JWTUtils.validate, function(req, res) {
-    Consulta.listarNrUtente(req.params.nr_utente)
+router.get('/historico/:_id', JWTUtils.validate, function(req, res) {
+    Consulta.listarPorUser(req.params._id)
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });

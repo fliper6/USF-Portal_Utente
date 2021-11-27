@@ -60,10 +60,26 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Perfil.vue')
   },
   {
+    path: '/gestao/medicacao',
+    name: 'PedidoM',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PedidoM.vue')
+  },
+  {
+    path: '/gestao/consulta',
+    name: 'PedidoC',
+    component: () => import(/* webpackChunkName: "about" */ '../views/PedidoC.vue')
+  },
+  {
+    path: '/gestao/sugestao',
+    name: 'Sugestao',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue')
   }
+  
 ]
 
 const router = new VueRouter({

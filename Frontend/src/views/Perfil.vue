@@ -75,7 +75,7 @@
       </v-row>
       
     </v-container>
-    <v-container>
+    <v-container v-if="this.nivel=== 'utente'">
       <v-card flat color="var(--grey1-color)">
         <v-card-actions>
           <v-row>
@@ -99,7 +99,7 @@
                 Pedidos de Consulta
               </v-btn>
             </v-col>
-            <v-col v-if="this.nivel=='utente'">
+            <v-col>
               <v-btn
                 block
                 depressed
@@ -112,19 +112,37 @@
           </v-row>
         
       </v-card-actions>
-      <v-container v-for="(item,index) in medicacao" v-bind:key="item.id">
-        <v-row>
-          <v-col><h3>{{item.data_criacao.split('T')[0]}}</h3></v-col>
-        </v-row>
+      <div v-if="this.list.length > 0">
+        <v-container v-for="(item,index) in list" v-bind:key="item.id">
         <v-row>
           <v-col>
-            {{item.medicacao}}
-          </v-col>
-          <v-col class="text-right">
-            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
+            <h3 v-if="!med">{{item.data_criacao.split('T')[0]}}</h3>
+            <h3 v-if="!cons">{{item.nome}}</h3>
+            <h3 v-if="!sug">{{item.titulo}}</h3>
           </v-col>
         </v-row>
-        <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
+        <div class="text-caption" v-if="!sug">{{item.data_criacao.split('T')[0]}}</div>
+        <div class="text-caption" v-if="!cons">Tipo : {{item.tipo}}</div>
+        <v-row>
+          <v-col v-if="!med">
+            {{item.medicacao}}
+          </v-col>
+          <v-col v-if="!cons">
+            {{item.medico}}
+          </v-col>
+          <v-col v-if="!sug">
+            {{item.descricao}}
+          </v-col>
+          <v-col class="text-right" v-if="!med">
+            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
+          </v-col>
+          <v-col class="text-right" v-if="!cons">
+            <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
+            <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
+            <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
+          </v-col>
+        </v-row>
+        <v-row v-if="list.length > 1 && index < list.length - 1">
           <v-col><v-divider>
 
           </v-divider></v-col>
@@ -132,6 +150,18 @@
         </v-row>
         
       </v-container>
+      </div>
+      <div v-else>
+        <v-container>
+          <v-row>
+            <v-col>
+              <h2 v-if="!med || !cons" style="text-align:center;">Não existem pedidos</h2>
+              <h2 v-else style="text-align:center;">Não existem sugestões</h2>
+            </v-col>
+          </v-row>
+        </v-container>
+      </div>
+      
       </v-card>
     </v-container>
   </div>
@@ -157,8 +187,11 @@ import axios from 'axios'
         num:'',
         email:'',
         nivel:'',
-        medicacao:'',
+        meds:'',
+        consulta:'',
+        sugestao:'',
         editar:false,
+        list:'',
         
       }
     },
@@ -171,7 +204,25 @@ import axios from 'axios'
       this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-          this.medicacao = data.data
+          this.meds = data.data
+          this.list = this.meds
+          console.log(data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+
+      axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        .then( data => {
+          this.consulta = data.data
+          console.log(data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        .then( data => {
+          this.sugestao = data.data
           console.log(data.data)
         })
         .catch(err => {
@@ -181,6 +232,7 @@ import axios from 'axios'
     },
     methods: {
     pedidoM() {
+      this.list = this.meds
       this.med = false
       this.cons = true
       this.sug = true
@@ -189,11 +241,13 @@ import axios from 'axios'
       this.med = true
       this.cons = false
       this.sug = true
+      this.list = this.consulta
     },
     sugestoes() {
       this.med = true
       this.cons = true
       this.sug = false
+      this.list = this.sugestao
     },
     edita(){
       this.editar = true
