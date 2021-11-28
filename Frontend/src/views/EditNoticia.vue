@@ -1,22 +1,46 @@
 <template>
-  <div>
-    <v-text-field v-if="!loading" class="label" color="#000000" v-model="noticia.titulo" label="Titulo" required outlined dense></v-text-field>
-    <Editor v-if="!loading"  @submit="submit" :conteudo="noticia.corpo"/>
+  <div v-if="!loading">
+    <v-text-field class="label" color="#000000" v-model="noticia.titulo" label="Titulo" required hide-details outlined dense></v-text-field>
+    <div class="files">
+      <File 
+        v-for="file in noticia.ficheiros" 
+        :key="file._id" 
+        :file="file" 
+        icon="mdi-delete"
+        @click-action="deleteExistingFile"
+      />
+      <File 
+        v-for="file,index in this.files" 
+        :key="index" 
+        :file="file" 
+        icon="mdi-delete"
+        @click-action="deleteExistingFile"
+      />
+    </div>
+    <Editor
+      @submit="submit" 
+      :conteudo="noticia.corpo" 
+      @new-file="upFile"
+    />
   </div>
 </template>
 
 <script>
 import Editor from "../components/Editor.vue"
+import File from '../components/Editor/File.vue'
 import axios from 'axios'
+
 export default {
   name: 'Home',
   components: {
-    Editor
+    Editor,
+    File
   },
   data () {
     return {
       loading: true,
-      noticia: null
+      noticia: null,
+      files: [],
     }
   },
   created () {
@@ -29,14 +53,23 @@ export default {
   },
   methods: {
     submit (content) {
+      this.noticia.corpo = content
       let formData = new FormData();
+      for (const key of Object.keys(this.noticia)) {
+        if(Array.isArray(this.noticia[key])){
+          this.noticia[key].forEach(elem => {
+            formData.append(key, elem)
+          });
+        } else {
+          console.log(key,'=>',this.noticia[key])
+          formData.append(key, this.noticia[key])
+        }
+      }
       for (const i of Object.keys(this.files)) {
         formData.append('ficheiros', this.files[i])
       }
-      formData.append('corpo', content)
-      formData.append('titulo',this.titulo)
 
-      axios.post('http://localhost:3333/noticias',
+      axios.post('http://localhost:3333/noticias/editar/' + this.noticia._id,
         formData,
         {
           headers: {
@@ -49,10 +82,30 @@ export default {
 
       }).catch(err => { console.log(err) });
     },
+    upFile(file) {
+      this.files.push(file)
+      console.log(this.files)
+    },
+    deleteExistingFile(file) {
+      let id = this.noticia.ficheiros.indexOf(file)
+      this.noticia.ficheiros.splice(id, 1);
+    },
+    deleteFile(file) {
+      let id = this.files.indexOf(file)
+      this.files.splice(id, 1);
+    }
   }
 }
 </script>
 
 <style scoped>
+
+.files {
+  width:100%;
+  display: grid;
+  grid-template-columns: repeat(6, 150px);
+  gap: 17px;
+  margin: 16px 0;
+}
 
 </style>

@@ -80,17 +80,26 @@ export default {
       }).catch(err => { console.log(err) });
     },
     downloadFile (file) {
-      axios.get('http://localhost:3333/documentos/download/' + this.$props.noticia._id,
-        {
-          id: file._id
-        },
+      console.log(file)
+      axios.get('http://localhost:3333/noticias/download',
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           },
+          params: {
+            id_noticia: this.$props.noticia._id,
+            id_ficheiro: file._id
+          },
           responseType: 'blob'
         })
-      .then(data => console.log(data))
+      .then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', file.nome_ficheiro); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      })
       .catch(err => console.log(err))
     }
   }
