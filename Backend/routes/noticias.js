@@ -91,6 +91,9 @@ router.post('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('f
 
     Noticia.consultar(req.params.id)
         .then(dados => {
+            req.body.ficheiros = JSON.parse(req.body.ficheiros)
+            if (!Array.isArray(req.body.ficheiros)) req.body.ficheiros = [req.body.ficheiros]
+
             let nomes_ficheiros_body = req.body.ficheiros.map(x => x.nome_ficheiro)
             let eliminados = dados.ficheiros.filter(x => !nomes_ficheiros_body.includes(x.nome_ficheiro))
  
