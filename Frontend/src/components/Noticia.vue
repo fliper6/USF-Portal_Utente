@@ -6,6 +6,7 @@
        <v-menu
           bottom
           left
+          v-if="testNivel() == true"
        >
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -48,6 +49,7 @@
 
 <script>
 import axios from 'axios'
+import jwt from 'jsonwebtoken'
 import File from './Editor/File.vue'
 
 export default {
@@ -58,6 +60,7 @@ export default {
   },
   data () {
     return {
+      token: localStorage.getItem('jwt'),
       tempo: ''
     }
   },
@@ -100,7 +103,15 @@ export default {
         link.click();
       })
       .catch(err => console.log(err))
-    }
+    },
+    testNivel () {
+      if(this.token) {
+        this.nivel = jwt.decode(this.token).nivel
+        if(this.nivel=='admin'||this.nivel=='medico')
+          return true
+      }
+      return false
+    },
   }
 }
 </script>

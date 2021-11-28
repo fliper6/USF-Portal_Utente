@@ -41,14 +41,14 @@ export default {
       .catch(err => console.log(err))
   } ,
   methods: {
-    testNivel: function () {
-          if(this.token) {
-            this.nivel = jwt.decode(this.token).nivel
-            if(this.nivel=='admin'||this.nivel=='medico')
-              return true
-          }
-          return false
-        },
+    testNivel () {
+      if(this.token) {
+        this.nivel = jwt.decode(this.token).nivel
+        if(this.nivel=='admin'||this.nivel=='medico')
+          return true
+      }
+      return false
+    },
     deleteMe(id) {
       this.noticias = this.noticias.filter(elem => elem._id != id)
     }

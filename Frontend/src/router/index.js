@@ -81,8 +81,8 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
   },
   {
-    path: '/forbiden',
-    name: 'Forbiden',
+    path: '/forbidden',
+    name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')
   },
   {
@@ -111,11 +111,11 @@ router.beforeEach((to, from, next) => {
     nivel = jwt.decode(localStorage.getItem('jwt')).nivel
   }
 
-  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'admin') next({ name: 'Error' })
+  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'admin') next({ name: 'Forbidden' })
 
-  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'admin' || nivel != 'medico')) next({ name: 'Error' })
+  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico')) next({ name: 'Forbidden' })
 
-  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico' && nivel != 'user')) next({ name: 'Error' })
+  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico' && nivel != 'user')) next({ name: 'Forbidden' })
 
   else next()
 })
