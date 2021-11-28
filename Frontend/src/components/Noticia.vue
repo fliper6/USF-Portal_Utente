@@ -74,8 +74,7 @@ export default {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
         }
-      ).then(({data}) => {
-        console.log(data);
+      ).then(() => {
         this.$emit('deleteMe', this.$props.noticia._id)
       }).catch(err => { console.log(err) });
     },

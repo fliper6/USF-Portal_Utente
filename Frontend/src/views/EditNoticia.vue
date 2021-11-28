@@ -58,7 +58,8 @@ export default {
       for (const key of Object.keys(this.noticia)) {
         if(Array.isArray(this.noticia[key])){
           this.noticia[key].forEach(elem => {
-            formData.append(key, elem)
+            console.log(key,'=>',elem)
+            formData.append(key, JSON.stringify(elem))
           });
         } else {
           console.log(key,'=>',this.noticia[key])
