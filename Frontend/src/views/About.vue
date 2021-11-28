@@ -2,8 +2,8 @@
   <div class="about">
     <h1 style="margin-bottom:20px">Encontre-nos</h1>
     <div class="contactos">
-      <div class="labels">
-        <div v-for="label in Object.keys(info)" :key="label" class="label"> {{label}}: </div>
+      <div class="contactos-labels">
+        <div v-for="label in Object.keys(info)" :key="label" class="contactos-label"> {{label}}: </div>
       </div>
       <div class="sep"></div>
       <div class="informacoes">
@@ -44,11 +44,11 @@ export default {
   margin: 0px 20px
 }
 
-.labels {
+.contactos-labels {
   text-align: right;
 }
 
-.label {
+.contactos-label {
   margin-bottom: 7px;
   font-weight: bold;
 }
