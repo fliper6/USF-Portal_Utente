@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import jwt from 'jsonwebtoken'
 import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
@@ -80,6 +81,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
   },
   {
+    path: '/forbiden',
+    name: 'Forbiden',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue')
@@ -93,7 +99,25 @@ const router = new VueRouter({
   routes,
   scrollBehavior () {
     return { x: 0, y: 0 }
+  },
+})
+
+router.beforeEach((to, from, next) => {
+  let adminRoutes = []
+  let medicoRoutes = ['Criar Notícia','Editar Noticia']
+  let userRoutes = []
+  let nivel = ''
+  if (localStorage.getItem('jwt')) {
+    nivel = jwt.decode(localStorage.getItem('jwt')).nivel
   }
+
+  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'admin') next({ name: 'Error' })
+
+  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'admin' || nivel != 'medico')) next({ name: 'Error' })
+
+  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico' && nivel != 'user')) next({ name: 'Error' })
+
+  else next()
 })
 
 export default router
