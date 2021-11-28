@@ -13,7 +13,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
         <input type="number" class="input-text" required v-model="consulta.numUtente">
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
-        <p class="p2">Caso pretenda pedir medicação para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
+        <p class="p2">Caso pretenda pedir uma consulta para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
         <input type="number" class="input-text" v-model="consulta.numUtentePedido">
         <label class="label">4.Médico de Família</label>
         <div class="select-area">

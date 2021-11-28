@@ -1,6 +1,6 @@
 <template>
 <div class="box">
-  <h1 class="h1">Pedido Submetido com Sucesso!</h1>
+  <h1 class="h1">Pedido submetido com sucesso!</h1>
   <v-btn class="button"><a href="/" style="text-decoration:none" class="a">Confirmar</a></v-btn>
 </div>
   
