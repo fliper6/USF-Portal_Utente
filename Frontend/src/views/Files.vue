@@ -226,7 +226,7 @@
           this.$v.$touch()
           if (!this.$v.arvore.required)
             this.warning_arvore = true
-          if (this.$v.titulo.required && this.$v.arvore.required) {
+          if (this.$v.titulo.required && this.$v.arvore.required && this.$v.file.required) {
             this.dialog = false;
 
             console.log(jwt.decode(this.token))
