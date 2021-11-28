@@ -45,7 +45,7 @@ module.exports = function(passport) {
                   password: hash,
                   nr_utente: req.body.nr_utente,
                   nr_telemovel: req.body.nr_telemovel,
-                  nivel: "utente",
+                  nivel: "Utente",
                   dataRegisto: new Date()
                 })
                 .then(dados => {
