@@ -17,6 +17,7 @@ var consultasRouter = require('./routes/consultas');
 var contactosRouter = require('./routes/contactos');
 var documentosRouter = require('./routes/documentos');
 var medicacaoRouter = require('./routes/medicacao');
+var medicoRouter = require('./routes/medico');
 var noticiasRouter = require('./routes/noticias');
 var sugestaoRouter = require('./routes/sugestao');
 
@@ -50,6 +51,7 @@ app.use('/consultas', consultasRouter);
 app.use('/contactos', contactosRouter);
 app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
+app.use('/medico', medicoRouter);
 app.use('/noticias', noticiasRouter);
 app.use('/sugestao', sugestaoRouter);
 
