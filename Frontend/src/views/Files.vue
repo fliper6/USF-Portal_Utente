@@ -102,7 +102,7 @@
       class="elevation-1">
       
       <template #item.titulo="{ value }">
-        <router-link  style="text-decoration:none;" :to="`/file/${value.split("##")[1]}`"> 
+        <router-link v-bind:val="st(value)" style="text-decoration:none;" :to="`/file/${st(value)}`"> 
           {{value.split("##")[0]}}
         </router-link>
       </template>
@@ -203,8 +203,9 @@
     },
 
     methods: {
-        aaaa: function (item) {
-          console.log(item)
+        st: function (value) {
+          console.log(value)
+          return value.split("##")[1]
         },
         testNivel: function () {
           if(this.token) {
@@ -331,7 +332,6 @@
           this.docs = data.data
           this.docs.forEach(item => {
             item.titulo = item.titulo + "##" + item._id
-            console.log(item.ficheiro.nome_ficheiro)
             item.data_publicacao = item.data_publicacao.slice(0,10)
             item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
           })
