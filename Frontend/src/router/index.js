@@ -26,12 +26,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/files',
+    path: '/documentos',
     name: 'Files',
     component: () => import(/* webpackChunkName: "about" */ '../views/Files.vue')
   },
   {
-    path: '/file/:id',
+    path: '/documentos/:id',
     name: 'FileIndividual',
     component: () => import(/* webpackChunkName: "about" */ '../views/FileIndividual.vue')
   },

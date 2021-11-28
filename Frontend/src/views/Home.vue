@@ -5,7 +5,7 @@
     </v-btn>
     <Noticia v-for="(noticia,n) in noticias" :noticia='noticia' @deleteMe="deleteMe" :timeAgo="timeAgo" :key="n" />
     <div v-if="noticias.length < 1 || !noticias">
-      Não existem noticias neste momento
+      <br/> Não existem noticias neste momento
     </div>
   </div>
 </template>

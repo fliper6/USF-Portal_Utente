@@ -32,10 +32,10 @@
         <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
-      <router-link to="/files" class="titulo">
+      <router-link to="/documentos" class="titulo">
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/files')">
-            <b :style="this.path=='/files'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
+        <span v-on:click="changePath('/documentos')">
+            <b :style="this.path=='/documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
         </span>
         </div>
       </router-link>

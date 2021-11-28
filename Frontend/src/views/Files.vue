@@ -96,20 +96,21 @@
     </v-row>
 
     <v-data-table
+      style="font-size:16px !important"
       :headers="headers"
       :items="docsfiltrados"
       :items-per-page="5"
       class="elevation-1">
       
       <template #item.titulo="{ value }">
-        <router-link v-bind:val="st(value)" style="text-decoration:none;" :to="`/file/${st(value)}`"> 
+        <router-link style="text-decoration:none; color:var(--secondary-dark-color)" :to="`/documentos/${st(value)}`"> 
           {{value.split("##")[0]}}
         </router-link>
       </template>
     </v-data-table>
   </div>
 </template>
-
+ 
 <script>
   import Treeselect from '@riophae/vue-treeselect' //npm install --save @riophae/vue-treeselect
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -355,3 +356,12 @@
   }
 </script>
 
+<style>
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
+  font-size:14px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-size:16px !important;
+}
+</style>
