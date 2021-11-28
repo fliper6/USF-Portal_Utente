@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import jwt from 'jsonwebtoken'
 import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
@@ -25,9 +26,14 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/files',
+    path: '/documentos',
     name: 'Files',
     component: () => import(/* webpackChunkName: "about" */ '../views/Files.vue')
+  },
+  {
+    path: '/documentos/:id',
+    name: 'FileIndividual',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FileIndividual.vue')
   },
   {
     path: '/balcao',
@@ -75,6 +81,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
   },
   {
+    path: '/forbidden',
+    name: 'Forbidden',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')
+  },
+  {
     path: '*',
     name: 'Error',
     component: () => import(/* webpackChunkName: "about" */ '../views/Error.vue')
@@ -85,7 +96,28 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  },
+})
+
+router.beforeEach((to, from, next) => {
+  let adminRoutes = []
+  let medicoRoutes = ['Criar Notícia','Editar Noticia']
+  let userRoutes = []
+  let nivel = ''
+  if (localStorage.getItem('jwt')) {
+    nivel = jwt.decode(localStorage.getItem('jwt')).nivel
+  }
+
+  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'admin') next({ name: 'Forbidden' })
+
+  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico')) next({ name: 'Forbidden' })
+
+  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico' && nivel != 'user')) next({ name: 'Forbidden' })
+
+  else next()
 })
 
 export default router

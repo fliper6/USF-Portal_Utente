@@ -96,13 +96,21 @@
     </v-row>
 
     <v-data-table
+      style="font-size:16px !important"
       :headers="headers"
       :items="docsfiltrados"
       :items-per-page="5"
-      class="elevation-1"/>
+      class="elevation-1">
+      
+      <template #item.titulo="{ value }">
+        <router-link style="text-decoration:none; color:var(--secondary-dark-color)" :to="`/documentos/${st(value)}`"> 
+          {{value.split("##")[0]}}
+        </router-link>
+      </template>
+    </v-data-table>
   </div>
 </template>
-
+ 
 <script>
   import Treeselect from '@riophae/vue-treeselect' //npm install --save @riophae/vue-treeselect
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
@@ -152,12 +160,8 @@
         docs: [],
         docsfiltrados: [],
         headers: [
-          {
-            text: 'Título',
-            align: 'start',
-            sortable: false,
-            value: 'titulo',
-          },
+          { text: 'Id', value: '_id', align: ' d-none' }, // ' d-none' hides the column but keeps the search ability
+          { text: 'Título', value: 'titulo', align: 'start', sortable: false, },
           { text: 'Data', value: 'data_publicacao' },
           { text: 'Tamanho', value: 'ficheiro.tamanho' },
           { text: 'Formato', value: 'ficheiro.nome_ficheiro' },
@@ -200,6 +204,10 @@
     },
 
     methods: {
+        st: function (value) {
+          console.log(value)
+          return value.split("##")[1]
+        },
         testNivel: function () {
           if(this.token) {
             this.nivel = jwt.decode(this.token).nivel
@@ -324,6 +332,7 @@
         .then(data => {
           this.docs = data.data
           this.docs.forEach(item => {
+            item.titulo = item.titulo + "##" + item._id
             item.data_publicacao = item.data_publicacao.slice(0,10)
             item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
           })
@@ -347,3 +356,12 @@
   }
 </script>
 
+<style>
+.v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
+  font-size:14px !important;
+}
+
+.v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
+  font-size:16px !important;
+}
+</style>
