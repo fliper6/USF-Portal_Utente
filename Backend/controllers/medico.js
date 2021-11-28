@@ -3,6 +3,7 @@ var Medico = require('../models/medico')
 module.exports.listar = () => {
     return Medico
         .find()
+        .sort({"nome":1})
         .exec()
 }
 
