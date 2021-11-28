@@ -19,13 +19,13 @@ router.get('/', (req,res) => {
 })
 
 // Fazer download de um ficheiro de notícia
-router.get('/download/:id', (req,res) => {
-    Noticia.consultar(req.params.id)
+router.get('/download', (req,res) => {
+    Noticia.consultar(req.query.id_noticia)
         .then(dados => {
-            let ficheiro = dados.ficheiros.filter(x => x._id == req.body.id_ficheiro)[0]
+            let ficheiro = dados.ficheiros.filter(x => x._id == req.query.id_ficheiro)[0]
             res.download((__dirname + "/" + ficheiro.diretoria).replace("routes","").replace(/\\/g, "/"))
         })
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."})) 
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a notícia."})) 
 })
 
 // Obter notícia por _id
