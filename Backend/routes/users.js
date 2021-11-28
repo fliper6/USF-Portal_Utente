@@ -9,14 +9,21 @@ const jwt = require('jsonwebtoken')
 const SECRET = JWTUtils.SECRET
 
 // Obter lista de utilizadores
-router.get('/listarUsers', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+router.get('/listar', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
+  User.listar()
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
+})
+
+// Obter lista de utilizadores (utentes + medicos)
+router.get('/listarUsers', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
   User.listarUsers()
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))
 })
 
 // Obter lista de utentes
-router.get('/listarUtentes', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+router.get('/listarUtentes', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
   User.listarUtentes()
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(403).jsonp({erro: "Ocorreu um erro na listagem de utilizadores."}))

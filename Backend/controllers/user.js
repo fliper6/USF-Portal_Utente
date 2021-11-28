@@ -2,7 +2,7 @@ var User = require('../models/user')
 
 module.exports.listar = () => {
     return User
-        .find()
+        .find({}, {password: 0, __v: 0})
         .sort('nome')
         .exec()
 }
