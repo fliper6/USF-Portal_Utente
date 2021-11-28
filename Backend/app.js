@@ -51,7 +51,7 @@ app.use('/consultas', consultasRouter);
 app.use('/contactos', contactosRouter);
 app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
-app.use('/medico', medicoRouter);
+app.use('/medicos', medicoRouter);
 app.use('/noticias', noticiasRouter);
 app.use('/sugestao', sugestaoRouter);
 
