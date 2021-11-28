@@ -30,6 +30,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Files.vue')
   },
   {
+    path: '/file/:id',
+    name: 'FileIndividual',
+    component: () => import(/* webpackChunkName: "about" */ '../views/FileIndividual.vue')
+  },
+  {
     path: '/balcao',
     name: 'Balcao',
     component: () => import(/* webpackChunkName: "about" */ '../views/Balcao.vue')
@@ -85,7 +90,10 @@ const routes = [
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  }
 })
 
 export default router

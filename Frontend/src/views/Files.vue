@@ -99,7 +99,14 @@
       :headers="headers"
       :items="docsfiltrados"
       :items-per-page="5"
-      class="elevation-1"/>
+      class="elevation-1">
+      
+      <template #item.titulo="{ value }">
+        <router-link  style="text-decoration:none;" :to="`/file/${value.split("##")[1]}`"> 
+          {{value.split("##")[0]}}
+        </router-link>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -152,12 +159,8 @@
         docs: [],
         docsfiltrados: [],
         headers: [
-          {
-            text: 'Título',
-            align: 'start',
-            sortable: false,
-            value: 'titulo',
-          },
+          { text: 'Id', value: '_id', align: ' d-none' }, // ' d-none' hides the column but keeps the search ability
+          { text: 'Título', value: 'titulo', align: 'start', sortable: false, },
           { text: 'Data', value: 'data_publicacao' },
           { text: 'Tamanho', value: 'ficheiro.tamanho' },
           { text: 'Formato', value: 'ficheiro.nome_ficheiro' },
@@ -200,6 +203,9 @@
     },
 
     methods: {
+        aaaa: function (item) {
+          console.log(item)
+        },
         testNivel: function () {
           if(this.token) {
             this.nivel = jwt.decode(this.token).nivel
@@ -324,6 +330,8 @@
         .then(data => {
           this.docs = data.data
           this.docs.forEach(item => {
+            item.titulo = item.titulo + "##" + item._id
+            console.log(item.ficheiro.nome_ficheiro)
             item.data_publicacao = item.data_publicacao.slice(0,10)
             item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
           })
