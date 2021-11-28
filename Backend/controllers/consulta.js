@@ -9,6 +9,7 @@ module.exports.listar = () => {
 module.exports.listarPorUser = nr => {
     return Consulta
         .find({user: nr})
+        .sort({"data_criacao":-1})
         .exec()
 }
 
