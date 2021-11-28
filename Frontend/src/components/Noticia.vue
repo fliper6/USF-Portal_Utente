@@ -18,17 +18,17 @@
         </template>
 
         <v-list>
-          <v-list-item @click="deleteNoticia">
-            <v-list-item-icon style="margin-right:5px">
-              <v-icon small>mdi-delete</v-icon>
-            </v-list-item-icon>
-            <v-list-item-title>Apagar</v-list-item-title>
-          </v-list-item>
           <v-list-item :to="'/noticia/editar/' + $props.noticia._id">
             <v-list-item-icon style="margin-right:5px">
               <v-icon small>mdi-pencil</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Editar</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="deleteNoticia">
+            <v-list-item-icon style="margin-right:5px">
+              <v-icon small>mdi-delete</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Apagar</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>

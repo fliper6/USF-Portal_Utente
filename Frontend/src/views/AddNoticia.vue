@@ -47,9 +47,8 @@ export default {
               'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
         }
-      ).then(({data}) => {
-        console.log(data);
-
+      ).then(() => {
+        this.$router.push('/')
       }).catch(err => { console.log(err) });
     },
     upFile(file) {
