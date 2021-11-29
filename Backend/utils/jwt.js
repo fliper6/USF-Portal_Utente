@@ -23,10 +23,7 @@ module.exports.validate = (req, res, next) => {
                         });
                     }
                 })
-            .catch(e => {
-                console.log(e)
-                res.status(404).jsonp({erro: "Erro no acesso à base de dados."})
-            })
+            .catch(e => res.status(404).jsonp({erro: "Erro no acesso à base de dados."}))
     }
     else{
         res.status(403).jsonp({erro: "Não foi fornecido um token válido."})
