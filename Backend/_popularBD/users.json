@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "61a40cd5d0586f00f0d059d3"
+  },
+  "nome": "Joaquim Ribeiro Ribas",
+  "email": "joaquim.ribeiro@gmail.com",
+  "password": "$2a$10$5BgFIv1h9Cx/K8yiPMcJ9.X8BvoKfqTdbr23XeUsk2.uKj/NKn0tu",
+  "nr_utente": "234543889",
+  "nr_telemovel": "963345428",
+  "nivel": "Secretário",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:12:21.745Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a40d04d0586f00f0d059d9"
+  },
+  "nome": "Diana Pereira Alves",
+  "email": "diana_alves99@gmail.com",
+  "password": "$2a$10$4HmAQM2ftqw2h2YlSYbhmujkWIm9jPrFhx2rdShwSUp7.PuOhG1ZW",
+  "nr_utente": "233342541",
+  "nr_telemovel": "",
+  "nivel": "Utente",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:13:08.426Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome": "Admin",
+  "email": "admin@gmail.com",
+  "password": "$2a$10$fDkP9omuHZsixEGKfklvw.RqkMSgEb75arDwd34SJr9GyJH646EN2",
+  "nr_utente": "222222222",
+  "nr_telemovel": "",
+  "nivel": "Administrador",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:13:43.216Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a40d56d0586f00f0d059e5"
+  },
+  "nome": "Carlos Alberto Ribeiro",
+  "email": "carlos-alberto-ribeiro@hotmail.com",
+  "password": "$2a$10$uyJCLUtXSKugcwMHOjS/jOgmbWjGzXdlHgCH3Zb7c350DnIouILlO",
+  "nr_utente": "245678831",
+  "nr_telemovel": "967878429",
+  "nivel": "Utente",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:14:30.695Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a40d95d0586f00f0d059eb"
+  },
+  "nome": "Maria Fernanda Alves Cunha",
+  "email": "maria.fernanda@iol.pt",
+  "password": "$2a$10$a6yKpwcUdIOLf60CoyB1y.uCP7jRo7bJq.hgKdSdwc95RLazLKbyG",
+  "nr_utente": "245674311",
+  "nr_telemovel": "",
+  "nivel": "Secretário",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:15:33.897Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a40dfbd0586f00f0d059f1"
+  },
+  "nome": "João Afonso Barata",
+  "email": "joaobarata58@gmail.com",
+  "password": "$2a$10$sgT2zmYkQ9LqoqZDSoveP.Xj4RKRVuAF.cy0PY2YVFHcC.LfDucYS",
+  "nr_utente": "243367745",
+  "nr_telemovel": "965080092",
+  "nivel": "Utente",
+  "dataRegisto": {
+    "$date": "2021-11-28T23:17:15.319Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a41a8a35c8c777fc1baebf"
+  },
+  "nome": "Francisco Gonçalves Borja",
+  "email": "xico.borja@gmail.com",
+  "password": "$2a$10$GarHv64jkD050bfEwNNvUusm4VrAM5M23SxP7ScHluvNWnMmuQ02e",
+  "nr_utente": "245567758",
+  "nr_telemovel": "917888653",
+  "nivel": "Utente",
+  "dataRegisto": {
+    "$date": "2021-11-29T00:10:50.298Z"
+  },
+  "__v": 0
+}]
