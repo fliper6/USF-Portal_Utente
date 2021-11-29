@@ -62,8 +62,8 @@
                     <v-select
                       v-model="nivelFiltro"
                       @change="filtro()"
-                      :items="levels"
-                      placeholder="Nível"
+                      :items="niveis"
+                      item-text="titulo"
                       outlined
                     ></v-select>
                 </v-col>
@@ -121,6 +121,12 @@ export default {
       nivel:"",
       listaInicial : [],
       listaFiltrada : [],
+      niveis : [
+        {titulo:'Todos', value: ""},
+        {titulo:'Utentes', value: "Utente"},
+        {titulo:'Secretários', value: "Secretário"},
+        {titulo:'Administradores', value: "Administrador"}
+      ],
       levels : ['Utente','Secretário','Administrador'],
       name:"",
       email:"",
@@ -172,7 +178,6 @@ export default {
       this.dialog2 = false
     },
     filtro() {
-      console.log(this.listaFiltrada)
       this.listaFiltrada = this.listaInicial
       this.listaInicial.forEach(item => {
         if (this.name!="") {
