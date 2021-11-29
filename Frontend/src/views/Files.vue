@@ -211,7 +211,7 @@
         testNivel: function () {
           if(this.token) {
             this.nivel = jwt.decode(this.token).nivel
-            if(this.nivel=='admin'||this.nivel=='medico')
+            if(this.nivel=='Administrador'||this.nivel=='Secretário')
               return true
           }
           return false

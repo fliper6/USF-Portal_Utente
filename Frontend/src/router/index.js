@@ -61,7 +61,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
   },
   {
-    path: '/utilizador/:id',
+    path: '/perfil',
     name: 'Perfil',
     component: () => import(/* webpackChunkName: "about" */ '../views/Perfil.vue')
   },
@@ -103,7 +103,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let adminRoutes = []
+  let adminRoutes = ['EditarPrivilegiosUtilizador']
   let medicoRoutes = ['Criar Notícia','Editar Noticia']
   let userRoutes = []
   let nivel = ''
@@ -111,11 +111,11 @@ router.beforeEach((to, from, next) => {
     nivel = jwt.decode(localStorage.getItem('jwt')).nivel
   }
 
-  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'admin') next({ name: 'Forbidden' })
+  if (adminRoutes.indexOf(to.name) != -1 && nivel != 'Administrador') next({ name: 'Forbidden' })
 
-  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico')) next({ name: 'Forbidden' })
+  else if (medicoRoutes.indexOf(to.name) != -1 && (nivel != 'Administrador' && nivel != 'Secretário')) next({ name: 'Forbidden' })
 
-  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'admin' && nivel != 'medico' && nivel != 'user')) next({ name: 'Forbidden' })
+  else if (userRoutes.indexOf(to.name) != -1 && (nivel != 'Administrador' && nivel != 'Secretário' && nivel != 'Utente')) next({ name: 'Forbidden' })
 
   else next()
 })
