@@ -9,6 +9,7 @@ module.exports.listar = () => {
 module.exports.listarPorUser = id => {
     return Medicacao
         .find({user: id})
+        .sort({"data_criacao":-1})
         .exec()
 }
 

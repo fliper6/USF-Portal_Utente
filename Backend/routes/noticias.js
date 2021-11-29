@@ -91,10 +91,13 @@ router.post('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('f
 
     Noticia.consultar(req.params.id)
         .then(dados => {
+            req.body.ficheiros = JSON.parse(req.body.ficheiros)
+            if (!Array.isArray(req.body.ficheiros)) req.body.ficheiros = [req.body.ficheiros]
+
             let nomes_ficheiros_body = req.body.ficheiros.map(x => x.nome_ficheiro)
             let eliminados = dados.ficheiros.filter(x => !nomes_ficheiros_body.includes(x.nome_ficheiro))
  
-            eliminados.map(x => fs.unlink((__dirname + "public/" + x.diretoria).replace("routes","").replace(/\\/g, "/"), err => {
+            eliminados.map(x => fs.unlink((__dirname + x.diretoria).replace("routes","").replace(/\\/g, "/"), err => {
                 if (err) console.log(`Ocorreu um erro ao remover o ficheiro ${x.diretoria.split("noticias/")[1]} da pasta de recursos públicos.`)
             }))
             

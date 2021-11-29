@@ -56,13 +56,10 @@ export default {
       this.noticia.corpo = content
       let formData = new FormData();
       for (const key of Object.keys(this.noticia)) {
+        console.log(key,'=>',this.noticia[key])
         if(Array.isArray(this.noticia[key])){
-          this.noticia[key].forEach(elem => {
-            console.log(key,'=>',elem)
-            formData.append(key, JSON.stringify(elem))
-          });
+          formData.append(key, JSON.stringify(this.noticia[key]))
         } else {
-          console.log(key,'=>',this.noticia[key])
           formData.append(key, this.noticia[key])
         }
       }
@@ -78,8 +75,8 @@ export default {
               'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
         }
-      ).then(({data}) => {
-        console.log(data);
+      ).then(() => {
+        this.$router.push('/')
 
       }).catch(err => { console.log(err) });
     },

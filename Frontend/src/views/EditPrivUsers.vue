@@ -1,5 +1,5 @@
 <template>
-    <div v-if="this.nivel=='admin'" id="editprivusers">
+    <div  id="editprivusers">
         <v-container> 
             <v-row no-gutters>
 
@@ -105,14 +105,12 @@
         </v-container>
     </div>
 
-    <div v-else>
-      <Erro/>
-    </div>
+
 </template>
 
 <script>
 import axios from 'axios';
-import Erro from '@/views/Error.vue';
+
 import jwt from 'jsonwebtoken'
 
 export default {
@@ -123,7 +121,7 @@ export default {
       nivel:"",
       listaInicial : [],
       listaFiltrada : [],
-      levels : ['utente','medico','admin'],
+      levels : ['Utente','Secretário','Administrador'],
       name:"",
       email:"",
       nivelFiltro:"",
@@ -195,13 +193,10 @@ export default {
       });
     } 
   },
-  components: {
-    Erro
-  },
   created() {
     if (this.token) {
       this.nivel = jwt.decode(this.token).nivel
-      axios.get("http://localhost:3333/users/listarUsers", {headers: {'Authorization': `Bearer ${this.token}`}})
+      axios.get("http://localhost:3333/users/listar", {headers: {'Authorization': `Bearer ${this.token}`}})
         .then( res => {
           this.listaInicial = res.data
           this.listaFiltrada = res.data

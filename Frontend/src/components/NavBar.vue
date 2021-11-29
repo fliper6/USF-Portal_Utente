@@ -32,10 +32,10 @@
         <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
-      <router-link to="/files" class="titulo">
+      <router-link to="/documentos" class="titulo">
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/files')">
-            <b :style="this.path=='/files'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
+        <span v-on:click="changePath('/documentos')">
+            <b :style="this.path=='/documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
         </span>
         </div>
       </router-link>
@@ -66,7 +66,7 @@
 
       <v-spacer></v-spacer>
 
-      <div class="d-flex align-center" v-if="this.nivel=='admin'||this.nivel=='medico'">
+      <div class="d-flex align-center" v-if="this.nivel=='Administrador'||this.nivel=='Secretário'">
 
         <div class="dropdown" :style="this.path.split('/')[1]=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
           <DropGestao @clicked="changePath" :path="this.path.split('/')[1]"></DropGestao>
@@ -77,7 +77,7 @@
         </div>
       </div>
 
-      <div class="d-flex align-center" v-if="this.nivel=='admin'">
+      <div class="d-flex align-center" v-if="this.nivel=='Administrador'">
         
         <router-link to="/utilizadores/privilegios" class="titulo">
           <div class="d-flex align-center">
@@ -92,12 +92,14 @@
         </div>
       </div>
       
-      <div class="d-flex align-center" style="margin-right:10px">
-        <b style="color: var(--grey3-color)"> {{nome.split(' ')[0]}} </b>
-      </div>
+      <router-link to="/perfil" style="text-decoration: none;">
+        <div v-on:click="changePath('/perfil')" class="d-flex align-center" style="margin-right:10px; ">
+          <b :style="this.path=='/perfil'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'"> {{nome.split(' ')[0]}} </b>
+        </div>
+      </router-link>
 
       <div v-if="this.token" class="dropdown">
-          <Dropdown @clicked="changePath" :path="this.path.split('/')[1]"></Dropdown>
+          <Dropdown @clicked="changePath" :path="this.path"></Dropdown>
       </div>
       <div v-else>
           <Login :isOpen="false" :show="true"></Login>
