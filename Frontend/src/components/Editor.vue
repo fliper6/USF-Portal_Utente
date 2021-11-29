@@ -60,7 +60,7 @@
       </button> 
     </bubble-menu>
     <editor-content :editor="editor" />
-    <v-btn class="button-cancelar" v-on:click="submit" text> Cancelar </v-btn>
+    <v-btn class="button-cancelar" v-on:click="$router.push('/')" text> Cancelar </v-btn>
     <v-btn class="button-confirmar" v-on:click="submit" text> Enviar </v-btn>
   </div>
 </template>
@@ -98,11 +98,9 @@ export default {
       this.$emit("submit", this.editor.getHTML())
     },
     newLink (event) {
-      console.log(event)
       this.editor.commands.insertContent('<a href="//' + event.link + '">' + event.text + '</a>')
     },
     setLink (event) {
-      console.log(event)
       this.editor
         .chain()
         .focus()

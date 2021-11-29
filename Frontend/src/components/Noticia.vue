@@ -65,7 +65,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$props.noticia)
     let created = new Date(this.$props.noticia.data_criacao)
     this.tempo = this.$props.timeAgo.format(created)
   },
@@ -82,7 +81,6 @@ export default {
       }).catch(err => { console.log(err) });
     },
     downloadFile (file) {
-      console.log(file)
       axios.get('http://localhost:3333/noticias/download',
         {
           headers: {
