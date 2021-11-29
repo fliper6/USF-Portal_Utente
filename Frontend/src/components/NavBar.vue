@@ -7,7 +7,6 @@
       <router-link to="/">
         <div class="d-flex align-center">
         <v-img
-          v-on:click="changePath('/')"
           class="shrink mr-2"
           contain
           src="@/assets/logo.png"
@@ -22,9 +21,7 @@
  
       <router-link to="/" class="titulo" >
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/')">
-            <b :style="this.path=='/'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
-        </span>
+            <b :style="this.path==''? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
         </div>
       </router-link>
 
@@ -34,9 +31,7 @@
 
       <router-link to="/documentos" class="titulo">
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/documentos')">
-            <b :style="this.path=='/documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
-        </span>
+            <b :style="this.path=='documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
         </div>
       </router-link>
 
@@ -46,9 +41,7 @@
 
       <router-link to="/contactos" class="titulo">
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/contactos')">
-            <b :style="this.path=='/contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
-        </span>
+            <b :style="this.path=='contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
         </div>
       </router-link>
       
@@ -58,8 +51,8 @@
         <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
-        <div class="dropdown" :style="this.path.split('/')[1]=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
-          <DropBalcao @clicked="changePath" :path="this.path.split('/')[1]"></DropBalcao>
+        <div class="dropdown" :style="this.path=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+          <DropBalcao :path="this.path"></DropBalcao>
         </div>
 
       </div>
@@ -68,8 +61,8 @@
 
       <div class="d-flex align-center" v-if="this.nivel=='Administrador'||this.nivel=='Secretário'">
 
-        <div class="dropdown" :style="this.path.split('/')[1]=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
-          <DropGestao @clicked="changePath" :path="this.path.split('/')[1]"></DropGestao>
+        <div class="dropdown" :style="this.path=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+          <DropGestao :path="this.path"></DropGestao>
         </div>  
 
         <div style="height:40px; margin: 0px 15px;">
@@ -81,9 +74,7 @@
         
         <router-link to="/utilizadores/privilegios" class="titulo">
           <div class="d-flex align-center">
-          <span v-on:click="changePath('/utilizadores/privilegios')">
-              <b :style="this.path=='/utilizadores/privilegios'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
-          </span>
+              <b :style="this.path=='utilizadores'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
           </div>
         </router-link>
 
@@ -93,13 +84,13 @@
       </div>
       
       <router-link to="/perfil" style="text-decoration: none;">
-        <div v-on:click="changePath('/perfil')" class="d-flex align-center" style="margin-right:10px; ">
-          <b :style="this.path=='/perfil'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'"> {{nome.split(' ')[0]}} </b>
+        <div class="d-flex align-center" style="margin-right:10px; ">
+          <b :style="this.path=='perfil'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'"> {{nome.split(' ')[0]}} </b>
         </div>
       </router-link>
 
       <div v-if="this.token" class="dropdown">
-          <Dropdown @clicked="changePath" :path="this.path"></Dropdown>
+          <Dropdown :path="this.path"></Dropdown>
       </div>
       <div v-else>
           <Login :isOpen="false" :show="true"></Login>
@@ -129,7 +120,7 @@ export default {
       token: localStorage.getItem('jwt'),
       nivel: "",
       nome: "",
-      path: window.location.pathname
+      path: window.location.pathname.split('/')[1]
     }
   },
   components: {
@@ -138,9 +129,9 @@ export default {
     DropBalcao,
     DropGestao
   },
-  methods: {
-    changePath(newPath) {
-      this.path = newPath
+  watch: {
+    $route() {
+      this.path = window.location.pathname.split('/')[1]
     }
   },
   created(){
