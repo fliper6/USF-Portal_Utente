@@ -1,8 +1,8 @@
 </<template>
     <div class="pedidoC">
-        <v-card flat color="var(--grey1-color)">
+        <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
-                <h1>Pedidos de Consulta</h1>
+                <h1 style="color:var(--primary-color)">Pedidos de Consulta</h1>
           </v-container>
           <v-container>
                 <v-divider/>
@@ -16,15 +16,14 @@
         </v-row>
         <div class="text-subtitle-2" v-if="!item.nr_utente_pedido">Número de utente : {{item.nr_utente_titular}}</div>
         <div class="text-subtitle-2" v-else>Número de utente : {{item.nr_utente_pedido}}</div>
-        <div class="text-caption">Tipo : {{item.tipo}}</div>
+        <div class="text-subtitle-2">Tipo : {{item.tipo}}</div>
         <v-row>
           <v-col v-if="!cons">
             {{item.medico}}
           </v-col>
           <v-col class="text-right">
-            <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
-            <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
-            <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
+            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
           </v-col>
         </v-row>
         <v-row v-if="consulta.length > 1 && index < consulta.length - 1">

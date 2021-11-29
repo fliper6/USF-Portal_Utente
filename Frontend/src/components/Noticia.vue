@@ -65,7 +65,6 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$props.noticia)
     let created = new Date(this.$props.noticia.data_criacao)
     this.tempo = this.$props.timeAgo.format(created)
   },
@@ -82,7 +81,6 @@ export default {
       }).catch(err => { console.log(err) });
     },
     downloadFile (file) {
-      console.log(file)
       axios.get('http://localhost:3333/noticias/download',
         {
           headers: {
@@ -107,7 +105,7 @@ export default {
     testNivel () {
       if(this.token) {
         this.nivel = jwt.decode(this.token).nivel
-        if(this.nivel=='admin'||this.nivel=='medico')
+        if(this.nivel=='Administrador'||this.nivel=='Secretário')
           return true
       }
       return false

@@ -2,7 +2,7 @@
     <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <div class="d-flex align-center titulo" v-bind="attrs" v-on="on">
-            <b>Gestão de Pedidos</b>
+            <b>Gestão</b>
             <v-icon size="16" :color="path=='gestao'? '#800000' : '#595959'">mdi-arrow-down</v-icon>
           </div>
         </template>
@@ -10,23 +10,17 @@
         <v-list style="padding:0">
           <router-link class="opcao" :to="'/gestao/medicacao'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/gestao')">
-                    <b>Pedidos de medicação</b>
-                </span>
+              <b>Pedidos de medicação</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/gestao/consulta'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/gestao')">
-                    <b>Pedidos de consulta</b>
-                </span>
+              <b>Pedidos de consulta</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/gestao/sugestao'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/gestao')">
-                    <b>Sugestões</b>
-                </span>
+              <b>Sugestões</b>
             </v-list-item>
         </router-link>
         </v-list>
@@ -41,12 +35,7 @@
         }),
         props: {
           path: String
-        },
-        methods: {
-          changePath (pathname) {
-            this.$emit('clicked', pathname)
-          }
-        },         
+        }        
     }
 </script>
 

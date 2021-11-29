@@ -11,7 +11,7 @@
                 plain
                 elevation="0"
                 v-on="on"
-                >Login</v-btn>
+                >Iniciar Sessão</v-btn>
             </template>
             
             <v-tabs v-model="tab" show-arrows color="var(--grey3-color)" background-color="var(--white)" icons-and-text light grow>
@@ -61,7 +61,7 @@
                             class="button-principal" 
                             elevation="1" 
                             v-on:click="login()" 
-                            >Login</v-btn>
+                            >Iniciar Sessão</v-btn>
                         </v-card-actions>
 
                     </v-card>
@@ -245,7 +245,7 @@ import axios from 'axios'
                 //TABS
                 tab: 0,
                 tabs: [
-                    {name:"Login", icon:"mdi-account"},
+                    {name:"Iniciar Sessão", icon:"mdi-account"},
                     {name:"Registar", icon:"mdi-account-outline"}
                 ],
                 

@@ -211,7 +211,7 @@
         testNivel: function () {
           if(this.token) {
             this.nivel = jwt.decode(this.token).nivel
-            if(this.nivel=='admin'||this.nivel=='medico')
+            if(this.nivel=='Administrador'||this.nivel=='Secretário')
               return true
           }
           return false
@@ -259,7 +259,8 @@
                   axios.get("http://localhost:3333/documentos")
                     .then(data => {
                       this.docs = data.data
-                      this.docs.forEach(item => {
+                      this.docs.forEach(item => {              
+                        item.titulo = item.titulo + "##" + item._id
                         item.data_publicacao = item.data_publicacao.slice(0,10)
                         item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
                       })

@@ -1,0 +1,41 @@
+[{
+  "_id": {
+    "$oid": "61a4c5435593572ed557d6b5"
+  },
+  "user": {
+    "$oid": "61a4c4c65593572ed557d6a6"
+  },
+  "nr_utente_titular": 234743283,
+  "nr_utente_pedido": null,
+  "nome": "Pedro Dias Parente",
+  "medicacao": "Brufen",
+  "medico": "Licínio Alves da Cunha",
+  "contacto": {
+    "tipo": 0,
+    "valor": "pdparente@gmail.com"
+  },
+  "data_criacao": {
+    "$date": "2021-11-29T12:19:15.215Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a4c8565593572ed557d725"
+  },
+  "user": {
+    "$oid": "61a40cd5d0586f00f0d059d3"
+  },
+  "nr_utente_titular": 234543889,
+  "nr_utente_pedido": null,
+  "nome": "Joaquim Ribeiro Ribas",
+  "medicacao": "Biafine",
+  "medico": "Sílvia Matos Torres",
+  "contacto": {
+    "tipo": 1,
+    "valor": "963345428"
+  },
+  "data_criacao": {
+    "$date": "2021-11-29T12:32:22.998Z"
+  },
+  "__v": 0
+}]
