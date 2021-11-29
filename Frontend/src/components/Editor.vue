@@ -98,11 +98,9 @@ export default {
       this.$emit("submit", this.editor.getHTML())
     },
     newLink (event) {
-      console.log(event)
       this.editor.commands.insertContent('<a href="//' + event.link + '">' + event.text + '</a>')
     },
     setLink (event) {
-      console.log(event)
       this.editor
         .chain()
         .focus()
