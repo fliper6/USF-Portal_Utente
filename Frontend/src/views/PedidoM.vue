@@ -1,8 +1,8 @@
 <template>
     <div class="pedidoM">
-        <v-card flat color="var(--grey1-color)">
+        <v-card flat color="var(--grey1-color)" style="font-size:120%;">
             <v-container>
-                <h1>Pedidos de Medicação</h1>
+                <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
             </v-container>
             <v-container>
                 <v-divider/>
@@ -10,8 +10,14 @@
             <div v-if="this.medicacao.length > 0">
               <v-container v-for="(item,index) in medicacao" v-bind:key="item.id">
               <v-row>
-                <v-col><h3>{{item.data_criacao.split('T')[0]}}</h3></v-col>
+                <v-col>
+                  <h3>{{item.nome}}</h3>
+                </v-col>
               </v-row>
+              <div class="text-subtitle-2" v-if="!item.nr_utente_pedido">Número de utente : {{item.nr_utente_titular}}</div>
+              <div class="text-subtitle-2" v-else>Número de utente : {{item.nr_utente_pedido}}</div>
+              <div class="text-subtitle-2">{{item.medico}}</div>
+              <div class="text-caption">{{item.data_criacao.split('T')[0]}}</div>
               <v-row>
                 <v-col>
                   {{item.medicacao}}
