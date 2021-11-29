@@ -172,8 +172,8 @@ export default {
 .editor img {
   display: block;
   margin: 10px auto;
-  max-width: 400px;
-  max-height: 300px;
+  max-width: 50vw;
+  max-height: 60vh;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 

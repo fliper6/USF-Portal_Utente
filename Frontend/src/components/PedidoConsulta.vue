@@ -110,9 +110,10 @@ export default {
         window.location.pathname = '/'
         alert("A sua sessão foi expirada!")
       })
+      
     axios({
       method: 'get',
-      url: "http://localhost:3333/users/listarMedicos",
+      url: "http://localhost:3333/medicos",
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('jwt')
       }, 

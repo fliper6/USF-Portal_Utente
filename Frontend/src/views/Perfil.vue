@@ -75,7 +75,7 @@
       </v-row>
       
     </v-container>
-    <v-container v-if="this.nivel=== 'utente'">
+    <v-container v-if="this.nivel=== 'Utente'">
       <v-card flat color="var(--grey1-color)">
         <v-card-actions>
           <v-row>
