@@ -7,7 +7,8 @@
         "user":{
             "$oid":"619a765060cabfb2df8dfc27"
         },
-        "estado":2
+        "estado":2,
+        "data_criacao":"2021-11-21T16:39:44.785+00:00"
     },
     {
         "nr_utente_titular":"987654321",
@@ -17,7 +18,8 @@
         "user":{
             "$oid":"619a765060cabfb2df8dfc27"
         },
-        "estado":1
+        "estado":1,
+        "data_criacao":"2021-11-21T16:39:44.785+00:00"
 
     }
 ]

@@ -23,8 +23,9 @@
                   {{item.medicacao}}
                 </v-col>
                 <v-col class="text-right">
-                  <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
-                </v-col>
+                <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
+                <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
+              </v-col>
               </v-row>
               <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
                 <v-col><v-divider>
