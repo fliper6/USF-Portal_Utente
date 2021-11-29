@@ -1,0 +1,23 @@
+[
+    {
+        "nr_utente_titular":"123456789",
+        "nome":"João Silva",
+        "medico":"Dr. José Santos",
+        "tipo":"Agendar consulta médica",
+        "user":{
+            "$oid":"619a765060cabfb2df8dfc27"
+        },
+        "estado":2
+    },
+    {
+        "nr_utente_titular":"987654321",
+        "nome":"Joana Santos",
+        "medico":"Dr. José Santos",
+        "tipo":"Agendar consulta médica",
+        "user":{
+            "$oid":"619a765060cabfb2df8dfc27"
+        },
+        "estado":1
+
+    }
+]

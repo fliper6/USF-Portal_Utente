@@ -15,10 +15,10 @@
             <h1>{{this.nome}}</h1>
           </v-row>
           <v-row>
-            <h3>Número SNS:<span class="infos">{{this.num}}</span></h3>
+            <h3>Número SNS : <span class="infos">{{this.num}}</span></h3>
           </v-row>
           <v-row>
-            <h3>Email:<span class="infos">{{this.email}}</span></h3>
+            <h3>Email : <span class="infos">{{this.email}}</span></h3>
           </v-row>
         </v-col>
         <v-col>
