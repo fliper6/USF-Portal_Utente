@@ -24,6 +24,13 @@ router.get('/categorias', (req,res) => {
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
+// Obter categoria de documentos por id
+router.get('/categorias/:id', (req,res) => {
+    Categoria.listar()
+        .then(dados => res.status(200).jsonp(JWTUtils.getCategoriaByID(categorias, req.params.id)))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
+})
+
 // Fazer download de um documento
 router.get('/download/:id', (req,res) => {
     Documento.consultar(req.params.id)

@@ -72,6 +72,20 @@ module.exports.getIDsCategorias = arr => {
     return ids
 }
 
+module.exports.getCategoriaByID = (arr, id) => {
+    let aux = arr => {
+        arr.forEach(c => {
+            if (c.id == id) label = c.label
+            else if ("children" in c) aux(c.children)
+            return
+        })
+    }
+
+    let label
+    aux(arr, id)
+    return label
+}
+
 module.exports.criarIdCategoria = (nova_categoria, ids) => {
     let novo_id = nova_categoria.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/ /g,"_")
     if (!ids.includes(novo_id)) return novo_id
