@@ -44,10 +44,10 @@
         <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
       </div>
 
-      <router-link to="/about" class="titulo">
+      <router-link to="/contactos" class="titulo">
         <div class="d-flex align-center">
-        <span v-on:click="changePath('/about')">
-            <b :style="this.path=='/about'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
+        <span v-on:click="changePath('/contactos')">
+            <b :style="this.path=='/contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
         </span>
         </div>
       </router-link>
