@@ -13,7 +13,7 @@
           </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="edita" style="background-color:var(--secondary-color)">
+          <v-btn depressed @click="edita" style="background-color:var(--secondary-color)">
           Editar
           </v-btn>
         </v-card-actions>

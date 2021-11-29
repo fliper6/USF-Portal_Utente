@@ -1,34 +1,41 @@
-[
-    {
-        "_id":{"$oid":"619b7ca0bd4e404ea048204f"},
-        "nr_utente_titular":123456789,
-        "nome":"João Silva",
-        "medicacao":"Benuron",
-        "medico":"Dr. José Santos",
-        "contacto":{
-            "tipo":1,
-            "valor":"919876543"
-        },
-        "user":{
-            "$oid":"619a765060cabfb2df8dfc27"
-        },
-        "data_criacao":"2021-11-21T16:39:44.785+00:00"
-
-    },
-    {
-        "_id":{"$oid":"619b7ca0bd4e404ea048204f"},
-        "nr_utente_titular":987654321,
-        "nome":"Joana Santos",
-        "medicacao":"Benuron",
-        "medico":"Dr. José Santos",
-        "contacto":{
-            "tipo":1,
-            "valor":"910123456"
-        },
-        "user":{
-            "$oid":"619a765060cabfb2df8dfc27"
-        },
-        "data_criacao":"2021-11-21T16:39:44.785+00:00"
-
-    }
-]
+[{
+  "_id": {
+    "$oid": "61a4c5435593572ed557d6b5"
+  },
+  "user": {
+    "$oid": "61a4c4c65593572ed557d6a6"
+  },
+  "nr_utente_titular": 234743283,
+  "nr_utente_pedido": null,
+  "nome": "Pedro Dias Parente",
+  "medicacao": "Brufen",
+  "medico": "Licínio Alves da Cunha",
+  "contacto": {
+    "tipo": 0,
+    "valor": "pdparente@gmail.com"
+  },
+  "data_criacao": {
+    "$date": "2021-11-29T12:19:15.215Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a4c8565593572ed557d725"
+  },
+  "user": {
+    "$oid": "61a40cd5d0586f00f0d059d3"
+  },
+  "nr_utente_titular": 234543889,
+  "nr_utente_pedido": null,
+  "nome": "Joaquim Ribeiro Ribas",
+  "medicacao": "Biafine",
+  "medico": "Sílvia Matos Torres",
+  "contacto": {
+    "tipo": 1,
+    "valor": "963345428"
+  },
+  "data_criacao": {
+    "$date": "2021-11-29T12:32:22.998Z"
+  },
+  "__v": 0
+}]
