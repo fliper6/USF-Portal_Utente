@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 
     export default {
         name: "dropdown",
@@ -35,7 +36,15 @@
         },
         methods: {
             handleLogout() {
-                localStorage.clear();
+              this.tokenBlacklist(this.token)
+              localStorage.clear(); 
+            },
+            tokenBlacklist(token) {
+              axios.post("http://localhost:3333/users/logout", token, {headers: {'Authorization': `Bearer ${token}`}})
+                  .then(() => {
+                  })
+                  .catch(() => {
+                  })
             }
         },         
     }
