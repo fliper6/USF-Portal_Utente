@@ -12,7 +12,7 @@ const SECRET = JWTUtils.SECRET
 
 // Obter lista de utilizadores
 router.get('/listar', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
-  User.listar()
+  User.listarExcetoProprio(req.user._id)
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(403).jsonp({error: "Ocorreu um erro na listagem de utilizadores."}))
 })
