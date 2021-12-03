@@ -53,7 +53,6 @@ export default {
     },
     upFile(file) {
       this.files.push(file)
-      console.log(this.files)
     },
     deleteFile(file) {
       let id = this.files.indexOf(file)

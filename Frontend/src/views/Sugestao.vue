@@ -1,8 +1,8 @@
 </<template>
     <div class="pedidoC">
-        <v-card flat color="var(--grey1-color)">
+        <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
-                <h1>Sugestões</h1>
+                <h1 style="color:var(--primary-color)">Sugestões</h1>
           </v-container>
           <v-container>
                 <v-divider/>

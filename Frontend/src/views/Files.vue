@@ -259,7 +259,8 @@
                   axios.get("http://localhost:3333/documentos")
                     .then(data => {
                       this.docs = data.data
-                      this.docs.forEach(item => {
+                      this.docs.forEach(item => {              
+                        item.titulo = item.titulo + "##" + item._id
                         item.data_publicacao = item.data_publicacao.slice(0,10)
                         item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
                       })

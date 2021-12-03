@@ -2,81 +2,58 @@
 <template>
   <div class="perfil">
     <v-container v-if="!this.editar">
-      <v-row>
-        <v-col offset =2 cols=2>
-          <v-avatar size=120>
-            <v-icon dark size=120 color="var(--grey3-color)">
-              mdi-account-circle-outline
-            </v-icon>
-          </v-avatar>
-        </v-col>
-        <v-col>
-          <v-row>
+      <v-card flat color="var(--grey1-color)">
+          <v-card-title>
             <h1>{{this.nome}}</h1>
-          </v-row>
-          <v-row>
+          </v-card-title>
+          <v-subtitle></v-subtitle>
+          <v-card-text class="texto_perfil">
             <h3>Número SNS : <span class="infos">{{this.num}}</span></h3>
-          </v-row>
-          <v-row>
-            <h3>Email : <span class="infos">{{this.email}}</span></h3>
-          </v-row>
-        </v-col>
-        <v-col>
-          <v-btn icon @click="edita"><v-icon dark>
-          mdi-pencil
-        </v-icon></v-btn>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-divider/>
-      </v-row>
-      
+            <h3 style="margin:10px 0 0 0">Email : <span class="infos">{{this.email}}</span></h3>
+          </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn depressed @click="edita" style="background-color:var(--secondary-color)">
+          Editar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
     </v-container>
     <v-container v-else>
-      <v-row>
-        <v-col offset =2 cols=2>
-          <v-avatar size=120>
-            <v-icon dark size=120 color="var(--grey3-color)">
-              mdi-account-circle-outline
-            </v-icon>
-          </v-avatar>
-        </v-col>
-        <v-col>
-          <v-row>
+      <v-card flat color="var(--grey1-color)">
+        <v-row>
+        <v-col offset=1 cols=10>
             <v-text-field
             v-model="nome"
             label="Nome"
             required
+            class="texto_perfil"
           ></v-text-field>
-          </v-row>
-          <v-row>
             <v-text-field
             v-model="num"
             label="Número SNS"
             required
+            class="texto_perfil"
             ></v-text-field>
-          </v-row>
-          <v-row>
             <v-text-field
             v-model="email"
             label="E-Mail"
             required
+            class="texto_perfil"
           ></v-text-field>
-          </v-row>
-        </v-col>
-        <v-col>
-          <v-btn icon @click="save"><v-icon dark>
-          mdi-content-save
-        </v-icon></v-btn>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn @click="save" style="background-color:var(--secondary-color)">
+          Guardar
+          </v-btn>
+          </v-card-actions>
         </v-col>
       </v-row>
-      <v-row>
-        <v-divider/>
-      </v-row>
-      
+      </v-card>
     </v-container>
+    
     <v-container v-if="this.nivel=== 'Utente'">
-      <v-card flat color="var(--grey1-color)">
+      <v-card flat color="var(--grey1-color)" style="font-size:120%;">
         <v-card-actions>
           <v-row>
             <v-col>
@@ -121,8 +98,9 @@
             <h3 v-if="!sug">{{item.titulo}}</h3>
           </v-col>
         </v-row>
+        <div class="text-subtitle-2" v-if="!med">{{item.medico}}</div>
         <div class="text-caption" v-if="!sug">{{item.data_criacao.split('T')[0]}}</div>
-        <div class="text-caption" v-if="!cons">Tipo : {{item.tipo}}</div>
+        <div class="text-subtitle-2" v-if="!cons">Tipo : {{item.tipo}}</div>
         <v-row>
           <v-col v-if="!med">
             {{item.medicacao}}
@@ -279,5 +257,9 @@ import axios from 'axios'
 
 .divider {
   margin-top: 100px;
+}
+
+.texto_perfil {
+  font-size: 18px;
 }
 </style>

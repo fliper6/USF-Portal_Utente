@@ -10,23 +10,17 @@
         <v-list style="padding:0">
           <router-link class="opcao" :to="'/balcao/medicacao'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/balcao')">
-                    <b>Pedido de medicação</b>
-                </span>
+              <b>Pedido de medicação</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/balcao/consulta'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/balcao')">
-                    <b>Pedido de consulta</b>
-                </span>
+              <b>Pedido de consulta</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/balcao/sugestao'">
             <v-list-item class="opcao">
-                <span v-on:click="changePath('/balcao')">
-                    <b>Sugestão</b>
-                </span>
+              <b>Sugestão</b>
             </v-list-item>
           </router-link>
         </v-list>
@@ -41,12 +35,7 @@
         }),
         props: {
           path: String
-        },
-        methods: {
-          changePath (pathname) {
-            this.$emit('clicked', pathname)
-          }
-        },         
+        }       
     }
 </script>
 

@@ -69,7 +69,7 @@ export default {
                 }
               }
             ).then(({data}) => {
-              console.log(data.url);
+
               this.url = "http://localhost:3333/" + data.url
               this.addImage()
 

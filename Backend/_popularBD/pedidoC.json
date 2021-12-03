@@ -1,23 +1,69 @@
-[
-    {
-        "nr_utente_titular":"123456789",
-        "nome":"João Silva",
-        "medico":"Dr. José Santos",
-        "tipo":"Agendar consulta médica",
-        "user":{
-            "$oid":"619a765060cabfb2df8dfc27"
-        },
-        "estado":2
-    },
-    {
-        "nr_utente_titular":"987654321",
-        "nome":"Joana Santos",
-        "medico":"Dr. José Santos",
-        "tipo":"Agendar consulta médica",
-        "user":{
-            "$oid":"619a765060cabfb2df8dfc27"
-        },
-        "estado":1
-
-    }
-]
+[{
+  "_id": {
+    "$oid": "61a4c5715593572ed557d6bc"
+  },
+  "nr_utente_titular": 234743283,
+  "user": {
+    "$oid": "61a4c4c65593572ed557d6a6"
+  },
+  "nr_utente_pedido": null,
+  "nome": "Pedro Dias Parente",
+  "tipo": "Agendar consulta médica",
+  "medico": "Celso Dias da Silva Pimentel",
+  "estado": 0,
+  "data_criacao": {
+    "$date": "2021-11-29T12:20:01.945Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a4c5885593572ed557d6c1"
+  },
+  "nr_utente_titular": 234743283,
+  "user": {
+    "$oid": "61a4c4c65593572ed557d6a6"
+  },
+  "nr_utente_pedido": null,
+  "nome": "Pedro Dias Parente",
+  "tipo": "Desmarcar consulta (médica ou de enfermagem)",
+  "medico": "João Amaro Coragem Costa",
+  "estado": 0,
+  "data_criacao": {
+    "$date": "2021-11-29T12:20:24.076Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a4c7c35593572ed557d71a"
+  },
+  "nr_utente_titular": 222222222,
+  "user": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nr_utente_pedido": null,
+  "nome": "Admin",
+  "tipo": "Confirmar dia e hora da consulta (médica ou de enfermagem)",
+  "medico": "Afonso F. Parente",
+  "estado": 0,
+  "data_criacao": {
+    "$date": "2021-11-29T12:29:55.520Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61a4c8615593572ed557d72a"
+  },
+  "nr_utente_titular": 234543889,
+  "user": {
+    "$oid": "61a40cd5d0586f00f0d059d3"
+  },
+  "nr_utente_pedido": null,
+  "nome": "Joaquim Ribeiro Ribas",
+  "tipo": "Agendar consulta médica",
+  "medico": "António Guerra",
+  "estado": 0,
+  "data_criacao": {
+    "$date": "2021-11-29T12:32:33.368Z"
+  },
+  "__v": 0
+}]

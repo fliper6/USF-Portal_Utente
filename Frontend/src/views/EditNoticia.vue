@@ -56,7 +56,6 @@ export default {
       this.noticia.corpo = content
       let formData = new FormData();
       for (const key of Object.keys(this.noticia)) {
-        console.log(key,'=>',this.noticia[key])
         if(Array.isArray(this.noticia[key])){
           formData.append(key, JSON.stringify(this.noticia[key]))
         } else {
@@ -82,7 +81,7 @@ export default {
     },
     upFile(file) {
       this.files.push(file)
-      console.log(this.files)
+
     },
     deleteExistingFile(file) {
       let id = this.noticia.ficheiros.indexOf(file)

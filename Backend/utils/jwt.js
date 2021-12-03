@@ -1,18 +1,29 @@
 const SECRET = 'PI_2021_SECRET_!_HASH'
+const EXPIRES_IN = '4h'
 
 const jwt = require("jsonwebtoken");
+const Blocklist = require('../controllers/blocklist')
 
 module.exports.validate = (req, res, next) => {
     if(req.headers['authorization'] && req.headers['authorization'].match(/^Bearer\s+/)){
         let token = req.headers['authorization'].replace(/^Bearer\s+/, "");
-        jwt.verify(token, SECRET, (err, user) => {
-            if (err) {
-                res.status(403).jsonp({erro: "Token expirado ou inválido."})
-                return;
-            }
-            req.user = user;
-            next();
-        });
+
+        Blocklist.consultar(token)
+            .then(dados => {
+                if(dados) res.status(403).jsonp({erro: "Token expirado devido a logout."})
+                else {
+                    jwt.verify(token, SECRET, (err, user) => {
+                        if (err) {
+                            res.status(403).jsonp({erro: "Token expirado ou inválido."})
+                            return;
+                        }
+                        req.user = user;
+                        req.token = token;
+                        next();
+                        });
+                    }
+                })
+            .catch(e => res.status(404).jsonp({erro: "Erro no acesso à base de dados."}))
     }
     else{
         res.status(403).jsonp({erro: "Não foi fornecido um token válido."})
@@ -30,12 +41,12 @@ module.exports.compareId = (req,res,next) => {
 }
 
 module.exports.isMedico = (req,res,next) => {
-    if (req.user.nivel === "Secretário" || req.user.nivel === "admin") next()
+    if (req.user.nivel === "Secretário" || req.user.nivel === "Administrador") next()
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
 module.exports.isUtente = (req,res,next) => {
-    if (req.user.nivel === "Utente" || req.user.nivel === "medico" || req.user.nivel === "admin") next()
+    if (req.user.nivel === "Utente" || req.user.nivel === "Secretário" || req.user.nivel === "Administrador") next()
     else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
 }
 
@@ -96,3 +107,5 @@ module.exports.criarIdCategoria = (nova_categoria, ids) => {
 }
 
 module.exports.SECRET = SECRET
+
+module.exports.EXPIRES_IN = EXPIRES_IN
