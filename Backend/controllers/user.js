@@ -7,6 +7,13 @@ module.exports.listar = () => {
         .exec()
 }
 
+module.exports.listarExcetoProprio = (id) => {
+    return User
+        .find({ _id: { $not: {$eq: id} }}, {password: 0, __v: 0})
+        .sort('nome')
+        .exec()
+}
+
 module.exports.listarUsers = () => {
     return User
         .find({nivel: {$not: {$eq: 'admin'}} }, {password: 0, __v: 0})
