@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="title-area">
-      <h1 class="h1">Pedido de Consulta</h1>
+      <h1 class="h1">Pedido de Contacto</h1>
       <p class="p1">Preencha cuidadosamente o formulário.
 Este formulário não pode ser usado para consulta no próprio dia (consulta urgente).</p>
     </div>
@@ -10,8 +10,10 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
         <input type="text" class="input-text" required v-model="consulta.nome">
+        <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.nome.$invalid">Nome é um campo obrigatório.</span>
         <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
         <input type="number" class="input-text" required v-model="consulta.numUtente">
+        <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
         <p class="p2">Caso pretenda pedir uma consulta para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
         <input type="number" class="input-text" v-model="consulta.numUtentePedido">
@@ -19,25 +21,29 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <div class="select-area">
           <v-select
           :items=meds
+          @click= "removeSpanMedicos"
           v-model="consulta.medico"
           label="Médico de família"
           dense
           outlined
         ></v-select>
+        <span style="color: #ff5252; font-size: 12px; margin-top:1px" v-if="medFlag" >Médico de família é um campo obrigatório.</span>
         </div>
         <label class="label">5.O que pretende?</label>
         <div class="select-area">
           <v-select
           :items=objs
+          @click="removeSpanObj"
           v-model="consulta.objetivo"
           label="O que pretende?"
           dense
           outlined
         ></v-select>
+        <span style="color: #ff5252; font-size: 12px;" v-if="objFlag" >Campo obrigatório.</span>
         </div>
       </div>    
       <div>
-        <v-btn class="button" @click="sendPedidoCons">Submeter</v-btn>
+        <v-btn class="button" @click="verifica">Submeter</v-btn>
       </div>  
     </form>
     </div>
@@ -47,8 +53,19 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
 <script>
 import axios from 'axios'
 import jwt from 'jsonwebtoken';
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
 export default {
+  mixins: [validationMixin],
   props: ["token"],
+  validations: {
+    consulta: {
+      nome: { required },
+      numUtente: { required },
+      medico: { required },
+      objetivo: { required }
+    }
+  },
   data() {
     return {
       consulta: {
@@ -59,17 +76,33 @@ export default {
         medico: "",
         objetivo: ""
       },
+      objFlag: false,
+      medFlag: false,
       meds:[],
       objs: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
         "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"]
     }  
   },
   methods: {
-    sendPedidoCons: function(){
-      if(this.consulta.nome == "" || this.consulta.numUtente == "" || this.consulta.medico == "" || this.consulta.objetivo == ""){
-        alert("Preencha todos os campos obrigatórios.")
+    removeSpanObj: function(){
+      this.objFlag = false
+    },
+    removeSpanMedicos: function(){
+      this.medFlag = false
+    },
+    verifica: function(){
+      if(this.$v.consulta.medico.$invalid){
+        this.medFlag = true
+      }
+      if(this.$v.consulta.objetivo.$invalid){
+        this.objFlag = true
       }
       else{
+        this.sendPedidoCons()
+      }
+    },
+    sendPedidoCons: function(){
+      if(!this.$v.consulta.$invalid){
         axios({
         method: 'post',
         url: "http://localhost:3333/consultas",
