@@ -60,7 +60,9 @@
         <v-icon dense color="white" style="margin-left:3px">mdi-link-off</v-icon>
       </button> 
     </bubble-menu>
-    <editor-content :editor="editor" />
+    <div>
+      <editor-content :editor="editor" />
+    </div>
     <v-btn class="button-cancelar" v-on:click="$router.push('/')" text> Cancelar </v-btn>
     <v-btn class="button-confirmar" v-on:click="submit" text> Enviar </v-btn>
   </div>
@@ -76,6 +78,7 @@ import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import TextAlign from '@tiptap/extension-text-align'
 import StarterKit from '@tiptap/starter-kit'
+import Video from "../utils/editor-video-extension/dist/index"
 import AddLink from "./Editor/AddLink.vue"
 import SetLink from "./Editor/SetLink.vue"
 import AddImage from "./Editor/AddImage.vue"
@@ -88,7 +91,7 @@ export default {
     AddLink,
     SetLink,
     AddImage,
-    AddVideo
+    AddVideo,
   },
   props: ['conteudo'],
   data() {
@@ -121,9 +124,7 @@ export default {
       fileInputElement.click();
     },
     addVideo (event) {
-      let video = `<p >${event}</p>`
-      console.log(video)
-      this.editor.commands.insertContent(video)
+       this.editor.chain().focus().setVideo({ src: event, type:"video/mp4" }).run()
     },
     upFile(event) {
       this.$emit('new-file', event.target.files[0])
@@ -142,6 +143,7 @@ export default {
         StarterKit,
         Link,
         Image,
+        Video,
         TextAlign.configure({
           types: ['heading', 'paragraph'],
         })
