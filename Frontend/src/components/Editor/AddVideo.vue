@@ -6,32 +6,19 @@
     >
       <template v-slot:activator="{ on, attrs }">
         <button v-bind="attrs" v-on="on">
-            <v-icon>mdi-image-plus</v-icon>
+            <v-icon>mdi-video-plus</v-icon>
           </button>
       </template>
 
       <v-card>
         <v-card-title class="text-h5 grey lighten-2">
-          Nova Imagem
+          Novo Video
         </v-card-title>
         <div class="container">
           <div class="input-container">
-            <v-file-input color="#800000" label="Upload de Imagem" style="max-width:60% !important" v-on:change="onChangeFileUpload"/>
-            <v-btn @click="uploadImage">
-              <v-icon>mdi-file-image-plus</v-icon> <small>Add</small>
-            </v-btn>
-          </div>
-
-          <div class="separate">
-            <v-divider/>
-            <div style="margin: 0 15px;"> ou </div>
-            <v-divider/>
-          </div>
-          
-          <div class="input-container">
-            <v-text-field color="#800000" v-model="url" label="URL da Imagem" class="info-input" style="max-width:60% !important" required />
-            <v-btn @click="addImage()">
-              <v-icon>mdi-image-plus</v-icon> <small>Add</small>
+            <v-file-input color="#800000" label="Upload de Video" style="max-width:60% !important" v-on:change="onChangeFileUpload"/>
+            <v-btn @click="uploadVideo">
+              <v-icon>mdi-video-plus</v-icon> <small>Add</small>
             </v-btn>
           </div>
         </div>
@@ -40,9 +27,9 @@
 </template>  
 
 <script>
-import axios from 'axios'
+//import axios from 'axios'
 export default {
-  name: 'AddLink',
+  name: 'AddVideo',
   data() {
     return {
       url: "",
@@ -51,14 +38,14 @@ export default {
     }
   },
   methods: {
-    addImage() {
+    addVideo() {
       this.dialog = false
-      this.$emit("add-image", this.url)
+      this.$emit("add-video", this.url)
       this.url = ""
       this.file = null
     },
-    uploadImage() {
-      let formData = new FormData();
+    uploadVideo() {
+      /*let formData = new FormData();
             formData.append('imagem', this.file);
 
             axios.post('http://localhost:3333/noticias/imagem',
@@ -75,7 +62,9 @@ export default {
               this.addImage()
 
             })
-            .catch(err => { console.log(err) });
+            .catch(err => { console.log(err) });*/
+      this.url = "https://www.w3schools.com/html/movie.mp4"
+      this.addVideo()
     },
     onChangeFileUpload(file){
       this.file = file

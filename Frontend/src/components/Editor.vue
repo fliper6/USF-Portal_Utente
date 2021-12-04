@@ -33,6 +33,7 @@
       <button class="separator"/>
       <add-link @add-link="newLink"/>
       <add-image @add-image="addImage" />
+      <add-video @add-video="addVideo" />
       <input ref="file" type="file" @change="upFile" hidden>
       <button @click="addFile">
         <v-icon dense>mdi-paperclip</v-icon>
@@ -78,6 +79,7 @@ import StarterKit from '@tiptap/starter-kit'
 import AddLink from "./Editor/AddLink.vue"
 import SetLink from "./Editor/SetLink.vue"
 import AddImage from "./Editor/AddImage.vue"
+import AddVideo from "./Editor/AddVideo.vue"
 
 export default {
   components: {
@@ -85,7 +87,8 @@ export default {
     BubbleMenu,
     AddLink,
     SetLink,
-    AddImage
+    AddImage,
+    AddVideo
   },
   props: ['conteudo'],
   data() {
@@ -116,6 +119,11 @@ export default {
     addFile() {
       let fileInputElement = this.$refs.file;
       fileInputElement.click();
+    },
+    addVideo (event) {
+      let video = `<p >${event}</p>`
+      console.log(video)
+      this.editor.commands.insertContent(video)
     },
     upFile(event) {
       this.$emit('new-file', event.target.files[0])
