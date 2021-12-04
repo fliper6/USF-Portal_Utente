@@ -59,6 +59,18 @@
 
       <v-spacer></v-spacer>
 
+      <div class="d-flex align-center" v-if="this.token">
+        
+        <Notificacao ></Notificacao>
+
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+        </div>
+
+      </div>
+
+      
+
       <div class="d-flex align-center" v-if="this.nivel=='Administrador'||this.nivel=='Secretário'">
 
         <div class="dropdown" :style="this.path=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
@@ -110,6 +122,7 @@ import Login from '@/views/Login.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import DropBalcao from '@/components/DropBalcao.vue';
 import DropGestao from '@/components/DropGestao.vue';
+import Notificacao from '@/components/Notificacao.vue';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 
@@ -127,7 +140,8 @@ export default {
     Login,
     Dropdown,
     DropBalcao,
-    DropGestao
+    DropGestao,
+    Notificacao
   },
   watch: {
     $route() {
