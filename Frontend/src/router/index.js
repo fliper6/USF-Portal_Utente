@@ -81,6 +81,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
   },
   {
+    path: '/gestao/medicos',
+    name: 'GestaoMedicos',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestaoMedicos.vue')
+  },
+  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')

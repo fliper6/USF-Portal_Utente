@@ -15,7 +15,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <input type="number" class="input-text" required v-model="consulta.numUtente">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
-        <p class="p2">Caso pretenda pedir uma consulta para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
+        <p class="p2">Caso pretenda pedir um contacto para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
         <input type="number" class="input-text" v-model="consulta.numUtentePedido">
         <label class="label">4.Médico de Família</label>
         <div class="select-area">
@@ -193,13 +193,11 @@ export default {
   .info-area input {
     width: 100%;
   }
-
   .button{
     padding:  3px;
     background-color: var(--secondary-color) !important;
     margin-top: 10px;
   }
-
   .label{
     color: var(--grey3-color);
     display: inline-block;
@@ -216,21 +214,16 @@ export default {
     border: 1px solid #96918F;
     color: var(--grey3-color);
   }
-
   .h1 {
     color: var(--primary-color);
     font-size: 3em;
   }
-  
   .p1{
     font-size: 0.9em;
     text-align: center;
     color: var(--grey3-color);
   }
-
   .p2{
     color: var(--grey3-color);
   }
-
-
 </style>

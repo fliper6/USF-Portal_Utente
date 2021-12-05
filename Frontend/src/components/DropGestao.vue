@@ -18,11 +18,16 @@
               <b>Pedidos de consulta</b>
             </v-list-item>
           </router-link>
+          <router-link class="opcao" :to="'/gestao/medicos'">
+            <v-list-item class="opcao">
+              <b>Médicos</b>
+            </v-list-item>
+          </router-link>
           <router-link class="opcao" :to="'/gestao/sugestao'">
             <v-list-item class="opcao">
               <b>Sugestões</b>
             </v-list-item>
-        </router-link>
+          </router-link>
         </v-list>
     </v-menu>
 </template>
