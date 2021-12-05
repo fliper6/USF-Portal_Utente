@@ -112,7 +112,7 @@
             {{item.descricao}}
           </v-col>
           <v-col class="text-right" v-if="!med">
-            <v-btn depressed color="var(--grey2-color)">Cancelar Pedido</v-btn>
+            <v-btn depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
           </v-col>
           <v-col class="text-right" v-if="!cons">
             <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
@@ -244,7 +244,16 @@ import axios from 'axios'
         })
       this.editar = false
       //this.$router.go()
-    }
+    },
+    deleteEstado (id){
+        axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
+        .then(() => {
+          this.$router.go()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
   }
   
   }

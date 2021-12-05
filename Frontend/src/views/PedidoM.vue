@@ -13,6 +13,24 @@
                 <v-col>
                   <h3>{{item.nome}}</h3>
                 </v-col>
+                <v-col cols=1>
+                  <v-tooltip v-if="!item.nr_utente_pedido" left>
+                    <template v-slot:activator="{ on, attrs }">
+                    <v-btn icon @click="copy(item.nr_utente_titular,item.contacto.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                      <v-icon>mdi-content-copy</v-icon>
+                    </v-btn>
+                    </template>
+                    <span>Copiar</span>
+                  </v-tooltip>
+                  <v-tooltip v-else left>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn icon @click="copy(item.nr_utente_pedido,item.contacto.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                        <v-icon>mdi-content-copy</v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Copiar</span>
+                  </v-tooltip>
+                </v-col>
               </v-row>
               <div class="text-subtitle-2" v-if="!item.nr_utente_pedido">Número de utente : {{item.nr_utente_titular}}</div>
               <div class="text-subtitle-2" v-else>Número de utente : {{item.nr_utente_pedido}}</div>
@@ -23,9 +41,9 @@
                   {{item.medicacao}}
                 </v-col>
                 <v-col class="text-right">
-                <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
-                <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
-              </v-col>
+                  <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
+                  <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
+                </v-col>
               </v-row>
               <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
                 <v-col><v-divider>
@@ -79,7 +97,15 @@ import axios from 'axios'
     }
     },
     methods: {
-    
+      copy(sns,sms_email,medi){
+        if(sms_email == 0){
+          navigator.clipboard.writeText(sns + '\nEmail\n' + medi);
+        }
+        else{
+          navigator.clipboard.writeText(sns + '\nSMS\n' + medi);
+        }
+
+      }
   }
   
   }

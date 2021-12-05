@@ -21,9 +21,14 @@
           <v-col v-if="!cons">
             {{item.medico}}
           </v-col>
-          <v-col class="text-right">
-            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
-            <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
+          <v-col class="text-right" v-if="item.estado==0">
+            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,1)">Aceitar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,2)">Recusar Pedido</v-btn>
+          </v-col>
+          <v-col class="text-right" v-else>
+            <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
+            <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
+            <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
           </v-col>
         </v-row>
         <v-row v-if="consulta.length > 1 && index < consulta.length - 1">
@@ -78,7 +83,18 @@ import axios from 'axios'
     }
     },
     methods: {
-    
+      alteraEstado (id,estado){
+        var data = {}
+        data['_id'] = id
+        data['estado'] = estado
+        axios.put("http://localhost:3333/consultas", data,{headers:{'authorization':'Bearer '+ this.token}})
+        .then(() => {
+          this.$router.go()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      }
   }
   
   }
