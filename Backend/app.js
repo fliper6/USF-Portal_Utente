@@ -20,6 +20,7 @@ var medicacaoRouter = require('./routes/medicacao');
 var medicoRouter = require('./routes/medico');
 var noticiasRouter = require('./routes/noticias');
 var sugestaoRouter = require('./routes/sugestao');
+var verificarRouter = require('./routes/verificar')
 
 var app = express();
 
@@ -54,6 +55,7 @@ app.use('/medicacao', medicacaoRouter);
 app.use('/medicos', medicoRouter);
 app.use('/noticias', noticiasRouter);
 app.use('/sugestao', sugestaoRouter);
+app.use('/verificar', verificarRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
