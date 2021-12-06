@@ -12,6 +12,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-col class="text-right">
                 <v-btn
+                  depressed
                   style="background-color:var(--secondary-color); margin:0 10px 0 0;"
                   v-bind="attrs"
                   v-on="on">
@@ -20,8 +21,8 @@
               </v-col>
             </template>
             <v-card>
-              <v-card-title>
-                <span class="text-h5">Adicionar médico</span>
+              <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">
+                <span>Adicionar médico</span>
               </v-card-title>
               <v-card-text>
                 <v-container>
@@ -30,9 +31,11 @@
                       <v-text-field
                         color=var(--secondary-dark-color)
                         label="Nome"
+                        @input="nomeFlag = false"
                         v-model="medico.nome"
                         required
                       ></v-text-field>
+                      <span style="color: #ff5252; font-size: 12px; margin-top:1px" v-if="nomeFlag" >Nome é um campo obrigatório.</span>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -42,27 +45,26 @@
                 <v-btn
                   class="button-cancelar"
                   text
-                  @click="dialog = false">
+                  @click="dialog = false; nomeFlag = false; medico.nome = ''">
                   Cancelar
                 </v-btn>
                 <v-btn
                   class="button-confirmar"
                   text
-                  @click="dialog = false; addMedico(); dialog2 = true">
+                  @click="addMedico();">
                   Criar
                 </v-btn>
               <v-dialog
                 v-model="dialog2"
                 max-width="290">
                 <v-card>
-                  <v-card-title style="color: var(--primary-color)" class="text-h5">
-                    Médico criado!
+                  <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">
+                    Médico(a) criado(a)!
                   </v-card-title>
                   <v-card-actions>
-                    <v-spacer></v-spacer>
-
+                  <v-spacer></v-spacer>
                   <v-btn
-                    cclass="button-confirmar"
+                    class="button-confirmar"
                     text
                     @click="dialog2 = false;">
                     Confirmar
@@ -87,7 +89,7 @@
                 </v-row>
                 <v-row>
                   <v-col class="text-right">
-                    <v-btn depressed style="background-color:var(--grey2-color)" @click="dialog3 = true; deleteMedico(m._id)">Eliminar</v-btn>
+                    <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = m.nome; idApagar = m._id">Eliminar</v-btn>
                   </v-col>
                 </v-row>
                 <v-row v-if="medicos.length > 1 && index < medicos.length - 1">
@@ -96,7 +98,6 @@
                   </v-divider></v-col>
 
                 </v-row>
-
                 </v-container>
               </div>
               <div v-else>
@@ -109,12 +110,43 @@
                 </v-container>
               </div>
       </v-card>
+      <v-dialog
+        v-model="dialog3"
+        :retain-focus="false"
+        max-width="400">
+        <v-card>
+          <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">Pretende eliminar o(a) médico(a) {{nomeApagar}}?</v-card-title>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-cancelar"
+            text
+            @click="dialog3 = false;">
+            Cancelar
+            </v-btn>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialog3 = false; deleteMedico(idApagar)">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
 export default {
+  mixins: [validationMixin],
+  validations: {
+    medico: {
+      nome: { required }
+    }
+  },
   data(){
     return {
       token: localStorage.getItem('jwt'),
@@ -124,7 +156,10 @@ export default {
       dialog3: false,
       medico: {
         nome: null
-      }
+      },
+      nomeApagar: null,
+      idApagar: null,
+      nomeFlag: false
     }
   },
   created(){
@@ -155,21 +190,31 @@ export default {
         })
     },
     addMedico(){
-      axios.post("http://localhost:3333/medicos", {nome:this.medico.nome}, {
-        headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}})
-        .then(() => {
-          axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.medicos = dados.data
-              this.medico.nome = ''
+      if(this.$v.medico.$invalid){
+        this.nomeFlag = true
+        this.medico.nome = ''
+      }
+      else{
+        this.dialog = false
+        this.dialog2 = true
+        this.nomeFlag = false   
+        axios.post("http://localhost:3333/medicos", {nome:this.medico.nome}, {
+          headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}})
+          .then(() => {
+            axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+              .then( dados => {
+                this.medicos = dados.data
+                this.medico.nome = ''
+            })
+            .catch(err => {
+              console.log(err)
+            })
           })
           .catch(err => {
-            console.log(err)
+              console.log(err)
           })
-        })
-        .catch(err => {
-            console.log(err)
-        })
+        
+      }
     }
   }  
 }
