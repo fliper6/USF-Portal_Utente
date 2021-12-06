@@ -13,6 +13,36 @@
                 v-on="on"
                 >Iniciar Sessão</v-btn>
             </template>
+
+            <v-dialog v-model="dialog" width="320" persistent>
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">Cógido de Confirmação</v-card-title> <br/>
+                <v-col style="margin: auto; padding: 0px 50px;">
+                  <p style="margin-bottom: 5px; color:var(--grey3-color)">
+                    Por favor coloque o código enviado para o email:<br>
+                    <b style="margin-bottom: 10px;margin-top: 10px;">{{this.emailRegisto}} </b>
+                  </p>
+                  <v-text-field 
+                     :error-messages="codigoErros"
+                     v-model="codigo"
+                     color=var(--secondary-dark-color)
+                     type="text"
+                     label="Código" 
+                     outlined>
+                  </v-text-field>
+                  <p style="text-align:center;margin-bottom:20px">
+                      <u style="cursor:pointer;" @click="mandaEmail()">Pedir novo código</u>
+                  </p>
+                </v-col>
+                
+                <v-divider></v-divider>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn class="button-cancelar" text @click="cancelarCodigo()"> Cancelar </v-btn>
+                  <v-btn class="button-confirmar"  text @click="confirmarCodigo()"> Confirmar </v-btn>
+                </v-card-actions> 
+              </v-card>
+            </v-dialog> 
             
             <v-tabs v-model="tab" show-arrows color="var(--grey3-color)" background-color="var(--white)" icons-and-text light grow>
                 <v-tabs-slider style="color: var(--grey3-color)"></v-tabs-slider>
@@ -126,6 +156,10 @@
                                     :append-icon="valueRegistarPass ? 'mdi-eye' : 'mdi-eye-off'" 
                                     :type="valueRegistarPass ? 'password' : 'text'"
                                     v-model="passRegisto" label="Password"
+                                    
+                                    hint="(De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode contêr espaços.)"
+                                    persistent-hint
+
                                     @click:append="() => (valueRegistarPass = !valueRegistarPass)">
                                     </v-text-field>
                                 </v-col>
@@ -154,7 +188,7 @@
                             style="height:40px;" 
                             class="button-principal"  
                             elevation="1" 
-                            v-on:click="register()" 
+                            v-on:click="openDialogCod()" 
                             >Registar</v-btn>
                         </v-card-actions>
           
@@ -184,6 +218,7 @@ import axios from 'axios'
           passRegisto: { required },
           passVerificacao: { required, sameAsPassword: sameAs('passRegisto')},
           username: { required },
+          codigo: { required },
           n_utente: { required, between: between(100000000,999999999)},
           n_telemovel: { between: between(900000000,999999999)}
         },
@@ -210,7 +245,8 @@ import axios from 'axios'
             passRegistoErrors () {
               const errors = []
               if (!this.$v.passRegisto.$dirty) return errors
-              !this.$v.passRegisto.required && errors.push('Password é um campo obrigatório.')
+              if (!this.$v.passRegisto.required) errors.push('Password é um campo obrigatório.')
+              else if (!this.validaPassword(this.passRegisto)) errors.push('De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode contêr espaços.')
               return errors
             },
             passLoginErrors () {
@@ -237,6 +273,13 @@ import axios from 'axios'
               const errors = []
               if (!this.$v.n_telemovel.$dirty) return errors
               if (!this.$v.n_telemovel.between && this.n_telemovel!="") errors.push('Número de telemóvel inválido.')
+              return errors
+            },
+            codigoErros(){
+              const errors = []
+              if (!this.$v.codigo.$dirty) return errors
+              if (!this.$v.codigo.required) errors.push('Código é um campo obrigatório.')
+              else if (!this.codigoValido) errors.push('Código inválido! Tente novamente.')
               return errors
             }
         },
@@ -265,6 +308,9 @@ import axios from 'axios'
                 n_telemovel: "",
                 erroRegisto : '',
                 alertRegisto: false,
+                dialog: false,
+                codigo:"",
+                codigoValido:true,
                 valueRegistarPass: String,
                 valueRegistarConfirPass: String,
 
@@ -303,6 +349,10 @@ import axios from 'axios'
               this.alertLogin=null
               this.tab=0
             },
+            validaPassword(pass) {
+                var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
+                return re.test(pass)
+            },
             postLogin(json) {
                 axios.post("http://localhost:3333/users/login", json)
                     .then(data => {
@@ -310,10 +360,12 @@ import axios from 'axios'
                         this.$router.go()
                         this.open = false
                         this.loading = false  
+                        this.dialog = false
                     })
                     .catch(error => {
                         this.alertLogin = true
                         this.loading = false
+                        this.dialog = false
                         if (error.response) this.erroLogin = "Email ou password inválidos!"
                         else this.erroLogin = 'De momento não é possível efetuar o login!' + '\n' + 'Por favor tente mais tarde'
                     })
@@ -328,37 +380,75 @@ import axios from 'axios'
                     this.postLogin(json)
                 }
             },
-            
-            register() {               
+            openDialogCod(){
                 this.loading=true
                 this.$v.$touch()
-
-                if (this.$v.emailRegisto.required && this.$v.emailRegisto.email && this.$v.passRegisto.required && 
+                this.verificaCamposRegisto() ? this.mandaEmail() : this.loading=false
+            },
+            mandaEmail(){
+                this.alertRegisto=false
+                axios.post("http://localhost:3333/verificar", {'email':this.emailRegisto})
+                    .then(() => {
+                        console.log("mandei email:" + this.emailRegisto)
+                        this.$v.$reset()
+                        this.dialog=true
+                    })
+                    .catch(error => {
+                        this.alertRegisto = true
+                        this.loading = false
+                        if (error.response && error.response.status=='403') this.erroRegisto = "Email já existente!"
+                        else this.erroRegisto = 'De momento não é possível efetuar o registo!' + '\n' + 'Por favor tente mais tarde'
+                    }) 
+            },
+            verificaCamposRegisto(){
+                return (this.$v.emailRegisto.required && this.$v.emailRegisto.email && this.$v.passRegisto.required && 
                     this.$v.passVerificacao.required && this.$v.username.required && this.$v.n_utente.required && 
-                    this.$v.n_utente.between && this.$v.passVerificacao.sameAsPassword &&
-                    (this.n_telemovel=="" || this.$v.n_telemovel.between)) {
-
+                    this.$v.n_utente.between && this.$v.passVerificacao.sameAsPassword && this.validaPassword(this.passRegisto) &&
+                    (this.n_telemovel=="" || this.$v.n_telemovel.between)) 
+            },
+            cancelarCodigo(){
+                this.loading=false
+                this.dialog=false
+            },
+            confirmarCodigo(){
+                this.$v.$touch() 
+                if (this.$v.codigo.required) {
                     var json = {}
                     json['email'] = this.emailRegisto
-                    json['password'] = this.passRegisto
-                    json['nome'] = this.username
-                    json['nr_utente'] = this.n_utente
-                    json['nr_telemovel'] = this.n_telemovel
-                    
-                    axios.post("http://localhost:3333/users/registar", json)
-                        .then( () => {
-                            this.postLogin(json)
+                    json['codigo'] = this.codigo
+                    axios.post("http://localhost:3333/verificar/codigo", json)
+                        .then(() => {
+                            this.register()
                         })
                         .catch(error => {
-                            this.alertRegisto = true
-                            this.loading = false
-                            if (error.response) this.erroRegisto = "Email já existente!"
-                            else this.erroRegisto = 'De momento não é possível efetuar o registo!' + '\n' + 'Por favor tente mais tarde'
-                        })  
-                }
-                else {
-                    this.loading = false
-                }
+                            if (error.response) this.codigoValido=false
+                            else {
+                                this.alertRegisto = true
+                                this.loading = false
+                                this.dialog = false
+                                this.erroRegisto = 'De momento não é possível efetuar o registo!' + '\n' + 'Por favor tente mais tarde'
+                            }
+                          })
+                } 
+            },
+            register() {               
+                var json = {}
+                json['email'] = this.emailRegisto
+                json['password'] = this.passRegisto
+                json['nome'] = this.username
+                json['nr_utente'] = this.n_utente
+                json['nr_telemovel'] = this.n_telemovel
+                
+                axios.post("http://localhost:3333/users/registar", json)
+                    .then( () => {
+                        this.postLogin(json)
+                    })
+                    .catch(() => {
+                        this.alertRegisto = true
+                        this.loading = false
+                        this.dialog = false
+                        this.erroRegisto = 'De momento não é possível efetuar o registo!' + '\n' + 'Por favor tente mais tarde'
+                    })  
             },
                        
         }

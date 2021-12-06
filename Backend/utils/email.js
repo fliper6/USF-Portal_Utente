@@ -1,6 +1,6 @@
 const sgMail = require('@sendgrid/mail')
 
-const API_KEY = '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'
+const API_KEY = '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'
 
 sgMail.setApiKey(API_KEY)
 
@@ -9,7 +9,7 @@ module.exports.send = (email, codigo) => {
         to: email,
         from: {
             name: "USF - Portal do Utente",
-            email: 'ramos.trabalhador99@gmail.com'
+            email: 'usfmanuelrochapeixoto@gmail.com'
         }, 
         subject: 'Código de verificação',
         text: 'Importante!',
