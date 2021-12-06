@@ -2,23 +2,37 @@
   <div class="file">
     <v-row class="doc-container">
       <v-col>
-          <v-row style="margin-bottom: 10px"> <h1 class="tituloDoc">{{this.titulo}}</h1> </v-row>
-          <v-row> <h3>Criador: <span class="infos">{{this.nome_autor}}</span></h3> </v-row>
-          <v-row> <h3>Data de data publicação: <span class="infos">{{this.data_publicacao}}</span></h3> </v-row>
-          <v-row> <h3>Nome do ficheiro: <span class="infos">{{this.nome_ficheiro}}</span></h3> </v-row>
-          <v-row> <h3>Tamanho do ficheiro: <span class="infos">{{this.tamanho}}</span></h3> </v-row>
-        </v-col>
+        <v-row style="margin-bottom: 10px"> <h1 class="tituloDoc">{{this.titulo}}</h1> </v-row>
+        <v-row> <h3>Criador: <span class="infos">{{this.nome_autor}}</span></h3> </v-row>
+        <v-row> <h3>Data de data publicação: <span class="infos">{{this.data_publicacao}}</span></h3> </v-row>
+        <v-row> <h3>Nome do ficheiro: <span class="infos">{{this.nome_ficheiro}}</span></h3> </v-row>
+        <v-row> <h3>Tamanho do ficheiro: <span class="infos">{{this.tamanho}}</span></h3> </v-row>
+      </v-col>
     </v-row>
+    <div v-if="formato == 'pdf'" class="container">
+        <br/>
+        <template>
+          <vue-pdf-app 
+            page-scale="100" 
+            theme="light"
+            :pdf="diretoria">
+          </vue-pdf-app>
+        </template>
+      </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
+  import VuePdfApp from "vue-pdf-app";
+  import "vue-pdf-app/dist/icons/main.css";
   //import jwt from 'jsonwebtoken'
 
   export default {
     name: "FileIndividual",
-
+    components: {
+      VuePdfApp
+    },
     data() {
       return {
         //token: localStorage.getItem('jwt'),
@@ -32,6 +46,7 @@
         visibilidade: null, 
         diretoria: null, 
         nome_ficheiro: null,
+        formato: null,
         tamanho: null, 
         tipo_mime: null
       }
@@ -51,8 +66,9 @@
           this.id_autor = data.data.id_autor
           this.titulo = data.data.titulo
           this.visibilidade = data.data.visibilidade
-          this.diretoria = data.data.ficheiro.diretoria
+          this.diretoria = "http://localhost:3333" +data.data.ficheiro.diretoria.substring(6)
           this.nome_ficheiro = data.data.ficheiro.nome_ficheiro
+          this.formato = this.nome_ficheiro.split(".")[1]
           this.tamanho = data.data.ficheiro.tamanho
           this.tipo_mime = data.data.ficheiro.tipo_mime
         })
@@ -79,6 +95,12 @@
   background-color:var(--grey1-color); 
   padding: 20px;
   border-radius: 10px;
+}
+
+.container {
+  height: 130vh;
+  margin: auto;
+  width: 1300px;
 }
 </style>
 

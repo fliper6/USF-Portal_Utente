@@ -237,8 +237,6 @@
           if (this.$v.titulo.required && this.$v.arvore.required && this.$v.file.required) {
             this.dialog = false;
 
-            console.log(jwt.decode(this.token))
-            
             let formData = new FormData();
             formData.append('documento', this.file)
             formData.append('titulo', this.titulo)

@@ -119,6 +119,67 @@
             <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
             <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
           </v-col>
+          <v-col class="text-right" v-if="!sug" cols=2>
+            <v-dialog
+              v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  v-on="on"
+                  depressed 
+                  style="background-color:var(--secondary-color)"
+                  @click="editSug(item.titulo,item.descricao)"
+                >
+                  Editar
+                </v-btn>
+              </template>
+        
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                  Editar
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    icon
+                    color="var(--primary-color)"
+                    @click="deleteSug(item._id)"
+                  >
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-card-title>
+
+
+                <v-container style="padding:20px;">
+                  <v-text-field label="Título" v-model="titulo">
+                  </v-text-field>
+
+                <v-textarea label="Sugestão" v-model="descricao">
+                </v-textarea>
+                </v-container>
+        
+                <v-divider></v-divider>
+        
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    class="button-cancelar"
+                    text
+                    @click="dialog = false"
+                  >
+                    Cancelar
+                  </v-btn>
+                  <v-btn
+                    class="button-confirmar"
+                    text
+                    @click="saveSug(item._id)"
+                  >
+                    Confirmar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+          </v-col>
         </v-row>
         <v-row v-if="list.length > 1 && index < list.length - 1">
           <v-col><v-divider>
@@ -170,6 +231,9 @@ import axios from 'axios'
         sugestao:'',
         editar:false,
         list:'',
+        titulo:'',
+        descricao:'',
+        dialog:false,
         
       }
     },
@@ -253,6 +317,32 @@ import axios from 'axios'
         .catch(err => {
           console.log(err)
         })
+      },
+      editSug(tit,desc){
+        this.titulo=tit
+        this.descricao=desc
+      },
+      deleteSug(id){
+        axios.delete("http://localhost:3333/sugestao/" + id , {headers:{'authorization':'Bearer '+ this.token}})
+        .then(() => {
+          this.$router.go()
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      },
+      saveSug(id){
+        var data = {}
+        data['_id'] = id
+        data['titulo'] = this.titulo
+        data['descricao'] = this.descricao
+        axios.put("http://localhost:3333/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
+        .then(() => {
+          this.$router.go()
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }
   }
   
@@ -271,4 +361,5 @@ import axios from 'axios'
 .texto_perfil {
   font-size: 18px;
 }
+
 </style>
