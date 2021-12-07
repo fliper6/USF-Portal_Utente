@@ -41,7 +41,7 @@ export default {
   methods: {
     addVideo() {
       this.dialog = false
-      this.$emit("add-video", this.url)
+      this.$emit("add-video", {url: this.url, file: this.file})
       this.url = ""
       this.file = null
     },
