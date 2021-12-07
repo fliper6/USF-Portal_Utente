@@ -59,23 +59,23 @@ export default {
     },
     uploadImage() {
       let formData = new FormData();
-            formData.append('imagem', this.file);
+      formData.append('ficheiro', this.file);
 
-            axios.post('http://localhost:3333/noticias/imagem',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-                }
-              }
-            ).then(({data}) => {
+      axios.post('http://localhost:3333/noticias/ficheiro',
+          formData,
+          {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+        }
+      ).then(({data}) => {
 
-              this.url = "http://localhost:3333/" + data.url
-              this.addImage()
+        this.url = "http://localhost:3333/" + data.url
+        this.addImage()
 
-            })
-            .catch(err => { console.log(err) });
+      })
+      .catch(err => { console.log(err) });
     },
     onChangeFileUpload(file){
       this.file = file
