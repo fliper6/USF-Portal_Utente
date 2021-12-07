@@ -7,6 +7,34 @@
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
+/**
+ * Create HTTP server.
+ */
+var server = http.createServer(app);
+
+const io = require('socket.io')(server, {
+  cors: {
+    origins: ['http://localhost:8080']
+  }
+});
+
+let usersSockets = new Object();
+
+io.on('connection', (socket) => {
+  app.set("socket", socket);
+  console.log('a user connected: '+socket.handshake.query.uid +" with socket: "+socket.id);
+
+  usersSockets[socket.handshake.query.uid] = socket.id
+
+  console.log(usersSockets)
+  socket.on('disconnect', () => {
+    console.log('user disconnected: '+socket.id);
+  });
+});
+app.set("usersSockets",usersSockets)
+app.set("io", io);
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -15,11 +43,6 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || '3333');
 app.set('port', port);
 
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

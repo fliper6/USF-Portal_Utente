@@ -21,6 +21,8 @@ var medicoRouter = require('./routes/medico');
 var noticiasRouter = require('./routes/noticias');
 var sugestaoRouter = require('./routes/sugestao');
 var verificarRouter = require('./routes/verificar')
+var notificacaoRouter = require('./routes/notificacao');
+
 
 var app = express();
 
@@ -46,6 +48,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+
+
+
 // ROUTES MIDDLEWARE
 app.use('/users', usersRouter);
 app.use('/consultas', consultasRouter);
@@ -56,6 +61,8 @@ app.use('/medicos', medicoRouter);
 app.use('/noticias', noticiasRouter);
 app.use('/sugestao', sugestaoRouter);
 app.use('/verificar', verificarRouter)
+app.use('/notificacao', notificacaoRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

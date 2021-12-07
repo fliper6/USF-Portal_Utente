@@ -21,6 +21,7 @@
     "core-js": "^3.6.5",
     "javascript-time-ago": "^2.3.10",
     "jsonwebtoken": "^8.5.1",
+    "socket.io-client": "^4.4.0",
     "vee-validate": "^3.4.14",
     "vue": "^2.6.11",
     "vue-notification-bell": "^0.9.12",
