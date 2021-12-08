@@ -134,11 +134,18 @@ router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
 })
 
-// Tornar privado um documento
+// Tornar publico um documento
 router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     Documento.adicionar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
 })
+
+//Apagar permanentemente um documento
+router.delete('/:id', JWTUtils.validate , JWTUtils.isAdmin, function(req, res) {
+    Documento.eliminar(req.params.id)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(404).jsonp({error: e}))
+});
 
 module.exports = router;
