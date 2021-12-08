@@ -12,8 +12,8 @@ module.exports.send = (email, codigo) => {
             name: "USF - Portal do Utente",
             email: 'usfmanuelrochapeixoto@gmail.com'
         }, 
-        subject: 'Código de verificação',
-        text: 'Importante!',
+        subject: 'USF - Portal de Utente (Código de Confirmação)',
+        text: 'Código de confirmação para registo da conta no USF Portal de Utente.',
         html: `<!DOCTYPE html>
         <html>
         
