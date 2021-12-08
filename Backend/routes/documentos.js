@@ -12,9 +12,17 @@ let Categoria = require('../controllers/categoria')
 
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    Documento.listar()
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."}))
+    if(req.query.visibilidade == true){
+        Documento.listar()
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."}))
+    }
+    else if(req.query.visibilidade == false){
+        Documento.listarPriv()
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."})) 
+    }
+    
 })
 
 // Obter árvore de categorias de documentos
@@ -122,6 +130,13 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
 // Tornar privado um documento
 router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     Documento.remover(req.params.id)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+})
+
+// Tornar privado um documento
+router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    Documento.adicionar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
 })
