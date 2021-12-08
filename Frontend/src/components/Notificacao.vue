@@ -15,7 +15,7 @@
                     <b style="font-size:22px; color:var(--white)">Notificações</b>
                 </v-col>
                 <v-col cols="2" class="icon">
-                    <v-icon size="30px" @click="(event) => close(event,'asb')" color="var(--white)">mdi-dots-horizontal</v-icon>
+                    <v-icon size="30px" @click="(event) => openDrop(event, null)" color="var(--white)">mdi-dots-horizontal</v-icon>
                 </v-col> 
               </v-row>
             </v-subheader>
@@ -43,7 +43,7 @@
                     </v-col>      
   
                     <v-col cols="2" style="margin:auto" class="iconNoti">
-                      <v-icon size="30px" @click="(event) => close(event,notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
+                      <v-icon size="30px" @click="(event) => openDrop(event, notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
                     </v-col>
                 </v-row>
               </v-list-item>
@@ -67,7 +67,6 @@
 
 <script>
 import NotificationBell from 'vue-notification-bell'
-//import SocketioService from '../services/socketio.service.js';
 import { io } from 'socket.io-client';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
@@ -97,8 +96,10 @@ import axios from 'axios'
             console.log(this.socket.id); 
           });
 
-          this.socket.on('update notificacoes', () => {
+          this.socket.on('update notificacoes', (notificacao) => {
             this.pling=true
+            //this.notifications.push(notificacao)
+            console.log(notificacao)
             this.getNotificacoes()
           });
         },
@@ -111,7 +112,6 @@ import axios from 'axios'
           getNotificacoes (){
             axios.get("http://localhost:3333/notificacao/PorUser/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
-              console.log(data.data)
               this.notifications = data.data
               this.contador = this.getCount(this.notifications)
             })
@@ -125,17 +125,34 @@ import axios from 'axios'
             return c
           },
           openNotifications(){
-            //this.contador=0
-            //meter as notificações no estado 1
+            axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                this.contador=0
+              })
+              .catch(err => {
+                console.log(err)
+              })
           },
-          close(e,id){
+          openDrop(e,id){
             e.stopPropagation()
             console.log("Fechar o ",id)
           },
           goToNotification(id){
-            console.log("fechei a notificacao " + id)
             //meter a notificacao no estado 2
-            //redirecionar o utilizador para o sitio referente à notificação
+            var json = {}
+            json['_id'] = id
+            json['estado'] = 2
+
+            axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                //redirecionar o utilizador para o sitio referente à notificação
+                console.log("fui para a notificacao " + id)
+                //this.$router.push('/perfil')
+                this.$router.go()
+              })
+              .catch(err => {
+                console.log(err)
+              })
           }
         }    
       }

@@ -46,6 +46,54 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         <v-btn class="button" @click="verifica">Submeter</v-btn>
       </div>  
     </form>
+    <v-dialog
+        v-model="dialog"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Confirmar</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Pretende submeter o pedido de contacto?</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-cancelar"
+            text
+            @click="dialog = false">
+            Cancelar
+            </v-btn>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="sendPedidoCons(); dialog = false;">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="dialog2"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+             Pedido submetido com sucesso!</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialog2 = false; reload()">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>    
     </div>
   </div>  
 </template>
@@ -80,10 +128,15 @@ export default {
       medFlag: false,
       meds:[],
       objs: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
-        "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"]
+        "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"],
+      dialog: false,
+      dialog2:false  
     }  
   },
   methods: {
+    reload(){
+      this.$router.push("/")
+    },
     removeSpanObj: function(){
       this.objFlag = false
     },
@@ -98,7 +151,7 @@ export default {
         this.objFlag = true
       }
       else{
-        this.sendPedidoCons()
+        this.dialog = true
       }
     },
     sendPedidoCons: function(){
@@ -118,7 +171,7 @@ export default {
           tipo: this.consulta.objetivo
         }
       })
-      this.$router.push("/formConfirm")
+      this.dialog2 = true
     }
       
     function parseNumOpcional(num){

@@ -53,9 +53,57 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
               <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.valorContacto.email.$invalid">Email é um campo obrigatório.</span>
           </modal>
         <div>
-          <v-btn class="button" @click="verifica">Submeter</v-btn>
+          <v-btn class="button" @click="verifica()">Submeter</v-btn>
         </div> 
     </form>
+    <v-dialog
+        v-model="dialog"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Confirmar</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Pretende submeter o pedido de medicação?</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-cancelar"
+            text
+            @click="dialog = false">
+            Cancelar
+            </v-btn>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="sendPedidoMed(); dialog = false;">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="dialog2"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+             Pedido submetido com sucesso!</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialog2 = false; reload()">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </div>
   </div>  
 </template>
@@ -110,10 +158,15 @@ export default {
       medFlag: false,
       medicamentosFlag: false,
       contactoFlag: false,
+      dialog: false,
+      dialog2:false
     }  
   },
   methods: {
-    getContactos: function(){
+    reload(){
+      this.$router.push("/")
+    },
+    getContactos(){
       axios.get("http://localhost:3333/users/validar/" + this.token)
       .then( () => {
         this.medicacao.valorContacto.email = jwt.decode(this.token).email
@@ -142,10 +195,10 @@ export default {
         this.contactoFlag = true
       }
       else{
-        this.sendPedidoMed()
+        this.dialog = true
       }
     },
-    sendPedidoMed: function(){
+    sendPedidoMed(){
       if(!this.$v.medicacao.$invalid){
         axios({
           method: 'post',
@@ -166,11 +219,11 @@ export default {
             }
           }
         })
-        this.$router.push("/formConfirm")
+         this.dialog2 = true
       }
     },
       
-    converteContacto: function(cont){
+    converteContacto(cont){
       if(cont == "SMS"){
         return 1
       }
@@ -179,7 +232,7 @@ export default {
       }
     },
 
-    parseNumOpcional: function(num){
+    parseNumOpcional(num){
       if(num == ""){
         return null
       }

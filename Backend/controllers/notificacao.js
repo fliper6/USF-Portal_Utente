@@ -28,6 +28,10 @@ module.exports.todasLidas = user => {
     return Notificacao.updateMany({user: user}, {estado: 2}, {new: true})
 }
 
+module.exports.recebidas = user => {
+    return Notificacao.updateMany({user: user, estado: 0}, {estado: 1}, {new: true})
+}
+
 module.exports.alterar = con => {
     return Notificacao.findByIdAndUpdate({_id: con._id}, con, {new: true})
 }
