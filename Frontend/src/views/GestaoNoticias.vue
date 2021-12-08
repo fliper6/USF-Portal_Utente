@@ -57,7 +57,7 @@
             red
             @click="dialogVer = false"
           >
-            <v-icon style="color: red">mdi-close</v-icon>
+            <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
           </v-btn>         
         </v-card-title>
         <VerNoticia :noticia='noticia' :timeAgo="timeAgo" :key="n" />       

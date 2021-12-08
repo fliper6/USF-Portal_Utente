@@ -15,7 +15,7 @@
           </router-link>
           <router-link class="opcao" :to="'/balcao/consulta'">
             <v-list-item class="opcao">
-              <b>Pedido de consulta</b>
+              <b>Pedido de contacto</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/balcao/sugestao'">
