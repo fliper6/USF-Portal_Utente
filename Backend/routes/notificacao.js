@@ -33,11 +33,25 @@ router.post('/', JWTUtils.validate, function(req, res){
 })
 
 // Alterar uma consulta
+router.put('/lidas/:user',  function(req, res){
+    Notificacao.todasLidas(req.params.user)
+    .then(dados => res.status(201).jsonp(dados))
+    .catch(e => res.status(404).jsonp({error: e}))
+})
+
+// Alterar uma consulta
 router.put('/', JWTUtils.validate, function(req, res){
     Notificacao.alterar(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 })
+
+// Remover uma consulta
+router.delete('/all/:user',JWTUtils.validate, function(req, res) {
+    Notificacao.removerAll(req.params.user)
+    .then(dados => res.status(200).jsonp(dados))
+    .catch(e => res.status(404).jsonp({error: e}))
+});
 
 // Remover uma consulta
 router.delete('/:id', JWTUtils.validate, function(req, res) {

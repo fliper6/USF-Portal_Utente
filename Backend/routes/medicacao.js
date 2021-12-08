@@ -34,6 +34,34 @@ router.post('/', JWTUtils.validate ,function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
+router.put('/altE', JWTUtils.validate, async (req, res) =>{
+    try {
+        
+        const cos = await Medicacao.alterar(req.body)
+        let estado= ""
+        req.body.estado==1 ? estado = "aceite" :  estado = "recusada"
+        let not= {
+            "idReferente": req.body._id,
+            "user": req.body.user,
+            "descricao": "O seu pedido de medicação foi "+estado+"!",
+            "tipo": 1, 
+        }
+
+        const noti = await Notificacao.inserir(not)
+            
+        
+        let socket = req.app.get("socket")
+        let usersSockets = req.app.get("usersSockets")
+        await socket.broadcast.to(usersSockets[req.body.user]).emit('update notificacoes', noti);
+       
+        res.status(201).jsonp(noti)
+    } catch (error) {
+        res.status(500).jsonp({error: e})
+    }
+    
+})
+
+
 // Alterar um pedido de medicação
 router.put('/', JWTUtils.validate ,function(req, res){
     Medicacao.alterar(req.body)

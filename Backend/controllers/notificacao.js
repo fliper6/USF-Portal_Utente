@@ -24,10 +24,18 @@ module.exports.inserir = con => {
     return novo.save()
 }
 
+module.exports.todasLidas = user => {
+    return Notificacao.updateMany({user: user}, {estado: 2}, {new: true})
+}
+
 module.exports.alterar = con => {
     return Notificacao.findByIdAndUpdate({_id: con._id}, con, {new: true})
 }
 
 module.exports.remover = function(id){
     return Notificacao.deleteOne({_id: id})
+}
+
+module.exports.removerAll = function(user){
+    return Notificacao.deleteMany({user: user})
 }

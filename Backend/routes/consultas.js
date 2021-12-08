@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+var router = require("express-promise-router")();
 
 const JWTUtils = require('../utils/jwt')
 let Consulta = require('../controllers/consulta')
-let Notificacao = require('../controllers/notificacao')
+let Notificacao = require('../controllers/notificacao');
+const { notify } = require("./users");
 
 //Devolve todos as consultas
 router.get('/', JWTUtils.validate, function(req, res) {
@@ -33,41 +33,32 @@ router.post('/', JWTUtils.validate, function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-
 // Alterar uma consulta 
-router.put('/altE', JWTUtils.validate, function(req, res){
-    Consulta.alterar(req.body)
-    .then(dados =>{
+router.put('/altE', JWTUtils.validate, async (req, res) =>{
+    try {
+        
+        const cos = await Consulta.alterar(req.body)
         let estado= ""
-        req.body.estado ? estado = "aceite" :  estado = "recusada"
-
+        req.body.estado==1 ? estado = "aceite" :  estado = "recusada"
         let not= {
             "idReferente": req.body._id,
             "user": req.body.user,
-            "descricao": "O estado da sua consulta foi "+estado+"!",
+            "descricao": "O seu pedido de consulta foi "+estado+"!",
             "tipo": 0, 
         }
-        Notificacao.inserir(not)
-        .then(dadosN =>{
-            try {
-                let socket = req.app.get("socket")
-                let usersSockets = req.app.get("usersSockets")
+
+        const noti = await Notificacao.inserir(not)
+            
         
-                console.log("testttt "+req.body.user+" socket: "+usersSockets[req.body.user])
-        
-                socket.broadcast.to(usersSockets[req.body.user]).emit('update notificacoes', "toma toma cao");
-                console.log("ttestetetwetrw")
-            } catch (error) {
-                res.status(500).jsonp({error: e})
-            }
-            res.status(201).jsonp(dados)
-            } 
-        )
-        .catch(e => res.status(500).jsonp({error: e}))
-        
-        }
-    )
-    .catch(e => res.status(404).jsonp({error: e}))
+        let socket = req.app.get("socket")
+        let usersSockets = req.app.get("usersSockets")
+        await socket.broadcast.to(usersSockets[req.body.user]).emit('update notificacoes', noti);
+       
+        res.status(201).jsonp(noti)
+    } catch (error) {
+        res.status(500).jsonp({error: e})
+    }
+    
 })
 
 // Alterar uma consulta

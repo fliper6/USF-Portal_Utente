@@ -73,15 +73,12 @@ import axios from 'axios'
         created() {
           //ao iniciar vai buscar as notificações iniciais
           this.getNotificacoes()
-
-          //SocketioService.setupSocketConnection(); -> código antigo
-
+          
           this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT,{
             query: {
               uid: jwt.decode(this.token)._id
             }
           });
-          //this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT); -> código antigo
           this.socket.on('connect', () => {
             console.log(this.socket.id); 
           });
@@ -92,7 +89,6 @@ import axios from 'axios'
           });
         },
         beforeUnmount() {
-          //SocketioService.disconnect(); -> código antigo
           if (this.socket) {
             this.socket.disconnect();
           }
