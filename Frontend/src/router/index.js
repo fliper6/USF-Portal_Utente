@@ -91,6 +91,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoNoticias.vue')
   },
   {
+    path: '/gestao/documentos',
+    name: 'GestaoDocumentos',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestaoDocumentos.vue')
+  },
+  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')

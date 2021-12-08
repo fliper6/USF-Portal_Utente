@@ -28,6 +28,11 @@
               <b>Notícias</b>
             </v-list-item>
           </router-link>
+          <router-link class="opcao" :to="'/gestao/documentos'">
+            <v-list-item class="opcao">
+              <b>Documentos</b>
+            </v-list-item>
+          </router-link>
           <router-link class="opcao" :to="'/gestao/sugestao'">
             <v-list-item class="opcao">
               <b>Sugestões</b>
