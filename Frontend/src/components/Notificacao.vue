@@ -9,8 +9,15 @@
         <v-card max-width=400px> 
           <v-list max-height=800px dense class="pa-0">
 
-            <v-subheader  class="pa-8" style="font-size:20px">
-              <b style="color: var(--white)">Notificações</b>
+            <v-subheader class="pa-8">
+              <v-row>
+                <v-col cols="10">
+                    <b style="font-size:22px; color:var(--white)">Notificações</b>
+                </v-col>
+                <v-col cols="2" class="icon">
+                    <v-icon size="30px" @click="(event) => close(event,'asb')" color="var(--white)">mdi-dots-horizontal</v-icon>
+                </v-col> 
+              </v-row>
             </v-subheader>
 
             <v-divider></v-divider>
@@ -18,20 +25,27 @@
             <div v-if="this.notifications.length">
               <v-list-item 
                 @click="goToNotification(notification.idReferente)" 
-                class="pa-6 backColor" 
+                class="pa-4 backColor" 
                 v-for="notification in notifications" 
                 :key="`notification-key-${notification._id}`"
               >
-                  <v-list-item-icon>
-                    <v-icon v-if="notification.estado==2">mdi-brightness-1</v-icon>
-                    <v-icon v-else color="var(--blue-color)">mdi-brightness-1</v-icon>
-                  </v-list-item-icon>
-                  <v-row>
-                    <v-list-item-content>
-                      <v-list-item-title v-text="notification.descricao" style="font-size:18px"></v-list-item-title>
-                      <div style="margin-top:10px; font-size:14px"> {{ notification.data_criacao | moment("from") }}</div>
-                    </v-list-item-content>           
-                  </v-row>
+                <v-row>
+                    <v-col cols="2" style="margin:auto">
+                        <v-icon v-if="notification.estado==2">mdi-brightness-1</v-icon>
+                        <v-icon v-else color="var(--blue-color)">mdi-brightness-1</v-icon>
+                    </v-col>
+                  
+                    <v-col cols="8">
+                      <v-list-item-content>
+                        <div style="font-size:18px"><b>{{notification.descricao}}</b></div>
+                        <div style="margin-top:6px;font-size:14px"> {{ notification.data_criacao | moment("from") }}</div>
+                      </v-list-item-content> 
+                    </v-col>      
+  
+                    <v-col cols="2" style="margin:auto" class="iconNoti">
+                      <v-icon size="30px" @click="(event) => close(event,notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
+                    </v-col>
+                </v-row>
               </v-list-item>
             </div>
             
@@ -114,8 +128,12 @@ import axios from 'axios'
             //this.contador=0
             //meter as notificações no estado 1
           },
+          close(e,id){
+            e.stopPropagation()
+            console.log("Fechar o ",id)
+          },
           goToNotification(id){
-            console.log(id)
+            console.log("fechei a notificacao " + id)
             //meter a notificacao no estado 2
             //redirecionar o utilizador para o sitio referente à notificação
           }
@@ -131,6 +149,25 @@ import axios from 'axios'
 
 .backColor {
   background-color: var(--grey2-color) !important;
+}
+
+
+
+.icon .v-icon:hover {
+  background-color:	var(--shadow-color)
+}
+
+.icon .v-icon {
+  border-radius: 50%;
+  background-color:var(--grey3-color)
+}
+
+.iconNoti .v-icon:hover {
+  background-color:	var(--shadow-color)
+}
+
+.iconNoti .v-icon {
+  border-radius: 50%;
 }
 
 </style>
