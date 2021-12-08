@@ -15,14 +15,13 @@ router.get('/', (req,res) => {
     if(req.query.visibilidade == "true"){
         Documento.listar()
             .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."}))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
     }
-    else if(req.query.visibilidade == "false"){
+    else if (req.query.visibilidade == "false"){
         Documento.listarPriv()
             .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."})) 
-    }
-    
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }    
 })
 
 // Obter árvore de categorias de documentos

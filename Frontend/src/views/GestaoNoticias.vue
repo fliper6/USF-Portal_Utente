@@ -60,7 +60,7 @@
             <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
           </v-btn>         
         </v-card-title>
-        <VerNoticia :noticia='noticia' :timeAgo="timeAgo" :key="n" />       
+        <VerNoticia :noticia='noticia' :key="n" />       
       </v-card>
       </v-dialog>
       <v-dialog

@@ -18,7 +18,7 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; documento = d">Ver</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; idVer = d._id">Ver</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = d.titulo; idVisibilidade = d._id">Colocar público</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = d.titulo; idApagar = d._id">Eliminar</v-btn>
             </v-col>
@@ -41,28 +41,6 @@
         </v-container>
       </div>
       </v-card>
-      <v-dialog
-        v-model="dialogVer"
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
-      >
-      <v-card>
-        
-        <v-card-title class="text-h5 grey lighten-2">
-          Ver documento
-          <v-spacer></v-spacer> 
-          <v-btn
-            icon
-            red
-            @click="dialogVer = false"
-          >
-            <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
-          </v-btn>         
-        </v-card-title>
-    
-      </v-card>
-      </v-dialog>
       <v-dialog
         v-model="dialog3"
         :retain-focus="false"
@@ -158,6 +136,28 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+            <v-dialog
+        v-model="dialogVer"
+        fullscreen
+        hide-overlay
+        transition="dialog-bottom-transition"
+      >
+      <v-card>
+        
+        <v-card-title class="text-h5 grey lighten-2">
+          Ver documento
+          <v-spacer></v-spacer> 
+          <v-btn
+            icon
+            red
+            @click="dialogVer = false"
+          >
+            <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
+          </v-btn>         
+        </v-card-title>
+          <VerDocumento :id="idVer"/>
+        </v-card>
+      </v-dialog>
     </div>
 </template>
 
@@ -165,7 +165,11 @@
 import axios from 'axios'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
+import VerDocumento from "../components/VerDocumento.vue"
 export default {
+  components: {
+    VerDocumento
+  },
   mixins: [validationMixin],
   validations: {
     medico: {
@@ -187,12 +191,13 @@ export default {
       idApagar: null,
       nomeVisibilidade: null,
       idVisibilidade: null,
-      nomeFlag: false
+      nomeFlag: false,
+      idVer: null
     }
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/documentos" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get("http://localhost:3333/documentos?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.documentos = dados.data
         })
