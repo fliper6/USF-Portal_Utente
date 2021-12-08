@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const JWTUtils = require('../utils/jwt')
+let Notificacao = require('../controllers/notificacao');
 
 let Medicacao = require('../controllers/medicacao')
 
@@ -34,12 +35,13 @@ router.post('/', JWTUtils.validate ,function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
+//Aceitar ou recusar pedido de medicação
 router.put('/altE', JWTUtils.validate, async (req, res) =>{
     try {
         
         const cos = await Medicacao.alterar(req.body)
         let estado= ""
-        req.body.estado==1 ? estado = "aceite" :  estado = "recusada"
+        req.body.estado==1 ? estado = "aceite" :  estado = "recusado"
         let not= {
             "idReferente": req.body._id,
             "user": req.body.user,
@@ -56,7 +58,7 @@ router.put('/altE', JWTUtils.validate, async (req, res) =>{
        
         res.status(201).jsonp(noti)
     } catch (error) {
-        res.status(500).jsonp({error: e})
+        res.status(500).jsonp({error: error})
     }
     
 })

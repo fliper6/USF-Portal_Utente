@@ -11,6 +11,7 @@ var medicacaoSchema = new mongoose.Schema({
       tipo: {type: Number, required: true}, // 0 - email, 1 - sms
       valor: {type: String, required: true}
     },
+    estado: {type: Number, required: true, default: 0}, // 0- Pendente, 1- Aceite, 2- Recusada
     data_criacao: {type: Date, default: Date.now, required: true}
   });
 

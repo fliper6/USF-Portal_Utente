@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const JWTUtils = require('../utils/jwt')
+let Notificacao = require('../controllers/notificacao');
 
 let Sugestao = require('../controllers/sugestao')
 
@@ -34,6 +35,7 @@ router.post('/', JWTUtils.validate ,function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
+//Aceitar ou recusar sugestão
 router.put('/altE', JWTUtils.validate, async (req, res) =>{
     try {
         
@@ -56,7 +58,7 @@ router.put('/altE', JWTUtils.validate, async (req, res) =>{
         
         res.status(201).jsonp(noti)
     } catch (error) {
-        res.status(500).jsonp({error: e})
+        res.status(500).jsonp({error: error})
     }
     
 })
