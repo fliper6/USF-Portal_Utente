@@ -27,7 +27,8 @@
 </template>  
 
 <script>
-//import axios from 'axios'
+import axios from 'axios'
+
 export default {
   name: 'AddVideo',
   data() {
@@ -40,31 +41,30 @@ export default {
   methods: {
     addVideo() {
       this.dialog = false
-      this.$emit("add-video", this.url)
+      this.$emit("add-video", {url: this.url, file: this.file})
       this.url = ""
       this.file = null
     },
     uploadVideo() {
-      /*let formData = new FormData();
-            formData.append('imagem', this.file);
+      let formData = new FormData();
+      formData.append('ficheiro', this.file);
 
-            axios.post('http://localhost:3333/noticias/imagem',
-                formData,
-                {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-                }
-              }
-            ).then(({data}) => {
+      axios.post('http://localhost:3333/noticias/ficheiro',
+          formData,
+          {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+        }
+      ).then(({data}) => {
 
-              this.url = "http://localhost:3333/" + data.url
-              this.addImage()
+        this.url = "http://localhost:3333/" + data.url
+        this.addVideo()
 
-            })
-            .catch(err => { console.log(err) });*/
-      this.url = "https://www.w3schools.com/html/movie.mp4"
-      this.addVideo()
+      })
+      .catch(err => { console.log(err) });
+
     },
     onChangeFileUpload(file){
       this.file = file

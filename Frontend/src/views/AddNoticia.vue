@@ -1,5 +1,21 @@
 <template>
   <div>
+    <modal-message
+      :title="modalConfirmTitle"
+      :visible="modalConfirm"
+      options
+      @close="modalconfirm = false"
+      @confirm="submit"
+    >
+      {{modalConfirmMessage}}
+    </modal-message>
+    <modal-message
+      :title="modalTitle"
+      :visible="modal"
+      @close="goHome"
+    >
+      {{modalMessage}}
+    </modal-message>
     <v-text-field color="#000000" v-model="titulo" label="Titulo" required hide-details outlined dense></v-text-field>
     <div class="files">
       <File 
@@ -10,28 +26,40 @@
         @click-action="deleteFile"
       />
     </div>
-    <Editor @submit="submit" @new-file="upFile"/>
+    <Editor @submit="modalConfirm=true" @new-file="upFile"/>
   </div>
 </template>
 
 <script>
 import Editor from "../components/Editor.vue"
 import File from "../components/Editor/File.vue"
+import ModalMessage from '../components/ModalMessage.vue'
+
 import axios from 'axios'
 export default {
   name: 'Home',
   components: {
     Editor,
-    File
+    File,
+    ModalMessage
   },
   data () {
     return {
       titulo: "",
-      files: []
+      files: [],
+
+      modal: false,
+      modalTitle: "Sucesso",
+      modalMessage: "Notícia publicada com sucesso",
+
+      modalConfirm: false,
+      modalConfirmTitle: "Publicar?",
+      modalConfirmMessage: "Deseja publicar esta notícia publicamente no feed?"
     }
   },
   methods: {
     submit (content) {
+      this.modalConfirm=false
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
         formData.append('ficheiros', this.files[i])
@@ -48,8 +76,12 @@ export default {
           }
         }
       ).then(() => {
-        this.$router.push('/')
+        this.modal = true
       }).catch(err => { console.log(err) });
+    },
+    goHome() {
+      this.modal=false
+      this.$router.push('/')
     },
     upFile(file) {
       this.files.push(file)

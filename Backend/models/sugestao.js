@@ -5,6 +5,7 @@ var sugestaoSchema = new mongoose.Schema({
     nr_utente: {type: String, required: true},   
     titulo: {type: String, required: true}, 
     descricao: {type: String, required: true},
+    estado: {type: Number, required: true, default: 0}, // 0- Pendente, 1- Aceite, 2- Recusada
     data_criacao: {type: Date, default: Date.now, required: true}
   });
 

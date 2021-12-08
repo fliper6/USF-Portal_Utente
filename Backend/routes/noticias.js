@@ -13,9 +13,16 @@ let Ficheiro = require('../controllers/ficheiro')
 
 // Obter lista de noticias
 router.get('/', (req,res) => {
-    Noticia.listar()
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    if(req.query.visibilidade == "true"){
+        Noticia.listar()
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }
+    else if (req.query.visibilidade == "false"){
+        Noticia.listarPriv()
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }    
 })
 
 // Fazer download de um ficheiro de notícia
@@ -137,6 +144,13 @@ router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
         .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
 })
 
+// Tornar pública uma notícia
+router.put('/publica/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    Noticia.adicionar(req.params.id)
+        .then(dados => res.status(200).jsonp({}))
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
+})
+
 // Remover ficheiros de uma notícia, caso tenha havido um erro na sua publicação
 router.put('/ficheiros', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     req.body.urls.map(x => fs.unlink((__dirname + "public/" + x).replace("routes","").replace(/\\/g, "/"), err => {
@@ -148,4 +162,10 @@ router.put('/ficheiros', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
         .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover os ficheiros da notícia.`}))
 })
 
+//Remover permanentemente uma noticia
+router.delete('/:id', JWTUtils.validate , JWTUtils.isMedico, function(req, res) {
+    Noticia.eliminar(req.params.id)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(404).jsonp({error: e}))
+});
 module.exports = router;

@@ -4,6 +4,10 @@ module.exports.listar = () => {
     return Noticia.find({visibilidade: true}).sort('-data_criacao').exec()
 }
 
+module.exports.listarPriv = () => {
+    return Noticia.find({visibilidade: false}).sort('-data_criacao').exec()
+}
+
 module.exports.consultar = _id => {
     return Noticia.findOne({_id}).exec()
 }
@@ -19,4 +23,12 @@ module.exports.atualizar = not => {
 
 module.exports.remover = _id => {
     return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: false}})
+}
+
+module.exports.adicionar = _id => {
+    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: true}})
+}
+
+module.exports.eliminar = id => {
+    return Noticia.deleteOne({_id: id})
 }

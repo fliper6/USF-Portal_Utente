@@ -58,9 +58,11 @@
                 v-model="dialog2"
                 max-width="290">
                 <v-card>
-                  <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">
-                    Médico(a) criado(a)!
-                  </v-card-title>
+                  <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+                  <v-col style="margin: auto; padding: 0px 50px;">
+                    <p style="margin-bottom: 5px; color:var(--grey3-color)">
+                      Médico <b>{{medCriado}}</b> adicionado com sucesso!</p>
+                  </v-col> 
                   <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn
@@ -113,9 +115,13 @@
       <v-dialog
         v-model="dialog3"
         :retain-focus="false"
-        max-width="400">
+        max-width="500">
         <v-card>
-          <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">Pretende eliminar o(a) médico(a) {{nomeApagar}}?</v-card-title>
+          <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Pretende eliminar o médico <b>{{nomeApagar}}</b>?</p>
+          </v-col>           
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
@@ -127,7 +133,28 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog3 = false; deleteMedico(idApagar)">
+            @click="dialog3 = false; deleteMedico(idApagar); dialog4 = true">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+        v-model="dialog4"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Médico <b>{{nomeApagar}}</b> eliminado com sucesso!</p>
+          </v-col>           
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialog4 = false;">
             Confirmar
             </v-btn>
           </v-card-actions>
@@ -154,9 +181,11 @@ export default {
       dialog: false,
       dialog2: false,
       dialog3: false,
+      dialog4: false,
       medico: {
         nome: null
       },
+      medCriado: null,
       nomeApagar: null,
       idApagar: null,
       nomeFlag: false
@@ -195,6 +224,7 @@ export default {
         this.medico.nome = ''
       }
       else{
+        this.medCriado = this.medico.nome; 
         this.dialog = false
         this.dialog2 = true
         this.nomeFlag = false   

@@ -40,9 +40,9 @@
                 <v-col>
                   {{item.medicacao}}
                 </v-col>
-                <v-col class="text-right">
-                  <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;">Aceitar Pedido</v-btn>
-                  <v-btn depressed style="background-color:var(--grey2-color)">Recusar Pedido</v-btn>
+                <v-col class="text-right" v-if="item.estado==0">
+                  <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,item.user,1)">Aceitar Pedido</v-btn>
+                  <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,item.user,2)">Recusar Pedido</v-btn>
                 </v-col>
               </v-row>
               <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
@@ -105,6 +105,19 @@ import axios from 'axios'
           navigator.clipboard.writeText(sns + '\nSMS\n' + medi);
         }
 
+      },
+      alteraEstado (id,user,estado){
+        var data = {}
+        data['_id'] = id
+        data['user'] = user
+        data['estado'] = estado
+        axios.put("http://localhost:3333/medicacao/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
+        .then(() => {
+          //this.$router.go()
+        })
+        .catch(err => {
+          console.log(err)
+        })
       }
   }
   

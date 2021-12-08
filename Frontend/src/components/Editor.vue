@@ -124,7 +124,8 @@ export default {
       fileInputElement.click();
     },
     addVideo (event) {
-       this.editor.chain().focus().setVideo({ src: event, type:"video/mp4" }).run()
+      console.log(event)
+       this.editor.chain().focus().setVideo({ src: event.url, type: event.file.type }).run()
     },
     upFile(event) {
       this.$emit('new-file', event.target.files[0])
@@ -178,6 +179,14 @@ export default {
 }
 
 .editor img {
+  display: block;
+  margin: 10px auto;
+  max-width: 50vw;
+  max-height: 60vh;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.editor video {
   display: block;
   margin: 10px auto;
   max-width: 50vw;

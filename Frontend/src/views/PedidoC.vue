@@ -22,8 +22,8 @@
             {{item.medico}}
           </v-col>
           <v-col class="text-right" v-if="item.estado==0">
-            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,1)">Aceitar Pedido</v-btn>
-            <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,2)">Recusar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,item.user,1)">Aceitar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,item.user,2)">Recusar Pedido</v-btn>
           </v-col>
           <v-col class="text-right" v-else>
             <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
@@ -65,6 +65,7 @@ import axios from 'axios'
       return {
         token: localStorage.getItem('jwt'),
         consulta:'',
+        cons:false
         
       }
     },
@@ -83,11 +84,12 @@ import axios from 'axios'
     }
     },
     methods: {
-      alteraEstado (id,estado){
+      alteraEstado (id,user,estado){
         var data = {}
         data['_id'] = id
+        data['user'] = user
         data['estado'] = estado
-        axios.put("http://localhost:3333/consultas", data,{headers:{'authorization':'Bearer '+ this.token}})
+        axios.put("http://localhost:3333/consultas/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.$router.go()
         })
@@ -95,7 +97,7 @@ import axios from 'axios'
           console.log(err)
         })
       }
-  }
+   }
   
   }
 </script>

@@ -15,12 +15,17 @@
           </router-link>
           <router-link class="opcao" :to="'/gestao/consulta'">
             <v-list-item class="opcao">
-              <b>Pedidos de consulta</b>
+              <b>Pedidos de contacto</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/gestao/medicos'">
             <v-list-item class="opcao">
               <b>Médicos</b>
+            </v-list-item>
+          </router-link>
+          <router-link class="opcao" :to="'/gestao/noticias'">
+            <v-list-item class="opcao">
+              <b>Notícias</b>
             </v-list-item>
           </router-link>
           <router-link class="opcao" :to="'/gestao/sugestao'">
