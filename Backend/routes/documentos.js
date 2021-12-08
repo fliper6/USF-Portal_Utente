@@ -12,12 +12,12 @@ let Categoria = require('../controllers/categoria')
 
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    if(req.query.visibilidade == true){
+    if(req.query.visibilidade == "true"){
         Documento.listar()
             .then(dados => res.status(200).jsonp(dados))
             .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."}))
     }
-    else if(req.query.visibilidade == false){
+    else if(req.query.visibilidade == "false"){
         Documento.listarPriv()
             .then(dados => res.status(200).jsonp(dados))
             .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de documentos."})) 

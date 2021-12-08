@@ -8,7 +8,6 @@ module.exports.listarPriv = () => {
     return Documento.find({visibilidade: false}).sort('-data_publicacao').exec()
 }
 
-
 module.exports.consultar = _id => {
     return Documento.findOne({_id}).exec()
 }
