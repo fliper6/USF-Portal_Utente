@@ -26,7 +26,7 @@
         @click-action="deleteFile"
       />
     </div>
-    <Editor @submit="modalConfirm=true" @new-file="upFile"/>
+    <Editor @submit="prompt" @new-file="upFile"/>
   </div>
 </template>
 
@@ -47,6 +47,7 @@ export default {
     return {
       titulo: "",
       files: [],
+      conteudo: "",
 
       modal: false,
       modalTitle: "Sucesso",
@@ -58,13 +59,17 @@ export default {
     }
   },
   methods: {
-    submit (content) {
+    prompt (content) {
+        this.conteudo = content
+        this.modalConfirm = true
+    },
+    submit () {
       this.modalConfirm=false
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
         formData.append('ficheiros', this.files[i])
       }
-      formData.append('corpo', content)
+      formData.append('corpo', this.conteudo)
       formData.append('titulo',this.titulo)
 
       axios.post('http://localhost:3333/noticias',
