@@ -43,7 +43,7 @@ router.put('/altE', JWTUtils.validate, async (req, res) =>{
         let not= {
             "idReferente": req.body._id,
             "user": req.body.user,
-            "descricao": "O seu pedido de consulta foi "+estado+"!",
+            "descricao": "O seu pedido de contacto foi "+estado+"!",
             "tipo": 0, 
         }
 

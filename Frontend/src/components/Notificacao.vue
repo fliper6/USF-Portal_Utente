@@ -15,7 +15,41 @@
                     <b style="font-size:22px; color:var(--white)">Notificações</b>
                 </v-col>
                 <v-col cols="2" class="icon">
-                    <v-icon size="30px" @click="(event) => openDrop(event, null)" color="var(--white)">mdi-dots-horizontal</v-icon>
+
+                    <template>
+                        <v-menu offset-y>
+                            <template v-slot:activator="{ on, attrs }">
+                              <div class="d-flex align-center" v-bind="attrs" v-on="on">
+                                <v-icon size="30px" color="var(--white)">mdi-dots-horizontal</v-icon>
+                              </div>
+                            </template>
+
+                            <v-list style="padding:0;cursor:pointer">
+                                <v-list-item class="opcao pa-1" @click="readAll()">
+                                  <v-row >
+                                    <v-col cols="1" style="margin:auto">
+                                      <v-icon>mdi-check</v-icon>
+                                    </v-col>
+                                    <v-col cols="10" offset="1" style="margin:auto">
+                                      <b>Marcar todas como lidas</b>
+                                    </v-col>
+                                  </v-row>
+                                </v-list-item>
+
+                                <v-list-item class="opcao pa-1" @click="removeAll()">
+                                  <v-row >
+                                    <v-col cols="1" style="margin:auto">
+                                      <v-icon>mdi-delete</v-icon>
+                                    </v-col>
+                                    <v-col cols="10" offset="1" style="margin:auto">
+                                      <b>Remover todas notificações</b>
+                                    </v-col>
+                                  </v-row>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                    </template>
+
                 </v-col> 
               </v-row>
             </v-subheader>
@@ -24,7 +58,7 @@
 
             <div v-if="this.notifications.length">
               <v-list-item 
-                @click="goToNotification(notification.idReferente)" 
+                @click="goToNotification(notification._id,notification.idReferente)" 
                 class="pa-4 backColor" 
                 v-for="notification in notifications" 
                 :key="`notification-key-${notification._id}`"
@@ -43,7 +77,40 @@
                     </v-col>      
   
                     <v-col cols="2" style="margin:auto" class="iconNoti">
-                      <v-icon size="30px" @click="(event) => openDrop(event, notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
+                      <!--<v-icon size="30px" @click="(event) => openDrop(event, notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>-->
+                      <template>
+                        <v-menu offset-y>
+                            <template v-slot:activator="{ on, attrs }">
+                              <div class="d-flex align-center" v-bind="attrs" v-on="on">
+                                <v-icon size="30px" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
+                              </div>
+                            </template>
+
+                            <v-list style="padding:0;cursor:pointer">
+                                <v-list-item class="opcao pa-1" @click="readOne(notification._id)">
+                                  <v-row >
+                                    <v-col cols="1" style="margin:auto">
+                                      <v-icon>mdi-check</v-icon>
+                                    </v-col>
+                                    <v-col cols="10" offset="1" style="margin:auto">
+                                      <b>Marcar como lida</b>
+                                    </v-col>
+                                  </v-row>
+                                </v-list-item>
+
+                                <v-list-item class="opcao pa-1" @click="removeOne(notification._id)">
+                                  <v-row >
+                                    <v-col cols="1" style="margin:auto">
+                                      <v-icon>mdi-delete</v-icon>
+                                    </v-col>
+                                    <v-col cols="10" offset="1" style="margin:auto">
+                                      <b>Remover a notificação</b>
+                                    </v-col>
+                                  </v-row>
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
+                      </template>
                     </v-col>
                 </v-row>
               </v-list-item>
@@ -96,10 +163,8 @@ import axios from 'axios'
             console.log(this.socket.id); 
           });
 
-          this.socket.on('update notificacoes', (notificacao) => {
+          this.socket.on('update notificacoes', () => {
             this.pling=true
-            //this.notifications.push(notificacao)
-            console.log(notificacao)
             this.getNotificacoes()
           });
         },
@@ -124,8 +189,49 @@ import axios from 'axios'
             lista.forEach(elem => { if (elem.estado==0) c++ });
             return c
           },
+          readAll(){
+            axios.put("http://localhost:3333/notificacao/lidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                this.getNotificacoes()
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          },
+          readOne(id){
+            var json = {}
+            json['_id'] = id
+            json['estado'] = 2
+
+            axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                this.getNotificacoes()
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          },
+          removeOne(id){
+            axios.delete("http://localhost:3333/notificacao/"+id, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                this.getNotificacoes()
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          },
+          removeAll(){
+            axios.delete("http://localhost:3333/notificacao/all/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+              .then(() => {
+                this.notifications = []
+                this.contador = 0
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          },
           openNotifications(){
-            axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+            axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
               .then(() => {
                 this.contador=0
               })
@@ -133,20 +239,19 @@ import axios from 'axios'
                 console.log(err)
               })
           },
-          openDrop(e,id){
-            e.stopPropagation()
-            console.log("Fechar o ",id)
+          openDrop(e){
+            e.stopPropagation()      
           },
-          goToNotification(id){
+          goToNotification(idNot,idRef){
             //meter a notificacao no estado 2
             var json = {}
-            json['_id'] = id
+            json['_id'] = idNot
             json['estado'] = 2
 
             axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
               .then(() => {
                 //redirecionar o utilizador para o sitio referente à notificação
-                console.log("fui para a notificacao " + id)
+                console.log("fui para a notificacao " + idRef)
                 //this.$router.push('/perfil')
                 this.$router.go()
               })
