@@ -23,6 +23,11 @@
               <b>Médicos</b>
             </v-list-item>
           </router-link>
+          <router-link class="opcao" :to="'/gestao/noticias'">
+            <v-list-item class="opcao">
+              <b>Notícias</b>
+            </v-list-item>
+          </router-link>
           <router-link class="opcao" :to="'/gestao/sugestao'">
             <v-list-item class="opcao">
               <b>Sugestões</b>

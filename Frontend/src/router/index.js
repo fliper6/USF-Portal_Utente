@@ -86,6 +86,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoMedicos.vue')
   },
   {
+    path: '/gestao/noticias',
+    name: 'GestaoNoticias',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestaoNoticias.vue')
+  },
+  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')
@@ -108,7 +113,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let adminRoutes = ['EditarPrivilegiosUtilizador']
+  let adminRoutes = ['EditarPrivilegiosUtilizador', 'GestaoMedicos']
   let medicoRoutes = ['Criar Notícia','Editar Noticia']
   let userRoutes = []
   let nivel = ''
