@@ -1,5 +1,28 @@
 <template>
   <div class="container">
+    <!-- 
+      Modals 
+    -->
+    <modal-message
+      title="Remover?"
+      :visible="modalConfirm"
+      options
+      @close="modalConfirm = false"
+      @confirm="confirmDelete()"
+    >
+      Deseja remover esta notícia do feed?
+    </modal-message>
+    <modal-message
+      title="Sucesso"
+      :visible="modal"
+      @close="modal = false"
+    >
+      Notícia removida com sucesso
+    </modal-message>
+
+    <!-- 
+      Conteudo
+    -->
     <div class="meta">{{tempo}} por {{noticia.nome_autor}} </div>
     <div class="title-row">
       <div class="title">{{noticia.titulo}}</div>
@@ -25,7 +48,7 @@
             </v-list-item-icon>
             <v-list-item-title>Editar</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="deleteNoticia">
+          <v-list-item @click="modalConfirm = true">
             <v-list-item-icon style="margin-right:5px">
               <v-icon small>mdi-delete</v-icon>
             </v-list-item-icon>
@@ -51,17 +74,21 @@
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import File from './Editor/File.vue'
+import ModalMessage from './ModalMessage.vue'
 
 export default {
   name: 'Noticia',
   props: ["noticia" , "timeAgo"],
   components: {
-    File
+    File,
+    ModalMessage
   },
   data () {
     return {
       token: localStorage.getItem('jwt'),
-      tempo: ''
+      tempo: '',
+      modalConfirm: false,
+      modal: false,
     }
   },
   mounted () {
@@ -77,7 +104,8 @@ export default {
           }
         }
       ).then(() => {
-        this.$emit('deleteMe', this.$props.noticia._id)
+        this.$emit('deleteMe', this.$props.noticia._id);
+        this.modal=true;
       }).catch(err => { console.log(err) });
     },
     downloadFile (file) {
@@ -110,6 +138,10 @@ export default {
       }
       return false
     },
+    confirmDelete() {
+      this.modalConfirm = false
+      this.deleteNoticia()
+    }
   }
 }
 </script>

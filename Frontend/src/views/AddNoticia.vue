@@ -1,21 +1,28 @@
 <template>
   <div>
+    <!-- 
+      Modals 
+    -->
     <modal-message
-      :title="modalConfirmTitle"
+      title="Publicar?"
       :visible="modalConfirm"
       options
-      @close="modalconfirm = false"
+      @close="modalConfirm = false"
       @confirm="submit"
     >
-      {{modalConfirmMessage}}
+      Deseja publicar esta notícia publicamente no feed?
     </modal-message>
     <modal-message
-      :title="modalTitle"
+      title="Sucesso"
       :visible="modal"
       @close="goHome"
     >
-      {{modalMessage}}
+      Notícia publicada com sucesso
     </modal-message>
+
+    <!--
+      Content
+    -->
     <v-text-field color="#000000" v-model="titulo" label="Titulo" required hide-details outlined dense></v-text-field>
     <div class="files">
       <File 
@@ -26,7 +33,7 @@
         @click-action="deleteFile"
       />
     </div>
-    <Editor @submit="modalConfirm=true" @new-file="upFile"/>
+    <Editor @submit="prompt" @new-file="upFile"/>
   </div>
 </template>
 
@@ -47,24 +54,25 @@ export default {
     return {
       titulo: "",
       files: [],
+      conteudo: "",
 
       modal: false,
-      modalTitle: "Sucesso",
-      modalMessage: "Notícia publicada com sucesso",
-
       modalConfirm: false,
-      modalConfirmTitle: "Publicar?",
-      modalConfirmMessage: "Deseja publicar esta notícia publicamente no feed?"
+
     }
   },
   methods: {
-    submit (content) {
+    prompt (content) {
+        this.conteudo = content
+        this.modalConfirm = true
+    },
+    submit () {
       this.modalConfirm=false
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
         formData.append('ficheiros', this.files[i])
       }
-      formData.append('corpo', content)
+      formData.append('corpo', this.conteudo)
       formData.append('titulo',this.titulo)
 
       axios.post('http://localhost:3333/noticias',

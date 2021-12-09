@@ -51,6 +51,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Consulta.vue')
   },
   {
+    path: '/balcao/sugestao',
+    name: 'Sugestão',
+    component: () => import(/* webpackChunkName: "about" */ '../views/MakeSugestao.vue')
+  },
+  {
     path: '/utilizadores/privilegios',
     name: 'EditarPrivilegiosUtilizador',
     component: () => import(/* webpackChunkName: "about" */ '../views/EditPrivUsers.vue')
@@ -84,6 +89,11 @@ const routes = [
     path: '/gestao/noticias',
     name: 'GestaoNoticias',
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoNoticias.vue')
+  },
+  {
+    path: '/gestao/documentos',
+    name: 'GestaoDocumentos',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestaoDocumentos.vue')
   },
   {
     path: '/forbidden',

@@ -2,7 +2,7 @@
     <div class="pedidoC">
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
-                <h1 style="color:var(--primary-color)">Pedidos de Consulta</h1>
+                <h1 style="color:var(--primary-color)">Pedidos de Contacto</h1>
           </v-container>
           <v-container>
                 <v-divider/>

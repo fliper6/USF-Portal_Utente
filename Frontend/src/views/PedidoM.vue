@@ -113,7 +113,7 @@ import axios from 'axios'
         data['estado'] = estado
         axios.put("http://localhost:3333/medicacao/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          //this.$router.go()
+          this.$router.go()
         })
         .catch(err => {
           console.log(err)
