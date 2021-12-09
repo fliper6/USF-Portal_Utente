@@ -44,7 +44,7 @@ export default {
     }
   },
   created () {
-   axios.get('http://localhost:3333/noticias?visibilidade=true' + this.$route.params.id)
+   axios.get('http://localhost:3333/noticias/' + this.$route.params.id)
     .then(data => {
        this.noticia = data.data
        this.loading = false
