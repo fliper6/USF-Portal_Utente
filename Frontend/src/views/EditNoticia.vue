@@ -1,5 +1,28 @@
 <template>
   <div v-if="!loading">
+    <!-- 
+      Modals 
+    -->
+    <modal-message
+      title="Publicar?"
+      :visible="modalConfirm"
+      options
+      @close="modalConfirm = false"
+      @confirm="submit"
+    >
+      Deseja editar esta notícia ?
+    </modal-message>
+    <modal-message
+      title="Sucesso"
+      :visible="modal"
+      @close="goHome"
+    >
+      Notícia editada com sucesso
+    </modal-message>
+
+    <!--
+      Content
+    -->
     <v-text-field class="label" color="#000000" v-model="noticia.titulo" label="Titulo" required hide-details outlined dense></v-text-field>
     <div class="files">
       <File 
@@ -18,7 +41,7 @@
       />
     </div>
     <Editor
-      @submit="submit" 
+      @submit="confirmEdit" 
       :conteudo="noticia.corpo" 
       @new-file="upFile"
     />
@@ -28,19 +51,24 @@
 <script>
 import Editor from "../components/Editor.vue"
 import File from '../components/Editor/File.vue'
+import ModalMessage from '../components/ModalMessage.vue'
 import axios from 'axios'
 
 export default {
   name: 'Home',
   components: {
     Editor,
-    File
+    File,
+    ModalMessage
   },
   data () {
     return {
       loading: true,
       noticia: null,
       files: [],
+
+      modal: false,
+      modalConfirm: false
     }
   },
   created () {
@@ -52,8 +80,8 @@ export default {
     .catch(err => console.log(err))
   },
   methods: {
-    submit (content) {
-      this.noticia.corpo = content
+    submit () {
+      this.modalConfirm = false
       let formData = new FormData();
       for (const key of Object.keys(this.noticia)) {
         if(Array.isArray(this.noticia[key])){
@@ -75,9 +103,13 @@ export default {
           }
         }
       ).then(() => {
-        this.$router.push('/')
+        this.modal = true
 
       }).catch(err => { console.log(err) });
+    },
+    confirmEdit (content) {
+      this.noticia.corpo = content
+      this.modalConfirm = true
     },
     upFile(file) {
       this.files.push(file)
@@ -90,6 +122,10 @@ export default {
     deleteFile(file) {
       let id = this.files.indexOf(file)
       this.files.splice(id, 1);
+    },
+    goHome () {
+      this.modal = false
+      this.$router.push('/')
     }
   }
 }
