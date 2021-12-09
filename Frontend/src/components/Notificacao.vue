@@ -58,7 +58,7 @@
 
             <div v-if="this.notifications.length">
               <v-list-item 
-                @click="goToNotification(notification._id,notification.idReferente)" 
+                @click="goToNotification(notification._id, notification.idReferente, notification.tipo)" 
                 class="pa-4 backColor" 
                 v-for="notification in notifications" 
                 :key="`notification-key-${notification._id}`"
@@ -70,14 +70,13 @@
                     </v-col>
                   
                     <v-col cols="8">
-                      <v-list-item-content>
-                        <div style="font-size:18px"><b>{{notification.descricao}}</b></div>
-                        <div style="margin-top:6px;font-size:14px"> {{ notification.data_criacao | moment("from") }}</div>
+                      <v-list-item-content style="font-size:18px;height:48px">
+                          <b>{{notification.descricao}}</b>                    
                       </v-list-item-content> 
+                      <div style="margin-top:6px;font-size:14px"> {{ notification.data_criacao | moment("from") }}</div>
                     </v-col>      
   
                     <v-col cols="2" style="margin:auto" class="iconNoti">
-                      <!--<v-icon size="30px" @click="(event) => openDrop(event, notification._id)" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>-->
                       <template>
                         <v-menu offset-y>
                             <template v-slot:activator="{ on, attrs }">
@@ -239,10 +238,7 @@ import axios from 'axios'
                 console.log(err)
               })
           },
-          openDrop(e){
-            e.stopPropagation()      
-          },
-          goToNotification(idNot,idRef){
+          goToNotification(idNot,idRef, tipo){
             //meter a notificacao no estado 2
             var json = {}
             json['_id'] = idNot
@@ -251,9 +247,7 @@ import axios from 'axios'
             axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
               .then(() => {
                 //redirecionar o utilizador para o sitio referente à notificação
-                console.log("fui para a notificacao " + idRef)
-                //this.$router.push('/perfil')
-                this.$router.go()
+                this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)
               })
               .catch(err => {
                 console.log(err)
