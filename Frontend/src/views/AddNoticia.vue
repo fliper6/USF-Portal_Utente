@@ -1,21 +1,28 @@
 <template>
   <div>
+    <!-- 
+      Modals 
+    -->
     <modal-message
-      :title="modalConfirmTitle"
+      title="Publicar?"
       :visible="modalConfirm"
       options
-      @close="modalconfirm = false"
+      @close="modalConfirm = false"
       @confirm="submit"
     >
-      {{modalConfirmMessage}}
+      Deseja publicar esta notícia publicamente no feed?
     </modal-message>
     <modal-message
-      :title="modalTitle"
+      title="Sucesso"
       :visible="modal"
       @close="goHome"
     >
-      {{modalMessage}}
+      Notícia publicada com sucesso
     </modal-message>
+
+    <!--
+      Content
+    -->
     <v-text-field color="#000000" v-model="titulo" label="Titulo" required hide-details outlined dense></v-text-field>
     <div class="files">
       <File 
@@ -50,12 +57,8 @@ export default {
       conteudo: "",
 
       modal: false,
-      modalTitle: "Sucesso",
-      modalMessage: "Notícia publicada com sucesso",
-
       modalConfirm: false,
-      modalConfirmTitle: "Publicar?",
-      modalConfirmMessage: "Deseja publicar esta notícia publicamente no feed?"
+
     }
   },
   methods: {
