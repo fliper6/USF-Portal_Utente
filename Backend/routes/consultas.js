@@ -44,7 +44,7 @@ router.put('/altE', JWTUtils.validate, async (req, res) =>{
             "idReferente": req.body._id,
             "user": req.body.user,
             "descricao": "O seu pedido de contacto foi "+estado+"!",
-            "tipo": 0, 
+            "tipo": "pedidoContacto", 
         }
 
         const noti = await Notificacao.inserir(not)
