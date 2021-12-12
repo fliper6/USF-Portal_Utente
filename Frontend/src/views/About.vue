@@ -25,7 +25,7 @@
     </div>
     <h1 style="margin-bottom:20px">Equipas <v-dialog
               :v-model="dialogo"
-              width="500"
+              width="700"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
@@ -43,9 +43,31 @@
                   Nova Equipa
                 </v-card-title>
         
-                <v-card-text>
-                  Tem a certeza que deseja apagar o contacto ?
-                </v-card-text>
+                <v-container>
+                  <v-row v-for="(p,i) in equipa" :key="i">
+                    <v-col>
+                      <v-select :items="items" label="Título" v-model="p.profissao"></v-select>
+                    </v-col>
+                    <v-col >
+                      <v-text-field label="Nome" v-model="p.nome"></v-text-field>
+                    </v-col>
+                    <v-col>
+                      <v-text-field label="Email" v-model="p.email"></v-text-field>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols=1>
+                      <v-btn title="Adicionar elemento à equipa" icon @click="add_ele()">
+                        <v-icon>mdi-plus</v-icon>
+                      </v-btn>
+                    </v-col>
+                    <v-col>
+                      <v-btn title="Apagar último elemento" icon @click="equipa.pop()">
+                        <v-icon>mdi-trash-can</v-icon>
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-container>
         
                 <v-divider></v-divider>
         
@@ -61,7 +83,7 @@
                   <v-btn
                     text
                     class="button-confirmar"
-                    @click="apagar_contacto(person._id)"
+                    @click="add_equipa()"
                   >
                     Confirmar
                   </v-btn>
@@ -115,9 +137,7 @@
                   Confirmar
                 </v-card-title>
         
-                <v-card-text>
-                  Tem a certeza que deseja apagar o contacto {{person.nome}}?
-                </v-card-text>
+                <v-card-text>Tem a certeza que deseja eliminar o contacto?</v-card-text>
         
                 <v-divider></v-divider>
         
@@ -232,6 +252,24 @@ export default {
         email:'',
         equipa:''
       },
+      equipa:[{
+        nome:'',
+        profissao:'',
+        email:'',
+        equipa:''
+      },
+      {
+        nome:'',
+        profissao:'',
+        email:'',
+        equipa:''
+      },
+      {
+        nome:'',
+        profissao:'',
+        email:'',
+        equipa:''
+      }],
       edit:'',
       add_team : '',
       dialog:'',
@@ -308,6 +346,25 @@ export default {
     editTeam(item,index){
       this.pessoas = item
       this.add_team[index] = true
+    },
+    add_ele(){
+      var nova = {
+        nome:'',
+        profissao:'',
+        email:'',
+        equipa:''
+      }
+      this.equipa.push(nova)
+
+    },
+    add_equipa(){
+      axios.post("http://localhost:3333/contactos" , this.equipa, {headers:{'authorization':'Bearer '+ this.token}})
+      .then(() => {
+        this.$router.go()
+      })
+      .catch(err => {
+        console.log(err)
+      })
     }
   }
 }
