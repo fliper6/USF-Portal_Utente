@@ -1,7 +1,7 @@
 [{
     "titulo": "Falso Rastreio do Cancro da Mama",
     "data_publicacao": "2021-11-25T01:12:09",
-    "visibilidade": true,
+    "visibilidade": "0",
     "_id_autor": {
         "$oid": "619265f2a251bdb1cd46375b"
     },
@@ -21,7 +21,7 @@
 {
     "titulo": "Resolução de Conflitos Éticos",
     "data_publicacao": "2021-11-25T01:19:47",
-    "visibilidade": true,
+    "visibilidade": "0",
     "_id_autor": {
         "$oid": "619265f2a251bdb1cd46375b"
     },
@@ -41,7 +41,7 @@
 {
     "titulo": "Recomendações - Atividade Física",
     "data_publicacao": "2021-11-25T01:23:25",
-    "visibilidade": true,
+    "visibilidade": "0",
     "_id_autor": {
         "$oid": "619265f2a251bdb1cd46375b"
     },

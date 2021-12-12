@@ -1,11 +1,11 @@
 var Documento = require('../models/documento')
 
 module.exports.listar = () => {
-    return Documento.find({visibilidade: true}).sort('-data_publicacao').exec()
+    return Documento.find({visibilidade: "0"}).sort('-data_publicacao').exec()
 }
 
 module.exports.listarPriv = () => {
-    return Documento.find({visibilidade: false}).sort('-data_publicacao').exec()
+    return Documento.find({visibilidade: "1"}).sort('-data_publicacao').exec()
 }
 
 module.exports.consultar = _id => {
@@ -18,11 +18,11 @@ module.exports.inserir = doc => {
 }
 
 module.exports.remover = _id => {
-    return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: false}})
+    return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: "1"}})
 }
 
 module.exports.adicionar = _id => {
-    return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: true}})
+    return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: "0"}})
 }
 
 module.exports.eliminar = function(id){

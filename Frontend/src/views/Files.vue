@@ -254,7 +254,7 @@
                 console.log("Ficheiro uploaded com sucesso!")
 
                   // Atualizar documentos
-                  axios.get("http://localhost:3333/documentos")
+                  axios.get("http://localhost:3333/documentos?visibilidade=0")
                     .then(data => {
                       this.docs = data.data
                       this.docs.forEach(item => {              
@@ -327,7 +327,7 @@
     },
     created() {
       // Obter lista de documentos
-      axios.get("http://localhost:3333/documentos")
+      axios.get("http://localhost:3333/documentos?visibilidade=0")
         .then(data => {
           this.docs = data.data
           this.docs.forEach(item => {

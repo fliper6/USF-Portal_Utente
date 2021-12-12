@@ -12,12 +12,13 @@ let Categoria = require('../controllers/categoria')
 
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    if(req.query.visibilidade == "true"){
+    console.log(req.query)
+    if(req.query.visibilidade == "0"){
         Documento.listar()
             .then(dados => res.status(200).jsonp(dados))
             .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
     }
-    else if (req.query.visibilidade == "false"){
+    else if (req.query.visibilidade == "1"){
         Documento.listarPriv()
             .then(dados => res.status(200).jsonp(dados))
             .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
@@ -109,7 +110,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
     let documento = {
         titulo: req.body.titulo,
         data_publicacao: new Date().toISOString().substr(0,19),
-        visibilidade: true,
+        visibilidade: "0",
         _id_autor: req.user._id,
         nome_autor: req.user.nome,
         id_categoria: req.body.id_categoria,
