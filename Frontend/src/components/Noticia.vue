@@ -19,6 +19,13 @@
     >
       Notícia removida com sucesso
     </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError"
+      @close="this.modalError = false"
+    >
+      Erro ao remover notícia
+    </modal-message>
 
     <!-- 
       Conteudo
@@ -87,8 +94,10 @@ export default {
     return {
       token: localStorage.getItem('jwt'),
       tempo: '',
+
       modalConfirm: false,
       modal: false,
+      modalError: false,
     }
   },
   mounted () {
@@ -106,7 +115,7 @@ export default {
       ).then(() => {
         this.$emit('deleteMe', this.$props.noticia._id);
         this.modal=true;
-      }).catch(err => { console.log(err) });
+      }).catch(() => { this.modalError = true });
     },
     downloadFile (file) {
       axios.get('http://localhost:3333/noticias/download',

@@ -19,6 +19,13 @@
     >
       Notícia publicada com sucesso
     </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError"
+      @close="goHome"
+    >
+      Erro ao publicar noticia
+    </modal-message>
 
     <!--
       Content
@@ -58,6 +65,7 @@ export default {
 
       modal: false,
       modalConfirm: false,
+      modalError:false,
 
     }
   },
@@ -85,10 +93,11 @@ export default {
         }
       ).then(() => {
         this.modal = true
-      }).catch(err => { console.log(err) });
+      }).catch(() => { this.modalError = true });
     },
     goHome() {
       this.modal=false
+      this.modalError=false
       this.$router.push('/')
     },
     upFile(file) {

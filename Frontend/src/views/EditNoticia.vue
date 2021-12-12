@@ -19,6 +19,13 @@
     >
       Notícia editada com sucesso
     </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError"
+      @close="goHome"
+    >
+      Erro ao editar a noticia.
+    </modal-message>
 
     <!--
       Content
@@ -68,7 +75,8 @@ export default {
       files: [],
 
       modal: false,
-      modalConfirm: false
+      modalConfirm: false,
+      modalError: false
     }
   },
   created () {
@@ -105,7 +113,7 @@ export default {
       ).then(() => {
         this.modal = true
 
-      }).catch(err => { console.log(err) });
+      }).catch(() => { this.modalError = true });
     },
     confirmEdit (content) {
       this.noticia.corpo = content
@@ -125,6 +133,7 @@ export default {
     },
     goHome () {
       this.modal = false
+      this.modalErros = false
       this.$router.push('/')
     }
   }
