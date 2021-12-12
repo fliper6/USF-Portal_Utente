@@ -150,7 +150,7 @@ export default {
       if(this.$v.consulta.objetivo.$invalid){
         this.objFlag = true
       }
-      else{
+      else if(!this.$v.consulta.medico.$invalid && !this.$v.consulta.objetivo.$invalid && !this.$v.consulta.nome){
         this.dialog = true
       }
     },

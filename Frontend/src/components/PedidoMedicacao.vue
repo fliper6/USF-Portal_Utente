@@ -194,7 +194,7 @@ export default {
       if(this.$v.medicacao.contacto.$invalid){
         this.contactoFlag = true
       }
-      else{
+      else if(!this.$v.medicacao.medico.$invalid && !this.$v.medicacao.medicamentos.$invalid && this.$v.medicacao.contacto.$invalid){
         this.dialog = true
       }
     },
