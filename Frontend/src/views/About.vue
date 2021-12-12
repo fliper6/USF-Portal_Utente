@@ -1,10 +1,9 @@
 <template>
   <div class="about">
-    <v-btn depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false" class="button-principal">
-      Editar
-    </v-btn>
-    <v-btn v-else depressed class="button-principal" @click="save_enc">Guardar</v-btn>
-    <h1 style="margin-bottom:20px">Encontre-nos</h1>
+    
+    <h1 style="margin-bottom:20px">Encontre-nos <v-btn icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
+      <v-icon>mdi-pencil</v-icon>
+    </v-btn></h1>
     <div class="contactos" v-if="this.edit_enc">
       <div class="contactos-labels">
         <div v-for="label in info" :key="label" class="contactos-label"> {{label}}: </div>
@@ -22,6 +21,7 @@
         <v-text-field label="Telefone" v-model="dados.telefone"></v-text-field>
         <v-text-field label="Email" v-model="dados.email"></v-text-field>
         <v-text-field label="Horario de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
+        <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
     </div>
     <h1 style="margin-bottom:20px">Equipas</h1>
     <v-container v-for="(item,index) in equipas" :key="index">
@@ -51,9 +51,51 @@
         </v-row>
         <v-row v-else style="margin:25px 0 0 0">
           <v-col cols=1>
-            <v-btn style="margin:15px 0 0 0" icon color="var(--primary-color)" @click="edit = ''">
-              <v-icon>mdi-trash-can</v-icon>
-          </v-btn>
+            <v-dialog
+              :v-model="dialog"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  style="margin:15px 0 0 0" icon color="var(--primary-color)"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>mdi-trash-can</v-icon>
+                </v-btn>
+              </template>
+        
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                  Confirmar
+                </v-card-title>
+        
+                <v-card-text>
+                  Tem a certeza que deseja apagar o contacto {{person.nome}}?
+                </v-card-text>
+        
+                <v-divider></v-divider>
+        
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    class="button-cancelar"
+                    text
+                    @click="dialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    class="button-confirmar"
+                    @click="apagar_contacto(person._id)"
+                  >
+                    Confirmar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
           </v-col>
           <v-col cols=2>
             <v-select :items="items" label="Título" v-model="person.profissao"></v-select>
@@ -142,6 +184,15 @@ export default {
   methods: {
     save_enc(){
       axios.put("http://localhost:3333/contactos" , this.dados, {headers:{'authorization':'Bearer '+ this.token}})
+      .then(() => {
+        this.$router.go()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
+    apagar_contacto(id){
+      axios.delete("http://localhost:3333/contactos/" + id , {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })
