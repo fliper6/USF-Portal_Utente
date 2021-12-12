@@ -26,21 +26,21 @@ router.get('/:email', function(req, res) {
   });
 
 // Inserir uma contacto
-router.post('/', JWTUtils.validate, function(req, res){
+router.post('/', JWTUtils.validate, JWTUtils.isAdmin, function(req, res){
     Contacto.inserir(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
 // Alterar uma contacto
-router.put('/', JWTUtils.validate, function(req, res){
+router.put('/', JWTUtils.validate, JWTUtils.isAdmin, function(req, res){
     Contacto.alterar(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 })
 
 // Remover uma contacto
-router.delete('/:id', JWTUtils.validate, function(req, res) {
+router.delete('/:id', JWTUtils.validate, JWTUtils.isAdmin, function(req, res) {
     Contacto.remover(req.params.id)
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))

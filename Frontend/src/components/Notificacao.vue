@@ -6,7 +6,7 @@
           </span>
         </template>
 
-        <v-card max-width=400px> 
+        <v-card width=400px> 
           <v-list max-height=800px dense class="pa-0">
 
             <v-subheader class="pa-8">
@@ -58,7 +58,7 @@
 
             <div v-if="this.notifications.length">
               <v-list-item 
-                @click="goToNotification(notification._id, notification.idReferente, notification.tipo)" 
+                @click="goToNotification(notification._id, notification.idReferente, notification.tipo, notification.estado)" 
                 class="pa-4 backColor" 
                 v-for="notification in notifications" 
                 :key="`notification-key-${notification._id}`"
@@ -86,7 +86,7 @@
                             </template>
 
                             <v-list style="padding:0;cursor:pointer">
-                                <v-list-item class="opcao pa-1" @click="readOne(notification._id)">
+                                <v-list-item class="opcao pa-1" @click="readOne(notification._id, notification.estado)">
                                   <v-row >
                                     <v-col cols="1" style="margin:auto">
                                       <v-icon>mdi-check</v-icon>
@@ -118,9 +118,11 @@
             <div v-else>
               <v-list-item class="pa-6 backColor">
                   <v-row>
-                    <v-list-item-content>
-                      <v-list-item-title style="font-size:18px">Não existem notificações!</v-list-item-title>
-                    </v-list-item-content>           
+                    <v-col cols="10" offset="2">
+                      <v-list-item-content>
+                        <v-list-item-title style="font-size:18px">Não existem notificações!</v-list-item-title>
+                      </v-list-item-content>     
+                    </v-col>      
                   </v-row>
               </v-list-item>
             </div>
@@ -189,26 +191,30 @@ import axios from 'axios'
             return c
           },
           readAll(){
-            axios.put("http://localhost:3333/notificacao/lidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
-              .then(() => {
-                this.getNotificacoes()
-              })
-              .catch(err => {
-                console.log(err)
-              })
+            if (this.notifications.length>0) {
+              axios.put("http://localhost:3333/notificacao/lidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
+                .then(() => {
+                  this.getNotificacoes()
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
           },
-          readOne(id){
-            var json = {}
-            json['_id'] = id
-            json['estado'] = 2
+          readOne(id,estado){
+            if (estado!=2) {
+              var json = {}
+              json['_id'] = id
+              json['estado'] = 2
 
-            axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
-              .then(() => {
-                this.getNotificacoes()
-              })
-              .catch(err => {
-                console.log(err)
-              })
+              axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+                .then(() => {
+                  this.getNotificacoes()
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
           },
           removeOne(id){
             axios.delete("http://localhost:3333/notificacao/"+id, {headers:{'authorization':'Bearer '+ this.token}})
@@ -220,38 +226,47 @@ import axios from 'axios'
               })
           },
           removeAll(){
-            axios.delete("http://localhost:3333/notificacao/all/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
-              .then(() => {
-                this.notifications = []
-                this.contador = 0
-              })
-              .catch(err => {
-                console.log(err)
-              })
+            if (this.notifications.length>0) {
+              axios.delete("http://localhost:3333/notificacao/all/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+                .then(() => {
+                  this.notifications = []
+                  this.contador = 0
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
           },
           openNotifications(){
-            axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
-              .then(() => {
-                this.contador=0
-              })
-              .catch(err => {
-                console.log(err)
-              })
+            if (this.contador!=0) {
+              axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
+                .then(() => {
+                  this.contador=0
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
           },
-          goToNotification(idNot,idRef, tipo){
+          goToNotification(idNot,idRef, tipo, estado){
             //meter a notificacao no estado 2
-            var json = {}
-            json['_id'] = idNot
-            json['estado'] = 2
+            if (estado!=2) {
+              var json = {}
+              json['_id'] = idNot
+              json['estado'] = 2
 
-            axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
-              .then(() => {
-                //redirecionar o utilizador para o sitio referente à notificação
-                this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)
-              })
-              .catch(err => {
-                console.log(err)
-              })
+              axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+                .then(() => {
+                  //redirecionar o utilizador para o sitio referente à notificação
+                  this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+            else {
+              this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)
+            }
           }
         }    
       }

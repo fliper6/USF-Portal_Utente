@@ -14,7 +14,7 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn class="button-cancelar" text @click="cancelar()"> Cancelar </v-btn>
-                      <v-btn class="button-confirmar"  text @click="altNivel()"> Confirmar </v-btn>
+                      <v-btn class="button-confirmar" :loading="loading" text @click="altNivel()"> Confirmar </v-btn>
                     </v-card-actions> 
                   </v-card>
                 </v-dialog> 
@@ -137,7 +137,8 @@ export default {
       nomeAlt:"",
       privAlt:"",
       privAnt:"",
-      idAlt:""
+      idAlt:"",
+      loading:false
     }
   },
   methods: {
@@ -156,14 +157,17 @@ export default {
     },
     altNivel() {
       this.dialog = false
+      this.loading = true
       var json = {"nivel": this.privAlt}
         axios.put("http://localhost:3333/users/nivel/"+this.idAlt, json, {headers: {'Authorization': `Bearer ${this.token}`}})
           .then( () => {
             this.sucesso = true
             this.dialog2 = true
+            this.loading = false
           })
           .catch(err => {
             this.dialog2 = true
+            this.loading = false
             console.log("Erro a alterar permissões de users:",err)
           })
     },
