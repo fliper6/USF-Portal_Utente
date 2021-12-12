@@ -175,7 +175,7 @@ export default {
       .catch(() => {
         localStorage.clear()
         window.location.pathname = '/'
-        alert("A sua sessão foi expirada!")
+        alert("A sua sessão foi expirada!!")
       })
     },
     removeSpanMedicamentos: function(){

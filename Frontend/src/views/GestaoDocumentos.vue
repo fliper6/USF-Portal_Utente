@@ -18,7 +18,7 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; idVer = d._id">Ver</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; documento = d">Ver</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = d.titulo; idVisibilidade = d._id">Colocar público</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = d.titulo; idApagar = d._id">Eliminar</v-btn>
             </v-col>
@@ -150,12 +150,12 @@
           <v-btn
             icon
             red
-            @click="dialogVer = false"
+            @click="dialogVer = false;"
           >
             <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
           </v-btn>         
         </v-card-title>
-          <VerDocumento :id="idVer"/>
+          <VerDocumento :documento="documento"/>
         </v-card>
       </v-dialog>
     </div>
@@ -192,7 +192,7 @@ export default {
       nomeVisibilidade: null,
       idVisibilidade: null,
       nomeFlag: false,
-      idVer: null
+      idVer: null,
     }
   },
   created(){
