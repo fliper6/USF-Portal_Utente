@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     
-    <h1 style="margin-bottom:20px">Encontre-nos <v-btn icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
+    <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
       <v-icon>mdi-pencil</v-icon>
     </v-btn></h1>
     <div class="contactos" v-if="this.edit_enc">
@@ -23,7 +23,51 @@
         <v-text-field label="Horario de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
         <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
     </div>
-    <h1 style="margin-bottom:20px">Equipas</h1>
+    <h1 style="margin-bottom:20px">Equipas <v-dialog
+              :v-model="dialogo"
+              width="500"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  icon
+                  v-bind="attrs"
+                  v-on="on"
+                  title="Adicionar Equipa"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+        
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">
+                  Nova Equipa
+                </v-card-title>
+        
+                <v-card-text>
+                  Tem a certeza que deseja apagar o contacto ?
+                </v-card-text>
+        
+                <v-divider></v-divider>
+        
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn
+                    class="button-cancelar"
+                    text
+                    @click="dialog = false"
+                  >
+                    Cancel
+                  </v-btn>
+                  <v-btn
+                    text
+                    class="button-confirmar"
+                    @click="apagar_contacto(person._id)"
+                  >
+                    Confirmar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog></h1>
     <v-container v-for="(item,index) in equipas" :key="index">
       <div v-for="(person, indice) in item" 
           :key="indice">
@@ -43,7 +87,7 @@
             <div :style="'margin:0 0 0 '+ windowWidth*-0.03+ 'px' " class="text-left"> {{person.email}} </div>
           </v-col>
           <v-col cols=1>
-            <v-btn icon v-if="nivel === 'Administrador' && edit != person._id" @click="edit = person._id">
+            <v-btn title="Editar Contacto" icon v-if="nivel === 'Administrador' && edit != person._id" @click="edit = person._id">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-col>
@@ -60,6 +104,7 @@
                   style="margin:15px 0 0 0" icon color="var(--primary-color)"
                   v-bind="attrs"
                   v-on="on"
+                  title="Eliminar Contacto"
                 >
                   <v-icon>mdi-trash-can</v-icon>
                 </v-btn>
@@ -104,14 +149,45 @@
             <v-text-field label="Nome" v-model="person.nome"></v-text-field>
           </v-col>
           <v-col cols=3>
-            <v-text-field label="Nome" v-model="person.email"></v-text-field>
+            <v-text-field label="Email" v-model="person.email"></v-text-field>
           </v-col>
           <v-col cols=1>
-            <v-btn icon style="margin:15px 0 0 0" @click="save_person(person)">
+            <v-btn title="Guardar Contacto" icon style="margin:15px 0 0 0" @click="save_person(person)">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
           </v-col>
         </v-row>
+        
+      </div>
+
+      <div v-if="add_team === index">
+        <v-row>
+          <v-col cols=1>
+            <v-btn title="Cancelar Operação" icon style="margin:15px 0 0 0" @click="add_team = ''">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols=2>
+            <v-select :items="items" label="Título" v-model="pessoa.profissao"></v-select>
+          </v-col>
+          <v-col cols=3>
+            <v-text-field label="Nome" v-model="pessoa.nome"></v-text-field>
+          </v-col>
+          <v-col cols=3>
+            <v-text-field label="Email" v-model="pessoa.email"></v-text-field>
+          </v-col>
+          <v-col cols=1>
+            <v-btn title="Adicionar Contacto" icon style="margin:15px 0 0 0" @click="add_person(index)">
+              <v-icon>mdi-content-save</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-else>
+        <v-btn title="Adicionar elemento à equipa" icon style="margin:15px 0 0 0" @click="add_team = index">
+          <v-icon>mdi-plus</v-icon>
+        </v-btn>
       </div>
 
         
@@ -150,8 +226,16 @@ export default {
       nivel:'',
       edit_enc : true,
       items: ['Dr.', 'Dr.ª', 'Enf.', 'Enf.ª', 'Secretário Clínico', 'Secretária Clínica'],
-      pessoas:[],
-      edit:''
+      pessoa:{
+        nome:'',
+        profissao:'',
+        email:'',
+        equipa:''
+      },
+      edit:'',
+      add_team : '',
+      dialog:'',
+      dialogo:''
     }
   },
   mounted () {
@@ -191,6 +275,17 @@ export default {
         console.log(err)
       })
     },
+    add_person(index){
+      console.log(this.pessoa)
+      this.pessoa['equipa'] = index
+      axios.post("http://localhost:3333/contactos" , this.pessoa, {headers:{'authorization':'Bearer '+ this.token}})
+      .then(() => {
+        this.$router.go()
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    },
     apagar_contacto(id){
       axios.delete("http://localhost:3333/contactos/" + id , {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
@@ -212,7 +307,7 @@ export default {
     },
     editTeam(item,index){
       this.pessoas = item
-      this.edit_team[index] = true
+      this.add_team[index] = true
     }
   }
 }
