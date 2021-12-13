@@ -13,16 +13,9 @@ let Ficheiro = require('../controllers/ficheiro')
 
 // Obter lista de noticias
 router.get('/', (req,res) => {
-    if(req.query.visibilidade == "true"){
-        Noticia.listar()
-            .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
-    }
-    else if (req.query.visibilidade == "false"){
-        Noticia.listarPriv()
-            .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
-    }    
+    Noticia.listar(req.query.visibilidade)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
 })
 
 // Fazer download de um ficheiro de notícia
@@ -68,7 +61,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         nome_autor: req.user.nome,
         data_criacao: data_publicacao,
         data_ultima_mod: data_publicacao,
-        visibilidade: true,
+        visibilidade: 0,
         ficheiros
     }
     

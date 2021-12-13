@@ -33,7 +33,7 @@ export default {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
-    axios.get('http://localhost:3333/noticias?visibilidade=true')
+    axios.get('http://localhost:3333/noticias?visibilidade=0')
       .then(data => {
         this.noticias = data.data 
       })

@@ -196,7 +196,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/noticias?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.noticias = dados.data
         })
@@ -209,7 +209,7 @@ export default {
     deleteNoticia(id){
       axios.delete('http://localhost:3333/noticias/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
               this.noticias = dados.data
           })
@@ -229,7 +229,7 @@ export default {
           }
         })
         .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
               this.noticias = dados.data
           })

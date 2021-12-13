@@ -197,7 +197,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/documentos?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.documentos = dados.data
         })
@@ -210,7 +210,7 @@ export default {
     deleteDocumento(id){
       axios.delete('http://localhost:3333/documentos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
-          axios.get("http://localhost:3333/documentos?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+          axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
               this.documentos = dados.data
           })
@@ -230,7 +230,7 @@ export default {
           }
         })
         .then(() => {
-          axios.get("http://localhost:3333/documentos?visibilidade=false" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+          axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
               this.documentos = dados.data
           })
