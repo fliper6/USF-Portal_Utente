@@ -2,8 +2,8 @@
   <div class="wrapper">
     <div class="title-area">
       <h1 class="h1">Enviar Sugestão</h1>
-      <p class="p1">Preencha cuidadosamente o formulário.
-        Este formulário não pode ser usado para consulta no próprio dia (consulta urgente).</p>
+      <p class="p1">
+        Este formulário serve para comunicar diretamente com a USF.</p>
     </div>
     <div class="form-area">
     <form id="formMed">

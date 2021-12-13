@@ -29,7 +29,7 @@ export default {
       token: localStorage.getItem('jwt'),
     }
   },
-  mounted () {
+  created () {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
