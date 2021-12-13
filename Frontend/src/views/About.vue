@@ -1,10 +1,12 @@
 <template>
   <div class="about">
-    
-    <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
+    <v-container>
+      <v-row>
+        <v-col>
+          <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
       <v-icon>mdi-pencil</v-icon>
     </v-btn></h1>
-    <div class="contactos" v-if="this.edit_enc">
+          <div class="contactos" v-if="this.edit_enc">
       <div class="contactos-labels">
         <div v-for="label in info" :key="label" class="contactos-label"> {{label}}: </div>
       </div>
@@ -23,6 +25,23 @@
         <v-text-field label="Horario de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
         <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
     </div>
+        </v-col>
+        <v-col>
+          <GmapMap
+            :center="center"
+            :zoom="16"
+            map-type-id="terrain"
+            style="width: 500px; height: 300px"
+          >
+            <GmapMarker
+              :position="center"
+              @click="center=center"
+            />
+          </GmapMap>
+        </v-col>
+      </v-row>
+    </v-container>
+    
     <h1 style="margin-bottom:20px">Equipas <v-dialog
               :v-model="dialogo"
               width="700"
@@ -228,12 +247,12 @@ import axios from 'axios'
 import jwt from 'jsonwebtoken';
 
 
-
 export default {
   name: 'Home',
   data () {
     return { 
       windowWidth: window.innerWidth,
+      center: { lat: 41.54738349797038, lng: -8.428102644182273 },
       info: [
         "Morada",
         "USF Linha de Apoio",
@@ -277,6 +296,13 @@ export default {
     }
   },
   mounted () {
+    // At this point, the child GmapMap has been mounted, but
+    // its map has not been initialized.
+    // Therefore we need to write mapRef.$mapPromise.then(() => ...)
+
+    this.$refs.mapRef.$mapPromise.then((map) => {
+      map.panTo({lat: 1.38, lng: 103.80})
+    })
   },
   created(){
     this.nivel = jwt.decode(this.token).nivel
@@ -302,6 +328,8 @@ export default {
       .catch(err => {
         console.log(err)
       })
+  },
+  components:{
   },
   methods: {
     save_enc(){

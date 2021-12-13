@@ -30,6 +30,7 @@
     "vue-pdf": "^4.3.0",
     "vue-pdf-app": "^2.1.0",
     "vue-router": "^3.5.2",
+    "vue2-google-maps": "^0.10.7",
     "vuelidate": "^0.7.6",
     "vuetify": "^2.4.0"
   },
