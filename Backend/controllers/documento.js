@@ -18,6 +18,7 @@ module.exports.inserir = doc => {
 }
 
 module.exports.remover = _id => {
+    console.log(_id)
     return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: "1"}})
 }
 

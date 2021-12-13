@@ -1,5 +1,29 @@
 <template>
   <div class="file">
+    <modal-message
+      title="Remover?"
+      :visible="modalConfirm"
+      options
+      @close="modalConfirm = false"
+      @confirm="deleteDocumento()"
+    >
+      Deseja remover este documento?
+    </modal-message>
+    <modal-message
+      title="Sucesso"
+      :visible="modal"
+      @close="closeSucesso()"
+    >
+      Documento removido com sucesso
+    </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError"
+      @close="this.modalError = false"
+    >
+      Erro ao remover documento
+    </modal-message>
+
     <v-row class="doc-container">
       <v-col>
         <v-row style="margin-bottom: 10px"> <h1 class="tituloDoc">{{this.titulo}}</h1> </v-row>
@@ -8,34 +32,61 @@
         <v-row> <h3>Nome do ficheiro: <span class="infos">{{this.nome_ficheiro}}</span></h3> </v-row>
         <v-row> <h3>Tamanho do ficheiro: <span class="infos">{{this.tamanho}}</span></h3> </v-row>
       </v-col>
-    </v-row>
-    <div v-if="formato == 'pdf'" class="container">
-        <br/>
-        <template>
-          <vue-pdf-app 
-            page-scale="100" 
-            theme="light"
-            :pdf="diretoria">
-          </vue-pdf-app>
+
+      <v-menu bottom left v-if="testNivel() == true">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
         </template>
-      </div>
+
+        <v-list>
+          <v-list-item @click="modalConfirm = true">
+            <v-list-item-icon style="margin-right:5px">
+              <v-icon small>mdi-delete</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>Apagar</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-row>
+    
+    <br/>
+    <div v-if="formato == 'pdf'" class="container" style="">
+      <template>
+        <vue-pdf-app 
+          page-scale="100" 
+          theme="light"
+          :pdf="diretoria">
+        </vue-pdf-app>
+      </template>
+    </div>
+    <div v-else>
+      <v-img class="container2" 
+        contain
+        :src="diretoria"
+        max-height="2000"
+        max-width="1000"
+      ></v-img>
+    </div>
   </div>
 </template>
 
 <script>
   import axios from 'axios'
   import VuePdfApp from "vue-pdf-app";
+  import ModalMessage from '../components/ModalMessage.vue'; 
   import "vue-pdf-app/dist/icons/main.css";
-  //import jwt from 'jsonwebtoken'
-
+  import jwt from 'jsonwebtoken'
   export default {
     name: "FileIndividual",
     components: {
-      VuePdfApp
+      VuePdfApp,
+      ModalMessage
     },
     data() {
       return {
-        //token: localStorage.getItem('jwt'),
+        token: localStorage.getItem('jwt'),
 
         id_documento: this.$route.params.id,
         data_publicacao: null, 
@@ -48,13 +99,34 @@
         nome_ficheiro: null,
         formato: null,
         tamanho: null, 
-        tipo_mime: null
+        tipo_mime: null,
+
+        modalConfirm: false,
+        modal: false,
+        modalError: false
       }
     },
 
     methods: {
-        getDocumento: function () {
-        }
+        closeSucesso () {
+          this.modal = false
+          this.$router.push("/documentos")
+        },
+        testNivel () {
+          if(this.token) {
+            this.nivel = jwt.decode(this.token).nivel
+            if(this.nivel=='Administrador'||this.nivel=='Secretário')
+              return true
+          }
+          return false
+        },
+        deleteDocumento () {
+          axios.put('http://localhost:3333/documentos/remover/' + this.id_documento, {
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')},
+            }).then(() => {
+              this.modal = true;
+            }).catch(() => { this.modalError = true });
+        },
     },
     created() {
       // Obter dados do documento
@@ -66,7 +138,7 @@
           this.id_autor = data.data.id_autor
           this.titulo = data.data.titulo
           this.visibilidade = data.data.visibilidade
-          this.diretoria = "http://localhost:3333" +data.data.ficheiro.diretoria.substring(6)
+          this.diretoria = "http://localhost:3333" + data.data.ficheiro.diretoria.substring(6)
           this.nome_ficheiro = data.data.ficheiro.nome_ficheiro
           this.formato = this.nome_ficheiro.split(".")[1]
           this.tamanho = data.data.ficheiro.tamanho
@@ -98,9 +170,17 @@
 }
 
 .container {
+  z-index: 1;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   height: 130vh;
-  margin: auto;
   width: 1300px;
+}
+
+.container2 {
+  border: 5px solid #555;
+  margin: auto;
 }
 </style>
 

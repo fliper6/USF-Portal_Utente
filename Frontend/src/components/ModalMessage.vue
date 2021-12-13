@@ -6,7 +6,7 @@
       width="500"
     >
 
-      <v-card>
+      <v-card style="z-index:2;">
         <v-card-title class="text-h5 grey lighten-2">
           {{$props.title ? $props.title : "Mensagem"}}
         </v-card-title>

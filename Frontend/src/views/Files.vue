@@ -205,7 +205,6 @@
 
     methods: {
         st: function (value) {
-          console.log(value)
           return value.split("##")[1]
         },
         testNivel: function () {
