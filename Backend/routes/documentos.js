@@ -41,7 +41,7 @@ router.get('/categorias/:id', (req,res) => {
 // Fazer download de um documento
 router.get('/download/:id', (req,res) => {
     Documento.consultar(req.params.id)
-        .then(dados => res.download((__dirname + "/" + dados.ficheiro.diretoria).replace("routes","").replace(/\\/g, "/")))
+        .then(dados => res.download((__dirname + dados.ficheiro.diretoria).replace("routes","").replace(/\\/g, "/")))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."})) 
 })
 

@@ -157,7 +157,7 @@
                                     :type="valueRegistarPass ? 'password' : 'text'"
                                     v-model="passRegisto" label="Password"
                                     
-                                    hint="(De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode contêr espaços.)"
+                                    hint="(De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode conter espaços.)"
                                     persistent-hint
 
                                     @click:append="() => (valueRegistarPass = !valueRegistarPass)">
@@ -246,7 +246,7 @@ import axios from 'axios'
               const errors = []
               if (!this.$v.passRegisto.$dirty) return errors
               if (!this.$v.passRegisto.required) errors.push('Password é um campo obrigatório.')
-              else if (!this.validaPassword(this.passRegisto)) errors.push('De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode contêr espaços.')
+              else if (!this.validaPassword(this.passRegisto)) errors.push('De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode conter espaços.')
               return errors
             },
             passLoginErrors () {

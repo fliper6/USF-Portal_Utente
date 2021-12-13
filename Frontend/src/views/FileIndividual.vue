@@ -118,13 +118,14 @@
 
     methods: {
         download: function () {
-          axios.get("http://localhost:3333/documentos/download/" + this.id_documento)
+          window.open("http://localhost:3333/documentos/download/" + this.id_documento)
+          /* axios.get("http://localhost:3333/documentos/download/" + this.id_documento)
             .then(() => {
               
             })
             .catch(() => {
               console.log("Ocorreu um erro ao fazer download do documento.")
-            })
+            }) */
         },
         closeSucesso () {
           this.modal = false
