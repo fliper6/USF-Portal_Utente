@@ -49,6 +49,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
+                  v-if="this.nivel==='Administrador'"
                   v-bind="attrs"
                   v-on="on"
                   title="Adicionar Equipa"
@@ -224,7 +225,7 @@
       </div>
 
       <div v-else>
-        <v-btn title="Adicionar elemento à equipa" icon style="margin:15px 0 0 0" @click="add_team = index">
+        <v-btn v-if="nivel==='Administrador'" title="Adicionar elemento à equipa" icon style="margin:15px 0 0 0" @click="add_team = index">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </div>
@@ -305,7 +306,10 @@ export default {
     })
   },
   created(){
-    this.nivel = jwt.decode(this.token).nivel
+    
+    if (this.token){
+      this.nivel = jwt.decode(this.token).nivel
+    }
     axios.get("http://localhost:3333/contactos" , {headers:{'authorization':'Bearer '+ this.token}})
       .then(data => {
         this.dados = data.data.shift()
