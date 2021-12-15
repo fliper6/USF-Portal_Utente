@@ -14,7 +14,7 @@
   "data_ultima_mod": {
     "$date": "2021-11-28T22:30:16Z"
   },
-  "visibilidade": true,
+  "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
 },{
@@ -33,7 +33,7 @@
   "data_ultima_mod": {
     "$date": "2021-11-28T22:31:17Z"
   },
-  "visibilidade": true,
+  "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
 },{
@@ -52,7 +52,7 @@
   "data_ultima_mod": {
     "$date": "2021-11-28T22:32:48Z"
   },
-  "visibilidade": true,
+  "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
 },{
@@ -71,7 +71,7 @@
   "data_ultima_mod": {
     "$date": "2021-11-28T22:36:43Z"
   },
-  "visibilidade": true,
+  "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
 },{
@@ -90,7 +90,7 @@
   "data_ultima_mod": {
     "$date": "2021-11-28T22:39:42Z"
   },
-  "visibilidade": true,
+  "visibilidade": 0,
   "ficheiros": [
     {
       "nome_ficheiro": "covid.pdf",

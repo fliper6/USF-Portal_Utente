@@ -215,12 +215,28 @@
           }
           return false
         },
+        getFilhos: function (arv, filtro) {
+          for(var i = 0; i < arv.length; i++) {
+            if(arv[i].id == filtro)
+              return arv[i].children
+          }
+          for(var j = 0; j < arv.length; j++) {
+            return this.getFilhos(arv[i], filtro)
+          }
+        },
         filtrar: function () {
           if(this.valueFiltro.length > 0) { 
+            var arvFilhos = this.getFilhos(this.options, this.valueFiltro).flat()
+            var fils = []
+            for(var j = 0; j < arvFilhos.length; j++) {
+              fils.push(arvFilhos[j].id)
+            }
+            console.log(fils)
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              if(this.docs[i].id_categoria == this.valueFiltro) 
+              if(this.docs[i].id_categoria == this.valueFiltro || fils.includes(this.docs[i].id_categoria)) {
                 this.docsfiltrados.push(this.docs[i])
+              }
             }
           }
           else // se tiver vazio, não filtra
