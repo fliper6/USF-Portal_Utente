@@ -1,11 +1,7 @@
 var Documento = require('../models/documento')
 
-module.exports.listar = () => {
-    return Documento.find({visibilidade: "0"}).sort('-data_publicacao').exec()
-}
-
-module.exports.listarPriv = () => {
-    return Documento.find({visibilidade: "1"}).sort('-data_publicacao').exec()
+module.exports.listar = visibilidade => {
+    return Documento.find({visibilidade}).sort('-data_publicacao').exec()
 }
 
 module.exports.consultar = _id => {

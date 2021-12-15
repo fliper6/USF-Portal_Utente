@@ -74,7 +74,7 @@ module.exports.getIDsCategorias = arr => {
     let aux = arr => {
         arr.forEach(c => {
             ids.push(c.id)
-            if ("children" in c) aux(c.children)
+            if (c.children.length > 0) aux(c.children)
         })
     }
 
@@ -87,14 +87,39 @@ module.exports.getCategoriaByID = (arr, id) => {
     let aux = arr => {
         arr.forEach(c => {
             if (c.id == id) label = c.label
-            else if ("children" in c) aux(c.children)
+            else if (c.children.length > 0) aux(c.children)
             return
         })
     }
 
     let label
-    aux(arr, id)
+    aux(arr)
     return label
+}
+
+module.exports.caminhoParaId = (arr, id) => {
+    let aux = (arr, caminho) => {
+        caminho.push("")
+
+        arr.forEach(c => {
+            caminho[caminho.length-1] = c.id
+
+            if (c.id == id) {
+                final = caminho
+                return true
+            }
+            else if (c.children.length > 0) {
+                let fim = aux(c.children, JSON.parse(JSON.stringify(caminho)))
+                if (fim) return true
+            }
+        })
+
+        return false
+    }
+
+    let final = []
+    aux(arr, [])
+    return final
 }
 
 module.exports.criarIdCategoria = (nova_categoria, ids) => {

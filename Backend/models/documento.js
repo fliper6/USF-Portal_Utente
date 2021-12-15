@@ -7,6 +7,7 @@ var documentoSchema = new mongoose.Schema({
     _id_autor: {type: mongoose.Schema.Types.ObjectId, ref:"user", required: true},
     nome_autor: {type: String, required: true},
     id_categoria: {type: String, required: true},
+    caminho_categorias: {type: [String], required: true},
     ficheiro: {type: {
         nome_ficheiro: {type: String, required: true},
         tamanho: {type: String, required: true},

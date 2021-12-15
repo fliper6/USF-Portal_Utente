@@ -10,31 +10,29 @@ const JWTUtils = require('../utils/jwt')
 let Documento = require('../controllers/documento')
 let Categoria = require('../controllers/categoria')
 
+let categorias_base = [{id: "categorias", label: "Categorias", children: []}]
+
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    if(req.query.visibilidade == "0"){
-        Documento.listar()
-            .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
-    }
-    else if (req.query.visibilidade == "1"){
-        Documento.listarPriv()
-            .then(dados => res.status(200).jsonp(dados))
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
-    }    
+    Documento.listar(req.query.visibilidade)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
 })
 
 // Obter árvore de categorias de documentos
 router.get('/categorias', (req,res) => {
     Categoria.listar()
-        .then(dados => res.status(200).jsonp(dados !== null ? dados : {categorias: []}))
+        .then(dados => res.status(200).jsonp(dados !== null ? dados : {categorias: categorias_base}))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
 // Obter categoria de documentos por id
 router.get('/categorias/:id', (req,res) => {
     Categoria.listar()
-        .then(dados => res.status(200).jsonp(JWTUtils.getCategoriaByID(categorias, req.params.id)))
+        .then(dados => {
+            let categorias = dados !== null ? dados.categorias : categorias_base
+            res.status(200).jsonp(JWTUtils.getCategoriaByID(categorias, req.params.id))
+        })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
@@ -56,25 +54,17 @@ router.get('/:id', (req,res) => {
 router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     Categoria.listar()
         .then(dados => {
-            let categorias = dados !== null ? dados.categorias : []
+            let categorias = dados !== null ? dados.categorias : categorias_base
             
             let ids = JWTUtils.getIDsCategorias(categorias)
             let novo_id = JWTUtils.criarIdCategoria(req.body.nova_categoria, ids)
             let nova_cat = {id: novo_id, label: req.body.nova_categoria, children: []}
 
-            if (req.body.id_pai === null) {
-                let nomes = categorias.map(x => x.label)
-
-                if (nomes.includes(req.body.nova_categoria)) {
-                    return res.status(201).jsonp({erro: "Já existe uma categoria com o mesmo nome neste local da árvore!"})
-                }
-                else categorias.push(nova_cat)
-            }
-            else if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
+            if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
             else {
                 let atualizarArvore = (nova_cat, id_pai, arr) => {
                     for (let i = 0; i < arr.length; i++) {
-                        if (id_pai === null || arr[i].id == id_pai) {
+                        if (arr[i].id == id_pai) {
                             let nomes = arr[i].children.map(x => x.label)
 
                             if (nomes.includes(req.body.nova_categoria)) {
@@ -85,7 +75,7 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
                                 return arr
                             }
                         }
-                        else if (!arr[i].children.length) arr[i].children = atualizarArvore(nova_cat, id_pai, arr[i].children)
+                        else if (arr[i].children.length > 0) arr[i].children = atualizarArvore(nova_cat, id_pai, arr[i].children)
                     }
                     return arr
                 }
@@ -108,7 +98,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
     
     let documento = {
         titulo: req.body.titulo,
-        data_publicacao: new Date().toISOString().substr(0,19),
+        data_publicacao: new Date().toISOString().substring(0,19),
         visibilidade: "0",
         _id_autor: req.user._id,
         nome_autor: req.user.nome,
@@ -120,14 +110,21 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
             diretoria: "public" + nova_diretoria.split("public")[1]
         }
     }
-    
-    Documento.inserir(documento)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload ao documento."}))
+
+    Categoria.listar()
+        .then(dados => {
+            let categorias = dados !== null ? dados.categorias : categorias_base
+            documento.caminho_categorias = JWTUtils.caminhoParaId(categorias, req.body.id_categoria)
+
+            Documento.inserir(documento)
+                .then(d => res.status(200).jsonp(d))
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload ao documento."}))
+        })
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
 // Tornar privado um documento
-router.put('/remover/:id', /*JWTUtils.validate, JWTUtils.isMedico,*/ (req,res) => {
+router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     Documento.remover(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
