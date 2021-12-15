@@ -7,6 +7,8 @@ var passport = require('passport');
 var session = require("express-session");
 var fs = require('fs');
 
+var noticiasProg = require('./utils/noticiasProgramadas')
+
 // PASSPORT + MONGODB
 require('./config/database')
 require('./config/passport')(passport)
@@ -30,6 +32,8 @@ if (!fs.existsSync("./public")) { fs.mkdirSync("./public") }
 if (!fs.existsSync("./public/fileStore")) { fs.mkdirSync("./public/fileStore") }
 if (!fs.existsSync("./public/fileStore/documentos")) { fs.mkdirSync("./public/fileStore/documentos") }
 if (!fs.existsSync("./public/fileStore/noticias")) { fs.mkdirSync("./public/fileStore/noticias") }
+
+noticiasProg.reporProgramacoes()
 
 // OTHER MIDDLEWARE
 app.use(cors());

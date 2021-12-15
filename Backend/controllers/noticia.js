@@ -25,6 +25,6 @@ module.exports.adicionar = _id => {
     return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: true}})
 }
 
-module.exports.eliminar = id => {
-    return Noticia.deleteOne({_id: id})
+module.exports.eliminar = _id => {
+    return Noticia.deleteOne({_id})
 }
