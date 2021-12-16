@@ -33,7 +33,7 @@
             />
           </div>
         </v-radio-group>
-        <v-divider class="divider" />
+        <v-divider class="publish-divider" />
         <div style="align-self: start">Deseja que esta noticia seja recorrente?</div>
         <div class="publish-time">
           <v-checkbox
@@ -182,8 +182,8 @@ export default {
   height:auto;
 }
 
-.divider {
-  margin-bottom: 20px;
+.publish-divider {
+  margin-bottom: 30px;
   width:100%;
 }
 
