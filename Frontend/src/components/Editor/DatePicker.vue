@@ -19,11 +19,13 @@
         :disabled="$props.disabled"
         v-on="on"
         style="margin: 0 10px;"
+        color="#800000"
       ></v-text-field>
     </template>
     <v-date-picker
       v-model="proxyDate"
       no-title
+      color="#800000"
     ></v-date-picker>
   </v-menu>
 </template>  
@@ -38,7 +40,7 @@
     },
     data() {
       return {
-        proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+        proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 19),
         dateFormatted: this.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
         datePicker: false,
       }

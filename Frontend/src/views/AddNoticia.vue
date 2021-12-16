@@ -10,21 +10,22 @@
       @close="modalConfirm = false"
       @confirm="submit"
     >
-      Deseja publicar esta notícia publicamente no feed?
+      Quando deseja publicar esta noticia?
       <div class="parameters">
         <v-radio-group
           v-model="publishNow"
-          column
-          @change="changePublishDate"
+          column          
         >
           <v-radio
             label='Agora'
             :value='true'
+            color="#800000"
           ></v-radio>
           <div class="publish-time">
             <v-radio
               label="Mais tarde"
               :value="false"
+              color="#800000"
             ></v-radio>
             <date-picker
               :disabled="publishNow" 
@@ -33,10 +34,18 @@
           </div>
         </v-radio-group>
         <v-divider class="divider" />
-        <v-checkbox
-          v-model="publishRepeat"
-          label="Noticia recorrente"
-        />
+        <div style="align-self: start">Deseja que esta noticia seja recorrente?</div>
+        <div class="publish-time">
+          <v-checkbox
+            v-model="publishRepeat"
+            label="Noticia recorrente"
+            color="#800000"
+          />
+          <input-recurrence 
+            v-model="recurrenceArray"
+            :disabled="!publishRepeat"
+          />
+        </div>
       </div>
     </modal-message>
     <modal-message
@@ -76,6 +85,7 @@ import Editor from "../components/Editor.vue"
 import File from "../components/Editor/File.vue"
 import ModalMessage from '../components/ModalMessage.vue'
 import DatePicker from '../components/Editor/DatePicker.vue'
+import InputRecurrence from '../components/Editor/InputRecurrence.vue'
 
 // import axios from 'axios'
 export default {
@@ -84,7 +94,8 @@ export default {
     Editor,
     File,
     ModalMessage,
-    DatePicker
+    DatePicker,
+    InputRecurrence
   },
   data () {
     return {
@@ -92,6 +103,7 @@ export default {
       files: [],
       conteudo: "",
       date: Date.now(),
+      recurrenceArray: [0,0,0,0,0,0],
 
       publishNow: true,
       publishRepeat: false,
@@ -109,6 +121,7 @@ export default {
     },
     submit () {
       console.log(this.date)
+      console.log(this.recurrenceArray)
       // this.modalConfirm=false
       // let formData = new FormData();
       // for (const i of Object.keys(this.files)) {
@@ -141,10 +154,6 @@ export default {
       let id = this.files.indexOf(file)
       this.files.splice(id, 1);
     },
-    changePublishDate (val) {
-      if(val)
-        this.date = 'now' 
-    }
   }
 }
 </script>
@@ -168,6 +177,7 @@ export default {
 }
 
 .divider {
+  margin-bottom: 20px;
   width:100%;
 }
 
