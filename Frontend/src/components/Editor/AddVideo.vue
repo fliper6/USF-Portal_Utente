@@ -16,8 +16,8 @@
         </v-card-title>
         <div class="container">
           <div class="input-container">
-            <v-file-input color="#800000" label="Upload de Video" style="max-width:60% !important" v-on:change="onChangeFileUpload"/>
-            <v-btn @click="uploadVideo">
+            <v-file-input color="#800000" label="Upload de Video" style="max-width:60% !important" v-model="file"/>
+            <v-btn :disabled="this.file == null" @click="uploadVideo">
               <v-icon>mdi-video-plus</v-icon> <small>Add</small>
             </v-btn>
           </div>
@@ -66,9 +66,6 @@ export default {
       .catch(err => { console.log(err) });
 
     },
-    onChangeFileUpload(file){
-      this.file = file
-    }
   }
 }
 </script>

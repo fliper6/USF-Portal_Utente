@@ -3,7 +3,7 @@
       @input="$emit('update:visible',false)" 
       @keydown.esc="close"
       @click:outside="close"
-      width="500"
+      class="container"
     >
 
       <v-card style="z-index:2;">
@@ -66,6 +66,10 @@ export default {
 </script>
 
 <style scoped>
+  .container {
+    min-width: 500px;
+  }
+
   .message {
     width: 90%;
     margin: 20px 5%;

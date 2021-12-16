@@ -16,8 +16,8 @@
         </v-card-title>
         <div class="container">
           <div class="input-container">
-            <v-file-input color="#800000" label="Upload de Imagem" style="max-width:60% !important" v-on:change="onChangeFileUpload"/>
-            <v-btn @click="uploadImage">
+            <v-file-input clearable color="#800000" label="Upload de Imagem" v-model="file" style="max-width:60% !important"/>
+            <v-btn :disabled="this.file == null" @click="uploadImage">
               <v-icon>mdi-file-image-plus</v-icon> <small>Add</small>
             </v-btn>
           </div>
@@ -30,7 +30,7 @@
           
           <div class="input-container">
             <v-text-field color="#800000" v-model="url" label="URL da Imagem" class="info-input" style="max-width:60% !important" required />
-            <v-btn @click="addImage()">
+            <v-btn :disabled="this.url == ''" @click="addImage()">
               <v-icon>mdi-image-plus</v-icon> <small>Add</small>
             </v-btn>
           </div>
@@ -56,6 +56,7 @@ export default {
       this.$emit("add-image", this.url)
       this.url = ""
       this.file = null
+      console.log(this.$refs.file)
     },
     uploadImage() {
       let formData = new FormData();
@@ -77,9 +78,6 @@ export default {
       })
       .catch(err => { console.log(err) });
     },
-    onChangeFileUpload(file){
-      this.file = file
-    }
   }
 }
 </script>
