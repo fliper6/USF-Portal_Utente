@@ -69,7 +69,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
     
     
     let noticiaProg = {
-      recorrencia: JSON.parse(req.body.recorrencia),
+      recorrencia: req.body.recorrencia.split(','),
       data_pub: req.body.data_pub,
       noticia,
     };
