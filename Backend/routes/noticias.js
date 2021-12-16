@@ -6,10 +6,8 @@ var upload = multer({dest: './uploads'});
 
 var fs = require('fs');
 const JWTUtils = require('../utils/jwt')
-const np = require('../utils/noticiasProgramadas')
 
 let Noticia = require('../controllers/noticia')
-let NoticiaProg = require('../controllers/noticiaProgramada')
 let Ficheiro = require('../controllers/ficheiro')
 
 
@@ -41,7 +39,7 @@ router.get('/:id', (req,res) => {
 router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros'), (req,res) => {
     let ficheiros = [];
     let data_publicacao = new Date().toISOString().substring(0,19);
-    console.log(req.body)
+
     for (let i = 0; i < req.files.length; i++) {
         let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
         let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.files[i].originalname).replace("routes","").replace(/\\/g, "/");
@@ -66,48 +64,10 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         visibilidade: 0,
         ficheiros
     }
-
-    let noticiaProg = {
-        recorrencia: JSON.parse(req.body.recorrencia),
-        data_pub: req.body.data_pub,
-        noticia
-    }
-
-    // se for para publicar agora, insere a notícia na bd
-    if (noticiaProg.data_pub === "now") {
-        Noticia.inserir(noticia)
-            .then(dados => {
-                // se for recorrente, insere notícia programada na bd e agenda-a
-                if (noticiaProg.recorrencia.some(x => x!==0)) {
-                    noticiaProg.data_pub = data_publicacao
-
-                    while (noticiaProg.data_pub <= data_publicacao) {
-                        noticiaProg.data_pub = np.proxData(noticiaProg.recorrencia, noticiaProg.data_pub)
-                    }
-
-                    NoticiaProg.inserir(noticiaProg)
-                        .then(notProg => {
-                            noticiaProg._id = notProg._id
-                            np.programarNoticia(noticiaProg)
-
-                            return res.status(200).jsonp(dados)
-                        })
-                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload à notícia."}))
-                }
-                else return res.status(200).jsonp(dados)
-            })
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload à notícia."}))
-    }
-    else {
-        NoticiaProg.inserir(noticiaProg)
-            .then(notProg => {
-                noticiaProg._id = notProg._id
-                np.programarNoticia(noticiaProg)
-
-                return res.status(200).jsonp(notProg)
-            })
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload à notícia."}))
-    }
+    
+    Noticia.inserir(noticia)
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload à notícia."}))
 })
 
 // Editar uma notícia
