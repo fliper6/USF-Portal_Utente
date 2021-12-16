@@ -41,7 +41,7 @@ router.get('/:id', (req,res) => {
 router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros'), (req,res) => {
     let ficheiros = [];
     let data_publicacao = new Date().toISOString().substring(0,19);
-
+    console.log(req.body)
     for (let i = 0; i < req.files.length; i++) {
         let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
         let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.files[i].originalname).replace("routes","").replace(/\\/g, "/");

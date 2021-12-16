@@ -87,7 +87,7 @@ import ModalMessage from '../components/ModalMessage.vue'
 import DatePicker from '../components/Editor/DatePicker.vue'
 import InputRecurrence from '../components/Editor/InputRecurrence.vue'
 
-// import axios from 'axios'
+import axios from 'axios'
 export default {
   name: 'Home',
   components: {
@@ -122,25 +122,31 @@ export default {
     submit () {
       console.log(this.date)
       console.log(this.recurrenceArray)
-      // this.modalConfirm=false
-      // let formData = new FormData();
-      // for (const i of Object.keys(this.files)) {
-      //   formData.append('ficheiros', this.files[i])
-      // }
-      // formData.append('corpo', this.conteudo)
-      // formData.append('titulo',this.titulo)
+      this.modalConfirm=false
+      let formData = new FormData();
+      for (const i of Object.keys(this.files)) {
+        formData.append('ficheiros', this.files[i])
+      }
+      formData.append('corpo', this.conteudo)
+      formData.append('titulo',this.titulo)
+      let data_pub = this.publishNow ? 'now' : this.date
+      console.log(data_pub)
+      formData.append('data_pub', data_pub)
+      formData.append('recorrencia', this.recurrenceArray)
 
-      // axios.post('http://localhost:3333/noticias',
-      //   formData,
-      //   {
-      //     headers: {
-      //         'Content-Type': 'multipart/form-data',
-      //         'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-      //     }
-      //   }
-      // ).then(() => {
-      //  this.modal = true
-      // }).catch(() => { this.modalError = true });
+      console.log(JSON.stringify(formData))
+
+      axios.post('http://localhost:3333/noticias',
+        formData,
+        {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+              'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+          }
+        }
+      ).then(() => {
+       this.modal = true
+      }).catch(() => { this.modalError = true });
     },
     goHome() {
       this.modal=false
