@@ -1,14 +1,19 @@
 <template>
     <v-menu offset-y>
+
+        <!-- BOTÃO DROPDOWN -->
         <template v-slot:activator="{ on }">
           <span v-on="on" style="cursor:pointer" @click="openNotifications()">
             <notification-bell :size='25' fontSize="10px" iconColor='var(--grey3-color)' :ding='pling' :count="contador" :upperLimit='10' />
           </span>
         </template>
 
+
+        <!-- LISTA DROPDOWN -->
         <v-card width=400px> 
           <v-list max-height=800px dense class="pa-0">
-
+            
+            <!-- HEADER NOTIFICAÇÕES -->
             <v-subheader class="pa-8">
               <v-row>
                 <v-col cols="10">
@@ -16,15 +21,21 @@
                 </v-col>
                 <v-col cols="2" class="icon">
 
+                    <!-- DROPDOWN DO HEADER -->
                     <template>
                         <v-menu offset-y>
+
+                            <!-- BOTÃO DROPDOWN DO HEADER -->
                             <template v-slot:activator="{ on, attrs }">
                               <div class="d-flex align-center" v-bind="attrs" v-on="on">
                                 <v-icon size="30px" color="var(--white)">mdi-dots-horizontal</v-icon>
                               </div>
                             </template>
-
+                            
+                            <!-- LISTA DROPDOWN DO HEADER -->
                             <v-list style="padding:0;cursor:pointer">
+
+                                <!-- MARCAR TODAS LIDAS -->
                                 <v-list-item class="opcao pa-1" @click="readAll()">
                                   <v-row >
                                     <v-col cols="1" style="margin:auto">
@@ -36,6 +47,7 @@
                                   </v-row>
                                 </v-list-item>
 
+                                 <!-- REMOVER TODAS -->
                                 <v-list-item class="opcao pa-1" @click="removeAll()">
                                   <v-row >
                                     <v-col cols="1" style="margin:auto">
@@ -46,7 +58,9 @@
                                     </v-col>
                                   </v-row>
                                 </v-list-item>
+
                             </v-list>
+
                         </v-menu>
                     </template>
 
@@ -54,9 +68,15 @@
               </v-row>
             </v-subheader>
 
+
+            <!-- DIVISÃO ENTRE O HEADER E A LISTA DE NOTIFICAÇÕES-->
             <v-divider></v-divider>
 
+
+            <!-- LISTA NOTIFICAÇÕES > 0 -->
             <div v-if="this.notifications.length">
+
+              <!-- PARA CADA NOTIFICAÇÃO DA LISTA -->
               <v-list-item 
                 @click="goToNotification(notification._id, notification.idReferente, notification.tipo, notification.estado)" 
                 class="pa-4 backColor" 
@@ -77,15 +97,22 @@
                     </v-col>      
   
                     <v-col cols="2" style="margin:auto" class="iconNoti">
+                      
+                      <!-- DROPDOWN DA NOTIFICAÇÃO -->
                       <template>
                         <v-menu offset-y>
+
+                            <!-- BOTÃO DROPDOWN DA NOTIFICAÇÃO -->
                             <template v-slot:activator="{ on, attrs }">
                               <div class="d-flex align-center" v-bind="attrs" v-on="on">
                                 <v-icon size="30px" color="var(--grey3-color)">mdi-dots-horizontal</v-icon>
                               </div>
                             </template>
 
+                            <!-- LISTA DROPDOWN DA NOTIFICAÇÃO -->
                             <v-list style="padding:0;cursor:pointer">
+
+                                <!-- MARCAR NOTIFICAÇÃO COMO LIDA -->
                                 <v-list-item class="opcao pa-1" @click="readOne(notification._id, notification.estado)">
                                   <v-row >
                                     <v-col cols="1" style="margin:auto">
@@ -97,6 +124,7 @@
                                   </v-row>
                                 </v-list-item>
 
+                                <!-- REMOVER NOTIFICAÇÃO -->
                                 <v-list-item class="opcao pa-1" @click="removeOne(notification._id)">
                                   <v-row >
                                     <v-col cols="1" style="margin:auto">
@@ -107,15 +135,21 @@
                                     </v-col>
                                   </v-row>
                                 </v-list-item>
+
                             </v-list>
+
                         </v-menu>
                       </template>
+
                     </v-col>
                 </v-row>
               </v-list-item>
             </div>
             
+            <!-- LISTA NOTIFICAÇÕES == 0 -->
             <div v-else>
+
+              <!-- NÃO EXISTEM NOTIFICAÇÕES -->
               <v-list-item class="pa-6 backColor">
                   <v-row>
                     <v-col cols="10" offset="2">
@@ -125,10 +159,12 @@
                     </v-col>      
                   </v-row>
               </v-list-item>
+
             </div>
 
           </v-list>
         </v-card>
+
     </v-menu>
 </template>
 
@@ -146,7 +182,7 @@ import axios from 'axios'
             contador: 0,
             socket: null,
             notifications: [],
-            pling:false
+            pling: false
         }),  
         components: {
           NotificationBell 
@@ -154,18 +190,20 @@ import axios from 'axios'
         created() {
           //ao iniciar vai buscar as notificações iniciais
           this.getNotificacoes()
-          
+
+          //cria socket
           this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT,{
             query: {
               uid: jwt.decode(this.token)._id
             }
           });
-          this.socket.on('connect', () => {
-            console.log(this.socket.id); 
-          });
 
+          //conecta o socket
+          this.socket.on('connect', () => { console.log(this.socket.id) });
+
+          //fica à espera de notificações vindas da base de dados
           this.socket.on('update notificacoes', () => {
-            this.pling=true
+            this.pling = true
             this.getNotificacoes()
           });
         },
@@ -248,9 +286,9 @@ import axios from 'axios'
                 })
             }
           },
-          goToNotification(idNot,idRef, tipo, estado){
-            //meter a notificacao no estado 2
+          goToNotification(idNot,idRef, tipo, estado){         
             if (estado!=2) {
+              //meter a notificacao no estado 2
               var json = {}
               json['_id'] = idNot
               json['estado'] = 2

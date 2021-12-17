@@ -3,6 +3,7 @@
         <v-container> 
             <v-row no-gutters>
 
+                <!-- MODAL DE CONFIRMAÇÃO -->
                 <v-dialog v-model="dialog" width="400">
                   <v-card>
                     <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
@@ -13,12 +14,14 @@
                     <v-divider></v-divider>
                     <v-card-actions>
                       <v-spacer></v-spacer>
-                      <v-btn class="button-cancelar" text @click="cancelar()"> Cancelar </v-btn>
+                      <v-btn class="button-cancelar" text @click="cancelar(1)"> Cancelar </v-btn>
                       <v-btn class="button-confirmar" :loading="loading" text @click="altNivel()"> Confirmar </v-btn>
                     </v-card-actions> 
                   </v-card>
                 </v-dialog> 
 
+
+                <!-- MODAL DE ALERTA -->
                 <v-dialog v-model="dialog2" width="400">
                   <v-card>
                     <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
@@ -32,12 +35,13 @@
                     <v-card-actions>
                       <v-spacer></v-spacer>
                       <v-btn v-if="sucesso==true" class="button-confirmar" text @click="alteracaoSucesso()"> Ok </v-btn>
-                      <v-btn v-else class="button-confirmar" text @click="alteracaoFail()"> Ok </v-btn>
+                      <v-btn v-else class="button-confirmar" text @click="cancelar(2)"> Ok </v-btn>
                     </v-card-actions> 
                   </v-card>
                 </v-dialog> 
 
 
+                <!-- FILTROS (NOME) -->
                 <v-col class="d-flex pa-2" sm="2">
                     <v-text-field
                       v-model="name"
@@ -48,6 +52,7 @@
                     ></v-text-field>
                 </v-col>
 
+                <!-- FILTROS (EMAIL) -->
                 <v-col class="d-flex pa-2"  sm="2">
                     <v-text-field
                       v-model="email"
@@ -58,6 +63,7 @@
                     ></v-text-field>
                 </v-col>
 
+                <!-- FILTROS (NIVEL) -->
                 <v-col offset="6" sm="2">
                     <v-select
                       v-model="nivelFiltro"
@@ -67,15 +73,18 @@
                       outlined
                     ></v-select>
                 </v-col>
-
             </v-row>
 
+
+            <!-- CASO NÃO HAJA ELEMENTOS NA LISTA -->
             <v-row>
                 <v-col v-if="this.listaFiltrada.length==0" align="center">
                     <p style="font-size:20px"><b>Sem resultados!</b></p>
                 </v-col>
             </v-row>
 
+
+            <!-- CASO HAJA ELEMENTOS NA LISTA -->
             <v-list v-for="item in listaFiltrada" :key="item.email" style="margin-top:20px">
               <v-card class="pa-6" outlined >
                 <v-row >
@@ -100,8 +109,8 @@
                       ></v-select>
                   </v-col>
                 </v-row>
-               </v-card> 
-             </v-list>      
+              </v-card> 
+            </v-list>      
         </v-container>
     </div>
 
@@ -111,34 +120,40 @@
 <script>
 import axios from 'axios';
 
-import jwt from 'jsonwebtoken'
-
 export default {
   name: 'EditPrivUsers',
   data() {
     return {
-      token: localStorage.getItem('jwt'),
-      nivel:"",
-      listaInicial : [],
-      listaFiltrada : [],
+      //MODAL CONFIRMAÇÃO
+      dialog: false,
+      loading:false,
+
+      //MODAL ALERTA
+      dialog2:false,
+      sucesso:false,
+
+      //FILTROS
+      name:"",
+      email:"",
+      nivelFiltro:"",
       niveis : [
         {titulo:'Todos', value: ""},
         {titulo:'Utentes', value: "Utente"},
         {titulo:'Secretários', value: "Secretário"},
         {titulo:'Administradores', value: "Administrador"}
       ],
+
+      //LISTA
+      listaInicial : [],
+      listaFiltrada : [],
       levels : ['Utente','Secretário','Administrador'],
-      name:"",
-      email:"",
-      nivelFiltro:"",
-      dialog: false,
-      dialog2:false,
-      sucesso:false,
       nomeAlt:"",
       privAlt:"",
       privAnt:"",
       idAlt:"",
-      loading:false
+
+      //OUTROS
+      token: localStorage.getItem('jwt'), 
     }
   },
   methods: {
@@ -149,11 +164,10 @@ export default {
       this.idAlt = item._id
       this.dialog = true
     },
-    cancelar() {
-      this.listaFiltrada.forEach(i => {
-        if (i._id==this.idAlt) i.newPriv=""
-      })
-      this.dialog = false
+    // se receber 1 fecha o modal confirmação, 2 fecha o modal alerta
+    cancelar(int) {
+      this.listaFiltrada.forEach(i => { if (i._id==this.idAlt) i.newPriv="" })
+      int==1 ? this.dialog = false : this.dialog2 = false
     },
     altNivel() {
       this.dialog = false
@@ -174,12 +188,6 @@ export default {
     alteracaoSucesso() {
       this.dialog2 = false 
       this.$router.go()
-    },
-    alteracaoFail() {
-      this.listaFiltrada.forEach(i => {
-        if (i._id==this.idAlt) i.newPriv=""
-      })
-      this.dialog2 = false
     },
     filtro() {
       this.listaFiltrada = this.listaInicial
@@ -204,7 +212,6 @@ export default {
   },
   created() {
     if (this.token) {
-      this.nivel = jwt.decode(this.token).nivel
       axios.get("http://localhost:3333/users/listar", {headers: {'Authorization': `Bearer ${this.token}`}})
         .then( res => {
           this.listaInicial = res.data
@@ -227,6 +234,6 @@ export default {
 </script>
 
 
-<style>
+<style scoped>
 
 </style>

@@ -1,5 +1,7 @@
 <template>
     <v-menu offset-y>
+        
+        <!-- BOTÃO DROPDOWN -->
         <template v-slot:activator="{ on, attrs }">
             <v-icon 
               v-bind="attrs"
@@ -10,16 +12,24 @@
               mdi-account-circle-outline
             </v-icon>
         </template>
+
+        <!-- LISTA DROPDOWN -->
         <v-list style="padding:0">
+
+          <!-- PERFIL -->
           <router-link class="opcao" :to="'/perfil'">
             <v-list-item class="opcao">
               <b>Perfil</b>
             </v-list-item>
           </router-link>
+
+          <!-- TERMINAR SESSÃO -->
           <v-list-item class="opcao" v-on:click="handleLogout()" href="/">
             <b>Terminar Sessão</b>
           </v-list-item>
+
         </v-list>
+
     </v-menu>
 </template>
 
@@ -50,21 +60,7 @@ import axios from 'axios'
     }
 </script>
 
-<style>
 
-.opcao {
-  text-decoration: none;
-}
-
-.opcao b{
-  color:#595959
-}
-
-.opcao:hover{
-  background-color: #ddd;
-}
-
-
-
+<style scoped>
 
 </style>
