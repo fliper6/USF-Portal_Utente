@@ -4,6 +4,10 @@ module.exports.listar = () => {
     return NoticiaProg.find().exec()
 }
 
+module.exports.consultar = _id => {
+    return NoticiaProg.findOne({_id}).exec()
+}
+
 module.exports.inserir = np => {
     var novo = new NoticiaProg(np)
     return novo.save()

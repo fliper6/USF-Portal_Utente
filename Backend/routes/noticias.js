@@ -5,15 +5,15 @@ var multer = require('multer');
 var upload = multer({dest: './uploads'});
 
 var fs = require('fs');
-const JWTUtils = require('../utils/jwt')
+const JWTUtils = require('../utils/jwt');
 const np = require("../utils/noticiasProgramadas");
 
-let Noticia = require('../controllers/noticia')
+let Noticia = require('../controllers/noticia');
 let NoticiaProg = require("../controllers/noticiaProgramada");
-let Ficheiro = require('../controllers/ficheiro')
+let Ficheiro = require('../controllers/ficheiro');
 
 
-// Obter lista de noticias
+// Obter lista de notícias
 router.get('/', (req,res) => {
     Noticia.listar(req.query.visibilidade)
         .then(dados => res.status(200).jsonp(dados))
@@ -67,7 +67,6 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         ficheiros
     }
     
-    
     let noticiaProg = {
       recorrencia: req.body.recorrencia.split(',').map(x => parseInt(x)),
       data_pub: req.body.data_pub,
@@ -83,10 +82,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
             noticiaProg.data_pub = data_publicacao;
 
             while (noticiaProg.data_pub <= data_publicacao) {
-              noticiaProg.data_pub = np.proxData(
-                noticiaProg.recorrencia,
-                noticiaProg.data_pub
-              );
+              noticiaProg.data_pub = np.proxData(noticiaProg.recorrencia, noticiaProg.data_pub);
             }
 
             NoticiaProg.inserir(noticiaProg)
@@ -96,18 +92,10 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
 
                 return res.status(200).jsonp(dados);
               })
-              .catch((e) =>
-                res
-                  .status(500)
-                  .jsonp({ error: "Ocorreu um erro ao dar upload à notícia." })
-              );
+              .catch((e) => res.status(500).jsonp({ error: "Ocorreu um erro ao dar upload à notícia." }));
           } else return res.status(200).jsonp(dados);
         })
-        .catch((e) =>
-          res
-            .status(500)
-            .jsonp({ error: "Ocorreu um erro ao dar upload à notícia." })
-        );
+        .catch((e) => res.status(500).jsonp({ error: "Ocorreu um erro ao dar upload à notícia." }));
     } else {
       NoticiaProg.inserir(noticiaProg)
         .then((notProg) => {
@@ -116,18 +104,47 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
 
           return res.status(200).jsonp(notProg);
         })
-        .catch((e) =>
-          res
-            .status(500)
-            .jsonp({ error: "Ocorreu um erro ao dar upload à notícia." })
-        );
+        .catch((e) => res.status(500).jsonp({ error: "Ocorreu um erro ao dar upload à notícia." }));
     }    
 })
 
+// Upload de um ficheiro durante a criação de uma notícia
+router.post('/ficheiro', JWTUtils.validate, JWTUtils.isMedico, upload.single('ficheiro'), (req,res) => {
+    let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
+    let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
+
+    fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
+
+    let ficheiro = {
+        nome_ficheiro: req.file.originalname,
+        tamanho: req.file.size,
+        tipo_mime: req.file.mimetype,
+        url: nova_diretoria.split("public/")[1]
+    }
+
+    Ficheiro.inserir(ficheiro)
+        .then(dados => res.status(200).jsonp({url: ficheiro.url}))
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao guardar o ficheiro ${ficheiro.nome_ficheiro}.`}))
+})
+
+// Tornar privada uma notícia
+router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    Noticia.remover(req.params.id)
+        .then(dados => res.status(200).jsonp({}))
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
+})
+
+// Tornar pública uma notícia
+router.put('/publica/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    Noticia.adicionar(req.params.id)
+        .then(dados => res.status(200).jsonp({}))
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
+})
+
 // Editar uma notícia
-router.post('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros'), (req,res) => {
+router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros'), (req,res) => {
     let ficheiros_novos = [];
-    let data_edicao = new Date().toISOString().substr(0,19);
+    let data_edicao = new Date().toISOString().substring(0,19);
 
     for (let i = 0; i < req.files.length; i++) {
         let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
@@ -165,39 +182,6 @@ router.post('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('f
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a informação da notícia."}))
 })
 
-// Upload de um ficheiro durante a criação de uma notícia
-router.post('/ficheiro', JWTUtils.validate, JWTUtils.isMedico, upload.single('ficheiro'), (req,res) => {
-    let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
-    let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
-
-    fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
-
-    let ficheiro = {
-        nome_ficheiro: req.file.originalname,
-        tamanho: req.file.size,
-        tipo_mime: req.file.mimetype,
-        url: nova_diretoria.split("public/")[1]
-    }
-
-    Ficheiro.inserir(ficheiro)
-        .then(dados => res.status(200).jsonp({url: ficheiro.url}))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao guardar o ficheiro ${ficheiro.nome_ficheiro}.`}))
-})
-
-// Tornar privada uma notícia
-router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Noticia.remover(req.params.id)
-        .then(dados => res.status(200).jsonp({}))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
-})
-
-// Tornar pública uma notícia
-router.put('/publica/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Noticia.adicionar(req.params.id)
-        .then(dados => res.status(200).jsonp({}))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
-})
-
 // Remover ficheiros de uma notícia, caso tenha havido um erro na sua publicação
 router.put('/ficheiros', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     req.body.urls.map(x => fs.unlink((__dirname + "public/" + x).replace("routes","").replace(/\\/g, "/"), err => {
@@ -215,4 +199,5 @@ router.delete('/:id', JWTUtils.validate , JWTUtils.isMedico, function(req, res) 
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(404).jsonp({error: e}))
 });
+
 module.exports = router;
