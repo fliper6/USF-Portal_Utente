@@ -103,7 +103,7 @@ export default {
       files: [],
       conteudo: "",
       date: Date.now(),
-      recurrenceArray: [0,0,0,0,0,0],
+      recurrenceArray: [0,6,0,0,0,0],
 
       publishNow: true,
       publishRepeat: false,
@@ -132,7 +132,8 @@ export default {
       let data_pub = this.publishNow ? 'now' : this.date
       console.log(data_pub)
       formData.append('data_pub', data_pub)
-      formData.append('recorrencia', this.recurrenceArray)
+      let rec_array = this.publishRepeat ? this.recurrenceArray : [0,0,0,0,0,0]
+      formData.append('recorrencia', rec_array)
 
       console.log(JSON.stringify(formData))
 
