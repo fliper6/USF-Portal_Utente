@@ -10,7 +10,7 @@
       @close="modalConfirm = false"
       @confirm="submit"
     >
-      Quando deseja publicar esta noticia?
+      Quando deseja publicar esta notícia?
       <div class="parameters">
         <v-radio-group
           v-model="publishNow"
@@ -34,7 +34,7 @@
           </div>
         </v-radio-group>
         <v-divider class="publish-divider" />
-        <div style="align-self: start">Deseja que esta noticia seja recorrente?</div>
+        <div style="align-self: start">Deseja que esta notícia seja recorrente?</div>
         <div class="publish-time">
           <v-checkbox
             v-model="publishRepeat"
@@ -60,7 +60,7 @@
       :visible="modalError"
       @close="goHome"
     >
-      Erro ao publicar noticia
+      Erro ao publicar notícia
     </modal-message>
 
     <!--
@@ -116,12 +116,10 @@ export default {
   },
   methods: {
     prompt (content) {
-        this.conteudo = content
-        this.modalConfirm = true
+      this.conteudo = content
+      this.modalConfirm = true
     },
     submit () {
-      console.log(this.date)
-      console.log(this.recurrenceArray)
       this.modalConfirm=false
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
@@ -130,11 +128,8 @@ export default {
       formData.append('corpo', this.conteudo)
       formData.append('titulo',this.titulo)
       let data_pub = this.publishNow ? 'now' : this.date
-      console.log(data_pub)
       formData.append('data_pub', data_pub)
       formData.append('recorrencia', this.recurrenceArray)
-
-      console.log(JSON.stringify(formData))
 
       axios.post('http://localhost:3333/noticias',
         formData,

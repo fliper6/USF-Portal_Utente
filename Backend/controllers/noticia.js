@@ -18,13 +18,13 @@ module.exports.atualizar = not => {
 }
 
 module.exports.remover = _id => {
-    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: "1"}})
+    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: 1}})
 }
 
 module.exports.adicionar = _id => {
-    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: "0"}})
+    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: 0}})
 }
 
 module.exports.eliminar = _id => {
-    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: "2"}})
+    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: 2}})
 }
