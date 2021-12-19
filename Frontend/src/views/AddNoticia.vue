@@ -131,7 +131,6 @@ export default {
       formData.append('data_pub', data_pub)
       let rec_array = this.publishRepeat ? this.recurrenceArray : [0,0,0,0,0,0]
       formData.append('recorrencia', rec_array)
-
       axios.post('http://localhost:3333/noticias',
         formData,
         {

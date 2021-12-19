@@ -50,8 +50,8 @@
     data() {
       return {
         proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 19),
-        time: '00:00', 
-        dateFormatted: "",
+        time: `${new Date(this.$props.date).getHours()}:${new Date(this.$props.date).getMinutes()}`,
+        dateFormatted: '',
         datePicker: false,
 
         pickingDate: true,
@@ -72,7 +72,9 @@
         this.dateFormatted = this.formatDate()
       }
     },
-
+    created () {
+      this.dateFormatted = this.formatDate()
+    },
     methods: {
       formatDate () {
         const [hours, minutes] = this.time.split(':')
