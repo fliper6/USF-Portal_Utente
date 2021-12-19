@@ -8,7 +8,7 @@ var contactoSchema = new mongoose.Schema({
     telefone: String,
     horario_atendimento: String,
     marcacao_consultas: String,
-    e_agenda: String,
+    e_agenda: String, //nao sei o que é isto
     type: Number,
     coordenadas: String,
     equipa: Number,
