@@ -102,7 +102,7 @@ export default {
         formData.append('ficheiros', this.files[i])
       }
 
-      axios.post('http://localhost:3333/noticias/editar/' + this.noticia._id,
+      axios.put('http://localhost:3333/noticias/editar/' + this.noticia._id,
         formData,
         {
           headers: {

@@ -40,8 +40,8 @@
     },
     data() {
       return {
-        proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 19),
-        dateFormatted: this.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10)),
+        proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 19),
+        dateFormatted: this.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 10)),
         datePicker: false,
       }
     },
@@ -57,7 +57,7 @@
         this.dateFormatted = this.formatDate(this.proxyDate)
         let date = new Date(this.proxyDate)
         date.setTime(date.getTime() + (12*60*60*1000))
-        this.$emit("input", date.toISOString().substr(0, 19))
+        this.$emit("input", date.toISOString().substring(0, 19))
       },
     },
 

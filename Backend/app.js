@@ -21,6 +21,7 @@ var documentosRouter = require('./routes/documentos');
 var medicacaoRouter = require('./routes/medicacao');
 var medicoRouter = require('./routes/medico');
 var noticiasRouter = require('./routes/noticias');
+var noticiasProgRouter = require('./routes/noticiasProgramadas');
 var sugestaoRouter = require('./routes/sugestao');
 var verificarRouter = require('./routes/verificar')
 var notificacaoRouter = require('./routes/notificacao');
@@ -63,6 +64,7 @@ app.use('/documentos', documentosRouter);
 app.use('/medicacao', medicacaoRouter);
 app.use('/medicos', medicoRouter);
 app.use('/noticias', noticiasRouter);
+app.use('/noticias_programadas', noticiasProgRouter);
 app.use('/sugestao', sugestaoRouter);
 app.use('/verificar', verificarRouter)
 app.use('/notificacao', notificacaoRouter);

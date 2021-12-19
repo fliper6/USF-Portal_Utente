@@ -1,7 +1,10 @@
-   
 <template>
     <div id="login">
+
+        <!-- MENU LOGIN -->
         <v-dialog max-width="400px" v-model="open">
+
+            <!-- BOTÃO DROPDOWN -->
             <template v-if="show" v-slot:activator="{ on }">
                 <v-btn
                 @click = "close()"
@@ -13,7 +16,8 @@
                 v-on="on"
                 >Iniciar Sessão</v-btn>
             </template>
-
+            
+            <!-- MODAL DE CÓDIGO DE CONFRIMAÇÃO -->
             <v-dialog v-model="dialog" width="320" persistent>
               <v-card>
                 <v-card-title class="text-h5 grey lighten-2">Cógido de Confirmação</v-card-title> <br/>
@@ -36,6 +40,7 @@
                 </v-col>
                 
                 <v-divider></v-divider>
+
                 <v-card-actions>
                   <v-spacer></v-spacer>
                   <v-btn class="button-cancelar" text @click="cancelarCodigo()"> Cancelar </v-btn>
@@ -44,19 +49,25 @@
               </v-card>
             </v-dialog> 
             
+
+            <!-- TABS DO LOGIN/REGISTAR -->
             <v-tabs v-model="tab" show-arrows color="var(--grey3-color)" background-color="var(--white)" icons-and-text light grow>
                 <v-tabs-slider style="color: var(--grey3-color)"></v-tabs-slider>
                 <v-tab v-for="i in tabs" :key="i.name" >
                     <v-icon large>{{ i.icon }}</v-icon>
                     <div class="caption py-1" >{{ i.name }}</div>
                 </v-tab>
+
+                <!-- TAB DO LOGIN -->
                 <v-tab-item>
                     <v-card>
                         <v-card-text>
                             <v-container pa-0>
                                 
+                                <!-- MENSAGENS DE ERRO -->
                                 <p v-if="alertLogin" class="alert">{{this.erroLogin}}</p>
                                 
+                                <!-- EMAIL -->
                                 <v-col cols="12">
                                     <v-text-field 
                                     color=var(--secondary-dark-color)
@@ -67,6 +78,7 @@
                                     </v-text-field>
                                 </v-col>
                                 
+                                <!-- PASSWORD -->
                                 <v-col cols="12">
                                     <v-text-field  
                                     color=var(--secondary-dark-color)
@@ -82,6 +94,7 @@
                             </v-container>
                         </v-card-text>
 
+                        <!-- BOTÃO LOGIN -->
                         <v-card-actions class="justify-center">
                             <v-btn 
                             :loading="loading" 
@@ -96,14 +109,18 @@
 
                     </v-card>
                 </v-tab-item>
-                
+
+
+                <!-- TAB DO REGISTAR -->
                 <v-tab-item>
                     <v-card>
                         <v-card-text>
                             <v-container pa-0>
-
+                                
+                                <!-- MENSAGENS DE ERRO -->
                                 <p v-if="alertRegisto" class="alert ">{{this.erroRegisto}}</p>
                                 
+                                <!-- EMAIL -->
                                 <v-col cols="12">
                                     <v-text-field 
                                     :error-messages="emailRegistoErrors"
@@ -113,7 +130,8 @@
                                     label="Email" >
                                     </v-text-field>
                                 </v-col>
-
+                                
+                                <!-- NOME -->
                                 <v-col cols="12">
                                     <v-text-field 
                                     :error-messages="usernameErrors"
@@ -123,7 +141,8 @@
                                     label="Nome Completo" >
                                     </v-text-field>
                                 </v-col>
-
+                                
+                                <!-- NÚMERO DE UTENTE -->
                                 <v-col cols="12">
                                     <v-text-field 
                                     :error-messages="nUtenteErrors"
@@ -133,7 +152,8 @@
                                     label="Número de Utente" >
                                     </v-text-field>
                                 </v-col>
-
+                                
+                                <!-- NÚMERO DE TELEMÓVEL -->
                                 <v-col cols="12">
                                     <v-text-field   
                                     :error-messages="nTelemovelErrors"                               
@@ -149,6 +169,7 @@
                                     </v-text-field>
                                 </v-col>
 
+                                <!-- PASSWORD -->
                                 <v-col cols="12">
                                     <v-text-field  
                                     :error-messages="passRegistoErrors"
@@ -156,14 +177,13 @@
                                     :append-icon="valueRegistarPass ? 'mdi-eye' : 'mdi-eye-off'" 
                                     :type="valueRegistarPass ? 'password' : 'text'"
                                     v-model="passRegisto" label="Password"
-                                    
                                     hint="(De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode conter espaços.)"
                                     persistent-hint
-
                                     @click:append="() => (valueRegistarPass = !valueRegistarPass)">
                                     </v-text-field>
                                 </v-col>
 
+                                <!-- CONFIRMAÇÃO DE PASSWORD -->
                                 <v-col cols="12">
                                     <v-text-field 
                                     :error-messages="passwordMatchErrors"
@@ -180,6 +200,7 @@
                             </v-container>
                         </v-card-text>
 
+                        <!-- BOTÃO REGISTAR -->
                         <v-card-actions class="justify-center">
                             <v-btn 
                             :loading="loading" 
@@ -350,6 +371,7 @@ import axios from 'axios'
               this.tab=0
             },
             validaPassword(pass) {
+                //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
                 var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
                 return re.test(pass)
             },

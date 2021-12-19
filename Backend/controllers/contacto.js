@@ -30,3 +30,7 @@ module.exports.alterar = ctc => {
 module.exports.remover = function(id){
     return Contacto.deleteOne({_id: id})
 }
+
+module.exports.removerEquipa = function(id){
+    return Contacto.deleteMany({equipa: id})
+}

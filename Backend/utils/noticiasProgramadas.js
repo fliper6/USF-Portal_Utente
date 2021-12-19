@@ -4,6 +4,8 @@ const schedule = require('node-schedule');
 let Noticia = require('../controllers/noticia')
 let NoticiaProg = require('../controllers/noticiaProgramada')
 
+var jobs = {}
+
 // calcular data da próxima publicação
 function proxData(recorrencia, data_inicial) {
     let unidades_tempo = ['years','months','days','hours','minutes','seconds']
@@ -21,7 +23,7 @@ function programarNoticia(noticiaProg) {
 
     // só se for para publicar numa data futura
     if (noticiaProg.data_pub > data_atual) {
-        schedule.scheduleJob(data, function(n) {
+        let job = schedule.scheduleJob(data, function(n) {
             // atualizar as datas da nova iteração da notícia a publicar
             n.noticia.data_criacao = n.data_pub
             n.noticia.data_ultima_mod = n.data_pub
@@ -49,7 +51,9 @@ function programarNoticia(noticiaProg) {
                     }
                 })
                 .catch(e => console.log(`Erro ao publicar a notícia programada '${n.noticia.titulo}' em ${n.data_pub}.`))
-        }.bind(null, noticiaProg)) 
+        }.bind(null, noticiaProg))
+
+        jobs[noticiaProg._id] = job
     }
 
     console.log(`Nova notícia '${noticiaProg.noticia.titulo}' programada com sucesso para ${noticiaProg.data_pub}.`)
@@ -74,9 +78,14 @@ function noticiasEmAtraso(n) {
         Noticia.inserir(JSON.parse(JSON.stringify(n.noticia)))
             .then(dados => {
                 console.log(`Notícia programada '${n.noticia.titulo}' publicada com sucesso em ${n.data_pub}.`)
-
                 n.data_pub = proxData(n.recorrencia, n.data_pub)
-                noticiasEmAtraso(n)
+
+                if (n.recorrencia.some((x) => x !== 0)) noticiasEmAtraso(n)
+                else {
+                    NoticiaProg.remover(n._id)
+                        .then(d => console.log(`Programação da notícia '${n.noticia.titulo}' terminada com sucesso.`))
+                        .catch(e => console.log(`Erro ao terminar a programação da notícia '${n.noticia.titulo}'.`))
+                }
             })
             .catch(e => console.log(`Erro ao publicar a notícia programada '${n.noticia.titulo}' em ${n.data_pub}.`))
     }
@@ -91,8 +100,21 @@ function noticiasEmAtraso(n) {
     }
 }
 
+function reagendar(n) {
+    jobs[n._id].cancel()
+    programarNoticia(n)
+}
+
+// cancelar a próxima publicação programada de uma notícia
+function cancelarProgramacao(id) {
+    jobs[id].cancel()
+    console.log(`Programação da notícia '${id}' terminada com sucesso.`)
+}
+
 module.exports = {
     proxData,
     programarNoticia,
-    reporProgramacoes
+    reporProgramacoes,
+    reagendar,
+    cancelarProgramacao
 }
