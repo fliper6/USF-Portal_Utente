@@ -22,6 +22,6 @@ module.exports.adicionar = _id => {
     return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: "0"}})
 }
 
-module.exports.eliminar = function(id){
-    return Documento.deleteOne({_id: id})
+module.exports.eliminar = _id => {
+    return Documento.findOneAndUpdate({_id}, {$set: {visibilidade: "2"}})
 }

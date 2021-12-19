@@ -31,9 +31,17 @@ export default {
     },
   data () {
     return {
-      number: 6,
-      timeframe: 'Meses',
+      number: 0,
+      timeframe: '',
       timeframes: ["Anos", "Meses", "Dias", "Horas", "Minutos", "Segundos"]
+    }
+  },
+  created () {
+    for (let i = 0; i < 6; i++) {
+      if(this.$props.timeArray[i] != 0){
+        this.timeframe = this.timeframes[i]
+        this.number =  this.$props.timeArray[i]
+      }
     }
   },
   methods: {
