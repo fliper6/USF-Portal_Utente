@@ -49,8 +49,8 @@
     },
     data() {
       return {
-        proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 19),
-        time: `${new Date(this.$props.date).getHours()}:${new Date(this.$props.date).getMinutes()}`,
+        proxyDate: '',
+        time: '',
         dateFormatted: '',
         datePicker: false,
 
@@ -73,7 +73,16 @@
       }
     },
     created () {
-      this.dateFormatted = this.formatDate()
+      const auxData = new Date(this.$props.date)
+      const year = auxData.getFullYear();
+      const month = auxData.getMonth();
+      const day = auxData.getDate();
+      const hour = auxData.getHours();
+      const minute = auxData.getMinutes();
+
+      this.proxyDate = this.$props.date
+      this.time = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
+      this.dateFormatted = `${day}/${month}/${year} ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
     },
     methods: {
       formatDate () {

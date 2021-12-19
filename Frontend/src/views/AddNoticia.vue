@@ -102,7 +102,7 @@ export default {
       titulo: "",
       files: [],
       conteudo: "",
-      date: Date.now(),
+      date: new Date(Date.now()).toISOString().substring(0, 19),
       recurrenceArray: [0,6,0,0,0,0],
 
       publishNow: true,
