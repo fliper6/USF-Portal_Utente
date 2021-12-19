@@ -5,7 +5,6 @@
     :close-on-content-click="false"
     transition="scale-transition"
     offset-y
-    max-width="290px"
     min-width="auto"
   >
     <template v-slot:activator="{ on, attrs }">
@@ -24,9 +23,19 @@
     </template>
     <v-date-picker
       v-model="proxyDate"
+      @change="choseDate"
+      v-if="pickingDate"
       no-title
       color="#800000"
     ></v-date-picker>
+    <v-time-picker
+      v-model="time"
+      landscape
+      @change="choseTime"
+      v-if="pickingTime"
+      no-title
+      format="ampm"
+    ></v-time-picker>
   </v-menu>
 </template>  
 
@@ -41,35 +50,52 @@
     data() {
       return {
         proxyDate: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 19),
-        dateFormatted: this.formatDate((new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substring(0, 10)),
+        time: '00:00', 
+        dateFormatted: "",
         datePicker: false,
+
+        pickingDate: true,
+        pickingTime: false,
       }
     },
     computed: {
       computedDateFormatted () {
-        return this.formatDate(this.proxyDate)
+        return this.formatDate()
       },
     },
 
     watch: {
       proxyDate () {
-        this.datePicker = false
-        this.dateFormatted = this.formatDate(this.proxyDate)
-        let date = new Date(this.proxyDate)
-        date.setTime(date.getTime() + (12*60*60*1000))
-        this.$emit("input", date.toISOString().substring(0, 19))
+        this.dateFormatted = this.formatDate()
       },
+      time () {
+        this.dateFormatted = this.formatDate()
+      }
     },
 
     methods: {
-      formatDate (date) {
-        if (!date) return null
-        console.log(date)
-        const [year, month, day] = date.split('-')
-        return `${day}/${month}/${year}`
+      formatDate () {
+        const [hours, minutes] = this.time.split(':')
+        let date = new Date(this.proxyDate)
+        date.setHours(hours)
+        date.setMinutes(minutes)
+        console.log(date.toISOString().substring(0, 19))
+        this.$emit("input", date.toISOString().substring(0, 19))
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const day = date.getDate();
+        const hour = date.getHours();
+        const minute = date.getMinutes();
+        return `${day}/${month}/${year} ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
       },
       choseDate () {
+        this.pickingDate = false
+        this.pickingTime = true
+      },
+      choseTime () {
         this.datePicker = false
+        this.pickingDate = true
+        this.pickingTime = false
       }
     },
   }
