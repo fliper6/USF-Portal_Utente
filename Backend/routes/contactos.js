@@ -34,15 +34,24 @@ router.post('/', JWTUtils.validate, JWTUtils.isAdmin, function(req, res){
 })
 
 // Criar Equipa
-router.post('/', JWTUtils.validate, JWTUtils.isAdmin, function(req, res){
-    Equipa.listar()
+router.post('/', JWTUtils.validate, JWTUtils.isAdmin, async function(req, res){
+    await Equipa.listar()
         .then(dados => {
-            id = dados.length + 1
+            var id = dados.length + 1
             Equipa.inserir({id:id})
-                .then(data => res.status(201).jsonp(data))
+                .then(data => {
+                    cts = req.body.contactos
+                    cts.forEach(c => {
+                        c.equipa = id
+                        Contacto.inserir(c)
+                            .then(dados => console.log('Insert successful'))
+                            .catch(e => res.status(500).jsonp({error: e}))
+                    }) 
+                })
                 .catch(e => res.status(500).jsonp({error: e}))
         })
         .catch(e => res.status(500).jsonp({error: e}))
+    res.status(201).jsonp(dados)
 })
 
 // Alterar um contacto
