@@ -70,6 +70,18 @@
       },
       time () {
         this.dateFormatted = this.formatDate()
+      },
+      date() {
+        const auxData = new Date(this.$props.date)
+        const year = auxData.getFullYear();
+        const month = auxData.getMonth();
+        const day = auxData.getDate();
+        const hour = auxData.getHours();
+        const minute = auxData.getMinutes();
+
+        this.proxyDate = this.$props.date
+        this.time = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
+        this.dateFormatted = `${day}/${month}/${year} ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
       }
     },
     created () {

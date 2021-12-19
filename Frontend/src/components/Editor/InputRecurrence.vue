@@ -44,6 +44,16 @@ export default {
       }
     }
   },
+  watch: {
+    timeArray () {
+      for (let i = 0; i < 6; i++) {
+        if(this.$props.timeArray[i] != 0){
+          this.timeframe = this.timeframes[i]
+          this.number =  this.$props.timeArray[i]
+        }
+      }
+    }
+  },
   methods: {
     handleChange() {
       let array = [0, 0, 0, 0, 0, 0]
