@@ -90,7 +90,6 @@
         let date = new Date(this.proxyDate)
         date.setHours(hours)
         date.setMinutes(minutes)
-        console.log(date.toISOString().substring(0, 19))
         this.$emit("input", date.toISOString().substring(0, 19))
         const year = date.getFullYear();
         const month = date.getMonth();

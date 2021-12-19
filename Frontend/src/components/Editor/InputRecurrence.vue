@@ -48,7 +48,6 @@ export default {
     handleChange() {
       let array = [0, 0, 0, 0, 0, 0]
       array[this.timeframes.indexOf(this.timeframe)] = this.number;
-      console.log(array)
       this.$emit('change', array)
     }
   }
