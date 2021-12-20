@@ -5,15 +5,13 @@
           <h1 style="color:var(--primary-color)">Notícias</h1>
             <v-row justify="center">
               <v-col class="text-right">
-                <v-btn depressed @click="color1=1; color2=0; alteraLista()" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Notícias não programadas</v-btn>
-                <v-btn depressed @click="color1=0; color2=1; alteraLista()" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Notícias programadas</v-btn>
               </v-col>
             </v-row>
         </v-container>
         <v-container>
           <v-divider/>
         </v-container>
-        <div v-if="this.noticias.length > 0 && this.color1 == 1">
+        <div v-if="this.noticias.length > 0">
           <v-container v-for="(n,index) in noticias" v-bind:key="n._id">
           <v-row>
             <v-col>
@@ -24,7 +22,6 @@
             <v-col class="text-right">
               <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = n.titulo; idVisibilidade = n._id">Colocar pública</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo">Programar publicação</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = n.titulo; idApagar = n._id">Eliminar</v-btn>
             </v-col>
           </v-row>
@@ -35,30 +32,7 @@
 
           </v-row>
           </v-container>
-      </div>
-        <div v-else-if="this.noticias.length > 0 && this.color2 == 1">
-          <v-container v-for="(n,index) in noticias" v-bind:key="n._id">
-          <v-row>
-            <v-col>
-              <h3>{{n.noticia.titulo}}</h3>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n.noticia">Ver</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = n.noticia.titulo; idVisibilidade = n.noticia._id">Colocar pública</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProg= true; noticia = n; recurrenceArrayP = n.recorrencia; dateP = new Date(n.data_pub).toISOString().substring(0, 19); nomeEdit = n.noticia.titulo">Editar programação de publicação</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = n.noticia.titulo; idApagar = n._id">Eliminar</v-btn>
-            </v-col>
-          </v-row>
-          <v-row v-if="noticias.length > 1 && index < noticias.length - 1">
-            <v-col><v-divider>
-                  
-            </v-divider></v-col>
-
-          </v-row>
-          </v-container>
-      </div>      
+      </div>     
       <div v-else>
         <v-container>
           <v-row>
@@ -185,112 +159,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>
-      <modal-message
-        title="Programar publicação da notícia"
-        :visible="modalProgNorm"
-        options
-        @close="modalProgNorm = false"
-        @confirm="programaNot"
-      >
-        Quando deseja publicar esta notícia?
-        <div class="parameters">
-          <v-radio-group
-            v-model="publishNow"
-            column          
-          >
-            <v-radio
-              label='Agora'
-              :value='true'
-              color="#800000"
-            ></v-radio>
-            <div class="publish-time">
-              <v-radio
-                label="Mais tarde"
-                :value="false"
-                color="#800000"
-              ></v-radio>
-              <date-picker
-                :disabled="publishNow" 
-                v-model="date"
-              />
-            </div>
-          </v-radio-group>
-          <v-divider class="publish-divider" />
-          <div style="align-self: start">Deseja que esta notícia seja recorrente?</div>
-          <div class="publish-time">
-            <v-checkbox
-              v-model="publishRepeat"
-              label="Noticia recorrente"
-              color="#800000"
-            />
-            <input-recurrence 
-              v-model="recurrenceArray"
-              :disabled="!publishRepeat"
-            />
-          </div>
-        </div>
-      </modal-message>
-      <modal-message
-        title="Editar publicação da notícia"
-        :visible="modalProg"
-        options
-        @close="modalProg = false"
-        @confirm="editaNotprog"
-      >
-        Quando deseja publicar esta notícia?
-        <div class="parameters">
-          <v-radio-group
-            v-model="publishNow"
-            column          
-          >
-            <v-radio
-              label='Agora'
-              :value='true'
-              color="#800000"
-            ></v-radio>
-            <div class="publish-time">
-              <v-radio
-                label="Mais tarde"
-                :value="false"
-                color="#800000"
-              ></v-radio>
-              <date-picker
-                :disabled="publishNow" 
-                v-model="dateP"
-              />
-            </div>
-          </v-radio-group>
-          <v-divider class="publish-divider" />
-          <div style="align-self: start">Deseja que esta notícia seja recorrente?</div>
-          <div class="publish-time">
-            <input-recurrence
-              v-model="recurrenceArrayP"
-            />
-          </div>
-        </div>
-      </modal-message>      
-      <v-dialog
-        v-model="dialog6"
-        :retain-focus="false"
-        max-width="550">
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
-          <v-col style="margin: auto; padding: 0px 50px;">
-            <p style="margin-bottom: 5px; color:var(--grey3-color)">
-              Notícia "<b>{{nomeEdit}}</b>" programada com sucesso!</p>
-          </v-col>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-            class="button-confirmar"
-            text
-            @click="dialog6 = false; console.log(recurrenceArrayP)">
-            Confirmar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>  
+      </v-dialog> 
     </div>
 </template>
 
@@ -299,15 +168,9 @@ import axios from 'axios'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import VerNoticia from '../components/VerNoticia.vue'
-import ModalMessage from '../components/ModalMessage.vue'
-import DatePicker from '../components/Editor/DatePicker.vue'
-import InputRecurrence from '../components/Editor/InputRecurrence.vue'
 export default {
   components: {
-    VerNoticia,
-    ModalMessage,
-    DatePicker,
-    InputRecurrence
+    VerNoticia
   },
   mixins: [validationMixin],
   validations: {
@@ -326,8 +189,6 @@ export default {
       dialog5: false,
       dialog6: false,
       dialogVer: false,
-      modalProgNorm: false,
-      modalProg: false,
       noticia: null,
       nomeApagar: null,
       nomeEdit: null,
@@ -335,14 +196,6 @@ export default {
       nomeVisibilidade: null,
       idVisibilidade: null,
       nomeFlag: false,
-      color1: 1,
-      color2: 0,
-      date: Date.now(),
-      recurrenceArray: [0,0,0,0,0,0],
-      dateP:null,
-      recurrenceArrayP: null,      
-      publishNow: true,
-      publishRepeat: false,
       n: null
     }
   },
@@ -358,71 +211,6 @@ export default {
       } 
     },
   methods: {
-    editaNotprog(){
-      let data_pub = this.publishNow ? 'now' : this.dateP
-
-      let noticiaProg = {
-        _id: this.noticia._id,
-        recorrencia: this.recurrenceArrayP.toString(),
-        data_pub: data_pub,
-        noticia: this.noticia.noticia
-      }
-      axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
-        noticiaProg,
-        {
-          headers: {
-              'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-        }
-      ).then(() => {
-        this.modalProg = false
-        this.dialog6 = true
-
-      }).catch((err) => { console.log(err) });      
-    },
-    programaNot(){
-      let data_pub = this.publishNow ? 'now' : this.date
-
-      let noticiaProg = {
-        recorrencia: this.recurrenceArray.toString(),
-        data_pub: data_pub,
-        noticia: this.noticia
-      }
-
-      axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
-        noticiaProg,
-        {
-          headers: {
-              'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-        }
-      ).then(() => {
-        this.modalProg = false
-        this.dialog6 = true
-        
-
-      }).catch((err) => { console.log(err) });
-    },
-    alteraLista(){
-      if(this.color1 == 1){
-        axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-          .then( dados => {
-            this.noticias = dados.data
-          })
-          .catch(err => {
-            console.log(err)
-          })        
-      }
-      else if(this.color2 == 1){
-        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-          .then( dados => {
-            this.noticias = dados.data
-          })
-          .catch(err => {
-            console.log(err)
-          })        
-      }
-    },
     deleteNoticia(id){
       axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=2', {}, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
@@ -459,7 +247,6 @@ export default {
         })        
     }
   }  
-  //fazer um put public para programadas
 }
 </script>
 
