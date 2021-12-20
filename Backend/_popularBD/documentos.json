@@ -1,60 +1,105 @@
 [{
-    "titulo": "Falso Rastreio do Cancro da Mama",
-    "data_publicacao": "2021-11-25T01:12:09",
-    "visibilidade": "0",
-    "_id_autor": {
-        "$oid": "619265f2a251bdb1cd46375b"
-    },
-    "nome_autor": "Filipa Santos",
-    "id_categoria": "oncologia",
-    "ficheiro": {
-        "nome_ficheiro": "1637286423392-RCM_Alerta_Blog.png",
-        "tamanho": "174.04 KB",
-        "tipo_mime": "image/png",
-        "diretoria": "public/fileStore/documentos/1637802729098-1637286423392-RCM_Alerta_Blog.png",
-        "_id": {
-            "$oid": "619ee2e9149a383594879ee0"
-        }
-    },
-    "__v": 0
-},
-{
-    "titulo": "Resolução de Conflitos Éticos",
-    "data_publicacao": "2021-11-25T01:19:47",
-    "visibilidade": "0",
-    "_id_autor": {
-        "$oid": "619265f2a251bdb1cd46375b"
-    },
-    "nome_autor": "Filipa Santos",
-    "id_categoria": "outros",
-    "ficheiro": {
-        "nome_ficheiro": "1637286304576-Panfleto - Resolução de conflitos éticos.pdf",
-        "tamanho": "397.16 KB",
-        "tipo_mime": "application/pdf",
-        "diretoria": "public/fileStore/documentos/1637803187348-1637286304576-Panfleto - Resolução de conflitos éticos.pdf",
-        "_id": {
-            "$oid": "619ee4b3149a383594879ee7"
-        }
-    },
-    "__v": 0
-},
-{
-    "titulo": "Recomendações - Atividade Física",
-    "data_publicacao": "2021-11-25T01:23:25",
-    "visibilidade": "0",
-    "_id_autor": {
-        "$oid": "619265f2a251bdb1cd46375b"
-    },
-    "nome_autor": "Filipa Santos",
-    "id_categoria": "outros",
-    "ficheiro": {
-        "nome_ficheiro": "1637286195255-i027166.pdf",
-        "tamanho": "1.75 MB",
-        "tipo_mime": "application/pdf",
-        "diretoria": "public/fileStore/documentos/1637803405185-1637286195255-i027166.pdf",
-        "_id": {
-            "$oid": "619ee58d149a383594879eef"
-        }
-    },
-    "__v": 0
+  "_id": {
+    "$oid": "61c0b2ad8741e72deb363b56"
+  },
+  "titulo": "Roteiro de Informação à Pessoa com Asma",
+  "data_publicacao": "2021-12-20T16:43:25",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "asma",
+  "caminho_categorias": [
+    "categorias",
+    "uso seguro do medicamento"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto_Roteiro_Asma.pdf",
+    "tamanho": "495.52 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1640018605692-Panfleto_Roteiro_Asma.pdf",
+    "_id": {
+      "$oid": "61c0b2ad8741e72deb363b57"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61c0b3118741e72deb363b6b"
+  },
+  "titulo": "Roteiro da informação à criança com febre",
+  "data_publicacao": "2021-12-20T16:45:05",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "febre",
+  "caminho_categorias": [
+    "categorias",
+    "uso seguro do medicamento"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo I - Panfleto - roteiro da informação à criança com febre.pdf",
+    "tamanho": "458.88 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1640018705076-Anexo I - Panfleto - roteiro da informação à criança com febre.pdf",
+    "_id": {
+      "$oid": "61c0b3118741e72deb363b6c"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61c0b34f8741e72deb363b81"
+  },
+  "titulo": "Sinais de alerta na criança com febre",
+  "data_publicacao": "2021-12-20T16:46:07",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "febre",
+  "caminho_categorias": [
+    "categorias",
+    "uso seguro do medicamento"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo V - Panfleto Sinais de alerta na criança com febre.pdf",
+    "tamanho": "529.22 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1640018767606-Anexo V - Panfleto Sinais de alerta na criança com febre.pdf",
+    "_id": {
+      "$oid": "61c0b34f8741e72deb363b82"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61c0b3628741e72deb363b98"
+  },
+  "titulo": "Avaliação Temperatura e Medidas Terapêuticas",
+  "data_publicacao": "2021-12-20T16:46:26",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "febre",
+  "caminho_categorias": [
+    "categorias",
+    "uso seguro do medicamento"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo VI - Panfleto Avaliação Temperatura e Medidas Terapêuticas.pdf",
+    "tamanho": "543.50 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1640018786677-Anexo VI - Panfleto Avaliação Temperatura e Medidas Terapêuticas.pdf",
+    "_id": {
+      "$oid": "61c0b3628741e72deb363b99"
+    }
+  },
+  "__v": 0
 }]
