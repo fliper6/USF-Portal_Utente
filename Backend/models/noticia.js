@@ -8,7 +8,7 @@ var noticiaSchema = new mongoose.Schema({
     data_criacao: {type: String, required: true},
     data_ultima_mod: {type: String, required: true},
     visibilidade: {type: Number, required: true},
-    original: {type: Boolean, required: true},
+    id_original: {type: mongoose.Schema.Types.ObjectId, ref: "noticia", required: false},
     ficheiros: [{type: {
       nome_ficheiro: {type: String, required: true},
       tamanho: {type: String, required: true},

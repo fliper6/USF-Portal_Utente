@@ -3,7 +3,6 @@ const mongoose = require('mongoose')
 var noticiaProgramadaSchema = new mongoose.Schema({
     recorrencia: {type: [Number], required: true},
     data_pub: {type: String, required: true},
-    id_original: {type: mongoose.Schema.Types.ObjectId, ref: "noticia", required: false},
     noticia: {   
         titulo: {type: String, required: true}, 
         corpo: {type: String, required: true},
@@ -12,7 +11,7 @@ var noticiaProgramadaSchema = new mongoose.Schema({
         data_criacao: {type: String, required: true},
         data_ultima_mod: {type: String, required: true},
         visibilidade: {type: Number, required: true},
-        original: {type: Boolean, required: true},
+        id_original: {type: mongoose.Schema.Types.ObjectId, ref: "noticia", required: false},
         ficheiros: [{type: {
             nome_ficheiro: {type: String, required: true},
             tamanho: {type: String, required: true},

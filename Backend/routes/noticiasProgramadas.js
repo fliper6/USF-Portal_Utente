@@ -11,7 +11,7 @@ let NoticiaProg = require("../controllers/noticiaProgramada");
 router.get('/', (req,res) => {
     NoticiaProg.listar()
         .then(noticiasProg => {
-            let ids_originais = noticiasProg.reduce((acc,cur) => {if ("id_original" in cur) acc.push(cur.id_original); return acc}, [])
+            let ids_originais = noticiasProg.reduce((acc,cur) => {if ("id_original" in cur.noticia) acc.push(cur.noticia.id_original); return acc}, [])
 
             Noticia.listarOriginais(ids_originais)
                 .then(noticiasNormais => res.status(200).jsonp({noticiasNormais, noticiasProg}))

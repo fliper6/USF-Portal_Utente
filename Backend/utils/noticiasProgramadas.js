@@ -41,8 +41,7 @@ function programarNoticia(noticiaProg) {
                     // caso contrário, atualiza a data da próxima publicação, para conseguir recuperar caso haja uma falha do sistema, e programa a próxima iteração
                     else {
                         n.data_pub = proxData(n.recorrencia, data)
-                        if (!("id_original" in n)) n.id_original = dados._id
-                        n.noticia.original = false
+                        if (!("id_original" in n.noticia)) n.noticia.id_original = dados._id
 
                         NoticiaProg.atualizar(n)
                             .then(d => {
@@ -82,8 +81,7 @@ function noticiasEmAtraso(n) {
                 console.log(`Notícia programada '${n.noticia.titulo}' publicada com sucesso em ${n.data_pub}.`)
 
                 n.data_pub = proxData(n.recorrencia, n.data_pub)
-                if (!("id_original" in n)) n.id_original = dados._id
-                n.noticia.original = false
+                if (!("id_original" in n.noticia)) n.noticia.id_original = dados._id
 
                 if (n.recorrencia.some((x) => x !== 0)) noticiasEmAtraso(n)
                 else {

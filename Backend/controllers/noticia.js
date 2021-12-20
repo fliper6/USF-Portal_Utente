@@ -7,7 +7,7 @@ module.exports.listar = visibilidade => {
 module.exports.listarOriginais = ids_originais => {
     return Noticia.find({
         visibilidade: 0,
-        original: true,
+        id_original: { $exists: false },
         _id: { $nin: ids_originais }
     }).sort('-data_criacao').exec()
 }
