@@ -136,6 +136,21 @@ module.exports.criarIdCategoria = (nova_categoria, ids) => {
     return novo_id + i
 }
 
+module.exports.removerCategoria = (categorias, id) => {
+    let aux = arr => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id == id) {
+                arr.splice(i, 1)
+                break
+            }
+            else if (arr[i].children.length > 0) arr[i].children = aux(arr[i].children)
+        }
+        return arr
+    }
+
+    return aux(categorias)
+}
+
 module.exports.SECRET = SECRET
 
 module.exports.EXPIRES_IN = EXPIRES_IN

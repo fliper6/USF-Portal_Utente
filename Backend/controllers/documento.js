@@ -4,6 +4,13 @@ module.exports.listar = visibilidade => {
     return Documento.find({visibilidade}).sort('-data_publicacao').exec()
 }
 
+module.exports.listarEmCategoria = id_cat => {
+    return Documento.find(
+        {caminho_categorias: { $regex: "^"+id_cat+"$", $options: "i" } },
+        {_id: 1}
+    ).exec()
+}
+
 module.exports.consultar = _id => {
     return Documento.findOne({_id}).exec()
 }

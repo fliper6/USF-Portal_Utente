@@ -55,11 +55,11 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : categorias_base
-            
+
             let ids = JWTUtils.getIDsCategorias(categorias)
             let novo_id = JWTUtils.criarIdCategoria(req.body.nova_categoria, ids)
             let nova_cat = {id: novo_id, label: req.body.nova_categoria, children: []}
-
+            
             if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
             else {
                 let atualizarArvore = (nova_cat, id_pai, arr) => {
@@ -135,6 +135,25 @@ router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => 
     Documento.adicionar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+})
+
+// Remover uma categoria da árvore
+router.delete('/categoria/:id', (req,res) => {
+    Categoria.listar()
+        .then(dados => {
+            let categorias = dados !== null ? dados.categorias : categorias_base
+
+            Documento.listarEmCategoria(req.params.id)
+                .then(docs => {
+                    if (docs.length > 0) return res.status(200).jsonp({error: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
+                    
+                    Categoria.atualizar(JWTUtils.removerCategoria(categorias, req.params.id))
+                        .then(dados => res.status(200).jsonp(dados))
+                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
+                })
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
+        })
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
 })
 
 //Apagar permanentemente um documento
