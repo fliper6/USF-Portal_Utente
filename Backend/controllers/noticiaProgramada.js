@@ -4,6 +4,10 @@ module.exports.listar = () => {
     return NoticiaProg.find().exec()
 }
 
+module.exports.listarIDs = () => {
+    return NoticiaProg.find({'noticia.id_original': { $exists: true } }, {_id: 0, 'noticia.id_original': 1}).exec()
+}
+
 module.exports.consultar = _id => {
     return NoticiaProg.findOne({_id}).exec()
 }

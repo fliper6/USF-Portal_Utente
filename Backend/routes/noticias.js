@@ -182,9 +182,27 @@ router.put('/ficheiros', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 
 // Alterar a visibilidade de uma notícia
 router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    let action
+    if (req.query.visibilidade == 0) action = "tornar pública"
+    if (req.query.visibilidade == 1) action = "remover"
+    if (req.query.visibilidade == 2) action = "eliminar permanentemente"
+
     Noticia.alterarVisibilidade(req.params.id, req.query.visibilidade)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
+        .then(dados => {
+            if (req.query.visibilidade != 1) return res.status(200).jsonp(dados)
+            else {
+                dados = JSON.parse(JSON.stringify(dados))
+                let id_noticia = ("id_original" in dados ? dados.id_original : dados._id).toString()
+
+                NoticiaProg.listarIDs()
+                    .then(ids => {
+                        ids = ids.map(x => x.noticia.id_original.toString())
+                        res.status(200).jsonp({programada: ids.includes(id_noticia)})
+                    })
+                    .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao verificar se a notícia é programada.`}))
+            }
+        })
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao ${action} a notícia.`}))
 })
 
 module.exports = router;

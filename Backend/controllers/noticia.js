@@ -26,5 +26,5 @@ module.exports.atualizar = not => {
 }
 
 module.exports.alterarVisibilidade = (_id, visibilidade) => {
-    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: visibilidade}})
+    return Noticia.findOneAndUpdate({_id}, {$set: {visibilidade: visibilidade}}, {new: true})
 }
