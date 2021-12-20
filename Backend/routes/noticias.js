@@ -128,20 +128,6 @@ router.post('/ficheiro', JWTUtils.validate, JWTUtils.isMedico, upload.single('fi
         .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao guardar o ficheiro ${ficheiro.nome_ficheiro}.`}))
 })
 
-// Tornar privada uma notícia
-router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Noticia.remover(req.params.id)
-        .then(dados => res.status(200).jsonp({}))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
-})
-
-// Tornar pública uma notícia
-router.put('/publica/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Noticia.adicionar(req.params.id)
-        .then(dados => res.status(200).jsonp({}))
-        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
-})
-
 // Editar uma notícia
 router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros'), (req,res) => {
     let ficheiros_novos = [];
@@ -194,11 +180,11 @@ router.put('/ficheiros', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
         .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover os ficheiros da notícia.`}))
 })
 
-//Remover permanentemente uma noticia
-router.delete('/:id', JWTUtils.validate , JWTUtils.isMedico, function(req, res) {
-    Noticia.eliminar(req.params.id)
+// Alterar a visibilidade de uma notícia
+router.put('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+    Noticia.alterarVisibilidade(req.params.id, req.query.visibilidade)
         .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(404).jsonp({error: e}))
-});
+        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao remover a notícia.`}))
+})
 
 module.exports = router;

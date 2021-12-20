@@ -424,7 +424,7 @@ export default {
       }
     },
     deleteNoticia(id){
-      axios.delete('http://localhost:3333/noticias/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=2', {}, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
           axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
@@ -439,7 +439,7 @@ export default {
         })
     },
     putPublic(id){
-      axios.put('http://localhost:3333/noticias/publica/' + id,{},
+      axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=0', {},
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

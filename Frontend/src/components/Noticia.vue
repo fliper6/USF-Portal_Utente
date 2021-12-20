@@ -106,7 +106,7 @@ export default {
   },
   methods: {
     deleteNoticia () {
-      axios.put('http://localhost:3333/noticias/' + this.$props.noticia._id,{},
+      axios.put('http://localhost:3333/noticias/' + this.$props.noticia._id + '?visibilidade=1', {},
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
