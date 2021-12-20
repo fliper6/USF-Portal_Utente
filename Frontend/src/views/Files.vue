@@ -220,8 +220,7 @@
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              console.log(this.docs[i].caminho_categorias)
-              if(this.docs[i].caminho_categorias.includes(this.valueFiltro)) {
+              if(this.docs[i].caminho_categorias.includes(this.valueFiltro[0])) {
                 this.docsfiltrados.push(this.docs[i])
               }
             }
