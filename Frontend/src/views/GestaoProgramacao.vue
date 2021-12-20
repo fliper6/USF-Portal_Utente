@@ -45,7 +45,7 @@
             <v-col class="text-right">
               <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n.noticia">Ver</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProg= true; noticia = n; recurrenceArrayP = n.recorrencia; dateP = new Date(n.data_pub).getTime(); nomeEdit = n.noticia.titulo">Editar programação de publicação</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = n.noticia.titulo; idApagar = n._id; cancelaProg">Cancelar programação</v-btn>
+              <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog = true; nomeApagar = n.noticia.titulo; idApagar = n._id; cancelaProg">Cancelar programação</v-btn>
             </v-col>
           </v-row>
           <v-row v-if="noticias.length > 1 && index < noticias.length - 1">
@@ -89,7 +89,7 @@
       </v-card>
       </v-dialog>
       <v-dialog
-        v-model="dialog3"
+        v-model="dialog"
         :retain-focus="false"
         max-width="550">
         <v-card>
@@ -103,19 +103,19 @@
             <v-btn
             class="button-cancelar"
             text
-            @click="dialog3 = false;">
+            @click="dialog = false;">
             Cancelar
             </v-btn>
             <v-btn
             class="button-confirmar"
             text
-            @click="cancelaProg(); dialog3 = false">
+            @click="cancelaProg(); dialog = false">
             Confirmar
             </v-btn>
           </v-card-actions>
         </v-card>
       <v-dialog
-        v-model="dialog5"
+        v-model="dialog2"
         :retain-focus="false"
         max-width="550">
         <v-card>
@@ -129,59 +129,12 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog5 = false;">
+            @click="dialog2 = false;">
             Confirmar
             </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>  
-      </v-dialog>
-      <v-dialog
-        v-model="dialog2"
-        max-width="550">
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
-          <v-col style="margin: auto; padding: 0px 50px;">
-            <p style="margin-bottom: 5px; color:var(--grey3-color)">
-              Pretende colocar pública a notícia "<b>{{nomeVisibilidade}}</b>"?</p>
-          </v-col>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-              class="button-cancelar"
-              text
-              @click="dialog2 = false;">
-              Cancelar
-            </v-btn>
-            <v-btn
-              class="button-confirmar"
-              text
-              @click="putPublic(idVisibilidade); dialog2 = false; dialog4 = true">
-              Confirmar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog
-        v-model="dialog4"
-        :retain-focus="false"
-        max-width="550">
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
-          <v-col style="margin: auto; padding: 0px 50px;">
-            <p style="margin-bottom: 5px; color:var(--grey3-color)">
-              Visibilidade da notícia "<b>{{nomeVisibilidade}}</b>" foi alterada para pública.</p>
-          </v-col>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn
-            class="button-confirmar"
-            text
-            @click="dialog4 = false;">
-            Confirmar
-            </v-btn>
-          </v-card-actions>
-        </v-card>
       </v-dialog>
       <modal-message
         title="Programar publicação da notícia"
@@ -268,7 +221,7 @@
         </div>
       </modal-message>      
       <v-dialog
-        v-model="dialog6"
+        v-model="dialog3"
         :retain-focus="false"
         max-width="550">
         <v-card>
@@ -282,7 +235,7 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog6 = false">
+            @click="dialog3 = false">
             Confirmar
             </v-btn>
           </v-card-actions>
@@ -319,9 +272,6 @@ export default {
       dialog: false,
       dialog2: false,
       dialog3: false,
-      dialog4: false,
-      dialog5: false,
-      dialog6: false,
       dialogVer: false,
       modalProgNorm: false,
       modalProg: false,
@@ -345,9 +295,9 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/noticias?visibilidade=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
-          this.noticias = dados.data
+          this.noticias = dados.data.noticiasNormais
         })
         .catch(err => {
           console.log(err)
@@ -360,8 +310,8 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
-              this.noticias = dados.data
-              this.dialog5 = true
+              this.noticias = dados.data.noticiasProg
+              this.dialog2 = true
             })
             .catch(err => {
               console.log(err)
@@ -373,7 +323,7 @@ export default {
 
       let noticiaProg = {
         _id: this.noticia._id,
-        recorrencia: this.recurrenceArrayP.toString(),
+        recorrencia: this.recurrenceArrayP,
         data_pub: data_pub,
         noticia: this.noticia.noticia
       }
@@ -386,10 +336,10 @@ export default {
         }
       ).then(() => {        
         this.modalProg = false
-        this.dialog6 = true
+        this.dialog3 = true
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data
+            this.noticias = dados.data.noticiasProg
           })
           .catch(err => {
             console.log(err)
@@ -415,11 +365,10 @@ export default {
         }
       ).then(() => {
         this.modalProg = false
-        this.dialog6 = true
-        //mudar rota para so nao programadas
-        axios.get("http://localhost:3333/noticias?visibilidade=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+        this.dialog3 = true
+        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data
+            this.noticias = dados.data.noticiasNormais
           })
           .catch(err => {
             console.log(err)
@@ -429,10 +378,9 @@ export default {
     },
     alteraLista(){
       if(this.color1 == 1){
-        //mudar rota para so nao programadas
-        axios.get("http://localhost:3333/noticias?visibilidade=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data
+            this.noticias = dados.data.noticiasNormais
           })
           .catch(err => {
             console.log(err)
@@ -441,50 +389,15 @@ export default {
       else if(this.color2 == 1){
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data
+            this.noticias = dados.data.noticiasProg
           })
           .catch(err => {
             console.log(err)
           })        
       }
     },
-    deleteNoticia(id){
-      axios.delete('http://localhost:3333/noticias/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-        .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.noticias = dados.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    },
-    putPublic(id){
-      axios.put('http://localhost:3333/noticias/publica/' + id,{},
-        {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-          }
-        })
-        .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.noticias = dados.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
-        })
-        .catch(err => {
-            console.log(err)
-        })        
-    }
   }  
-  //fazer um put public para programadas e cancelar em vez de eliminar que passa noticias prog pa normais.
+
 }
 </script>
 
