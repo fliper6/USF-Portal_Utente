@@ -1,18 +1,46 @@
 [
   {
     "categorias": [
-       {"id": "medicina_interna",
-        "label": "Medicina Interna",
+       {"id": "categorias",
+        "label": "Categorias",
         "children": [
-           {"id": "pneumologia",
-            "label": "Pneumologia"},
-           {"id": "oncologia",
-            "label": "Oncologia"}
-          ]}, 
-       {"id": "cirurgia",
-        "label": "Cirurgia"}, 
-       {"id": "outros",
-        "label": "Outros"} 
+           {"id": "asma",
+            "label": "Asma"},
+           {"id": "dependentes",
+            "label": "Dependentes"},
+           {"id": "diabetes",
+            "label": "Diabetes"},
+           {"id": "dispositivos_inalatorios",
+            "label": "Dispositivos Inalatórios"},
+           {"id": "febre",
+            "label": "Febre"},
+           {"id": "informacao_para_os_utentes",
+            "label": "Informação para os utentes", 
+            "children": [
+              {"id": "boletim_informativo",
+               "label": "Boletim Informativo"},
+              {"id": "direitos_e_deveres",
+               "label": "Direitos e Deveres"},
+              {"id": "rennda_-_doacao_de_orgaos",
+               "label": "RENNDA - Doação de Orgãos"},
+              {"id": "testamento_vital",
+               "label": "Testamento Vital"}
+           ]},          
+           {"id": "planeamento_familiar",
+            "label": "Planeamento Familiar"},
+           {"id": "pre_obesidade",
+            "label": "Pré Obesidade"},
+           {"id": "rastreio_de_cancro_colorretal",
+            "label": "Rastreio de Cancro Colorretal"},
+           {"id": "risco_cardiovascular",
+            "label": "Risco Cardiovascular"},
+           {"id": "saude_infantil",
+            "label": "Saúde Infantil"},
+           {"id": "saude_materna",
+            "label": "Saúde Materna"},
+           {"id": "uso seguro do medicamento",
+            "label": "Uso Seguro do Medicamento"} 
+        ]}
     ]
   }
 ]

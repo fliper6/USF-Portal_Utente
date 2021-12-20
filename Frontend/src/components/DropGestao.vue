@@ -47,7 +47,14 @@
             </v-list-item>
           </router-link>
 
-          <!-- SEGUESTÕES -->
+          <!-- CATEGORIAS -->
+          <router-link class="opcao" :to="'/gestao/categorias'">
+            <v-list-item class="opcao">
+              <b>Categorias</b>
+            </v-list-item>
+          </router-link>
+
+          <!-- SUGESTÕES -->
           <router-link class="opcao" :to="'/gestao/sugestao'">
             <v-list-item class="opcao">
               <b>Sugestões</b>

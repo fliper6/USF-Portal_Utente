@@ -48,7 +48,7 @@
                               @open="warning_arvore2 = false"
                               :error-messages="arvorepaiErrors"
                               :max-height="100"
-                              :multiple="false" :options="options" 
+                              :multiple="false" :options="options2" 
                               :flatten-search-results="true"
                               :normalizer="normalizer"
                               v-model="arvore_pai"
@@ -142,6 +142,7 @@
         /* FILTRO */
         valueFiltro: null,
         options: null,
+        options2: null,
 
         /* + DOCUMENTO */
         dialog: false,
@@ -215,26 +216,11 @@
           }
           return false
         },
-        getFilhos: function (arv, filtro) {
-          for(var i = 0; i < arv.length; i++) {
-            if(arv[i].id == filtro)
-              return arv[i].children
-          }
-          for(var j = 0; j < arv.length; j++) {
-            return this.getFilhos(arv[i], filtro)
-          }
-        },
         filtrar: function () {
           if(this.valueFiltro.length > 0) { 
-            var arvFilhos = this.getFilhos(this.options, this.valueFiltro).flat()
-            var fils = []
-            for(var j = 0; j < arvFilhos.length; j++) {
-              fils.push(arvFilhos[j].id)
-            }
-            console.log(fils)
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              if(this.docs[i].id_categoria == this.valueFiltro || fils.includes(this.docs[i].id_categoria)) {
+              if(this.docs[i].caminho_categorias.includes(this.valueFiltro)) {
                 this.docsfiltrados.push(this.docs[i])
               }
             }
@@ -283,9 +269,9 @@
                       console.log("Ocorreu um erro ao obter a listagem de documentos.")
                     })
                     
-              }).catch(() => {
-                console.log("Ocorreu um erro ao obter ao dar upload ao documento.")
-              })  
+              }).catch(e => {
+                console.log(e)
+              })
           }
         },
         close() {
@@ -317,7 +303,8 @@
                   // Atualizar árvore de categorias
                   axios.get("http://localhost:3333/documentos/categorias")
                     .then(data => {
-                      this.options = data.data.categorias
+                      this.options = data.data.categorias[0].children
+                      this.options2 = data.data.categorias
                     })
                     .catch(() => {
                         console.log("Ocorreu um erro ao obter a árvore de categorias.")
@@ -334,11 +321,7 @@
           this.categoria = null
           this.warning_arvore2 = false
           this.dialog2 = false
-        },
-        mudarVisibilidade: function () {
-        },
-        download: function () {
-        },
+        }
     },
     created() {
       // Obter lista de documentos
@@ -359,7 +342,8 @@
       // Obter árvore de categorias
       axios.get("http://localhost:3333/documentos/categorias")
         .then(data => {
-          this.options = data.data.categorias
+          this.options = data.data.categorias[0].children
+          this.options2 = data.data.categorias
         })
         .catch(() => {
             console.log("Ocorreu um erro ao obter a árvore de categorias.")

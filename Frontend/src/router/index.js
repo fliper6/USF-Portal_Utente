@@ -91,6 +91,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoNoticias.vue')
   },
   {
+    path: '/gestao/categorias',
+    name: 'GestaoCategorias',
+    component: () => import(/* webpackChunkName: "about" */ '../views/GestaoCategorias.vue')
+  },
+  {
     path: '/gestao/documentos',
     name: 'GestaoDocumentos',
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoDocumentos.vue')
