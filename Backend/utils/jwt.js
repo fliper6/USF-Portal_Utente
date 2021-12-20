@@ -100,21 +100,26 @@ module.exports.getCategoriaByID = (arr, id) => {
 module.exports.caminhoParaId = (arr, id) => {
     let aux = (arr, caminho) => {
         caminho.push("")
+        let fim = false
 
-        arr.forEach(c => {
-            caminho[caminho.length-1] = c.id
+        for (let i = 0; i < arr.length; i++) {
+            caminho[caminho.length-1] = arr[i].id
 
-            if (c.id == id) {
+            if (arr[i].id == id) {
                 final = caminho
-                return true
+                fim = true
+                break
             }
-            else if (c.children.length > 0) {
-                let fim = aux(c.children, JSON.parse(JSON.stringify(caminho)))
-                if (fim) return true
+            else if (arr[i].children.length > 0) {
+                let fim_children = aux(arr[i].children, JSON.parse(JSON.stringify(caminho)))
+                if (fim_children) {
+                    fim = true
+                    break
+                }
             }
-        })
+        }
 
-        return false
+        return fim
     }
 
     let final = []
