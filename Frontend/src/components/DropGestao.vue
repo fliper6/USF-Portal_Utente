@@ -40,6 +40,12 @@
             </v-list-item>
           </router-link>
 
+          <router-link class="opcao" :to="'/gestao/programacao'">
+            <v-list-item class="opcao">
+              <b>Programação de notícias</b>
+            </v-list-item>
+          </router-link>          
+
           <!-- DOCUMENTOS -->
           <router-link class="opcao" :to="'/gestao/documentos'">
             <v-list-item class="opcao">
