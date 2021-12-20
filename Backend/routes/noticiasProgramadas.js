@@ -7,11 +7,17 @@ const np = require("../utils/noticiasProgramadas");
 let Noticia = require('../controllers/noticia');
 let NoticiaProg = require("../controllers/noticiaProgramada");
 
-//lista noticias programadas
+// Obter listas de notícias normais e programadas
 router.get('/', (req,res) => {
     NoticiaProg.listar()
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a notícia programada."}))
+        .then(noticiasProg => {
+            let ids_originais = noticiasProg.reduce((acc,cur) => {if ("id_original" in cur) acc.push(cur.id_original); return acc}, [])
+
+            Noticia.listarOriginais(ids_originais)
+                .then(noticiasNormais => res.status(200).jsonp({noticiasNormais, noticiasProg}))
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter as listas de notícias programadas e não programadas."}))
+        })
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter as listas de notícias programadas e não programadas."}))
 })
 
 // Obter notícia programada por _id
@@ -22,14 +28,13 @@ router.get('/:id', (req,res) => {
 })
 
 // Editar uma notícia programada
-router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    console.log(req.body)
+router.put('/editar/:id'/* , JWTUtils.validate, JWTUtils.isMedico */, (req,res) => {
     let noticiaProg = req.body
-    noticiaProg.recorrencia = noticiaProg.recorrencia.split(',').map(x => parseInt(x))
+    //noticiaProg.recorrencia = noticiaProg.recorrencia.split(',').map(x => parseInt(x))
 
     if (noticiaProg.data_pub === "now") {
         let data_publicacao = new Date().toISOString().substring(0,19);
-        console.log("NOW")
+        
         // atualizar as datas da nova iteração da notícia a publicar
         noticiaProg.noticia.data_criacao = data_publicacao
         noticiaProg.noticia.data_ultima_mod = data_publicacao
@@ -44,12 +49,7 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
                         noticiaProg.data_pub = np.proxData(noticiaProg.recorrencia, noticiaProg.data_pub);
                     }
         
-                    NoticiaProg.atualizar(noticiaProg)
-                        .then(d => {
-                            np.reagendar(noticiaProg)
-                            res.status(200).jsonp(d)
-                        })
-                        .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao atualizar a notícia programada ${noticiaProg.noticia.titulo}.`}))
+                    np.atualizarNoticiaProg(noticiaProg, res)
                 }
                 // senão, remove a notícia programada da bd e cancela o job
                 else {
@@ -63,16 +63,7 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
             })
             .catch((e) =>  res.status(500).jsonp({ error: "Ocorreu um erro ao dar upload à notícia." }));
     } 
-    else {
-        console.log("aqui")
-        NoticiaProg.atualizar(req.body)
-            .then(dados => {
-                np.reagendar(req.body)
-                res.status(200).jsonp(dados)
-            })
-            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao atualizar a notícia programada."}))
-    }
-    console.log("END")    
+    else np.atualizarNoticiaProg(noticiaProg, res)
 })
 
 // Terminar a programação de uma notícia

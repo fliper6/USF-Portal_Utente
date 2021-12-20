@@ -64,6 +64,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         data_criacao: data_publicacao,
         data_ultima_mod: data_publicacao,
         visibilidade: 0,
+        original: true,
         ficheiros
     }
     
@@ -79,7 +80,9 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         .then((dados) => {
           // se for recorrente, insere notícia programada na bd e agenda-a
           if (noticiaProg.recorrencia.some((x) => x !== 0)) {
-            noticiaProg.data_pub = data_publicacao;
+            noticiaProg.data_pub = data_publicacao
+            noticiaProg.id_original = dados._id
+            noticiaProg.noticia.original = false
 
             while (noticiaProg.data_pub <= data_publicacao) {
               noticiaProg.data_pub = np.proxData(noticiaProg.recorrencia, noticiaProg.data_pub);

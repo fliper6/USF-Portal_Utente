@@ -41,6 +41,8 @@ function programarNoticia(noticiaProg) {
                     // caso contrário, atualiza a data da próxima publicação, para conseguir recuperar caso haja uma falha do sistema, e programa a próxima iteração
                     else {
                         n.data_pub = proxData(n.recorrencia, data)
+                        if (!("id_original" in n)) n.id_original = dados._id
+                        n.noticia.original = false
 
                         NoticiaProg.atualizar(n)
                             .then(d => {
@@ -52,7 +54,7 @@ function programarNoticia(noticiaProg) {
                 })
                 .catch(e => console.log(`Erro ao publicar a notícia programada '${n.noticia.titulo}' em ${n.data_pub}.`))
         }.bind(null, noticiaProg))
-
+        
         jobs[noticiaProg._id] = job
     }
 
@@ -78,7 +80,10 @@ function noticiasEmAtraso(n) {
         Noticia.inserir(JSON.parse(JSON.stringify(n.noticia)))
             .then(dados => {
                 console.log(`Notícia programada '${n.noticia.titulo}' publicada com sucesso em ${n.data_pub}.`)
+
                 n.data_pub = proxData(n.recorrencia, n.data_pub)
+                if (!("id_original" in n)) n.id_original = dados._id
+                n.noticia.original = false
 
                 if (n.recorrencia.some((x) => x !== 0)) noticiasEmAtraso(n)
                 else {
@@ -111,10 +116,38 @@ function cancelarProgramacao(id) {
     console.log(`Programação da notícia '${id}' terminada com sucesso.`)
 }
 
+// atualizar uma notícia programada - criar uma nova a partir de uma normal ou editar uma existente
+function atualizarNoticiaProg(noticiaProg, res) {
+    // programada -> programada
+    if ("_id" in noticiaProg) {
+        NoticiaProg.atualizar(noticiaProg)
+            .then(d => {
+                np.reagendar(noticiaProg)
+                return res.status(200).jsonp(d)
+            })
+            .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao atualizar a notícia programada '${noticiaProg.noticia.titulo}'.`}))
+    }
+    // normal -> programada
+    else {
+        noticiaProg.id_original = noticiaProg.noticia._id
+        noticiaProg.noticia.original = false
+
+        NoticiaProg.inserir(noticiaProg)
+            .then(notProg => {
+                noticiaProg._id = notProg._id
+                programarNoticia(noticiaProg)
+
+                return res.status(200).jsonp(notProg)
+            })
+            .catch((e) => res.status(500).jsonp({ error: `Ocorreu um erro ao programar a notícia '${noticiaProg.noticia.titulo}'.` }))
+    }
+}
+
 module.exports = {
     proxData,
     programarNoticia,
     reporProgramacoes,
     reagendar,
-    cancelarProgramacao
+    cancelarProgramacao,
+    atualizarNoticiaProg
 }

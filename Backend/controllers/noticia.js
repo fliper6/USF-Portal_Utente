@@ -4,6 +4,14 @@ module.exports.listar = visibilidade => {
     return Noticia.find({visibilidade}).sort('-data_criacao').exec()
 }
 
+module.exports.listarOriginais = ids_originais => {
+    return Noticia.find({
+        visibilidade: 0,
+        original: true,
+        _id: { $nin: ids_originais }
+    }).sort('-data_criacao').exec()
+}
+
 module.exports.consultar = _id => {
     return Noticia.findOne({_id}).exec()
 }
