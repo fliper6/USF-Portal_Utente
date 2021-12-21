@@ -102,7 +102,7 @@ export default {
       titulo: "",
       files: [],
       conteudo: "",
-      date: Date.now(),
+      date: new Date(Date.now()).toISOString(),
       recurrenceArray: [0,6,0,0,0,0],
 
       publishNow: true,
@@ -127,7 +127,7 @@ export default {
       }
       formData.append('corpo', this.conteudo)
       formData.append('titulo',this.titulo)
-      let data_pub = this.publishNow ? 'now' : new Date(this.date).toISOString()
+      let data_pub = this.publishNow ? 'now' : this.date
       formData.append('data_pub', data_pub)
       let rec_array = this.publishRepeat ? this.recurrenceArray : [0,0,0,0,0,0]
       formData.append('recorrencia', rec_array)
@@ -141,7 +141,7 @@ export default {
         }
       ).then(() => {
        this.modal = true
-      }).catch(() => { this.modalError = true });
+      }).catch(() => { this.modalError = true })
     },
     goHome() {
       this.modal=false
