@@ -79,7 +79,7 @@
         const hour = auxData.getHours();
         const minute = auxData.getMinutes();
 
-        this.proxyDate = auxData.toISOString().substring(0,19)
+        this.proxyDate = auxData.toISOString()
         this.time = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
         this.dateFormatted = `${day}/${month}/${year} ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
       }
@@ -92,7 +92,7 @@
       const hour = auxData.getHours();
       const minute = auxData.getMinutes();
 
-      this.proxyDate = auxData.toISOString().substring(0,19)
+      this.proxyDate = auxData.toISOString()
       this.time = `${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
       this.dateFormatted = `${day}/${month}/${year} ${hour < 10 ? '0' : ''}${hour}:${minute < 10 ? '0' : ''}${minute}`
     },

@@ -98,7 +98,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
     
     let documento = {
         titulo: req.body.titulo,
-        data_publicacao: new Date().toISOString().substring(0,19),
+        data_publicacao: new Date().toISOString(),
         visibilidade: "0",
         _id_autor: req.user._id,
         nome_autor: req.user.nome,

@@ -13,13 +13,13 @@ function proxData(recorrencia, data_inicial) {
     let nova_data = new Date(data_inicial)
     recorrencia.map((x,i) => {nova_data = moment(nova_data).add(x, unidades_tempo[i]).toDate()})
 
-    return nova_data.toISOString().substring(0,19)
+    return nova_data.toISOString()
 }
 
 // programar uma notícia para ser publicada numa certa data futura
 function programarNoticia(noticiaProg) {
     let data = new Date(noticiaProg.data_pub)
-    let data_atual = new Date().toISOString().substring(0,19)
+    let data_atual = new Date().toISOString()
 
     // só se for para publicar numa data futura
     if (noticiaProg.data_pub > data_atual) {
@@ -70,7 +70,7 @@ function reporProgramacoes() {
 
 // publicar todas as iterações da notícia em atraso que não foram publicadas enquanto o servidor estava desligado
 function noticiasEmAtraso(n) {
-    let data_atual = new Date().toISOString().substring(0,19)
+    let data_atual = new Date().toISOString()
 
     if (n.data_pub <= data_atual) {
         n.noticia.data_criacao = n.data_pub

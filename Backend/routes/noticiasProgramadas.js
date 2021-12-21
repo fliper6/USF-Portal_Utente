@@ -33,7 +33,7 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     noticiaProg.recorrencia = noticiaProg.recorrencia.split(',').map(x => parseInt(x))
 
     if (noticiaProg.data_pub === "now") {
-        let data_publicacao = new Date().toISOString().substring(0,19);
+        let data_publicacao = new Date().toISOString();
         
         // atualizar as datas da nova iteração da notícia a publicar
         noticiaProg.noticia.data_criacao = data_publicacao

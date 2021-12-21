@@ -127,7 +127,7 @@ export default {
       }
       formData.append('corpo', this.conteudo)
       formData.append('titulo',this.titulo)
-      let data_pub = this.publishNow ? 'now' : new Date(this.date).toISOString().substring(0,19)
+      let data_pub = this.publishNow ? 'now' : new Date(this.date).toISOString()
       formData.append('data_pub', data_pub)
       let rec_array = this.publishRepeat ? this.recurrenceArray : [0,0,0,0,0,0]
       formData.append('recorrencia', rec_array)
