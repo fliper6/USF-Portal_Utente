@@ -118,9 +118,9 @@ function cancelarProgramacao(id) {
 function atualizarNoticiaProg(noticiaProg, res) {
     // programada -> programada
     if ("_id" in noticiaProg) {
-        NoticiaProg.atualizar(noticiaProg)
+        NoticiaProg.atualizar(JSON.parse(JSON.stringify(noticiaProg)))
             .then(d => {
-                np.reagendar(noticiaProg)
+                reagendar(noticiaProg)
                 return res.status(200).jsonp(d)
             })
             .catch(e => res.status(500).jsonp({error: `Ocorreu um erro ao atualizar a notícia programada '${noticiaProg.noticia.titulo}'.`}))

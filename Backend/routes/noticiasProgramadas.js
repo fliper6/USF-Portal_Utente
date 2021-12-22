@@ -30,7 +30,7 @@ router.get('/:id', (req,res) => {
 // Editar uma notícia programada
 router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     let noticiaProg = req.body
-    noticiaProg.recorrencia = noticiaProg.recorrencia.split(',').map(x => parseInt(x))
+    noticiaProg.recorrencia = Array.isArray(noticiaProg.recorrencia) ? noticiaProg.recorrencia : noticiaProg.recorrencia.split(',').map(x => parseInt(x))
 
     if (noticiaProg.data_pub === "now") {
         let data_publicacao = new Date().toISOString();

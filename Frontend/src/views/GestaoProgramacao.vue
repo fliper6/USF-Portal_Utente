@@ -23,7 +23,7 @@
           <v-row>
             <v-col class="text-right">
               <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo">Programar publicação</v-btn>
+              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo; programaNot">Programar publicação</v-btn>
             </v-col>
           </v-row>
           <v-row v-if="noticias.length > 1 && index < noticias.length - 1">
@@ -44,7 +44,7 @@
           <v-row>
             <v-col class="text-right">
               <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n.noticia">Ver</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProg= true; noticia = n; recurrenceArrayP = n.recorrencia; dateP = new Date(n.data_pub).getTime(); nomeEdit = n.noticia.titulo">Editar programação de publicação</v-btn>
+              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProg= true; noticia = n; recurrenceArrayP = n.recorrencia; dateP = new Date(n.data_pub).toISOString(); nomeEdit = n.noticia.titulo">Editar programação de publicação</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog = true; nomeApagar = n.noticia.titulo; idApagar = n._id; cancelaProg">Cancelar programação</v-btn>
             </v-col>
           </v-row>
@@ -188,7 +188,7 @@
         @close="modalProg = false"
         @confirm="editaNotprog"
       >
-        Quando deseja publicar esta notícia?
+        Editar data de publicação da noticia
         <div class="parameters">
           <v-radio-group
             v-model="publishNow"
@@ -212,8 +212,8 @@
             </div>
           </v-radio-group>
           <v-divider class="publish-divider" />
-          <div style="align-self: start">Deseja que esta notícia seja recorrente?</div>
-          <div class="publish-time">
+          <div style="align-self: start">Editar recorrência da notícia</div>
+          <div class="publish-time">          
             <input-recurrence
               v-model="recurrenceArrayP"
             />
@@ -285,7 +285,7 @@ export default {
       color1: 1,
       color2: 0,
       date: Date.now(),
-      recurrenceArray: [0,0,0,0,0,0],
+      recurrenceArray: [0,6,0,0,0,0],
       dateP:null,
       recurrenceArrayP: null,      
       publishNow: true,
@@ -323,7 +323,7 @@ export default {
 
       let noticiaProg = {
         _id: this.noticia._id,
-        recorrencia: this.recurrenceArrayP,
+        recorrencia: this.recurrenceArrayP.map(x => parseInt(x)),
         data_pub: data_pub,
         noticia: this.noticia.noticia
       }
@@ -351,9 +351,19 @@ export default {
       let data_pub = this.publishNow ? 'now' : this.date
 
       let noticiaProg = {
-        recorrencia: this.recurrenceArray.toString(),
+        recorrencia: this.recurrenceArray.map(x => parseInt(x)),
         data_pub: data_pub,
-        noticia: this.noticia
+        noticia: {
+          titulo: this.noticia.titulo,
+          corpo: this.noticia.corpo,
+          _id_autor: this.noticia._id_autor,
+          nome_autor: this.noticia.nome_autor,
+          data_criacao: this.noticia.data_criacao,
+          data_ultima_mod: this.noticia.data_ultima_mod,
+          visibilidade: this.noticia.visibilidade,
+          id_original: this.noticia._id,
+          ficheiros: this.noticia.ficheiros,
+        }
       }
 
       axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
@@ -364,7 +374,7 @@ export default {
           }
         }
       ).then(() => {
-        this.modalProg = false
+        this.modalProgNorm = false
         this.dialog3 = true
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
