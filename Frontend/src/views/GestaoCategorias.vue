@@ -1,6 +1,6 @@
 <template>
   <div class="gestaocats">
-    <v-card flat color="var(--grey1-color)" style="font-size:120%;">
+    <v-card flat color="var(--grey1-color)" style="font-size:120%; min-height:700px">
         <v-container>
             <h1 style="color:var(--primary-color)">Categorias</h1>
             <v-row justify="center">
@@ -9,6 +9,7 @@
         <v-container>
             <v-divider/>
         </v-container>
+        <br/>
         <div style="margin-left:20px;">
             <v-dialog v-model="dialog" width="400">
             <template v-slot:activator="{ on, attrs }">
@@ -25,7 +26,7 @@
                     @input="$v.arvore_pai.$touch()" 
                     @open="warning_arvore2 = false"
                     :error-messages="arvorepaiErrors"
-                    :max-height="100"
+                    :max-height="900"
                     :multiple="false" :options="options2" 
                     :flatten-search-results="true"
                     :normalizer="normalizer"
@@ -79,6 +80,19 @@
             </v-dialog> 
         </div>
         <br/>
+       <v-col style="margin: auto; padding: 0px 50px;">
+        <treeselect
+            @input="$v.arvore.$touch()" 
+            @open="warning_arvore2 = false"
+            :error-messages="arvoreErrors"
+            :max-height="400"
+            :multiple="false" :options="options"
+            :always-open="true"
+            :searchable="false"
+            :clearable="false"
+            :normalizer="normalizer"
+            placeholder="Categorias"/> 
+        </v-col>
     </v-card>
   </div>
 </template>
