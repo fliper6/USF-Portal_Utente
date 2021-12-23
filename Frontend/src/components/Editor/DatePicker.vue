@@ -74,7 +74,7 @@
       date() {
         const auxData = new Date(this.$props.date)
         const year = auxData.getFullYear();
-        const month = auxData.getMonth();
+        const month = auxData.getMonth() + 1;
         const day = auxData.getDate();
         const hour = auxData.getHours();
         const minute = auxData.getMinutes();
