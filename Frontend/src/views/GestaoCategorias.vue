@@ -248,4 +248,9 @@
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size:16px !important;
 }
+
+.vue-treeselect{
+  z-index:1;
+  position: absolute;
+}
 </style>
