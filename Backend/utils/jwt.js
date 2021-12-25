@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const Blocklist = require('../controllers/blocklist')
 
 module.exports.validate = (req, res, next) => {
+    console.log(req.headers['authorization'])
     if(req.headers['authorization'] && req.headers['authorization'].match(/^Bearer\s+/)){
         let token = req.headers['authorization'].replace(/^Bearer\s+/, "");
 
@@ -42,7 +43,7 @@ module.exports.compareId = (req,res,next) => {
 
 module.exports.isMedico = (req,res,next) => {
     if (req.user.nivel === "Secretário" || req.user.nivel === "Administrador") next()
-    else res.status(403).jsonp({erro: "Não tem permissão para esta operação."})
+    else {console.log("aaaaaaaa"); res.status(403).jsonp({erro: "Não tem permissão para esta operação."})}
 }
 
 module.exports.isUtente = (req,res,next) => {

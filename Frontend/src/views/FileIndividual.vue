@@ -19,7 +19,7 @@
     <modal-message
       title="Erro"
       :visible="modalError"
-      @close="this.modalError = false"
+      @close="closeErro()"
     >
       Erro ao remover documento
     </modal-message>
@@ -119,17 +119,14 @@
     methods: {
         download: function () {
           window.open("http://localhost:3333/documentos/download/" + this.id_documento)
-          /* axios.get("http://localhost:3333/documentos/download/" + this.id_documento)
-            .then(() => {
-              
-            })
-            .catch(() => {
-              console.log("Ocorreu um erro ao fazer download do documento.")
-            }) */
         },
         closeSucesso () {
           this.modal = false
           this.$router.push("/documentos")
+        },
+        closeErro () {
+          this.modalConfirm = false
+          this.modalError = false
         },
         testNivel () {
           if(this.token) {
@@ -141,10 +138,10 @@
         },
         deleteDocumento () {
           axios.put("http://localhost:3333/documentos/remover/" + this.id_documento, {
-            headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')},
+            headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}
             }).then(() => {
               this.modal = true;
-            }).catch(() => { this.modalError = true });
+            }).catch(e => { console.log(e) });
         },
     },
     created() {
@@ -170,7 +167,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 
 .tituloDoc {
   color:var(--primary-color); 

@@ -1,5 +1,33 @@
 <template>
   <div class="files">
+    <modal-message
+      title="Sucesso"
+      :visible="modal"
+      @close="closeSucesso()"
+    >
+      Documento adicionado com sucesso
+    </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError"
+      @close="closeErro()"
+    >
+      Não foi possível adicionar documento
+    </modal-message>
+    <modal-message
+      title="Sucesso"
+      :visible="modal2"
+      @close="closeSucesso2()"
+    >
+      Categoria adicionada com sucesso
+    </modal-message>
+    <modal-message
+      title="Erro"
+      :visible="modalError2"
+      @close="closeErro2()"
+    >
+      Não foi possível adicionar categoria
+    </modal-message>
     <v-row style="margin: 0px 5px">
       <v-col>
         <v-dialog v-model="dialog" width="750" style="overflow-x: hidden;">
@@ -21,7 +49,6 @@
                       <treeselect
                         @input="$v.arvore.$touch()" 
                         @open="warning_arvore = false"
-                        :error-messages="arvoreErrors"
                         :max-height="100"
                         :multiple="false" :options="options" 
                         :flatten-search-results="true"
@@ -46,7 +73,6 @@
                             <treeselect
                               @input="$v.arvore_pai.$touch()" 
                               @open="warning_arvore2 = false"
-                              :error-messages="arvorepaiErrors"
                               :max-height="100"
                               :multiple="false" :options="options2" 
                               :flatten-search-results="true"
@@ -114,6 +140,7 @@
 <script>
   import Treeselect from '@riophae/vue-treeselect' //npm install --save @riophae/vue-treeselect
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+  import ModalMessage from '../components/ModalMessage.vue'; 
   import axios from 'axios'
   import jwt from 'jsonwebtoken'
   import { validationMixin } from 'vuelidate'
@@ -123,7 +150,8 @@
     mixins: [validationMixin],
     name: "Files",
     components: {
-      Treeselect
+      Treeselect,
+      ModalMessage
     },
 
     validations: {
@@ -138,13 +166,15 @@
       return {
         token: localStorage.getItem('jwt'),
         nivel: 'utente',
-
+      
         /* FILTRO */
         valueFiltro: null,
         options: null,
         options2: null,
 
         /* + DOCUMENTO */
+        modal: false,
+        modalError: false,
         dialog: false,
         titulo: null,
         arvore: null,
@@ -152,6 +182,8 @@
         file: null,
 
         /* + CATEGORIA */
+        modal2: false,
+        modalError2: false,
         dialog2: false,
         arvore_pai: null,
         warning_arvore2: false,
@@ -178,22 +210,10 @@
         !this.$v.titulo.required && errors.push('Título é um campo obrigatório.')
         return errors
       },
-      arvoreErrors () {
-        const errors = []
-        if (!this.$v.arvore.$dirty) return errors
-        !this.$v.arvore.required && errors.push('Categoria é um campo obrigatório.')
-        return errors
-      },
       ficheiroErrors () {
         const errors = []
         if (!this.$v.file.$dirty) return errors
         !this.$v.file.required && errors.push('Ficheiro é um campo obrigatório.')
-        return errors
-      },
-      arvorepaiErrors () {
-        const errors = []
-        if (!this.$v.arvore_pai.$dirty) return errors
-        !this.$v.arvore_pai.required && errors.push('Ramo da categoria é um campo obrigatório.')
         return errors
       },
       categoriaErrors () {
@@ -236,7 +256,6 @@
           if (!this.$v.arvore.required)
             this.warning_arvore = true
           if (this.$v.titulo.required && this.$v.arvore.required && this.$v.file.required) {
-            this.dialog = false;
 
             let formData = new FormData();
             formData.append('documento', this.file)
@@ -246,34 +265,37 @@
             axios.post("http://localhost:3333/documentos/", 
               formData, 
               {
-                  headers: {
-                    'Content-Type': 'multipart/form-data', 
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-                  }
-              }
-              ).then(() => {
+                headers: {
+                  'Content-Type': 'multipart/form-data', 
+                  'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+                }
+              }).then(() => {
                 console.log("Ficheiro uploaded com sucesso!")
+                this.modal = true;
 
-                  // Atualizar documentos
-                  axios.get("http://localhost:3333/documentos?visibilidade=0")
-                    .then(data => {
-                      this.docs = data.data
-                      this.docs.forEach(item => {              
-                        item.titulo = item.titulo + "##" + item._id
-                        item.data_publicacao = item.data_publicacao.slice(0,10)
-                        item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
-                      })
-                      this.docsfiltrados = this.docs
+                // Atualizar documentos
+                axios.get("http://localhost:3333/documentos?visibilidade=0")
+                  .then(data => {
+                    this.docs = data.data
+                    this.docs.forEach(item => {              
+                      item.titulo = item.titulo + "##" + item._id
+                      item.data_publicacao = item.data_publicacao.slice(0,10)
+                      item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
                     })
-                    .catch(() => {
-                      console.log("Ocorreu um erro ao obter a listagem de documentos.")
-                    })
+                    this.docsfiltrados = this.docs
+                  })
+                  .catch(e => {
+                    console.log(e)
+                  })
                     
               }).catch(e => {
+                this.modalError = true;
                 console.log(e)
               })
           }
         },
+        closeSucesso () { this.modal = false; this.close() },
+        closeErro () { this.modalError = false; this.close() },
         close() {
           this.$v.$reset()
           this.titulo = null
@@ -288,32 +310,39 @@
           if (!this.$v.arvore_pai.required)
             this.warning_arvore2 = true
           if (this.$v.categoria.required && this.$v.arvore_pai.required) {
-            this.dialog2 = false;
             
             var obj = {
               'nova_categoria': this.categoria,
               'id_pai': this.arvore_pai
             }
 
-            axios.post("http://localhost:3333/documentos/criar_categoria", obj, {
-              headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')},
+            axios.post("http://localhost:3333/documentos/criar_categoria", 
+              obj, 
+              {
+                headers: {
+                  'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+                }
               }).then(() => {
                 console.log("Categoria adicionada com sucesso!")
+                this.modal2 = true;
 
-                  // Atualizar árvore de categorias
-                  axios.get("http://localhost:3333/documentos/categorias")
-                    .then(data => {
-                      this.options = data.data.categorias[0].children
-                      this.options2 = data.data.categorias
-                    })
-                    .catch(() => {
-                        console.log("Ocorreu um erro ao obter a árvore de categorias.")
-                    })
-              }).catch(() => {
-                console.log("Ocorreu um erro ao adicionar a categoria.")
+                // Atualizar árvore de categorias
+                axios.get("http://localhost:3333/documentos/categorias")
+                  .then(data => {
+                    this.options = data.data.categorias[0].children
+                    this.options2 = data.data.categorias
+                  })
+                  .catch(e => {
+                      console.log(e)
+                  })
+              }).catch(e => {
+                this.modalError2 = true;
+                console.log(e)
               })  
           }
         },
+        closeSucesso2 () { this.modal2 = false; this.close2() },
+        closeErro2 () { this.modalError2 = false; this.close2() },
         close2() {
           this.$v.categoria.$reset()
           this.$v.arvore_pai.$reset()
@@ -335,8 +364,8 @@
           })
           this.docsfiltrados = this.docs
         })
-        .catch(() => {
-          console.log("Ocorreu um erro ao obter a listagem de documentos.")
+        .catch(e => {
+          console.log(e)
         })
       
       // Obter árvore de categorias
@@ -345,8 +374,8 @@
           this.options = data.data.categorias[0].children
           this.options2 = data.data.categorias
         })
-        .catch(() => {
-            console.log("Ocorreu um erro ao obter a árvore de categorias.")
+        .catch(e => {
+            console.log(e)
         })
 
       
@@ -354,7 +383,7 @@
   }
 </script>
 
-<style>
+<style scoped>
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
   font-size:14px !important;
 }
