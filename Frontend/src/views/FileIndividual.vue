@@ -137,11 +137,15 @@
           return false
         },
         deleteDocumento () {
-          axios.put("http://localhost:3333/documentos/remover/" + this.id_documento, {
-            headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}
-            }).then(() => {
-              this.modal = true;
-            }).catch(e => { console.log(e) });
+          axios.put("http://localhost:3333/documentos/remover/" + this.id_documento, {},
+            {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
+              }
+            }
+          ).then(() => {
+            this.modal = true;
+          }).catch(e => { console.log(e) });
         },
     },
     created() {

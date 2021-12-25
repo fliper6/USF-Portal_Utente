@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 const Blocklist = require('../controllers/blocklist')
 
 module.exports.validate = (req, res, next) => {
-    console.log(req.headers['authorization'])
     if(req.headers['authorization'] && req.headers['authorization'].match(/^Bearer\s+/)){
         let token = req.headers['authorization'].replace(/^Bearer\s+/, "");
 
