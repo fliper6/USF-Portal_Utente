@@ -53,7 +53,7 @@ const routes = [
   {
     path: '/balcao/sugestao',
     name: 'Sugestão',
-    component: () => import(/* webpackChunkName: "about" */ '../views/MakeSugestao.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
   },
   {
     path: '/utilizadores/privilegios',
