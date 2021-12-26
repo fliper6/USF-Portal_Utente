@@ -254,7 +254,7 @@ import axios from 'axios'
       axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.meds = data.data
-          if(this.$route.query.tipo === 'med' || this.$route.query.tipo === null ) {
+          if(this.$route.query.tipo === 'med' || !this.$route.query.tipo) {
           this.list = this.meds
           }
         })
