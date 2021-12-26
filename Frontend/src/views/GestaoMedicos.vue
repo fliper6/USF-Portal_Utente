@@ -21,7 +21,7 @@
               </v-col>
             </template>
             <v-card>
-              <v-card-title style="color: var(--primary-color)" class="text-h5 grey lighten-2">
+              <v-card-title class="text-h5 grey lighten-2">
                 <span>Adicionar médico</span>
               </v-card-title>
               <v-card-text>
@@ -31,6 +31,7 @@
                       <v-text-field
                         color=var(--secondary-dark-color)
                         label="Nome"
+                        style="margin-top: 15px"
                         @input="nomeFlag = false"
                         v-model="medico.nome"
                         required
@@ -56,9 +57,9 @@
                 </v-btn>
               <v-dialog
                 v-model="dialog2"
-                max-width="290">
+                max-width="550">
                 <v-card>
-                  <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+                  <v-card-title class="text-h5 grey lighten-2">Sucesso</v-card-title> <br/>
                   <v-col style="margin: auto; padding: 0px 50px;">
                     <p style="margin-bottom: 5px; color:var(--grey3-color)">
                       Médico <b>{{medCriado}}</b> adicionado com sucesso!</p>
@@ -115,7 +116,7 @@
       <v-dialog
         v-model="dialog3"
         :retain-focus="false"
-        max-width="500">
+        max-width="550">
         <v-card>
           <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
           <v-col style="margin: auto; padding: 0px 50px;">
@@ -144,7 +145,7 @@
         :retain-focus="false"
         max-width="550">
         <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+          <v-card-title class="text-h5 grey lighten-2">Sucesso</v-card-title> <br/>
           <v-col style="margin: auto; padding: 0px 50px;">
             <p style="margin-bottom: 5px; color:var(--grey3-color)">
               Médico <b>{{nomeApagar}}</b> eliminado com sucesso!</p>
