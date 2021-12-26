@@ -18,7 +18,7 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; documento = d">Ver</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; changeVarDoc(d)">Ver</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = d.titulo; idVisibilidade = d._id">Colocar público</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = d.titulo; idApagar = d._id">Eliminar</v-btn>
             </v-col>
@@ -136,27 +136,34 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-            <v-dialog
+      <v-dialog
         v-model="dialogVer"
-        fullscreen
-        hide-overlay
-        transition="dialog-bottom-transition"
+        max-width="550"
       >
       <v-card>
-        
-        <v-card-title class="text-h5 grey lighten-2">
-          Ver documento
-          <v-spacer></v-spacer> 
+        <v-card-title class="text-h5 grey lighten-2">{{docTitulo}}</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <v-row> <h3>Criador: <span class="infos">{{docNome}}</span></h3> </v-row>
+            <v-row> <h3>Data de data publicação: <span class="infos">{{docData}}</span></h3> </v-row>
+            <v-row> <h3>Nome do ficheiro: <span class="infos">{{docNomeFile}}</span></h3> </v-row>
+            <v-row> <h3>Tamanho do ficheiro: <span class="infos">{{docTamanho}}</span></h3> </v-row>
+          </v-col> 
+        <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
-            icon
-            red
-            @click="dialogVer = false;"
-          >
-            <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
-          </v-btn>         
-        </v-card-title>
-          <VerDocumento :documento="documento"/>
-        </v-card>
+          class="button-cancelar"
+          text
+          @click="dialogVer = false;">
+          Cancelar
+          </v-btn>
+          <v-btn
+            class="button-confirmar"
+            text
+            @click="download">
+            Transferir <v-icon>mdi-download</v-icon>
+          </v-btn>          
+        </v-card-actions>                             
+      </v-card>
       </v-dialog>
     </div>
 </template>
@@ -165,11 +172,7 @@
 import axios from 'axios'
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
-import VerDocumento from "../components/VerDocumento.vue"
 export default {
-  components: {
-    VerDocumento
-  },
   mixins: [validationMixin],
   validations: {
     medico: {
@@ -186,13 +189,18 @@ export default {
       dialog4: false,
       dialog5: false,
       dialogVer: false,
-      documento: null,
       nomeApagar: null,
       idApagar: null,
       nomeVisibilidade: null,
       idVisibilidade: null,
       nomeFlag: false,
       idVer: null,
+      docId: null,
+      docTitulo: null,
+      docData: null,
+      docNome: null,
+      docNomeFile: null,
+      docTamanho: null
     }
   },
   created(){
@@ -207,6 +215,30 @@ export default {
       } 
     },
   methods: {
+    download(){
+        axios.get('http://localhost:3333/documentos/download/' + this.docId,
+        {
+          responseType: 'blob'
+        })
+          .then(response => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', this.docNomeFile); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+            this.dialogVer = false;
+          })
+        .catch(err => console.log(err))
+    },     
+    changeVarDoc(d){
+      this.docTitulo =  d.titulo,
+      this.docData =  d.data_publicacao.slice(0,10),
+      this.docNomeFile =  d.ficheiro.nome_ficheiro,
+      this.docNome = d.nome_autor,
+      this.docTamanho =  d.ficheiro.tamanho
+      this.docId = d._id
+    },
     deleteDocumento(id){
       axios.delete('http://localhost:3333/documentos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
@@ -247,5 +279,7 @@ export default {
 </script>
 
 <style>
-
+.infos {
+  font-weight: normal;
+}
 </style>
