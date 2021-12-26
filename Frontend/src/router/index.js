@@ -78,7 +78,7 @@ const routes = [
   {
     path: '/gestao/sugestao',
     name: 'Sugestao',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Sugestao.vue')
+    component: () => import(/* webpackChunkName: "about" */ '../views/PedidoS.vue')
   },
   {
     path: '/gestao/medicos',
