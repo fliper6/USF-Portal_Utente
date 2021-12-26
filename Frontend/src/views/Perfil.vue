@@ -6,7 +6,6 @@
           <v-card-title>
             <h1>{{this.nome}}</h1>
           </v-card-title>
-          <v-subtitle></v-subtitle>
           <v-card-text class="texto_perfil">
             <h3>Número SNS : <span class="infos">{{this.num}}</span></h3>
             <h3 style="margin:10px 0 0 0">Email : <span class="infos">{{this.email}}</span></h3>
@@ -90,12 +89,19 @@
         
       </v-card-actions>
       <div v-if="this.list.length > 0">
-        <v-container v-for="(item,index) in list" v-bind:key="item.id">
-        <v-row>
+        <v-container v-for="(item,index) in list" v-bind:key="item.id" >
+        <v-row :ref="item._id" v-if="item._id != ide">
           <v-col>
             <h3 v-if="!med">{{item.data_criacao.split('T')[0]}}</h3>
             <h3 v-if="!cons">{{item.nome}}</h3>
             <h3 v-if="!sug">{{item.titulo}}</h3>
+          </v-col>
+        </v-row>
+        <v-row :ref="item._id" v-else>
+          <v-col>
+            <h2 class="noti" v-if="!med">{{item.data_criacao.split('T')[0]}}</h2>
+            <h2 class="noti" v-if="!cons">{{item.nome}}</h2>
+            <h2 class="noti" v-if="!sug">{{item.titulo}}</h2>
           </v-col>
         </v-row>
         <div class="text-subtitle-2" v-if="!med">{{item.medico}}</div>
@@ -234,6 +240,7 @@ import axios from 'axios'
         titulo:'',
         descricao:'',
         dialog:false,
+        ide:this.$route.query.id
         
       }
     },
@@ -247,8 +254,9 @@ import axios from 'axios'
       axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.meds = data.data
+          if(this.$route.query.tipo === 'med' || this.$route.query.tipo === null ) {
           this.list = this.meds
-          console.log(data.data)
+          }
         })
         .catch(err => {
           console.log(err)
@@ -257,7 +265,9 @@ import axios from 'axios'
       axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.consulta = data.data
-          console.log(data.data)
+          if(this.$route.query.tipo === 'cons') {
+          this.list = this.consulta
+          }
         })
         .catch(err => {
           console.log(err)
@@ -265,12 +275,41 @@ import axios from 'axios'
       axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.sugestao = data.data
-          console.log(data.data)
+          if(this.$route.query.tipo === 'sug') {
+          this.list = this.sugestao
+          }
         })
         .catch(err => {
           console.log(err)
         })
+      if(this.$route.query.tipo === 'cons') {
+        this.med = true
+        this.cons = false
+        this.sug = true
+        this.list = this.consulta
+      }
+      if(this.$route.query.tipo === 'sug') {
+        this.med = true
+        this.cons = true
+        this.sug = false
+        this.list = this.sugestao
+      }
+      
     }
+    },
+    mounted() {
+      if(this.$route.query.id){
+        var id = this.$route.query.id
+        setTimeout(() => {
+            var element = this.$refs[id];
+              console.log(this.$refs[id])
+              var top = element[0].offsetTop;
+
+              window.scrollTo(0, top);
+              // {nav: VueComponent}
+            // {}
+          }, 1000)
+      }
     },
     methods: {
     pedidoM() {
@@ -360,6 +399,43 @@ import axios from 'axios'
 
 .texto_perfil {
   font-size: 18px;
+}
+
+.noti {
+  color: black;
+  animation: example 0.5s;
+  animation-iteration-count: 4;
+}
+
+@keyframes example {
+  10%, 90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+  
+  20%, 80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%, 50%, 70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%, 60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 </style>
