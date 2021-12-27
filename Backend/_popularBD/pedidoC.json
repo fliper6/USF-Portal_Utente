@@ -66,28 +66,9 @@
     "$date": "2021-11-29T12:32:33.368Z"
   },
   "__v": 0
-},
-{
+},{
   "_id": {
-    "$oid": "61a4c8615593572ed557d72a"
-  },
-  "nr_utente_titular": 234543889,
-  "user": {
-    "$oid": "61a40d04d0586f00f0d059d9"
-  },
-  "nr_utente_pedido": null,
-  "nome": "Diana Pereira Alves",
-  "tipo": "Agendar consulta médica",
-  "medico": "António Guerra",
-  "estado": 0,
-  "data_criacao": {
-    "$date": "2021-11-29T12:32:33.368Z"
-  },
-  "__v": 0
-},
-{
-  "_id": {
-    "$oid": "61a4c8615593572ed557d72a"
+    "$oid": "61a4c8615593572ed557d72b"
   },
   "nr_utente_titular": 234543889,
   "user": {
@@ -100,6 +81,23 @@
   "estado": 2,
   "data_criacao": {
     "$date": "2020-11-20T12:32:33.368Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61c9ba403618f1c957cc69c4"
+  },
+  "nr_utente_titular": 234543889,
+  "user": {
+    "$oid": "61a40d04d0586f00f0d059d9"
+  },
+  "nr_utente_pedido": null,
+  "nome": "Diana Pereira Alves",
+  "tipo": "Agendar consulta médica",
+  "medico": "António Guerra",
+  "estado": 0,
+  "data_criacao": {
+    "$date": "2021-11-29T12:32:33.368Z"
   },
   "__v": 0
 }]

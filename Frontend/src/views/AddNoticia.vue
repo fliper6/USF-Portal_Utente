@@ -38,7 +38,7 @@
         <div class="publish-time">
           <v-checkbox
             v-model="publishRepeat"
-            label="Noticia recorrente"
+            label="Notícia recorrente"
             color="#800000"
           />
           <input-recurrence 

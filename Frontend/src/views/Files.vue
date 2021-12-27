@@ -393,10 +393,10 @@
 
 <style>
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
-  font-size:14px !important;
+  font-size:16px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-size:16px !important;
+  font-size:18px !important;
 }
 </style>
