@@ -199,7 +199,7 @@ import axios from 'axios'
           });
 
           //conecta o socket
-          this.socket.on('connect', () => { console.log(this.socket.id) });
+          this.socket.on('connect', () => { });
 
           //fica à espera de notificações vindas da base de dados
           this.socket.on('update notificacoes', () => {

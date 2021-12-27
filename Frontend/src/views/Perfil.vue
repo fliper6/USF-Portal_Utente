@@ -254,7 +254,7 @@ import axios from 'axios'
       axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.meds = data.data
-          if(this.$route.query.tipo === 'med' || !this.$route.query.tipo) {
+          if(this.$route.query.tipo === 'pedidoMedicacao' || !this.$route.query.tipo) {
           this.list = this.meds
           }
         })
@@ -265,7 +265,7 @@ import axios from 'axios'
       axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.consulta = data.data
-          if(this.$route.query.tipo === 'cons') {
+          if(this.$route.query.tipo === 'pedidoContacto') {
           this.list = this.consulta
           }
         })
@@ -275,20 +275,20 @@ import axios from 'axios'
       axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.sugestao = data.data
-          if(this.$route.query.tipo === 'sug') {
+          if(this.$route.query.tipo === 'sugestao') {
           this.list = this.sugestao
           }
         })
         .catch(err => {
           console.log(err)
         })
-      if(this.$route.query.tipo === 'cons') {
+      if(this.$route.query.tipo === 'pedidoContacto') {
         this.med = true
         this.cons = false
         this.sug = true
         this.list = this.consulta
       }
-      if(this.$route.query.tipo === 'sug') {
+      if(this.$route.query.tipo === 'sugestao') {
         this.med = true
         this.cons = true
         this.sug = false

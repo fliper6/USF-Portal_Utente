@@ -411,7 +411,6 @@ import axios from 'axios'
                 this.alertRegisto=false
                 axios.post("http://localhost:3333/verificar", {'email':this.emailRegisto})
                     .then(() => {
-                        console.log("mandei email:" + this.emailRegisto)
                         this.$v.$reset()
                         this.dialog=true
                     })
