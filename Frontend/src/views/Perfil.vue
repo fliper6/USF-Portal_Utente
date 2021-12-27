@@ -72,7 +72,7 @@
                 v-bind:color="cons ? 'var(--grey2-color)' : 'var(--secondary-color)'"
                 @click="pedidoC"
               >
-                Pedidos de Consulta
+                Pedidos de Contacto
               </v-btn>
             </v-col>
             <v-col>
