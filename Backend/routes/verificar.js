@@ -100,7 +100,7 @@ router.post('/recuperar', (req, res) => {
             : Codigo.consultar(email,tipo) 
                 .then(dados => {
                     dados 
-                    ? res.status(403).jsonp({msg: "Pedido de recuperação pendente."})
+                    ? res.status(403).jsonp({error: "Pedido de recuperação pendente."})
                     : Codigo.inserir({email,codigo,tipo})
                         .then(dados => {
                             Email.sendPasswordReset(email, codigo)
