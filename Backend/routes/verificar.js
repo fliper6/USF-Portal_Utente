@@ -96,7 +96,7 @@ router.post('/recuperar', (req, res) => {
     User.consultarEmail(email)
         .then(dados => 
             dados === null
-            ? res.status(404).jsonp({error: "E-mail inválido."})
+            ? res.status(404).jsonp({error: "E-mail sem conta associada."})
             : Codigo.consultar(email,tipo) 
                 .then(dados => {
                     dados 

@@ -106,6 +106,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoProgramacao.vue')
   },
   {
+    path: '/recuperacao/password',
+    name: 'RecuperaPassword',
+    component: () => import(/* webpackChunkName: "about" */ '../views/RecuperaPassword.vue')
+  },
+  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')
