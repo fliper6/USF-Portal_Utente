@@ -1,6 +1,24 @@
 <template>
     <div id="login">
 
+        <!-- MODAL DE SUCESSO DE RECUPERAÇAO DE PASSWORD-->
+        <modal-message
+          title="Sucesso"
+          :visible="modalSucesso"
+          @close="sucesso()"
+        >
+          Email enviado com sucesso! Continue o processo de recuperação de password através do email enviado.
+        </modal-message>
+
+        <!-- MODAL DE ERRO -->
+        <modal-message
+          title="Erro"
+          :visible="modalErro"
+          @close="cancelarRecuperacaoPassword()"
+        >
+          De momento não é possível recuperar a password! Por favor tente mais tarde
+        </modal-message>
+
         <!-- MENU LOGIN -->
         <v-dialog max-width="400px" v-model="open">
 
@@ -16,6 +34,40 @@
                 v-on="on"
                 >Iniciar Sessão</v-btn>
             </template>
+
+
+            <!-- MODAL DE ESQUECEU A PASSWORD -->
+            <v-dialog v-model="dialogPass" width="340" persistent>
+              <v-card>
+                <v-card-title class="text-h5 grey lighten-2">Recuperação de password</v-card-title> <br/>
+
+                <!-- MENSAGENS DE ERRO -->
+                <p v-if="alertRecuperacao" class="alert ">{{this.erroRecuperacao}}</p>
+
+                <v-col style="margin: auto; padding: 0px 50px;">
+                  <p style="margin-bottom: 5px; color:var(--grey3-color)">
+                    Por favor coloque o email da conta que quer recuperar:<br>
+                  </p>
+                  <v-text-field 
+                     :error-messages="emailRecuperacaoErrors"
+                     v-model="emailRecuperacao"
+                     color=var(--secondary-dark-color)
+                     type="text"
+                     label="Email" 
+                     outlined>
+                  </v-text-field>
+                </v-col>
+                
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn class="button-cancelar" text @click="cancelarRecuperacaoPassword()"> Cancelar </v-btn>
+                  <v-btn class="button-confirmar" :loading="loadingPassword" text @click="recuperaPassword()"> Confirmar </v-btn>
+                </v-card-actions> 
+              </v-card>
+            </v-dialog> 
+
             
             <!-- MODAL DE CÓDIGO DE CONFRIMAÇÃO -->
             <v-dialog v-model="dialog" width="320" persistent>
@@ -89,6 +141,13 @@
                                     label="Password"
                                     @click:append="() => (valueLogin = !valueLogin)">
                                     </v-text-field>
+                                </v-col>
+
+                                <!-- ESQUECEU PASSWORD -->
+                                <v-col cols="12">
+                                    <p style="text-align:center;margin-bottom:-10px; margin-top:-10px">
+                                      <u style="cursor:pointer;" @click="dialogPass=true">Esqueceste-te da palavra-passe?</u>
+                                    </p>
                                 </v-col>
 
                             </v-container>
@@ -228,6 +287,7 @@
 import { validationMixin } from 'vuelidate'
 import { required, sameAs, between, email } from 'vuelidate/lib/validators'
 import axios from 'axios'
+import ModalMessage from '../components/ModalMessage.vue'
 
     export default {
         name: 'Login',
@@ -235,6 +295,7 @@ import axios from 'axios'
         validations: {
           emailLogin: { required },
           emailRegisto: { required,  email },
+          emailRecuperacao: { required,  email },
           passLogin: { required },
           passRegisto: { required },
           passVerificacao: { required, sameAsPassword: sameAs('passRegisto')},
@@ -242,6 +303,9 @@ import axios from 'axios'
           codigo: { required },
           n_utente: { required, between: between(100000000,999999999)},
           n_telemovel: { between: between(900000000,999999999)}
+        },
+        components: {
+            ModalMessage
         },
         computed: {
             emailLoginErrors () {
@@ -255,6 +319,13 @@ import axios from 'axios'
               if (!this.$v.emailRegisto.$dirty) return errors
               if (!this.$v.emailRegisto.required) errors.push('Email é um campo obrigatório.')
               else if (!this.$v.emailRegisto.email) errors.push('Email inválido.');
+              return errors
+            },
+            emailRecuperacaoErrors () {
+              const errors = []
+              if (!this.$v.emailRecuperacao.$dirty) return errors
+              if (!this.$v.emailRecuperacao.required) errors.push('Email é um campo obrigatório.')
+              else if (!this.$v.emailRecuperacao.email) errors.push('Email inválido.');
               return errors
             },
             usernameErrors() {
@@ -313,11 +384,21 @@ import axios from 'axios'
                     {name:"Registar", icon:"mdi-account-outline"}
                 ],
                 
+                //MODAIS RECUPERAR PASSWORD 
+                modalSucesso: false,
+                modalErro: false,
+                msgErro:"",
+                loadingPassword: false,
+                alertRecuperacao: false,
+                erroRecuperacao: "",
+
                 //LOGIN
                 emailLogin: "",
                 passLogin: "",
                 erroLogin:'',
                 alertLogin: false,
+                dialogPass:false,
+                emailRecuperacao: "",
                 valueLogin: String,
 
                 //REGISTO
@@ -369,6 +450,14 @@ import axios from 'axios'
               this.alertRegisto=null
               this.alertLogin=null
               this.tab=0
+            },
+            sucesso(){
+                this.$v.$reset()
+                this.emailRecuperacao=""
+                this.modalSucesso = false
+                this.loadingPassword = false
+                window.location.pathname = '/'
+
             },
             validaPassword(pass) {
                 //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
@@ -431,12 +520,20 @@ import axios from 'axios'
                 this.loading=false
                 this.dialog=false
             },
+            cancelarRecuperacaoPassword(){
+                this.$v.$reset()
+                this.emailRecuperacao = ""
+                this.dialogPass = false
+                this.loadingPassword = false
+                this.modalErro = false
+            },
             confirmarCodigo(){
                 this.$v.$touch() 
                 if (this.$v.codigo.required) {
                     var json = {}
                     json['email'] = this.emailRegisto
                     json['codigo'] = this.codigo
+                    
                     axios.post("http://localhost:3333/verificar/codigo", json)
                         .then(() => {
                             this.register()
@@ -448,6 +545,33 @@ import axios from 'axios'
                                 this.loading = false
                                 this.dialog = false
                                 this.erroRegisto = 'De momento não é possível efetuar o registo!' + '\n' + 'Por favor tente mais tarde'
+                            }
+                          })
+                } 
+            },
+            recuperaPassword(){
+                
+                this.$v.$touch() 
+                if (this.$v.emailRecuperacao.required && this.$v.emailRecuperacao.email) {
+                    this.loadingPassword = true
+                    var json = {}
+                    json['email'] = this.emailRecuperacao
+                    axios.post("http://localhost:3333/verificar/recuperar", json)
+                        .then(() => {
+                            this.dialogPass = false
+                            this.open = false
+                            this.modalSucesso = true
+                        })
+                        .catch(error => {
+                            if (error.response) {
+                                this.erroRecuperacao = error.response.data.error
+                                this.alertRecuperacao = true
+                                this.loadingPassword = false
+                            }
+                            else {
+                                this.dialogPass = false
+                                this.open = false
+                                this.modalErro = true
                             }
                           })
                 } 
