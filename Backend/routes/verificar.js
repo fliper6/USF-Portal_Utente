@@ -82,7 +82,7 @@ router.post('/recuperar/confirmar', (req, res) => {
                         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                 }
             })
-            : res.status(403).jsonp({msg: "Código de recuperação inválido."})
+            : res.status(403).jsonp({error: "Código de recuperação inválido."})
         })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
 });
