@@ -41,6 +41,12 @@ module.exports.consultar = (email, nr_utente) => {
         .exec()
 }
 
+module.exports.consultarID = _id => {
+    return User
+        .findOne( {_id} )
+        .exec()
+}
+
 module.exports.consultarEmail = email => {
     return User
         .findOne({email})

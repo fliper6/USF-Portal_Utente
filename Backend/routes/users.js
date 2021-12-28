@@ -6,6 +6,7 @@ const Blocklist = require('../controllers/blocklist')
 const JWTUtils = require('../utils/jwt')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
 const EXPIRES_IN = JWTUtils.EXPIRES_IN
 const SECRET = JWTUtils.SECRET
@@ -96,6 +97,32 @@ router.put('/nivel/:_id', JWTUtils.validate, JWTUtils.isAdmin, (req,res) => {
     .then(dados => res.status(201).jsonp({msg: "Ok. Alterações efetuadas"}))
     .catch(e => res.status(403).jsonp({error: "Ocorreu um erro na alteração dos privilégios."}))
 })
+
+// Alterar password do user
+router.put('/alterar/password/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => {
+  let _id = req.params._id
+  let {password_antiga, password_nova} = req.body
+
+  User.consultarID(_id)
+    .then(dados => {
+      dados 
+      ? bcrypt.compare(password_antiga, dados.password, (err, result) => {
+        result
+        ? bcrypt.hash(password_nova, 10, (err, hash) => {
+          password = hash
+          if(err) res.status(500).jsonp({error: "Ocorreu um erro na alteração da password."})
+          else {
+            User.alterar( {_id, password} )
+                .then(res.status(201).jsonp({msg: "Palavra-passe alterada com sucesso."}))
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
+          }
+        })
+        : res.status(403).jsonp({error: "A palavra-passe introduzida está incorreta."})
+      })
+      : res.status(404).jsonp({error: "Utilizador inexistente."})
+    })
+    .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
+});
 
 // Alterar utilizador
 router.put('/alterar/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => {
