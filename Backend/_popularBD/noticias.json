@@ -8,12 +8,8 @@
     "$oid": "6193cdb4c56a8a7ccf89a8c7"
   },
   "nome_autor": "Nuno Cunha",
-  "data_criacao": {
-    "$date": "2021-11-28T22:30:16Z"
-  },
-  "data_ultima_mod": {
-    "$date": "2021-11-28T22:30:16Z"
-  },
+  "data_criacao": "2021-11-28T22:30:16Z",
+  "data_ultima_mod": "2021-11-28T22:30:16Z",
   "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
@@ -27,12 +23,8 @@
     "$oid": "6193cdb4c56a8a7ccf89a8c7"
   },
   "nome_autor": "Nuno Cunha",
-  "data_criacao": {
-    "$date": "2021-11-28T22:31:17Z"
-  },
-  "data_ultima_mod": {
-    "$date": "2021-11-28T22:31:17Z"
-  },
+  "data_criacao": "2021-11-28T22:31:17Z",
+  "data_ultima_mod": "2021-11-28T22:31:17Z",
   "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
@@ -46,12 +38,8 @@
     "$oid": "6193cdb4c56a8a7ccf89a8c7"
   },
   "nome_autor": "Nuno Cunha",
-  "data_criacao": {
-    "$date": "2021-11-28T22:32:48Z"
-  },
-  "data_ultima_mod": {
-    "$date": "2021-11-28T22:32:48Z"
-  },
+  "data_criacao": "2021-11-28T22:32:48Z",
+  "data_ultima_mod": "2021-11-28T22:32:48Z",
   "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
@@ -65,12 +53,8 @@
     "$oid": "6193cdb4c56a8a7ccf89a8c7"
   },
   "nome_autor": "Nuno Cunha",
-  "data_criacao": {
-    "$date": "2021-11-28T22:36:43Z"
-  },
-  "data_ultima_mod": {
-    "$date": "2021-11-28T22:36:43Z"
-  },
+  "data_criacao": "2021-11-28T22:36:43Z",
+  "data_ultima_mod": "2021-11-28T22:36:43Z",
   "visibilidade": 0,
   "ficheiros": [],
   "__v": 0
@@ -84,12 +68,8 @@
     "$oid": "6193cdb4c56a8a7ccf89a8c7"
   },
   "nome_autor": "Nuno Cunha",
-  "data_criacao": {
-    "$date": "2021-11-28T22:39:42Z"
-  },
-  "data_ultima_mod": {
-    "$date": "2021-11-28T22:39:42Z"
-  },
+  "data_criacao": "2021-11-28T22:39:42Z",
+  "data_ultima_mod": "2021-11-28T22:39:42Z",
   "visibilidade": 0,
   "ficheiros": [
     {

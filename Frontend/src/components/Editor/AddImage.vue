@@ -2,7 +2,7 @@
   <v-dialog
       v-model="dialog"
       width="500px"
-      style="overflow-x: hidden"
+      style="overflow-x: hidden !important"
     >
       <template v-slot:activator="{ on, attrs }">
         <button v-bind="attrs" v-on="on">

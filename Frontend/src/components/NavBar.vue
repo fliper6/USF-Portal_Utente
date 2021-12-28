@@ -1,5 +1,16 @@
 <template>
   <v-app >
+    
+    <!-- MODAL DE ERRO -->
+    <modal-message
+      title="Erro"
+      :visible="modalErro"
+      @close="close()"
+    >
+      A sua sessão foi expirada!
+    </modal-message>
+
+
     <v-app-bar
     app
     color="white"
@@ -140,6 +151,7 @@ import Dropdown from '@/components/Dropdown.vue';
 import DropBalcao from '@/components/DropBalcao.vue';
 import DropGestao from '@/components/DropGestao.vue';
 import Notificacao from '@/components/Notificacao.vue';
+import ModalMessage from '../components/ModalMessage.vue'; 
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 
@@ -150,7 +162,8 @@ export default {
       token: localStorage.getItem('jwt'),
       nivel: "",
       nome: "",
-      path: window.location.pathname.split('/')[1]
+      path: window.location.pathname.split('/')[1],
+      modalErro: false,
     }
   },
   components: {
@@ -158,11 +171,18 @@ export default {
     Dropdown,
     DropBalcao,
     DropGestao,
-    Notificacao
+    Notificacao,
+    ModalMessage
   },
   watch: {
     $route() {
       this.path = window.location.pathname.split('/')[1]
+    }
+  },
+  methods: {
+    close(){
+      localStorage.clear()
+      window.location.pathname = '/'
     }
   },
   created(){
@@ -172,10 +192,8 @@ export default {
           this.nivel = jwt.decode(this.token).nivel
           this.nome = jwt.decode(this.token).nome
         })
-        .catch(() => {
-          localStorage.clear()
-          window.location.pathname = '/'
-          alert("A sua sessão foi expirada!")
+        .catch(() => { 
+          this.modalErro=true
         })
     }
   }

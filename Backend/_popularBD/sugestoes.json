@@ -15,5 +15,23 @@
     "titulo":"Nova Sugestão",
     "descricao":"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent id blandit odio. Vestibulum quis dapibus nisi. Nulla congue maximus justo a blandit. Nullam varius convallis dignissim. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce a rutrum tellus. Cras vel mollis justo, sit amet pretium mi. Integer ipsum leo, ullamcorper at eleifend quis, pellentesque et elit. Curabitur condimentum, felis eu porttitor convallis, leo eros volutpat metus, nec sagittis augue lectus eget turpis.",
     "data_criacao":"2021-11-21T16:39:44.785+00:00"
+},
+{
+    "user":{
+        "$oid": "61a40d04d0586f00f0d059d9"
+    },
+    "nr_utente":"233342541",
+    "titulo":"Video Conferência",
+    "descricao":"Bom dia ,gostaria de saber como posso e se posso contactar o meu médico de família por videoconferência.",
+    "data_criacao":"2021-06-13T10:39:44.785+00:00"
+},
+{
+    "user":{
+        "$oid": "61a40d04d0586f00f0d059d9"
+    },
+    "nr_utente":"233342541",
+    "titulo":"Máquinas",
+    "descricao":"Seria boa ideia adicionar máquinas de comida e bebida na sala de espera. Obrigado.",
+    "data_criacao":"2020-03-24T16:39:44.785+00:00"
 }
 ]

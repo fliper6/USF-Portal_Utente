@@ -133,6 +133,10 @@
           {{value.split("##")[0]}}
         </router-link>
       </template>
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon @click="download(item)"> mdi-download </v-icon>
+      </template>
     </v-data-table>
   </div>
 </template>
@@ -199,6 +203,7 @@
           { text: 'Tamanho', value: 'ficheiro.tamanho' },
           { text: 'Formato', value: 'ficheiro.nome_ficheiro' },
           { text: 'Criador', value: 'nome_autor' },
+          { text: ' ', value: 'actions', sortable: false }
         ]
       }
     },
@@ -225,6 +230,9 @@
     },
 
     methods: {
+        download: function (item) {
+          window.open("http://localhost:3333/documentos/download/" + item.titulo.split("##")[1])
+        },
         st: function (value) {
           return value.split("##")[1]
         },
@@ -383,12 +391,12 @@
   }
 </script>
 
-<style scoped>
+<style>
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
-  font-size:14px !important;
+  font-size:16px !important;
 }
 
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
-  font-size:16px !important;
+  font-size:18px !important;
 }
 </style>

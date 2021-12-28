@@ -38,4 +38,44 @@
     "$date": "2021-11-29T12:32:22.998Z"
   },
   "__v": 0
+},{
+  "_id": {
+    "$oid": "61c9bb4b3618f1c957cc69c7"
+  },
+  "user": {
+    "$oid": "61a40d04d0586f00f0d059d9"
+  },
+  "nr_utente_titular": 234543889,
+  "nr_utente_pedido": null,
+  "nome": "Diana Pereira Alves",
+  "medicacao": "Xarelto 20mg x 28 comprimidos, 2 caixas.",
+  "medico": "Sílvia Matos Torres",
+  "contacto": {
+    "tipo": 0,
+    "valor": "diana_alves99@gmail.com"
+  },
+  "data_criacao": {
+    "$date": "2020-10-03T12:32:22.998Z"
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61c9bb6f3618f1c957cc69c8"
+  },
+  "user": {
+    "$oid": "61a40d04d0586f00f0d059d9"
+  },
+  "nr_utente_titular": 234543889,
+  "nr_utente_pedido": null,
+  "nome": "Diana Pereira Alves",
+  "medicacao": "Metformina 500 mg, 60 comprimidos, 2 caixas.",
+  "medico": "Sílvia Matos Torres",
+  "contacto": {
+    "tipo": 0,
+    "valor": "diana_alves99@gmail.com"
+  },
+  "data_criacao": {
+    "$date": "2021-11-29T12:32:22.998Z"
+  },
+  "__v": 0
 }]

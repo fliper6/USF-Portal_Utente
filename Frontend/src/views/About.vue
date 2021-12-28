@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="this.nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
+          <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
       <v-icon>mdi-pencil</v-icon>
     </v-btn></h1>
           <div class="contactos" v-if="this.edit_enc">
@@ -49,7 +49,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
                   icon
-                  v-if="this.nivel==='Administrador'"
+                  v-if="nivel==='Administrador'"
                   v-bind="attrs"
                   v-on="on"
                   title="Adicionar Equipa"
@@ -276,19 +276,16 @@ export default {
         nome:'',
         profissao:'',
         email:'',
-        equipa:''
       },
       {
         nome:'',
         profissao:'',
         email:'',
-        equipa:''
       },
       {
         nome:'',
         profissao:'',
         email:'',
-        equipa:''
       }],
       edit:'',
       add_team : '',
@@ -319,6 +316,9 @@ export default {
         teams.forEach(element => {
           if(element.equipa === equipa){
             team.push(element)
+          }
+          else if (element.equipa < equipa){
+            this.equipas[element.equipa].push(element)
           }
           else {
             this.equipas.push(team)
@@ -384,13 +384,12 @@ export default {
         nome:'',
         profissao:'',
         email:'',
-        equipa:''
       }
       this.equipa.push(nova)
 
     },
     add_equipa(){
-      axios.post("http://localhost:3333/contactos" , this.equipa, {headers:{'authorization':'Bearer '+ this.token}})
+      axios.post("http://localhost:3333/contactos/equipa" , this.equipa, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })
