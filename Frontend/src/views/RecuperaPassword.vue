@@ -20,7 +20,7 @@
         </modal-message>
 
         <!-- APENAS PODE RECUPERAR PASSWORD QUEM ESTÁ SEM SESSÃO INICIADA!!! -->
-        <v-col cols="4" offset="4" v-if="!token">
+        <v-col cols="4" offset="4" v-if="!this.token && this.$route.query.codigo">
             <v-card outlined>
                 
                 <v-card-title class="justify-center"> 
@@ -144,7 +144,6 @@ import axios from 'axios'
                     var json = {}
                     json['password'] = this.pass
                     json['codigo'] = this.$route.query.codigo
-                    console.log(json)
                     axios.post("http://localhost:3333/verificar/recuperar/confirmar", json)
                         .then(() => {
                             this.loading = false
