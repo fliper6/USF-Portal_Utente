@@ -71,3 +71,7 @@ module.exports.remover = email => {
 module.exports.alterar = user => {
     return User.findOneAndUpdate({_id: user._id}, user, {new: true})
 }
+
+module.exports.alterarPorEmail = user => {
+    return User.findOneAndUpdate({email: user.email}, user, {new: true})
+}
