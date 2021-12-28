@@ -4,42 +4,33 @@
             <v-row no-gutters>
 
                 <!-- MODAL DE CONFIRMAÇÃO -->
-                <v-dialog v-model="dialog" width="400">
-                  <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">Confirmação</v-card-title> <br/>
-                    <v-col style="margin: auto; padding: 0px 50px;">
-                      <p style="margin-bottom: 5px; color:var(--grey3-color)">
-                        Tem a certeza que quer alterar o nível do utilizador <b>{{nomeAlt}}</b> de <b>{{privAnt}}</b> para <b>{{privAlt}}</b> ?</p>
-                    </v-col>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn class="button-cancelar" text @click="cancelar(1)"> Cancelar </v-btn>
-                      <v-btn class="button-confirmar" :loading="loading" text @click="altNivel()"> Confirmar </v-btn>
-                    </v-card-actions> 
-                  </v-card>
-                </v-dialog> 
+                <modal-message
+                  title="Confirmação"
+                  :visible="dialog"
+                  options
+                  @close="cancelar(1)"
+                  @confirm="altNivel()"
+                >
+                  Tem a certeza que quer alterar o nível do utilizador <b>{{nomeAlt}}</b> de <b>{{privAnt}}</b> para <b>{{privAlt}}</b> ?
+                </modal-message>
 
+                <!-- MODAL DE SUCESSO -->
+                <modal-message
+                  title="Sucesso"
+                  :visible="modalSucesso"
+                  @close="alteracaoSucesso()"
+                >
+                  O nível do utilizador foi alterado com sucesso!
+                </modal-message>
 
-                <!-- MODAL DE ALERTA -->
-                <v-dialog v-model="dialog2" width="400">
-                  <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
-                    <v-col style="margin: auto; padding: 0px 50px;">
-                      <p style="margin-bottom: 5px; color:var(--grey3-color)">
-                        <span v-if="sucesso==true"> O nível do utilizador foi alterado com sucesso! </span>
-                        <span v-else> Não foi possível alterar o nível do utilizador! </span>
-                      </p>
-                    </v-col>
-                    <v-divider></v-divider>
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn v-if="sucesso==true" class="button-confirmar" text @click="alteracaoSucesso()"> Ok </v-btn>
-                      <v-btn v-else class="button-confirmar" text @click="cancelar(2)"> Ok </v-btn>
-                    </v-card-actions> 
-                  </v-card>
-                </v-dialog> 
-
+                <!-- MODAL DE ERRO -->
+                <modal-message
+                  title="Erro"
+                  :visible="modalErro"
+                  @close="cancelar(2)"
+                >
+                  Não foi possível alterar o nível do utilizador!
+                </modal-message>
 
                 <!-- FILTROS (NOME) -->
                 <v-col class="d-flex pa-2" sm="2">
@@ -119,6 +110,7 @@
 
 <script>
 import axios from 'axios';
+import ModalMessage from '../components/ModalMessage.vue'; 
 
 export default {
   name: 'EditPrivUsers',
@@ -128,9 +120,11 @@ export default {
       dialog: false,
       loading:false,
 
-      //MODAL ALERTA
-      dialog2:false,
-      sucesso:false,
+      //MODAL SUCESSO
+      modalSucesso:false,
+
+      //MODAL ERRO
+      modalErro:false,
 
       //FILTROS
       name:"",
@@ -156,6 +150,9 @@ export default {
       token: localStorage.getItem('jwt'), 
     }
   },
+  components: {
+    ModalMessage
+  },
   methods: {
     modificou(item) {
       this.nomeAlt = item.nome
@@ -167,7 +164,7 @@ export default {
     // se receber 1 fecha o modal confirmação, 2 fecha o modal alerta
     cancelar(int) {
       this.listaFiltrada.forEach(i => { if (i._id==this.idAlt) i.newPriv="" })
-      int==1 ? this.dialog = false : this.dialog2 = false
+      int==1 ? this.dialog = false : (this.modalSucesso = false, this.modalErro = false)
     },
     altNivel() {
       this.dialog = false
@@ -175,18 +172,17 @@ export default {
       var json = {"nivel": this.privAlt}
         axios.put("http://localhost:3333/users/nivel/"+this.idAlt, json, {headers: {'Authorization': `Bearer ${this.token}`}})
           .then( () => {
-            this.sucesso = true
-            this.dialog2 = true
+            this.modalSucesso = true
             this.loading = false
           })
           .catch(err => {
-            this.dialog2 = true
+            this.modalErro = true
             this.loading = false
             console.log("Erro a alterar permissões de users:",err)
           })
     },
     alteracaoSucesso() {
-      this.dialog2 = false 
+      this.modalSucesso = false 
       this.$router.go()
     },
     filtro() {
