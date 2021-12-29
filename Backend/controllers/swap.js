@@ -7,6 +7,12 @@ module.exports.consultar = codigo => {
         .exec()
 }
 
+module.exports.consultarPorId = idUser => {
+    return Swap
+        .findOne( {idUser} )
+        .exec()
+}
+
 module.exports.alterar = (codigo, swap) => {
     return Swap.findOneAndUpdate(
         {codigo},
