@@ -117,7 +117,7 @@ router.put('/alterar/password/:_id', JWTUtils.validate, JWTUtils.compareId, (req
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
           }
         })
-        : res.status(403).jsonp({error: "A palavra-passe introduzida está incorreta."})
+        : res.status(403).jsonp({error: "A password antiga está incorreta."})
       })
       : res.status(404).jsonp({error: "Utilizador inexistente."})
     })

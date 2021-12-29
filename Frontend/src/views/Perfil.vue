@@ -1,57 +1,213 @@
-  <!-- Vue SFC -->
 <template>
   <div class="perfil">
-    <v-container v-if="!this.editar">
-      <v-card flat color="var(--grey1-color)">
-          <v-card-title>
-            <h1>{{this.nome}}</h1>
-          </v-card-title>
-          <v-card-text class="texto_perfil">
-            <h3>Número SNS : <span class="infos">{{this.num}}</span></h3>
-            <h3 style="margin:10px 0 0 0">Email : <span class="infos">{{this.email}}</span></h3>
-          </v-card-text>
+
+
+    <!-- MODAL DE SUCESSO -->
+    <modal-message
+      title="Sucesso"
+      :visible="modalSucesso"
+      @close="ok()"
+    >
+      Dados alterados com sucesso!
+    </modal-message>
+
+    <!-- MODAL DE ERRO -->
+    <modal-message
+      title="Erro"
+      :visible="modalErro"
+      @close="ok()"
+    >
+      Não foi possível alterar os dados! Por favor tente mais tarde
+    </modal-message>
+
+    <!-- MODAL DE EDITAR OS CAMPOS DO PERFIL -->
+    <v-dialog v-model="modalEditarDados" width="400">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">Editar o perfil</v-card-title> <br/>
+        
+        <v-col style="margin: auto; padding: 0px 50px;">
+          
+          <!-- NOME -->
+          <v-text-field
+            :error-messages="nomeErrors"
+            color=var(--secondary-dark-color)
+            v-model="newNome"
+            label="Nome"
+            type="text"
+            outlined
+            class="texto_perfil">
+          </v-text-field>
+
+          <!-- NUMERO UTENTE -->
+          <v-text-field
+            :error-messages="nUtenteErrors"
+            v-model="newNUtente"
+            type="text"
+            color=var(--secondary-dark-color)
+            label="Número SNS"
+            outlined
+            class="texto_perfil">
+          </v-text-field>
+
+          <!-- NUMERO TELEMOVEL -->
+          <v-text-field
+          :error-messages="nTelemovelErrors"
+            v-model="newNTelemovel"
+            color=var(--secondary-dark-color)
+            label="Número Telemovel"
+            outlined
+            type="text"
+            class="texto_perfil">
+          </v-text-field>
+
+        </v-col>
+        
+        <v-divider></v-divider>
+
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn depressed @click="edita" style="background-color:var(--secondary-color)">
-          Editar
-          </v-btn>
-        </v-card-actions>
+          <v-btn class="button-cancelar" text @click="cancelarEditarPerfil()"> Cancelar </v-btn>
+          <v-btn class="button-confirmar" :loading="loading" text @click="confirmarEditarPerfil()"> Confirmar </v-btn>
+        </v-card-actions> 
+
       </v-card>
-    </v-container>
-    <v-container v-else>
-      <v-card flat color="var(--grey1-color)">
-        <v-row>
-        <v-col offset=1 cols=10>
-            <v-text-field
-            v-model="nome"
-            label="Nome"
-            required
-            class="texto_perfil"
-          ></v-text-field>
-            <v-text-field
-            v-model="num"
-            label="Número SNS"
-            required
-            class="texto_perfil"
-            ></v-text-field>
-            <v-text-field
-            v-model="email"
-            label="E-Mail"
-            required
-            class="texto_perfil"
-          ></v-text-field>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="save" style="background-color:var(--secondary-color)">
-          Guardar
-          </v-btn>
-          </v-card-actions>
+    </v-dialog> 
+
+
+
+    <!-- MODAL DE ALTERAR A PASSWORD -->
+    <v-dialog v-model="modalAlterarPassword" width="400">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">Alterar a password</v-card-title> <br/>
+        
+        <v-col style="margin: auto; padding: 0px 50px;">
+          
+          <!-- MENSAGENS DE ERRO -->
+          <p v-if="alertPassword" class="alert ">{{this.erroPassword}}</p>
+
+          <!-- ANTIGA PASSWORD -->
+          <v-text-field  
+          color=var(--secondary-dark-color)
+          :error-messages="passAntigaErrors"
+          :append-icon="valuePassAntiga ? 'mdi-eye' : 'mdi-eye-off'" 
+          :type="valuePassAntiga ? 'password' : 'text'" 
+          v-model="passAntiga" 
+          label="Antiga Password"
+          @click:append="() => (valuePassAntiga = !valuePassAntiga)">
+          </v-text-field>
+
+          <!-- NOVA PASSWORD -->
+          <v-text-field  
+          :error-messages="passNovaErrors"
+          color=var(--secondary-dark-color)
+          :append-icon="valuePassNova ? 'mdi-eye' : 'mdi-eye-off'" 
+          :type="valuePassNova ? 'password' : 'text'"
+          v-model="passNova" 
+          label="Nova Password"
+          hint="(De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode conter espaços.)"
+          persistent-hint
+          @click:append="() => (valuePassNova = !valuePassNova)">
+          </v-text-field>
+
+          <!-- CONFIRMAÇÃO DE PASSWORD -->
+          <v-text-field 
+          :error-messages="passwordMatchErrors"
+          color=var(--secondary-dark-color)
+          :append-icon="valuePassConfirmar ? 'mdi-eye' : 'mdi-eye-off'" 
+          :type="valuePassConfirmar ? 'password' : 'text'"
+          block 
+          v-model="passVerificacao"
+          label="Confirmar Password"
+          @click:append="() => (valuePassConfirmar = !valuePassConfirmar)">
+          </v-text-field>
+
+
         </v-col>
-      </v-row>
+        
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="button-cancelar" text @click="cancelarAlterarPassword()"> Cancelar </v-btn>
+          <v-btn class="button-confirmar" :loading="loading" text @click="confirmarAlterarPassword()"> Confirmar </v-btn>
+        </v-card-actions> 
+
+      </v-card>
+    </v-dialog> 
+
+
+
+    <!-- CAMPOS GERAIS DO PERFIL-->
+    <v-container>
+      <v-card flat color="var(--grey1-color)">
+          <v-row>
+
+            <v-col cols="10">
+              <v-card-title>
+                <h1> {{this.nome}} </h1>
+              </v-card-title>
+            </v-col>
+
+            <v-col offset="1" >
+
+              <!-- DROPDOWN DO PERFIL -->
+              <template>
+                  <v-menu offset-y offset-x left>
+
+                    <!-- BOTÃO DROPDOWN DO PERFIL -->
+                    <template v-slot:activator="{ on, attrs }">
+                      <div class="d-flex" v-bind="attrs" v-on="on">
+                        <v-icon size="30px" >mdi-dots-vertical</v-icon>
+                      </div>
+                    </template>
+                            
+                    <!-- LISTA DROPDOWN DO PERFIL -->
+                    <v-list style="padding:0;cursor:pointer">
+
+                      <!-- EDITAR O PERFIL -->
+                      <v-list-item class="opcao" @click="openModalEditarDados()">
+                        <v-row >
+                          <v-col style="margin:auto">
+                            <b>Editar o perfil</b>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+
+                       <!-- ALTERAR O EMAIL -->
+                      <v-list-item class="opcao" @click="openModalAlterarEmail()">
+                        <v-row >
+                          <v-col style="margin:auto">
+                            <b>Alterar o email</b>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+
+                      <!-- ALTERAR A PASSWORD -->
+                      <v-list-item class="opcao" @click="openModalAlterarPassword()">
+                        <v-row >
+                          <v-col style="margin:auto">
+                            <b>Alterar a password</b>
+                          </v-col>
+                        </v-row>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+              </template>
+            </v-col>  
+          </v-row>
+
+          <v-card-text class="texto_perfil">
+            <h3>Número SNS : <span class="infos"> {{this.nUtente}} </span></h3>
+            <h3 style="margin:10px 0 0 0">Número Telemóvel : <span class="infos"> {{this.nTelemovel=="" ? "Sem preencher" : this.nTelemovel}} </span></h3>
+            <h3 style="margin:10px 0 0 0">Email : <span class="infos"> {{this.email}} </span></h3>
+          </v-card-text>
+
       </v-card>
     </v-container>
-    
-    <v-container v-if="this.nivel=== 'Utente'">
+
+
+    <!-- TABS DE HISTORICO -->
+    <v-container>
       <v-card flat color="var(--grey1-color)" style="font-size:120%;">
         <v-card-actions>
           <v-row>
@@ -213,44 +369,132 @@
 </template>
 
 <script>
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 import axios from 'axios'
+import ModalMessage from '../components/ModalMessage.vue'
+import { validationMixin } from 'vuelidate'
+import { required, sameAs, between } from 'vuelidate/lib/validators'
 
 
-  //npm install --save @riophae/vue-treeselect
   export default {
     name: "Perfil",
+    mixins: [validationMixin],
+    validations: {
+      passAntiga: { required },
+      passNova: { required },
+      passVerificacao: { required, sameAsPassword: sameAs('passNova')},
+      newNome: { required },
+      newNUtente: { required, between: between(100000000,999999999)},
+      newNTelemovel: { between: between(900000000,999999999)}
+    },
+    computed: {
+        nomeErrors() {
+          const errors = []
+          if (!this.$v.newNome.$dirty) return errors
+          !this.$v.newNome.required && errors.push('Nome é um campo obrigatório.')
+          return errors
+        },
+        passNovaErrors () {
+          const errors = []
+          if (!this.$v.passNova.$dirty) return errors
+          if (!this.$v.passNova.required) errors.push('Password é um campo obrigatório.')
+          else if (!this.validaPassword(this.passNova)) errors.push('De 8 a 20 caracteres. Deverá contêr, pelo menos, uma letra minúscula, uma maiúscula e um número. Não pode conter espaços.')
+          return errors
+        },
+        passAntigaErrors () {
+          const errors = []
+          if (!this.$v.passAntiga.$dirty) return errors
+          !this.$v.passAntiga.required && errors.push('Password é um campo obrigatório.')
+          return errors
+        },
+        passwordMatchErrors () {
+          const errors = []
+          if (!this.$v.passVerificacao.$dirty) return errors
+          if (!this.$v.passVerificacao.required) errors.push('Password é um campo obrigatório.')
+          else if (!this.$v.passVerificacao.sameAsPassword) errors.push('Passwords têm de corresponder!')
+          return errors
+        },
+        nUtenteErrors() {
+          const errors = []
+          if (!this.$v.newNUtente.$dirty) return errors
+          if (!this.$v.newNUtente.required) errors.push('Número de utente é um campo obrigatório.')
+          else if (!this.$v.newNUtente.between) errors.push('Número de utente inválido.')
+          return errors
+        },
+        nTelemovelErrors() {
+          const errors = []
+          if (!this.$v.newNTelemovel.$dirty) return errors
+          if (!this.$v.newNTelemovel.between && this.newNTelemovel!="") errors.push('Número de telemóvel inválido.')
+          return errors
+        }
+    },
     data() {
       return {
-        value: null,
+        //GERAL
         token: localStorage.getItem('jwt'),
+        dialog:false,
+        loading: false,
+        modalErro: false,
+        modalSucesso: false,
+
+        //DADOS DO PERFIL
+        nome:'',
+        nUtente:'',
+        nTelemovel:'',
+        email:'',
+
+        //EDITAR DADOS
+        modalEditarDados: false,
+        newNome:'',
+        newNUtente:'',
+        newNTelemovel:'',
+
+        //ALTERAR PASSWORD
+        modalAlterarPassword: false,
+        passAntiga: '',
+        passNova: '',
+        passVerificacao: '',
+        valuePassAntiga: String,
+        valuePassNova: String,
+        valuePassConfirmar: String,
+        type: "password",
+        alertPassword: false, 
+        erroPassword: '',
+
+        //ALTERAR EMAIL
+
+
+        value: null,
         med:false,
         cons:true,
         sug:true,
         id:'',
-        nome:'',
-        num:'',
-        email:'',
+
+
         nivel:'',
         meds:'',
         consulta:'',
         sugestao:'',
-        editar:false,
+
         list:'',
         titulo:'',
         descricao:'',
-        dialog:false,
+
         ide:this.$route.query.id
         
       }
     },
+    components: {
+      ModalMessage
+    },
+    watch: {
+      'token' : function() {
+        this.getDados()
+      }
+    },
     created(){
     if (this.token) {
-      this.id = jwt.decode(this.token)._id
-      this.nome = jwt.decode(this.token).nome
-      this.email = jwt.decode(this.token).email
-      this.num = jwt.decode(this.token).nr_utente
-      this.nivel = jwt.decode(this.token).nivel
+      this.getDados()
       axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.meds = data.data
@@ -312,6 +556,107 @@ import axios from 'axios'
       }
     },
     methods: {
+      
+      //MODAL SUCESSO/ERRO
+
+      ok(){
+        this.modalSucesso = false
+        this.modalErro = false
+      },
+
+
+      //MODAL DO EDITAR PERFIL
+
+      openModalEditarDados(){
+        this.$v.$reset()
+        this.newNome = this.nome
+        this.newNTelemovel = this.nTelemovel
+        this.newNUtente = this.nUtente
+        this.modalEditarDados=true
+      },
+      cancelarEditarPerfil(){
+        this.modalEditarDados=false
+      },
+      confirmarEditarPerfil(){
+        this.$v.$touch()
+        if (this.$v.newNome.required && this.$v.newNUtente.required && this.$v.newNUtente.between && (this.newNTelemovel=="" || this.$v.newNTelemovel.between)) {
+          this.loading = true
+          var data = {}
+          data['nome'] = this.newNome
+          data['nr_utente'] = this.newNUtente
+          data['nr_telemovel'] = this.newNTelemovel
+          axios.put("http://localhost:3333/users/alterar/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+            .then(data => {
+              this.token= data.data.token
+              localStorage.setItem('jwt',data.data.token)
+              this.loading = false
+              this.modalEditarDados = false
+              this.modalSucesso = true
+            })
+            .catch(() => {
+              this.loading = false
+              this.modalEditarDados = false
+              this.modalErro = true
+            })
+        }
+      },
+
+
+      //MODAL DO ALTERAR A PASSWORD
+
+      validaPassword(pass) {
+        //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
+        var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
+        return re.test(pass)
+      },
+      openModalAlterarPassword(){
+        this.$v.$reset()
+        this.passAntiga = ''
+        this.passNova = ''
+        this.passVerificacao = ''
+        this.alertPassword = false
+        this.modalAlterarPassword=true
+      },
+      cancelarAlterarPassword(){
+        this.modalAlterarPassword=false
+      },
+      confirmarAlterarPassword(){
+        this.$v.$touch()
+        if (this.$v.passAntiga.required && this.$v.passVerificacao.required && this.$v.passNova.required && this.$v.passVerificacao.sameAsPassword && this.validaPassword(this.passNova)) {
+          this.loading = true
+          var data = {}
+          data['password_antiga'] = this.passAntiga
+          data['password_nova'] = this.passNova
+          axios.put("http://localhost:3333/users/alterar/password/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+            .then(() => {
+              this.loading = false
+              this.modalAlterarPassword = false
+              this.modalSucesso = true
+            })
+            .catch(erro => {
+              this.loading = false
+              if (erro.response) {
+                this.erroPassword = erro.response.data.error
+                this.alertPassword = true
+              }
+              else { 
+                this.modalAlterarPassword = false
+                this.modalErro = true
+              }
+            })
+        }
+      },
+
+      //GERAL
+      getDados() {
+        this.id = jwt.decode(this.token)._id
+        this.nome = jwt.decode(this.token).nome
+        this.email = jwt.decode(this.token).email
+        this.nUtente = jwt.decode(this.token).nr_utente
+        this.nTelemovel = jwt.decode(this.token).nr_telemovel
+        this.nivel = jwt.decode(this.token).nivel
+      },
+
     pedidoM() {
       this.list = this.meds
       this.med = false
@@ -332,21 +677,6 @@ import axios from 'axios'
     },
     edita(){
       this.editar = true
-    },
-    save(){
-      var data = {}
-      data['nome'] = this.nome
-      data['nr_utente'] = this.num
-      data['email'] = this.email
-      axios.put("http://localhost:3333/users/alterar/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
-        .then(data => {
-          localStorage.setItem('jwt',data.data.token)
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      this.editar = false
-      //this.$router.go()
     },
     deleteEstado (id){
         axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
@@ -388,7 +718,23 @@ import axios from 'axios'
   }
 </script>
 
-<style>
+<style scoped>
+
+.alert {
+    white-space: pre-line;
+    text-align: center;
+    font-size: 16px;
+    color: red;
+}
+
+.v-icon:hover {
+  background-color:	var(--shadow-color)
+}
+
+.v-icon {
+  border-radius: 50%;
+}
+
 .infos {
   font-weight: normal;
 }
