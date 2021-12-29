@@ -63,13 +63,21 @@
         </vue-pdf-app>
       </template>
     </div>
-    <div v-else>
+    <div v-else-if="formato == 'mp4'">
+      <video class="container2" controls> 
+        <source :src="diretoria" type="video/mp4"> 
+      </video>
+    </div>
+    <div v-else-if="formato == ('jpg' || 'png' || 'jpeg')">
       <v-img class="container2" 
         contain
         :src="diretoria"
         max-height="2000"
         max-width="1000"
       ></v-img>
+    </div>
+    <div v-else class="container3">
+      <h2>Visualização para este formato de ficheiro não se encontra disponível.</h2>
     </div>
   </div>
 </template>
@@ -154,6 +162,7 @@
           this.diretoria = "http://localhost:3333" + data.data.ficheiro.diretoria.substring(6)
           this.nome_ficheiro = data.data.ficheiro.nome_ficheiro
           this.formato = this.nome_ficheiro.split(".")[1]
+          console.log(this.formato)
           this.tamanho = data.data.ficheiro.tamanho
           this.tipo_mime = data.data.ficheiro.tipo_mime
         })
@@ -192,8 +201,14 @@
 }
 
 .container2 {
+  display: flex;
   border: 5px solid #555;
   margin: auto;
 }
+
+.container3 {
+  text-align: center;
+}
+
 </style>
 

@@ -95,7 +95,14 @@
                     </v-col> 
                   </v-row> <br/>
 
-                  <v-file-input color=var(--secondary-dark-color) @input="$v.file.$touch()" @blur="$v.file.$touch()" truncate-length="15" :error-messages="ficheiroErrors" v-model="file"></v-file-input> <br/>
+                  <v-file-input 
+                    accept=".pdf, .png, .jpeg, .jpg, .mp4"
+                    color=var(--secondary-dark-color) 
+                    @input="$v.file.$touch()" 
+                    @blur="$v.file.$touch()" 
+                    truncate-length="15" 
+                    :error-messages="ficheiroErrors" 
+                    v-model="file"> </v-file-input> <br/>
 
                 </v-col>
                 <v-divider></v-divider>
@@ -126,6 +133,7 @@
       :headers="headers"
       :items="docsfiltrados"
       :items-per-page="5"
+      :footer-props="{ 'items-per-page-text':'Documentos por página'}"
       class="elevation-1">
       
       <template #item.titulo="{ value }">
