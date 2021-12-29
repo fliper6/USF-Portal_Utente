@@ -208,14 +208,14 @@
 
     <!-- TABS DE HISTORICO -->
     <v-container>
-      <v-card flat color="var(--grey1-color)" style="font-size:120%;">
+      <v-card flat style="font-size:120%;">
         <v-card-actions>
           <v-row>
             <v-col>
               <v-btn
                 block
                 depressed
-                v-bind:color="med ? 'var(--grey2-color)' : 'var(--secondary-color)'"
+                v-bind:color="med ? 'var(--secondary-color)' : 'var(--grey2-color)'"
                 @click="pedidoM"
               >
                 Pedidos de Medicação
@@ -225,7 +225,7 @@
               <v-btn
                 block
                 depressed
-                v-bind:color="cons ? 'var(--grey2-color)' : 'var(--secondary-color)'"
+                v-bind:color="cons ? 'var(--secondary-color)' : 'var(--grey2-color)'"
                 @click="pedidoC"
               >
                 Pedidos de Contacto
@@ -235,136 +235,136 @@
               <v-btn
                 block
                 depressed
-                v-bind:color="sug ? 'var(--grey2-color)' : 'var(--secondary-color)'"
-                @click="sugestoes"
+                v-bind:color="sug ? 'var(--secondary-color)' : 'var(--grey2-color)'"
+                @click="sugest"
               >
                 Sugestões
               </v-btn>
             </v-col>
           </v-row>
-        
-      </v-card-actions>
-      <div v-if="this.list.length > 0">
-        <v-container v-for="(item,index) in list" v-bind:key="item.id" >
-        <v-row :ref="item._id" v-if="item._id != ide">
-          <v-col>
-            <h3 v-if="!med">{{item.data_criacao.split('T')[0]}}</h3>
-            <h3 v-if="!cons">{{item.nome}}</h3>
-            <h3 v-if="!sug">{{item.titulo}}</h3>
-          </v-col>
-        </v-row>
-        <v-row :ref="item._id" v-else>
-          <v-col>
-            <h2 class="noti" v-if="!med">{{item.data_criacao.split('T')[0]}}</h2>
-            <h2 class="noti" v-if="!cons">{{item.nome}}</h2>
-            <h2 class="noti" v-if="!sug">{{item.titulo}}</h2>
-          </v-col>
-        </v-row>
-        <div class="text-subtitle-2" v-if="!med">{{item.medico}}</div>
-        <div class="text-caption" v-if="!sug">{{item.data_criacao.split('T')[0]}}</div>
-        <div class="text-subtitle-2" v-if="!cons">Tipo : {{item.tipo}}</div>
-        <v-row>
-          <v-col v-if="!med">
-            {{item.medicacao}}
-          </v-col>
-          <v-col v-if="!cons">
-            {{item.medico}}
-          </v-col>
-          <v-col v-if="!sug">
-            {{item.descricao}}
-          </v-col>
-          <v-col class="text-right" v-if="!med">
-            <v-btn depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
-          </v-col>
-          <v-col class="text-right" v-if="!cons">
-            <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
-            <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
-            <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
-          </v-col>
-          <v-col class="text-right" v-if="!sug" cols=2>
-            <v-dialog
-              v-model="dialog"
-              width="500"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn
-                  v-bind="attrs"
-                  v-on="on"
-                  depressed 
-                  style="background-color:var(--secondary-color)"
-                  @click="editSug(item.titulo,item.descricao)"
-                >
-                  Editar
-                </v-btn>
-              </template>
-        
-              <v-card>
-                <v-card-title class="text-h5 grey lighten-2">
-                  Editar
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    icon
-                    color="var(--primary-color)"
-                    @click="deleteSug(item._id)"
-                  >
-                    <v-icon>mdi-delete</v-icon>
-                  </v-btn>
-                </v-card-title>
+        </v-card-actions>
+      </v-card>
 
 
-                <v-container style="padding:20px;">
-                  <v-text-field label="Título" v-model="titulo">
-                  </v-text-field>
-
-                <v-textarea label="Sugestão" v-model="descricao">
-                </v-textarea>
-                </v-container>
+      <!-- LISTA DO HISTORICO -->
+      <v-card flat color="var(--grey1-color)" style="font-size:120%;margin-top:20px">  
         
+        <div v-if="this.listaAtual.length > 0">
+          <!-- PARA CADA ITEM DA LISTA -->
+          <v-container v-for="(item,index) in listaAtual" v-bind:key="item.id" >
+  
+            <!-- FIRST ROW -->
+            <v-row :ref="item._id" >
+              <!-- NORMAL -->
+              <v-col v-if="item._id != ide">
+                <h3 v-if="med">{{item.data_criacao.split('T')[0]}}</h3>
+                <h3 v-if="cons">{{item.nome}}</h3>
+                <h3 v-if="sug">{{item.titulo}}</h3>
+              </v-col> 
+              <!-- DESTACADO PELA NOTIFICAÇÃO -->
+              <v-col v-else>
+                <h2 class="noti" v-if="med">{{item.data_criacao.split('T')[0]}}</h2>
+                <h2 class="noti" v-if="cons">{{item.nome}}</h2>
+                <h2 class="noti" v-if="sug">{{item.titulo}}</h2>
+              </v-col>
+            </v-row>
+            
+            <!-- SECOND ROW -->
+            <div class="text-subtitle-2" v-if="med">{{item.medico}}</div>
+            <div class="text-caption" v-if="sug">{{item.data_criacao.split('T')[0]}}</div>
+            <div class="text-subtitle-2" v-if="cons">Tipo : {{item.tipo}}</div>
+            
+            <!-- THIRD ROW -->
+            <v-row>
+              <v-col v-if="med"> {{item.medicacao}} </v-col>
+              <v-col v-if="cons"> {{item.medico}} </v-col>
+              <v-col v-if="sug"> {{item.descricao}} </v-col>
+              <v-col class="text-right" v-if="med">
+                <v-btn depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
+              </v-col>
+              <v-col class="text-right" v-if="cons">
+                <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
+                <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
+                <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
+              </v-col>
+              <v-col class="text-right" v-if="sug" cols=2>
+  
+                <!-- MODAL DE EDITAR AS SUGESTÕES -->
+                <v-dialog v-model="dialog"  width="500">
+                  
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      v-bind="attrs"
+                      v-on="on"
+                      depressed 
+                      style="background-color:var(--secondary-color)"
+                      @click="editSug(item.titulo,item.descricao)"
+                    >
+                      Editar
+                    </v-btn>
+                  </template>
+  
+                  <v-card>
+                    <v-card-title class="text-h5 grey lighten-2">
+                      Editar
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        icon
+                        color="var(--primary-color)"
+                        @click="deleteSug(item._id)"
+                      >
+                        <v-icon>mdi-delete</v-icon>
+                      </v-btn>
+                    </v-card-title>
+  
+                    <v-container style="padding:20px;">
+                      <!-- TITULO -->
+                      <v-text-field 
+                        label="Título" 
+                        v-model="titulo">
+                      </v-text-field>
+  
+                      <!-- DESCRIÇÃO -->
+                      <v-textarea 
+                        label="Sugestão" 
+                        v-model="descricao">
+                      </v-textarea>
+                    </v-container>
+  
+                    <v-divider></v-divider>
+  
+                    <v-card-actions>
+                      <v-spacer></v-spacer>
+                      <v-btn class="button-cancelar" text @click="dialog = false"> Cancelar </v-btn>
+                      <v-btn class="button-confirmar" text @click="saveSug(item._id)"> Confirmar </v-btn>
+                    </v-card-actions> 
+                  </v-card>
+                </v-dialog>
+              </v-col>
+            </v-row>
+  
+            <!-- DIVISÃO ENTRE CADA ELEMENTO DA LISTA -->
+            <v-row v-if="listaAtual.length > 1 && index < listaAtual.length - 1">
                 <v-divider></v-divider>
-        
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    class="button-cancelar"
-                    text
-                    @click="dialog = false"
-                  >
-                    Cancelar
-                  </v-btn>
-                  <v-btn
-                    class="button-confirmar"
-                    text
-                    @click="saveSug(item._id)"
-                  >
-                    Confirmar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-col>
-        </v-row>
-        <v-row v-if="list.length > 1 && index < list.length - 1">
-          <v-col><v-divider>
-
-          </v-divider></v-col>
+            </v-row>
           
-        </v-row>
+          </v-container>
+        </div>
+  
+        <!-- CASO NAO HAJA ELEMENTOS NA LISTA -->
+        <div v-else>
+          <v-container>
+            <v-row align="center" justify="center">
+                <h2 v-if="med">Não existem pedidos de medicação</h2>
+                <h2 v-if="cons">Não existem pedidos de contacto</h2>
+                <h2 v-if="sug">Não existem sugestões</h2>
+            </v-row>
+          </v-container>
+        </div>
         
-      </v-container>
-      </div>
-      <div v-else>
-        <v-container>
-          <v-row>
-            <v-col>
-              <h2 v-if="!med || !cons" style="text-align:center;">Não existem pedidos</h2>
-              <h2 v-else style="text-align:center;">Não existem sugestões</h2>
-            </v-col>
-          </v-row>
-        </v-container>
-      </div>
-      
       </v-card>
     </v-container>
+
   </div>
 </template>
 
@@ -436,6 +436,11 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         loading: false,
         modalErro: false,
         modalSucesso: false,
+        id:'',
+
+        //NOTIFICAÇÕES
+        tipo:this.$route.query.tipo,
+        ide:this.$route.query.id,
 
         //DADOS DO PERFIL
         nome:'',
@@ -464,24 +469,20 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         //ALTERAR EMAIL
 
 
-        value: null,
+        //TABS DO HISTORICO
         med:false,
-        cons:true,
-        sug:true,
-        id:'',
+        cons:false,
+        sug:false,
 
-
-        nivel:'',
-        meds:'',
-        consulta:'',
-        sugestao:'',
-
-        list:'',
-        titulo:'',
-        descricao:'',
-
-        ide:this.$route.query.id
+        //LISTA HISTORICO
+        medicacoes:[],
+        consultas:[],
+        sugestoes:[],
+        listaAtual:[],
         
+        //EDITAR SUGESTAO
+        titulo:'',
+        descricao:'',       
       }
     },
     components: {
@@ -490,56 +491,53 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
     watch: {
       'token' : function() {
         this.getDados()
+      },
+      $route() {
+        this.tipo = this.$route.query.tipo
+        this.ide = this.$route.query.id
+        this.linkNotificacao()
       }
     },
-    created(){
-    if (this.token) {
-      this.getDados()
-      axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
-        .then( data => {
-          this.meds = data.data
-          if(this.$route.query.tipo === 'pedidoMedicacao' || !this.$route.query.tipo) {
-          this.list = this.meds
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    created() {
+      if (this.token) {
+        //BUSCAR OS DADOS AO TOKEN
+        this.getDados()
 
-      axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
-        .then( data => {
-          this.consulta = data.data
-          if(this.$route.query.tipo === 'pedidoContacto') {
-          this.list = this.consulta
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
-        .then( data => {
-          this.sugestao = data.data
-          if(this.$route.query.tipo === 'sugestao') {
-          this.list = this.sugestao
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-      if(this.$route.query.tipo === 'pedidoContacto') {
-        this.med = true
-        this.cons = false
-        this.sug = true
-        this.list = this.consulta
+        if (this.$route.query.tipo) {
+          if (this.tipo == 'pedidoContacto') this.cons = true
+          else if (this.tipo == 'sugestao') this.sug = true
+          else this.med = true
+        }
+
+        //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
+        axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+          .then( data => {
+            this.medicacoes = data.data
+            if (this.med) this.listaAtual = data.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        //BUSCAR O HISTORICO DE PEDIDOS DE CONTACTO
+        axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+          .then( data => {
+            this.consultas = data.data
+            if (this.cons) this.listaAtual = data.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        //BUSCAR O HISTORICO DE SUGESTOES
+        axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+          .then( data => {
+            this.sugestoes = data.data
+            if (this.sug) this.listaAtual = data.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+
       }
-      if(this.$route.query.tipo === 'sugestao') {
-        this.med = true
-        this.cons = true
-        this.sug = false
-        this.list = this.sugestao
-      }
-      
-    }
     },
     mounted() {
       if(this.$route.query.id){
@@ -548,17 +546,13 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
             var element = this.$refs[id];
               console.log(this.$refs[id])
               var top = element[0].offsetTop;
-
               window.scrollTo(0, top);
-              // {nav: VueComponent}
-            // {}
           }, 1000)
       }
     },
     methods: {
       
       //MODAL SUCESSO/ERRO
-
       ok(){
         this.modalSucesso = false
         this.modalErro = false
@@ -566,7 +560,6 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
 
 
       //MODAL DO EDITAR PERFIL
-
       openModalEditarDados(){
         this.$v.$reset()
         this.newNome = this.nome
@@ -603,12 +596,6 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
 
 
       //MODAL DO ALTERAR A PASSWORD
-
-      validaPassword(pass) {
-        //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
-        var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
-        return re.test(pass)
-      },
       openModalAlterarPassword(){
         this.$v.$reset()
         this.passAntiga = ''
@@ -646,6 +633,12 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
             })
         }
       },
+      validaPassword(pass) {
+        //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
+        var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
+        return re.test(pass)
+      },
+
 
       //GERAL
       getDados() {
@@ -654,31 +647,42 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         this.email = jwt.decode(this.token).email
         this.nUtente = jwt.decode(this.token).nr_utente
         this.nTelemovel = jwt.decode(this.token).nr_telemovel
-        this.nivel = jwt.decode(this.token).nivel
+      },
+      pedidoM() {
+        this.med = true
+        this.cons = false
+        this.sug = false
+        this.listaAtual = this.medicacoes
+      },
+      pedidoC() {
+        this.med = false
+        this.cons = true
+        this.sug = false
+        this.listaAtual = this.consultas
+      },
+      sugest() {
+        this.med = false
+        this.cons = false
+        this.sug = true
+        this.listaAtual = this.sugestoes
+      },
+      //VERIFICAR SE VEM DE NOTIFICAÇÃO
+      linkNotificacao() {
+        if (this.tipo && this.ide) {
+          if (this.tipo == 'pedidoContacto') this.pedidoC()
+          else if (this.tipo == 'sugestao') this.sugest()
+          else this.pedidoM()
+          setTimeout(() => {
+            var element = this.$refs[this.ide];
+              var top = element[0].offsetTop;
+              window.scrollTo(0, top);
+          }, 1000)
+        }
       },
 
-    pedidoM() {
-      this.list = this.meds
-      this.med = false
-      this.cons = true
-      this.sug = true
-    },
-    pedidoC() {
-      this.med = true
-      this.cons = false
-      this.sug = true
-      this.list = this.consulta
-    },
-    sugestoes() {
-      this.med = true
-      this.cons = true
-      this.sug = false
-      this.list = this.sugestao
-    },
-    edita(){
-      this.editar = true
-    },
-    deleteEstado (id){
+
+      //CANCELAR PEDIDOS MEDICACAO
+      deleteEstado (id){
         axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.$router.go()
@@ -687,6 +691,9 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           console.log(err)
         })
       },
+
+
+      //SUGESTÕES
       editSug(tit,desc){
         this.titulo=tit
         this.descricao=desc
