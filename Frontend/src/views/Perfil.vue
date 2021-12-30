@@ -290,7 +290,7 @@
               <v-col class="text-right" v-if="sug" cols=2>
   
                 <!-- MODAL DE EDITAR AS SUGESTÕES -->
-                <v-dialog v-model="dialog"  width="500">
+                <v-dialog v-model="dialog"  width="500" v-if="sug && !item.resposta">
                   
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -340,6 +340,18 @@
                     </v-card-actions> 
                   </v-card>
                 </v-dialog>
+              </v-col>
+            </v-row>
+
+            <v-row v-if="sug && item.resposta">
+              <v-col cols=1><v-divider class="divisor" vertical></v-divider></v-col>
+              <v-col>
+                <v-row >
+                  <v-col> {{item.resposta}} </v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="text-subtitle-2"> {{item.data_resposta.split('T')[0]}} </v-col>
+                </v-row>
               </v-col>
             </v-row>
   
@@ -797,6 +809,13 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
   80% { transform: translate(-1px, -1px) rotate(1deg); }
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.divisor {
+  max-width: 100px !important;
+  width: 30px !important;
+    border-width: 0 4px 0 0 !important;
+
 }
 
 </style>
