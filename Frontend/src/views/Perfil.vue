@@ -216,7 +216,7 @@
                 block
                 depressed
                 v-bind:color="med ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="pedidoM"
+                @click="changeTab(pedidoM)"
               >
                 Pedidos de Medicação
               </v-btn>
@@ -226,7 +226,7 @@
                 block
                 depressed
                 v-bind:color="cons ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="pedidoC"
+                @click="changeTab(pedidoC)"
               >
                 Pedidos de Contacto
               </v-btn>
@@ -236,7 +236,7 @@
                 block
                 depressed
                 v-bind:color="sug ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="sugest"
+                @click="changeTab(sugest)"
               >
                 Sugestões
               </v-btn>
@@ -493,9 +493,11 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         this.getDados()
       },
       $route() {
-        this.tipo = this.$route.query.tipo
-        this.ide = this.$route.query.id
-        this.linkNotificacao()
+        if (window.location.search!="") {
+          this.tipo = this.$route.query.tipo
+          this.ide = this.$route.query.id
+          this.linkNotificacao()
+        }
       }
     },
     created() {
@@ -508,7 +510,8 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           else if (this.tipo == 'sugestao') this.sug = true
           else this.med = true
         }
-
+        else this.med = true
+        
         //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
         axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
@@ -544,10 +547,9 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         var id = this.$route.query.id
         setTimeout(() => {
             var element = this.$refs[id];
-              console.log(this.$refs[id])
-              var top = element[0].offsetTop;
-              window.scrollTo(0, top);
-          }, 1000)
+            var top = element[0].offsetTop;
+            window.scrollTo(0, top);
+          }, 100)
       }
     },
     methods: {
@@ -639,6 +641,12 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         return re.test(pass)
       },
 
+      //TABS DO HISTORICO
+      changeTab(func) {
+        this.tipo = ''
+        this.ide = ''
+        func()
+      },
 
       //GERAL
       getDados() {
@@ -674,9 +682,9 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           else this.pedidoM()
           setTimeout(() => {
             var element = this.$refs[this.ide];
-              var top = element[0].offsetTop;
-              window.scrollTo(0, top);
-          }, 1000)
+            var top = element[0].offsetTop;
+            window.scrollTo(0, top);
+          }, 100)
         }
       },
 
