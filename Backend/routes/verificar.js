@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs')
 
 const Email = require('../utils/email')
 const JWTUtils = require('../utils/jwt')
+const EXPIRES_IN = JWTUtils.EXPIRES_IN
+const SECRET = JWTUtils.SECRET
 
 let Codigo = require('../controllers/codigo')
 let User = require('../controllers/user')
@@ -122,6 +124,7 @@ router.post('/email/confirmar', (req, res) => {
     
     Swap.consultar(codigo)
         .then(dados => {
+            let id = dados.idUser
             dados === null
             ? res.status(403).jsonp({error: "Código de confirmação inválido."})
             : dados.estado === 1
@@ -133,7 +136,27 @@ router.post('/email/confirmar', (req, res) => {
                     User.alterar({_id: dados.idUser, email: dados.email_novo})
                         .then(dados => {
                             Codigo.remover(codigo)
-                                .then(dados => res.status(201).jsonp({msg: "E-mail alterado com sucesso."}))
+                                .then(dados => {
+                                    User.consultarID(id)
+                                        .then(dados => {
+                                            jwt.sign({
+                                                _id: dados._id,
+                                                nome: dados.nome,
+                                                email: dados.email, 
+                                                nr_utente: dados.nr_utente,
+                                                nr_telemovel: dados.nr_telemovel,
+                                                nivel: dados.nivel,
+                                                dataRegisto: dados.dataRegisto,
+                                                sub: 'PORTAL_UTENTE_2021'}, 
+                                                SECRET,
+                                                {expiresIn: EXPIRES_IN},
+                                                function(e, token) {
+                                                  if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+                                                  else res.status(201).jsonp({token})
+                                              }) 
+                                        })
+                                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
+                                })
                                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                         })
                         .catch(e => {res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."})})
@@ -149,6 +172,7 @@ router.post('/email/cancelar', (req, res) => {
     
     Swap.consultar(codigo)
         .then(dados => {
+            let id = dados.idUser
             dados === null
             ? res.status(403).jsonp({error: "Código de confirmação inválido."})
             : dados.estado === 2
@@ -158,7 +182,23 @@ router.post('/email/cancelar', (req, res) => {
                     User.alterar({_id: dados.idUser, email: dados.email_antigo})
                         .then(dados => {
                             Codigo.remover(codigo)
-                                .then(dados => res.status(201).jsonp({msg: "E-mail revertido com sucesso."}))
+                                .then(dados => {
+                                    jwt.sign({
+                                        _id: dados._id,
+                                        nome: dados.nome,
+                                        email: dados.email, 
+                                        nr_utente: dados.nr_utente,
+                                        nr_telemovel: dados.nr_telemovel,
+                                        nivel: dados.nivel,
+                                        dataRegisto: dados.dataRegisto,
+                                        sub: 'PORTAL_UTENTE_2021'}, 
+                                        SECRET,
+                                        {expiresIn: EXPIRES_IN},
+                                        function(e, token) {
+                                          if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+                                          else res.status(201).jsonp({token})
+                                      }) 
+                                })
                                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                         })
                         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
