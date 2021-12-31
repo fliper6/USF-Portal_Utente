@@ -11,6 +11,15 @@
       Dados alterados com sucesso!
     </modal-message>
 
+    <!-- MODAL DE SUCESSO EMAIL-->
+    <modal-message
+      title="Sucesso"
+      :visible="modalSucessoEmail"
+      @close="ok()"
+    >
+      Continue o processo de troca através do email enviado para o seu novo email!
+    </modal-message>
+
     <!-- MODAL DE ERRO -->
     <modal-message
       title="Erro"
@@ -521,6 +530,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         emailNovo: '',
         alertEmail: false, 
         erroEmail: '',
+        modalSucessoEmail: false,
 
         //TABS DO HISTORICO
         med:false,
@@ -611,6 +621,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
       ok(){
         this.modalSucesso = false
         this.modalErro = false
+        this.modalSucessoEmail = false
       },
 
 
@@ -711,13 +722,12 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         if (this.$v.emailNovo.required && this.$v.emailNovo.email) {
           this.loading = true
           var data = {}
-          data['email_novo'] = this.emailNovo
-          data['email_antigo'] = this.email
-          axios.put("http://localhost:3333/users/alterar/email/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+          data['email'] = this.emailNovo
+          axios.post("http://localhost:3333/verificar/email/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
             .then(() => {
               this.loading = false
               this.modalAlterarEmail = false
-              this.modalSucesso = true
+              this.modalSucessoEmail = true
             })
             .catch(erro => {
               this.loading = false
