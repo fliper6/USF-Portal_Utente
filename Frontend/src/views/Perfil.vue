@@ -216,7 +216,7 @@
                 block
                 depressed
                 v-bind:color="med ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="pedidoM"
+                @click="changeTab(pedidoM)"
               >
                 Pedidos de Medicação
               </v-btn>
@@ -226,7 +226,7 @@
                 block
                 depressed
                 v-bind:color="cons ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="pedidoC"
+                @click="changeTab(pedidoC)"
               >
                 Pedidos de Contacto
               </v-btn>
@@ -236,7 +236,7 @@
                 block
                 depressed
                 v-bind:color="sug ? 'var(--secondary-color)' : 'var(--grey2-color)'"
-                @click="sugest"
+                @click="changeTab(sugest)"
               >
                 Sugestões
               </v-btn>
@@ -290,7 +290,7 @@
               <v-col class="text-right" v-if="sug" cols=2>
   
                 <!-- MODAL DE EDITAR AS SUGESTÕES -->
-                <v-dialog v-model="dialog"  width="500">
+                <v-dialog v-model="dialog"  width="500" v-if="sug && !item.resposta">
                   
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -340,6 +340,18 @@
                     </v-card-actions> 
                   </v-card>
                 </v-dialog>
+              </v-col>
+            </v-row>
+
+            <v-row v-if="sug && item.resposta">
+              <v-col cols=1><v-divider class="divisor" vertical></v-divider></v-col>
+              <v-col>
+                <v-row >
+                  <v-col> {{item.resposta}} </v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="text-subtitle-2"> {{item.data_resposta.split('T')[0]}} </v-col>
+                </v-row>
               </v-col>
             </v-row>
   
@@ -493,9 +505,11 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         this.getDados()
       },
       $route() {
-        this.tipo = this.$route.query.tipo
-        this.ide = this.$route.query.id
-        this.linkNotificacao()
+        if (window.location.search!="") {
+          this.tipo = this.$route.query.tipo
+          this.ide = this.$route.query.id
+          this.linkNotificacao()
+        }
       }
     },
     created() {
@@ -508,7 +522,8 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           else if (this.tipo == 'sugestao') this.sug = true
           else this.med = true
         }
-
+        else this.med = true
+        
         //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
         axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
@@ -544,10 +559,9 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         var id = this.$route.query.id
         setTimeout(() => {
             var element = this.$refs[id];
-              console.log(this.$refs[id])
-              var top = element[0].offsetTop;
-              window.scrollTo(0, top);
-          }, 1000)
+            var top = element[0].offsetTop;
+            window.scrollTo(0, top);
+          }, 100)
       }
     },
     methods: {
@@ -639,6 +653,12 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         return re.test(pass)
       },
 
+      //TABS DO HISTORICO
+      changeTab(func) {
+        this.tipo = ''
+        this.ide = ''
+        func()
+      },
 
       //GERAL
       getDados() {
@@ -674,9 +694,9 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           else this.pedidoM()
           setTimeout(() => {
             var element = this.$refs[this.ide];
-              var top = element[0].offsetTop;
-              window.scrollTo(0, top);
-          }, 1000)
+            var top = element[0].offsetTop;
+            window.scrollTo(0, top);
+          }, 100)
         }
       },
 
@@ -789,6 +809,13 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
   80% { transform: translate(-1px, -1px) rotate(1deg); }
   90% { transform: translate(1px, 2px) rotate(0deg); }
   100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+.divisor {
+  max-width: 100px !important;
+  width: 30px !important;
+    border-width: 0 4px 0 0 !important;
+
 }
 
 </style>

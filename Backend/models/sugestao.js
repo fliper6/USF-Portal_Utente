@@ -6,7 +6,9 @@ var sugestaoSchema = new mongoose.Schema({
     titulo: {type: String, required: true}, 
     descricao: {type: String, required: true},
     estado: {type: Number, required: true, default: 0}, // 0- Pendente, 1- Aceite, 2- Recusada
-    data_criacao: {type: Date, default: Date.now, required: true}
+    data_criacao: {type: Date, default: Date.now, required: true},
+    resposta: {type: String},
+    data_resposta: {type: Date}
   });
 
 module.exports = mongoose.model('sugestao', sugestaoSchema)
