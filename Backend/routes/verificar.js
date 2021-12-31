@@ -195,13 +195,14 @@ router.post('/email/:_id', JWTUtils.validate, JWTUtils.compareId, (req, res) => 
                             ? Codigo.inserir({email,codigo,tipo})
                                 .then(dados => {
                                     Swap.inserir({idUser, codigo, email_antigo, email_novo})
-                                        .then(dados => {
-                                            console.log("enviar email para o antigo para cancelar")
-                                            console.log("enviar email para o novo para confirmar")
-                                            res.status(200).jsonp({msg: "Ok. E-mails enviados com sucesso"})  
-                                            /* Email.sendPasswordReset(email, codigo)
-                                            .then(dados => res.status(201).jsonp({msg: "Ok. E-mail enviado com sucesso."}))
-                                            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no envio do e-mail."})) */
+                                        .then(dados => { 
+                                            Email.sendEmailCancel(email_antigo, codigo)
+                                                .then(dados => {
+                                                    Email.sendEmailConfirmation(email_novo, codigo)
+                                                        .then(dados => res.status(201).jsonp({msg: "Ok. E-mail enviado com sucesso."}))
+                                                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no envio do e-mail."})) 
+                                                })
+                                                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no envio do e-mail."})) 
                                         })
                                         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                                 })
@@ -212,10 +213,13 @@ router.post('/email/:_id', JWTUtils.validate, JWTUtils.compareId, (req, res) => 
                                     let createdAt = Date.now()
                                     Swap.alterar(swapData.codigo, {codigo, email_novo, estado, createdAt})
                                         .then(dados => {
-                                            // ENVIAR EMAILS
-                                            console.log("RE-enviar email para o antigo para cancelar")
-                                            console.log("RE-enviar email para o novo para confirmar")
-                                            res.status(200).jsonp({msg: "Ok. E-mails re-enviados com sucesso"}) 
+                                            Email.sendEmailCancel(email_antigo, codigo)
+                                                .then(dados => {
+                                                    Email.sendEmailConfirmation(email_novo, codigo)
+                                                        .then(dados => res.status(201).jsonp({msg: "Ok. E-mail enviado com sucesso."}))
+                                                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no envio do e-mail."})) 
+                                                })
+                                                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no envio do e-mail."})) 
                                         }) 
                                         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                                 })
