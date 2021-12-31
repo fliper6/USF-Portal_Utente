@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 const Email = require('../utils/email')
 const JWTUtils = require('../utils/jwt')
