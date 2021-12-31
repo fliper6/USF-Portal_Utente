@@ -59,19 +59,19 @@ import axios from 'axios'
             sucesso() {
                 this.modalSucessoConfirmar = false
                 this.modalSucessoCancelar = false
-                this.$router.push('/')
+                this.$router.push('/perfil')
             },
             erro() {
                 this.modalErro = false
-                this.$router.push('/')
+                this.$router.push('/perfil')
             },
             correuBem() {
                 if (this.$route.params.state=="confirmar" && this.$route.query.codigo) {
                     var data = {}
                     data['codigo'] = this.$route.query.codigo
                     axios.post("http://localhost:3333/verificar/email/confirmar", data)
-                        .then(data => { 
-                          localStorage.setItem('jwt',data.data.token)
+                        .then(res => { 
+                          localStorage.setItem('jwt', res.data.token)
                           this.modalSucessoConfirmar = true
                         })
                         .catch(() => {
@@ -82,8 +82,8 @@ import axios from 'axios'
                     var data2 = {}
                     data2['codigo'] = this.$route.query.codigo
                     axios.post("http://localhost:3333/verificar/email/cancelar", data2)
-                        .then(() => {
-                          localStorage.setItem('jwt',data.data.token)
+                        .then(res => {
+                          localStorage.setItem('jwt',res.data.token)
                           this.modalSucessoCancelar = true
                         })
                         .catch(() => {

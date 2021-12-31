@@ -177,6 +177,16 @@ export default {
   watch: {
     $route() {
       this.path = window.location.pathname.split('/')[1]
+      if (this.token) {
+        axios.get("http://localhost:3333/users/validar/" + this.token)
+        .then( () => {
+          this.nivel = jwt.decode(this.token).nivel
+          this.nome = jwt.decode(this.token).nome
+        })
+        .catch(() => { 
+          this.modalErro=true
+        })
+      }
     }
   },
   methods: {
