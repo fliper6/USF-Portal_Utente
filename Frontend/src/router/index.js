@@ -134,8 +134,8 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   let adminRoutes = ['EditarPrivilegiosUtilizador', 'GestaoMedicos']
-  let medicoRoutes = ['Criar Notícia','Editar Noticia']
-  let userRoutes = []
+  let medicoRoutes = ['Criar Notícia','Editar Noticia','PedidoM','PedidoC','Sugestao','GestaoNoticias','GestaoCategorias','GestaoDocumentos','GestaoProgramacao']
+  let userRoutes = ['Perfil']
   let nivel = ''
   if (localStorage.getItem('jwt')) {
     nivel = jwt.decode(localStorage.getItem('jwt')).nivel
