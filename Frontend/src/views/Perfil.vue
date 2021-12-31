@@ -11,6 +11,15 @@
       Dados alterados com sucesso!
     </modal-message>
 
+    <!-- MODAL DE SUCESSO EMAIL-->
+    <modal-message
+      title="Sucesso"
+      :visible="modalSucessoEmail"
+      @close="ok()"
+    >
+      Continue o processo de troca através do email enviado para o seu novo email!
+    </modal-message>
+
     <!-- MODAL DE ERRO -->
     <modal-message
       title="Erro"
@@ -34,7 +43,6 @@
             v-model="newNome"
             label="Nome"
             type="text"
-            outlined
             class="texto_perfil">
           </v-text-field>
 
@@ -45,7 +53,6 @@
             type="text"
             color=var(--secondary-dark-color)
             label="Número SNS"
-            outlined
             class="texto_perfil">
           </v-text-field>
 
@@ -55,7 +62,6 @@
             v-model="newNTelemovel"
             color=var(--secondary-dark-color)
             label="Número Telemovel"
-            outlined
             type="text"
             class="texto_perfil">
           </v-text-field>
@@ -130,6 +136,39 @@
           <v-spacer></v-spacer>
           <v-btn class="button-cancelar" text @click="cancelarAlterarPassword()"> Cancelar </v-btn>
           <v-btn class="button-confirmar" :loading="loading" text @click="confirmarAlterarPassword()"> Confirmar </v-btn>
+        </v-card-actions> 
+
+      </v-card>
+    </v-dialog> 
+
+
+    <!-- MODAL DE ALTERAR O EMAIL -->
+    <v-dialog v-model="modalAlterarEmail" width="400">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">Alterar o email</v-card-title> <br/>
+        
+        <v-col style="margin: auto; padding: 0px 50px;">
+          
+          <!-- MENSAGENS DE ERRO -->
+          <p v-if="alertEmail" class="alert ">{{this.erroEmail}}</p>
+
+          <!-- NOVO EMAIL -->
+          <v-text-field  
+          :error-messages="emailNovoErrors"
+          color=var(--secondary-dark-color)
+          type="text"
+          v-model="emailNovo" 
+          label="Novo email">
+          </v-text-field>
+
+        </v-col>
+        
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="button-cancelar" text @click="cancelarAlterarEmail()"> Cancelar </v-btn>
+          <v-btn class="button-confirmar" :loading="loading" text @click="confirmarAlterarEmail()"> Confirmar </v-btn>
         </v-card-actions> 
 
       </v-card>
@@ -385,7 +424,7 @@ import jwt from 'jsonwebtoken'
 import axios from 'axios'
 import ModalMessage from '../components/ModalMessage.vue'
 import { validationMixin } from 'vuelidate'
-import { required, sameAs, between } from 'vuelidate/lib/validators'
+import { required, sameAs, between, email } from 'vuelidate/lib/validators'
 
 
   export default {
@@ -397,7 +436,8 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
       passVerificacao: { required, sameAsPassword: sameAs('passNova')},
       newNome: { required },
       newNUtente: { required, between: between(100000000,999999999)},
-      newNTelemovel: { between: between(900000000,999999999)}
+      newNTelemovel: { between: between(900000000,999999999)},
+      emailNovo: { required, email}
     },
     computed: {
         nomeErrors() {
@@ -438,7 +478,14 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
           if (!this.$v.newNTelemovel.$dirty) return errors
           if (!this.$v.newNTelemovel.between && this.newNTelemovel!="") errors.push('Número de telemóvel inválido.')
           return errors
-        }
+        },
+        emailNovoErrors () {
+          const errors = []
+          if (!this.$v.emailNovo.$dirty) return errors
+          if (!this.$v.emailNovo.required) errors.push('Email é um campo obrigatório.')
+          else if (!this.$v.emailNovo.email) errors.push('Email inválido.');
+          return errors
+        },
     },
     data() {
       return {
@@ -479,7 +526,11 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         erroPassword: '',
 
         //ALTERAR EMAIL
-
+        modalAlterarEmail: false,
+        emailNovo: '',
+        alertEmail: false, 
+        erroEmail: '',
+        modalSucessoEmail: false,
 
         //TABS DO HISTORICO
         med:false,
@@ -570,6 +621,7 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
       ok(){
         this.modalSucesso = false
         this.modalErro = false
+        this.modalSucessoEmail = false
       },
 
 
@@ -651,6 +703,44 @@ import { required, sameAs, between } from 'vuelidate/lib/validators'
         //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
         var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
         return re.test(pass)
+      },
+
+
+
+      //MODAL DO ALTERAR O EMAIL
+      openModalAlterarEmail(){
+        this.$v.$reset()
+        this.emailNovo = ''
+        this.alertEmail = false
+        this.modalAlterarEmail=true
+      },
+      cancelarAlterarEmail(){
+        this.modalAlterarEmail=false
+      },
+      confirmarAlterarEmail(){
+        this.$v.$touch()
+        if (this.$v.emailNovo.required && this.$v.emailNovo.email) {
+          this.loading = true
+          var data = {}
+          data['email'] = this.emailNovo
+          axios.post("http://localhost:3333/verificar/email/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+            .then(() => {
+              this.loading = false
+              this.modalAlterarEmail = false
+              this.modalSucessoEmail = true
+            })
+            .catch(erro => {
+              this.loading = false
+              if (erro.response) {
+                this.erroEmail = erro.response.data.error
+                this.alertEmail = true
+              }
+              else { 
+                this.modalAlterarEmail = false
+                this.modalErro = true
+              }
+            })
+        }
       },
 
       //TABS DO HISTORICO

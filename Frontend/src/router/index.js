@@ -111,6 +111,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/RecuperaPassword.vue')
   },
   {
+    path: '/alterarEmail/:state',
+    name: 'VerificarEmail',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ConfirmarEmail.vue')
+  },
+  {
     path: '/forbidden',
     name: 'Forbidden',
     component: () => import(/* webpackChunkName: "about" */ '../views/Forbidden.vue')

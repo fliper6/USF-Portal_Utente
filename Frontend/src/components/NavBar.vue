@@ -186,7 +186,7 @@ export default {
     }
   },
   created(){
-    if (this.token) {
+    if (this.token && !(window.location.pathname == 'recuperacao/password' || window.location.pathname ==  '/alterarEmail/confirmar' || window.location.pathname ==  '/alterarEmail/cancelar')) {
       axios.get("http://localhost:3333/users/validar/" + this.token)
         .then( () => {
           this.nivel = jwt.decode(this.token).nivel
