@@ -184,21 +184,25 @@ router.post('/email/cancelar', (req, res) => {
                         .then(dados => {
                             Codigo.remover(codigo)
                                 .then(dados => {
-                                    jwt.sign({
-                                        _id: dados._id,
-                                        nome: dados.nome,
-                                        email: dados.email, 
-                                        nr_utente: dados.nr_utente,
-                                        nr_telemovel: dados.nr_telemovel,
-                                        nivel: dados.nivel,
-                                        dataRegisto: dados.dataRegisto,
-                                        sub: 'PORTAL_UTENTE_2021'}, 
-                                        SECRET,
-                                        {expiresIn: EXPIRES_IN},
-                                        function(e, token) {
-                                          if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
-                                          else res.status(201).jsonp({token})
-                                      }) 
+                                    User.consultarID(id)
+                                        .then(dados => {
+                                            jwt.sign({
+                                                _id: dados._id,
+                                                nome: dados.nome,
+                                                email: dados.email, 
+                                                nr_utente: dados.nr_utente,
+                                                nr_telemovel: dados.nr_telemovel,
+                                                nivel: dados.nivel,
+                                                dataRegisto: dados.dataRegisto,
+                                                sub: 'PORTAL_UTENTE_2021'}, 
+                                                SECRET,
+                                                {expiresIn: EXPIRES_IN},
+                                                function(e, token) {
+                                                  if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
+                                                  else res.status(201).jsonp({token})
+                                              }) 
+                                        })
+                                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                                 })
                                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro no acesso à base de dados."}))
                         })
