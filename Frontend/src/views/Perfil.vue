@@ -176,6 +176,43 @@
 
 
 
+    <!-- MODAL DE INSERIR A PASSWORD -->
+    <v-dialog v-model="modalInserirPassword" width="400">
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">Para alterar o email é necessário inserir a password</v-card-title> <br/>
+        
+        <v-col style="margin: auto; padding: 0px 50px;">
+          
+          <!-- MENSAGENS DE ERRO -->
+          <p v-if="alertInserirPassword" class="alert ">{{this.erroInserirPassword}}</p>
+
+          <!-- CONFIRMAÇÃO DE PASSWORD -->
+          <v-text-field 
+          color=var(--secondary-dark-color)
+          :append-icon="valuePassInserir ? 'mdi-eye' : 'mdi-eye-off'" 
+          :type="valuePassInserir ? 'password' : 'text'"
+          block 
+          v-model="passInserir"
+          label="Password"
+          @click:append="() => (valuePassInserir = !valuePassInserir)">
+          </v-text-field>
+
+
+        </v-col>
+        
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="button-cancelar" text @click="cancelarInserirPassword()"> Cancelar </v-btn>
+          <v-btn class="button-confirmar" :loading="loading" text @click="confirmarInserirPassword()"> Confirmar </v-btn>
+        </v-card-actions> 
+
+      </v-card>
+    </v-dialog> 
+
+
+
     <!-- CAMPOS GERAIS DO PERFIL-->
     <v-container>
       <v-card flat color="var(--grey1-color)">
@@ -213,7 +250,7 @@
                       </v-list-item>
 
                        <!-- ALTERAR O EMAIL -->
-                      <v-list-item class="opcao" @click="openModalAlterarEmail()">
+                      <v-list-item class="opcao" @click="openModalInserirPassword()">
                         <v-row >
                           <v-col style="margin:auto">
                             <b>Alterar o email</b>
@@ -525,6 +562,13 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         alertPassword: false, 
         erroPassword: '',
 
+        //INSERIR PASSWORD
+        modalInserirPassword: false,
+        passInserir: '',
+        valuePassInserir: String,
+        alertInserirPassword: false, 
+        erroInserirPassword: '',
+
         //ALTERAR EMAIL
         modalAlterarEmail: false,
         emailNovo: '',
@@ -703,6 +747,35 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         //TUDO MENOS ESPAÇOS. DEVE CONTÊR PELO MENOS 1 MINÚSCULA, 1 MAIÚSCULA E 1 NÚMERO
         var re = /^(?!.* )(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[\d]).{8,20}$/
         return re.test(pass)
+      },
+
+
+      //MODAL DO INSERIR A PASSWORD
+      openModalInserirPassword(){
+        this.passInserir = ''
+        this.alertInserirPassword = false
+        this.modalInserirPassword = true
+      },
+      cancelarInserirPassword(){
+        this.modalInserirPassword=false
+      },
+      confirmarInserirPassword(){
+          this.loading = true
+          var data = {}
+          data['password'] = this.passInserir
+          data['email'] = this.email
+          axios.post("http://localhost:3333/users/login", data)
+              .then(() => {
+                  this.loading = false
+                  this.modalInserirPassword = false
+                  this.openModalAlterarEmail()
+              })
+              .catch(error => {
+                  this.alertInserirPassword = true
+                  this.loading = false
+                  if (error.response) this.erroInserirPassword = "Password errada!"
+                  else this.erroInserirPassword = 'De momento não é possível alterar o email!' + '\n' + 'Por favor tente mais tarde'
+              })
       },
 
 
