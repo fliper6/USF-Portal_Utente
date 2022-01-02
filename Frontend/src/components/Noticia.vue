@@ -112,9 +112,7 @@ export default {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
           }
         }
-      ).then(dados => {
-        console.log(dados.data.programada)
-        
+      ).then(() => {      
         this.$emit('deleteMe', this.$props.noticia._id);
         this.modal=true;
       }).catch(() => { this.modalError = true });

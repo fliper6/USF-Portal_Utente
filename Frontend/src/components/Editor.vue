@@ -124,7 +124,6 @@ export default {
       fileInputElement.click();
     },
     addVideo (event) {
-      console.log(event)
        this.editor.chain().focus().setVideo({ src: event.url, type: event.file.type }).run()
     },
     upFile(event) {

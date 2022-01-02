@@ -60,7 +60,6 @@ export default {
           axios.get("http://localhost:3333/sugestao/" , {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.sugestao = data.data
-              console.log(data.data)
             })
             .catch(err => {
               console.log(err)

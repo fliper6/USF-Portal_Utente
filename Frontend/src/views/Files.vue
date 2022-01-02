@@ -286,7 +286,6 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
               }).then(() => {
-                console.log("Ficheiro uploaded com sucesso!")
                 this.modal = true;
 
                 // Atualizar documentos
@@ -339,7 +338,6 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
               }).then(() => {
-                console.log("Categoria adicionada com sucesso!")
                 this.modal2 = true;
 
                 // Atualizar árvore de categorias

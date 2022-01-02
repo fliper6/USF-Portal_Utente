@@ -74,7 +74,6 @@ import axios from 'axios'
       axios.get("http://localhost:3333/consultas/" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.consulta = data.data
-          console.log(data.data)
         })
         .catch(err => {
           console.log(err)

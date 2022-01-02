@@ -87,7 +87,6 @@ import axios from 'axios'
       axios.get("http://localhost:3333/medicacao/" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
           this.medicacao = data.data
-          console.log(data.data)
         })
         .catch(err => {
           console.log(err)

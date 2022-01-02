@@ -346,7 +346,6 @@ export default {
       })
     },
     add_person(index){
-      console.log(this.pessoa)
       this.pessoa['equipa'] = index
       axios.post("http://localhost:3333/contactos" , this.pessoa, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
@@ -366,7 +365,6 @@ export default {
       })
     },
     save_person(person){
-      console.log(person)
       axios.put("http://localhost:3333/contactos" , person, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
       })

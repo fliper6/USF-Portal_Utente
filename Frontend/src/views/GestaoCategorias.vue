@@ -213,7 +213,6 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
               }).then(() => {
-                console.log("Categoria adicionada com sucesso!")
                 this.modal = true;
                 // Atualizar árvore de categorias
                 axios.get("http://localhost:3333/documentos/categorias")
@@ -253,7 +252,6 @@
                     'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                   }
               }).then(() => {
-                console.log("Categoria eliminada com sucesso!")
                 this.modal2 = true;
 
                 // Atualizar árvore de categorias

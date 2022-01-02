@@ -42,17 +42,15 @@ import jwt from 'jsonwebtoken'
     methods: {
       sendSugestao (){
         let user = jwt.decode(this.token)
-        console.log(user)
         let body = {
           user: user._id,
           nr_utente: user.nr_utente,
           titulo: this.titulo,
           descricao: this.sugestao
         }
-        console.log(body)
         axios.post("http://localhost:3333/sugestao", body, {headers:{'authorization':'Bearer '+ this.token}} )
         .then(() => {
-          console.log("POSTED")
+          this.$route.go()
         })
         .catch(err => {
           console.log(JSON.stringify(err))
