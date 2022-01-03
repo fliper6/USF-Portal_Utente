@@ -41,6 +41,10 @@
           <v-container>
                 <h1 style="color:var(--primary-color)">Sugestões</h1>
                 <v-row justify="center">
+                  <v-col>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Descendente" v-if="up" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
+                  </v-col>
                   <v-col class="text-right">
                     <v-btn depressed @click="color1=1; color2=0; lista=sugestao" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Pendetes</v-btn>
                     <v-btn depressed @click="color1=0; color2=1; lista=sugestao_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Respondidas</v-btn>
@@ -125,6 +129,7 @@ export default {
         modalResponderSug:false,
         dialog:false,
         id:'',
+        up:false
       }
     },
     components: {
@@ -142,6 +147,12 @@ export default {
                   this.sugestao.push(element)
                 }
               });
+              this.sugestao.sort((b, a) => {
+                return new Date(a.data_criacao) - new Date(b.data_criacao);
+              })
+              this.sugestao_r.sort((b, a) => {
+                return new Date(a.data_criacao) - new Date(b.data_criacao);
+              })
             })
             .catch(err => {
               console.log(err)
@@ -168,6 +179,31 @@ export default {
       resp(id){
         this.id = id
         this.dialog = true
+      },
+      orderData(bol){
+        if(bol) {
+          this.lista.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.sugestao.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.sugestao_r.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.lista.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.sugestao.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.sugestao_r.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
       }
     }
 }
