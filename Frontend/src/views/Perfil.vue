@@ -1,6 +1,44 @@
 <template>
   <div class="perfil">
+    <!-- MODAL DE EDITAR AS SUGESTÕES -->
+    <v-dialog v-model="dialog"  width="500">
 
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Editar
+          <v-spacer></v-spacer>
+          <v-btn
+            icon
+            color="var(--primary-color)"
+            @click="deleteSug(this.id_desc)"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-card-title>
+
+        <v-container style="padding:20px;">
+          <!-- TITULO -->
+          <v-text-field 
+            label="Título" 
+            v-model="titulo">
+          </v-text-field>
+
+          <!-- DESCRIÇÃO -->
+          <v-textarea 
+            label="Sugestão" 
+            v-model="descricao">
+          </v-textarea>
+        </v-container>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn class="button-cancelar" text @click="dialog = false"> Cancelar </v-btn>
+          <v-btn class="button-confirmar" text @click="saveSug(id_desc)"> Confirmar </v-btn>
+        </v-card-actions> 
+      </v-card>
+    </v-dialog>
 
     <!-- MODAL DE SUCESSO -->
     <modal-message
@@ -27,6 +65,16 @@
       @close="ok()"
     >
       Não foi possível alterar os dados! Por favor tente mais tarde
+    </modal-message>
+
+
+    <!-- MODAL DE CANCELAMENTO DE PEDIDO DE MEDICAÇÃO-->
+    <modal-message
+      title="Sucesso"
+      :visible="modalCancelarPedido"
+      @close="$router.push({path:'/perfil'});$router.go()"
+    >
+      Pedido removido com sucesso.
     </modal-message>
 
     <!-- MODAL DE EDITAR OS CAMPOS DO PERFIL -->
@@ -332,7 +380,7 @@
             <!-- FIRST ROW -->
             <v-row :ref="item._id" >
               <!-- NORMAL -->
-              <v-col v-if="item._id != ide">
+              <v-col v-if="item._id != ide || !not">
                 <h3 v-if="med">{{item.data_criacao.split('T')[0]}}</h3>
                 <h3 v-if="cons">{{item.nome}}</h3>
                 <h3 v-if="sug">{{item.titulo}}</h3>
@@ -356,66 +404,32 @@
               <v-col v-if="cons"> {{item.medico}} </v-col>
               <v-col v-if="sug"> {{item.descricao}} </v-col>
               <v-col class="text-right" v-if="med">
-                <v-btn depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
+                <v-btn v-if="item.estado===0" depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
+                <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Pedido Aceite</div>
+                <div v-if="item.estado === 2" style="color:var(--primary-color)">Pedido Recusado</div>
               </v-col>
               <v-col class="text-right" v-if="cons">
                 <div v-if="item.estado === 0" style="color:var(--grey3-color)">Pedido Pendente</div>
-                <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
-                <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
+                <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Pedido Aceite</div>
+                <div v-if="item.estado === 2" style="color:var(--primary-color)">Pedido Recusado</div>
               </v-col>
               <v-col class="text-right" v-if="sug && !item.resposta" cols=2 >
-  
-                <!-- MODAL DE EDITAR AS SUGESTÕES -->
-                <v-dialog v-model="dialog"  width="500">
-                  
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      depressed 
-                      style="background-color:var(--secondary-color)"
-                      @click="editSug(item.titulo,item.descricao)"
-                    >
-                      Editar
-                    </v-btn>
-                  </template>
-  
-                  <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                      Editar
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        icon
-                        color="var(--primary-color)"
-                        @click="deleteSug(item._id)"
-                      >
-                        <v-icon>mdi-delete</v-icon>
-                      </v-btn>
-                    </v-card-title>
-  
-                    <v-container style="padding:20px;">
-                      <!-- TITULO -->
-                      <v-text-field 
-                        label="Título" 
-                        v-model="titulo">
-                      </v-text-field>
-  
-                      <!-- DESCRIÇÃO -->
-                      <v-textarea 
-                        label="Sugestão" 
-                        v-model="descricao">
-                      </v-textarea>
-                    </v-container>
-  
-                    <v-divider></v-divider>
-  
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn class="button-cancelar" text @click="dialog = false"> Cancelar </v-btn>
-                      <v-btn class="button-confirmar" text @click="saveSug(item._id)"> Confirmar </v-btn>
-                    </v-card-actions> 
-                  </v-card>
-                </v-dialog>
+                <v-btn
+                  depressed 
+                  style="background-color:var(--secondary-color)"
+                  @click="editSug(item.titulo,item.descricao,item._id)"
+                >
+                  Editar
+                </v-btn>
+                
+                <!-- MODAL DE CONFIRMAÇÃO DE EDIÇÃO DE SUGESTÃO-->
+                <modal-message
+                  title="Sucesso"
+                  :visible="modalEditarSug"
+                  @close="closeEditarSug(id_desc)"
+                >
+                  Sugestão editada com sucesso.
+                </modal-message>
               </v-col>
             </v-row>
 
@@ -534,9 +548,14 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         modalSucesso: false,
         id:'',
 
+        //MODAIS
+        modalEditarSug:false,
+        modalCancelarPedido:false,
+
         //NOTIFICAÇÕES
         tipo:this.$route.query.tipo,
         ide:this.$route.query.id,
+        not:false,
 
         //DADOS DO PERFIL
         nome:'',
@@ -589,7 +608,8 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         
         //EDITAR SUGESTAO
         titulo:'',
-        descricao:'',       
+        descricao:'', 
+        id_desc:'',      
       }
     },
     components: {
@@ -613,9 +633,14 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         this.getDados()
 
         if (this.$route.query.tipo) {
+          this.not = true
           if (this.tipo == 'pedidoContacto') this.cons = true
           else if (this.tipo == 'sugestao') this.sug = true
-          else this.med = true
+          else if (this.tipo == 'pedidoMedicacao') this.med = true
+          else {
+            this.med = true
+            this.not = false        
+          }
         }
         else this.med = true
         
@@ -868,7 +893,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
       deleteEstado (id){
         axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modalCancelarPedido = true
         })
         .catch(err => {
           console.log(err)
@@ -877,9 +902,11 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
 
 
       //SUGESTÕES
-      editSug(tit,desc){
+      editSug(tit,desc,id){
         this.titulo=tit
         this.descricao=desc
+        this.id_desc = id
+        this.dialog=true
       },
       deleteSug(id){
         axios.delete("http://localhost:3333/sugestao/" + id , {headers:{'authorization':'Bearer '+ this.token}})
@@ -897,11 +924,15 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         data['descricao'] = this.descricao
         axios.put("http://localhost:3333/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modalEditarSug = true
         })
         .catch(err => {
           console.log(err)
         })
+      },
+      closeEditarSug(id){
+        this.$router.push({ path: `/perfil?tipo=sugestao&id=${id}` })
+        this.$router.go()
       }
   }
   

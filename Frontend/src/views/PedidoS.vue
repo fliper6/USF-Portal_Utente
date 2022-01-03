@@ -1,5 +1,42 @@
 <template>
     <div class="pedidoS">
+
+        <!-- MODAL DE CONFIRMAÇÃO DE EDIÇÃO DE SUGESTÃO-->
+        <modal-message
+          title="Sucesso"
+          :visible="modalResponderSug"
+          @close="$router.go()"
+        >
+          Sugestão respondida com sucesso.
+        </modal-message>
+
+        <!-- MODAL DE RESPONDER ÀS SUGESTÕES -->
+        <v-dialog v-model="dialog"  width="500">
+
+          <v-card>
+            <v-card-title class="text-h5 grey lighten-2">
+              Resposta
+            </v-card-title>
+
+            <v-container style="padding:20px;">
+
+              <!-- DESCRIÇÃO -->
+              <v-textarea 
+                label="Resposta" 
+                v-model="descricao">
+              </v-textarea>
+            </v-container>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn class="button-cancelar" text @click="dialog = false; descricao=''"> Cancelar </v-btn>
+              <v-btn class="button-confirmar" text @click="saveSug(id)"> Confirmar </v-btn>
+            </v-card-actions> 
+          </v-card>
+        </v-dialog> 
+
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
                 <h1 style="color:var(--primary-color)">Sugestões</h1>
@@ -26,46 +63,14 @@
             {{item.descricao}}
           </v-col> 
           <v-col class="text-right" cols=2 v-if="item.estado===0">
-  
-                <!-- MODAL DE RESPONDER ÀS SUGESTÕES -->
-                <v-dialog v-model="dialog"  width="500">
-                  
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      v-bind="attrs"
-                      v-on="on"
-                      depressed 
-                      style="background-color:var(--secondary-color)"
-                      @click="editSug(item.titulo,item.descricao)"
-                    >
-                      Responder
-                    </v-btn>
-                  </template>
-  
-                  <v-card>
-                    <v-card-title class="text-h5 grey lighten-2">
-                      Resposta
-                    </v-card-title>
-  
-                    <v-container style="padding:20px;">
-    
-                      <!-- DESCRIÇÃO -->
-                      <v-textarea 
-                        label="Resposta" 
-                        v-model="descricao">
-                      </v-textarea>
-                    </v-container>
-  
-                    <v-divider></v-divider>
-  
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn class="button-cancelar" text @click="dialog = false"> Cancelar </v-btn>
-                      <v-btn class="button-confirmar" text @click="saveSug(item._id)"> Confirmar </v-btn>
-                    </v-card-actions> 
-                  </v-card>
-                </v-dialog>
-              </v-col>
+            <v-btn
+              depressed
+              style="background-color:var(--secondary-color)"
+              @click="resp(item._id)"
+            >
+              Responder
+            </v-btn>
+          </v-col>
         </v-row>
         <v-row v-if="item.estado===1">
           <v-col cols=1><v-divider class="divisor" vertical></v-divider></v-col>
@@ -103,6 +108,7 @@
 
 <script>
 import axios from 'axios'
+import ModalMessage from '../components/ModalMessage.vue'
 
   //npm install --save @riophae/vue-treeselect
 export default {
@@ -116,7 +122,13 @@ export default {
         lista:'', 
         color1: 1,
         color2: 0,
+        modalResponderSug:false,
+        dialog:false,
+        id:'',
       }
+    },
+    components: {
+      ModalMessage
     },
     created(){
         if (this.token) {
@@ -147,11 +159,15 @@ export default {
         data['estado'] = 1
         axios.put("http://localhost:3333/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modalResponderSug=true
         })
         .catch(err => {
           console.log(err)
         })
+      },
+      resp(id){
+        this.id = id
+        this.dialog = true
       }
     }
 }

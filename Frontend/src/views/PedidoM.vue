@@ -3,12 +3,18 @@
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
             <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
+                <v-row justify="center">
+                  <v-col class="text-right">
+                    <v-btn depressed @click="color1=1; color2=0; lista=medicacao" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Pendetes</v-btn>
+                    <v-btn depressed @click="color1=0; color2=1; lista=medicacao_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Respondidos</v-btn>
+                  </v-col>
+                </v-row>
             </v-container>
             <v-container>
                 <v-divider/>
             </v-container>
-            <div v-if="this.medicacao.length > 0">
-              <v-container v-for="(item,index) in medicacao" v-bind:key="item.id">
+            <div v-if="this.lista.length > 0">
+              <v-container v-for="(item,index) in lista" v-bind:key="item.id">
               <v-row>
                 <v-col>
                   <h3>{{item.nome}}</h3>
@@ -40,12 +46,16 @@
                 <v-col>
                   {{item.medicacao}}
                 </v-col>
-                <v-col class="text-right" v-if="item.estado==0">
+                <v-col class="text-right" v-if="item.estado===0">
                   <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,item.user,1)">Aceitar Pedido</v-btn>
                   <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,item.user,2)">Recusar Pedido</v-btn>
                 </v-col>
+                <v-col class="text-right" v-else>
+                  <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Pedido Aceite</div>
+                  <div v-if="item.estado === 2" style="color:var(--primary-color)">Pedido Recusado</div>
+                </v-col>
               </v-row>
-              <v-row v-if="medicacao.length > 1 && index < medicacao.length - 1">
+              <v-row v-if="lista.length > 1 && index < lista.length - 1">
                 <v-col><v-divider>
                 
                 </v-divider></v-col>
@@ -78,7 +88,11 @@ import axios from 'axios'
     data() {
       return {
         token: localStorage.getItem('jwt'),
-        medicacao:'',
+        medicacao:[],
+        medicacao_r : [],
+        lista: '',
+        color1: 1,
+        color2: 0,
         
       }
     },
@@ -86,11 +100,20 @@ import axios from 'axios'
     if (this.token) {
       axios.get("http://localhost:3333/medicacao/" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-          this.medicacao = data.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
+              data.data.forEach(element => {
+                if(element.estado === 1 || element.estado === 2){
+                  this.medicacao_r.push(element)
+                }
+                else{
+                  this.medicacao.push(element)
+                }
+              });
+            })
+            .catch(err => {
+              console.log(err)
+            })
+
+            this.lista = this.medicacao
 
       
     }
