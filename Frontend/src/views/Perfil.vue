@@ -363,10 +363,10 @@
                 <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Consulta Aceite</div>
                 <div v-if="item.estado === 2" style="color:var(--primary-color)">Consulta Recusada</div>
               </v-col>
-              <v-col class="text-right" v-if="sug" cols=2>
+              <v-col class="text-right" v-if="sug && !item.resposta" cols=2 >
   
                 <!-- MODAL DE EDITAR AS SUGESTÕES -->
-                <v-dialog v-model="dialog"  width="500" v-if="sug && !item.resposta">
+                <v-dialog v-model="dialog"  width="500">
                   
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn
@@ -419,10 +419,10 @@
               </v-col>
             </v-row>
 
-            <v-row v-if="sug && item.resposta">
+            <v-row v-if="sug && item.estado === 1">
               <v-col cols=1><v-divider class="divisor" vertical></v-divider></v-col>
               <v-col>
-                <v-row >
+                <v-row>
                   <v-col> {{item.resposta}} </v-col>
                 </v-row>
                 <v-row>
