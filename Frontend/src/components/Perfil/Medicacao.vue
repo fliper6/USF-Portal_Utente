@@ -9,11 +9,13 @@
       Pedido removido com sucesso.
     </modal-message>
     <v-container>
-
+      <v-btn title="Mudar Ordem: Data Descendente" v-if="up && this.$props.medicacoes.length > 1" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+      <v-btn title="Mudar Ordem: Data Ascendente" v-if="!up && this.$props.medicacoes.length > 1" icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
       <!-- LISTA DO HISTORICO -->
       <v-card flat color="var(--grey1-color)" style="font-size:120%;margin-top:20px">  
         
         <div v-if="this.$props.medicacoes.length > 0">
+          
           <!-- PARA CADA ITEM DA LISTA -->
           <v-container v-for="(item,index) in $props.medicacoes" v-bind:key="item.id" >
   
@@ -85,6 +87,7 @@ import ModalMessage from '../ModalMessage.vue'
       return {
         //GERAL
         token: localStorage.getItem('jwt'),
+        up:false
       }
     },
     watch: {
@@ -136,6 +139,19 @@ import ModalMessage from '../ModalMessage.vue'
           console.log(err)
         })
       },
+      orderData(bol){
+        if(bol) {
+          this.$props.medicacoes.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.$props.medicacoes.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
+      }
 
 
   }

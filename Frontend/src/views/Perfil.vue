@@ -369,7 +369,7 @@
         </v-card-actions>
       </v-card>
 
-
+      
       <!-- LISTA DO HISTORICO -->
       <PerfilMedicacao v-if="this.med" :ide="this.ide" :id="this.id" :medicacoes="this.medicacoes" :not="this.not"></PerfilMedicacao>
       <PerfilContacto v-if="this.cons" :ide="this.ide" :id="this.id" :contacto="this.contacto" :not="this.not"></PerfilContacto>
@@ -566,6 +566,9 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           .catch(err => {
             console.log(err)
           })
+        this.medicacoes.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
         //BUSCAR O HISTORICO DE PEDIDOS DE CONTACTO
         axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
@@ -574,6 +577,9 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           .catch(err => {
             console.log(err)
           })
+        this.contacto.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
         //BUSCAR O HISTORICO DE SUGESTOES
         axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
@@ -581,6 +587,9 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           })
           .catch(err => {
             console.log(err)
+          })
+        this.sugestoes.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
           })
 
       }

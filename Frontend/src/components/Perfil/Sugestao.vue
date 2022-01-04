@@ -41,11 +41,13 @@
     </v-dialog>
 
     <v-container>
-
+      <v-btn title="Mudar Ordem: Data Descendente" v-if="up && this.$props.sugestoes.length > 1" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+      <v-btn title="Mudar Ordem: Data Ascendente" v-if="!up && this.$props.sugestoes.length > 1" icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
       <!-- LISTA DO HISTORICO -->
       <v-card flat color="var(--grey1-color)" style="font-size:120%;margin-top:20px">  
         
         <div v-if="this.sugestoes.length > 0">
+
           <!-- PARA CADA ITEM DA LISTA -->
           <v-container v-for="(item,index) in sugestoes" v-bind:key="item.id" >
   
@@ -144,6 +146,7 @@ import ModalMessage from '../ModalMessage.vue'
       return {
         //GERAL
         token: localStorage.getItem('jwt'),
+        up:false,
 
         //MODAIS
         modalEditarSug:false,
@@ -187,6 +190,19 @@ import ModalMessage from '../ModalMessage.vue'
       }
     },
     methods: {
+        orderData(bol){
+        if(bol) {
+          this.$props.sugestoes.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.$props.sugestoes.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
+      },
         
       //VERIFICAR SE VEM DE NOTIFICAÇÃO
       linkNotificacao() {

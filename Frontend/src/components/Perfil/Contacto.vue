@@ -1,11 +1,13 @@
 <template>
   <div class="perfil_contacto">
     <v-container>
-
+      <v-btn title="Mudar Ordem: Data Descendente" v-if="up && this.$props.contacto.length > 1" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+      <v-btn title="Mudar Ordem: Data Ascendente" v-if="!up && this.$props.contacto.length > 1" icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
       <!-- LISTA DO HISTORICO -->
       <v-card flat color="var(--grey1-color)" style="font-size:120%;margin-top:20px">  
         
         <div v-if="this.contacto.length > 0">
+          
           <!-- PARA CADA ITEM DA LISTA -->
           <v-container v-for="(item,index) in contacto" v-bind:key="item.id" >
   
@@ -71,6 +73,11 @@
         contacto:Array,
         not:Boolean
     },
+    data(){
+        return {
+            up:false
+        }
+    },
     watch: {
       $route() {
         if (window.location.search!="") {
@@ -106,6 +113,19 @@
           }, 100)
         }
       },
+      orderData(bol){
+        if(bol) {
+          this.$props.contacto.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.$props.contacto.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
+      }
 
 
   }
