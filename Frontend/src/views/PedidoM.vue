@@ -4,6 +4,10 @@
             <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
                 <v-row justify="center">
+                  <v-col>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Descendente" v-if="up" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
+                  </v-col>
                   <v-col class="text-right">
                     <v-btn depressed @click="color1=1; color2=0; lista=medicacao" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Pendetes</v-btn>
                     <v-btn depressed @click="color1=0; color2=1; lista=medicacao_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Respondidos</v-btn>
@@ -22,7 +26,7 @@
                 <v-col cols=1>
                   <v-tooltip v-if="!item.nr_utente_pedido" left>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon @click="copy(item.nr_utente_titular,item.contacto.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                    <v-btn icon @click="copy(item.nr_utente_titular,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
                       <v-icon>mdi-content-copy</v-icon>
                     </v-btn>
                     </template>
@@ -30,7 +34,7 @@
                   </v-tooltip>
                   <v-tooltip v-else left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn icon @click="copy(item.nr_utente_pedido,item.contacto.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                      <v-btn icon @click="copy(item.nr_utente_pedido,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
                         <v-icon>mdi-content-copy</v-icon>
                       </v-btn>
                     </template>
@@ -93,6 +97,7 @@ import axios from 'axios'
         lista: '',
         color1: 1,
         color2: 0,
+        up:false
         
       }
     },
@@ -107,6 +112,12 @@ import axios from 'axios'
                 else{
                   this.medicacao.push(element)
                 }
+                this.medicacao.sort((b, a) => {
+                return new Date(a.data_criacao) - new Date(b.data_criacao);
+                })
+                this.medicacao_r.sort((b, a) => {
+                  return new Date(a.data_criacao) - new Date(b.data_criacao);
+                })
               });
             })
             .catch(err => {
@@ -140,6 +151,31 @@ import axios from 'axios'
         .catch(err => {
           console.log(err)
         })
+      },
+      orderData(bol){
+        if(bol) {
+          this.lista.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.medicacao.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.medicacao_r.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.lista.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.medicacao.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.medicacao_r.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
       }
   }
   

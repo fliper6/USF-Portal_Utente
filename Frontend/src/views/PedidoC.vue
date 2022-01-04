@@ -4,6 +4,10 @@
           <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Contacto</h1>
                 <v-row justify="center">
+                  <v-col>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Descendente" v-if="up" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
+                  </v-col>
                   <v-col class="text-right">
                     <v-btn depressed @click="color1=1; color2=0; lista=contacto" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Pendetes</v-btn>
                     <v-btn depressed @click="color1=0; color2=1; lista=contacto_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Respondidos</v-btn>
@@ -74,7 +78,8 @@ import axios from 'axios'
         lista: '',
         color1: 1,
         color2: 0,
-        cons:false
+        cons:false,
+        up:false
         
       }
     },
@@ -82,7 +87,7 @@ import axios from 'axios'
     if (this.token) {
       axios.get("http://localhost:3333/consultas/" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-          data.data.forEach(element => {
+                data.data.forEach(element => {
                 if(element.estado === 1 || element.estado === 2){
                   this.contacto_r.push(element)
                 }
@@ -90,6 +95,12 @@ import axios from 'axios'
                   this.contacto.push(element)
                 }
               });
+              this.contacto.sort((b, a) => {
+                return new Date(a.data_criacao) - new Date(b.data_criacao);
+              })
+              this.contacto_r.sort((b, a) => {
+                return new Date(a.data_criacao) - new Date(b.data_criacao);
+              })
             })
             .catch(err => {
               console.log(err)
@@ -113,6 +124,31 @@ import axios from 'axios'
         .catch(err => {
           console.log(err)
         })
+      },
+      orderData(bol){
+        if(bol) {
+          this.lista.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.contacto.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.contacto_r.sort((a, b) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        else {
+          this.lista.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.contacto.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+          this.contacto_r.sort((b, a) => {
+            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          })
+        }
+        this.up=!this.up
       }
    }
   
