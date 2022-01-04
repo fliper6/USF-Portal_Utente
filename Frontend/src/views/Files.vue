@@ -132,7 +132,7 @@
       style="font-size:16px !important"
       :headers="headers"
       :items="docsfiltrados"
-      :items-per-page="5"
+      :items-per-page="10"
       :footer-props="{ 'items-per-page-text':'Documentos por página'}"
       class="elevation-1">
       

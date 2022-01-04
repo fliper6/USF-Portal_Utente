@@ -2,7 +2,7 @@
   "_id": {
     "$oid": "61c0b2ad8741e72deb363b56"
   },
-  "titulo": "Roteiro de Informação à Pessoa com Asma",
+  "titulo": "Roteiro de informação à pessoa com asma",
   "data_publicacao": "2021-12-20T16:43:25",
   "visibilidade": "0",
   "_id_autor": {
@@ -80,7 +80,7 @@
   "_id": {
     "$oid": "61c0b3628741e72deb363b98"
   },
-  "titulo": "Avaliação Temperatura e Medidas Terapêuticas",
+  "titulo": "Avaliação temperatura e medidas terapêuticas",
   "data_publicacao": "2021-12-20T16:46:26",
   "visibilidade": "0",
   "_id_autor": {
@@ -99,6 +99,2385 @@
     "diretoria": "public/fileStore/documentos/1640018786677-Anexo VI - Panfleto Avaliação Temperatura e Medidas Terapêuticas.pdf",
     "_id": {
       "$oid": "61c0b3628741e72deb363b99"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b5217178fd5b04c90ab5"
+  },
+  "titulo": "Apoios na dependência",
+  "data_publicacao": "2022-01-04T02:46:57.598Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - apoios na dependencia.pdf",
+    "tamanho": "485.77 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264417597-Panfleto - apoios na dependencia.pdf",
+    "_id": {
+      "$oid": "61d3b5217178fd5b04c90ab6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b53b7178fd5b04c90ace"
+  },
+  "titulo": "Higiene",
+  "data_publicacao": "2022-01-04T02:47:23.480Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - higiene.pdf",
+    "tamanho": "388.65 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264443474-Panfleto - higiene.pdf",
+    "_id": {
+      "$oid": "61d3b53b7178fd5b04c90acf"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b5647178fd5b04c90ae8"
+  },
+  "titulo": "Idoso - Roupa de cama (vestir e despir)",
+  "data_publicacao": "2022-01-04T02:48:04.790Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - idoso - roupa de cama_vestir e despir.pdf",
+    "tamanho": "378.19 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264484778-Panfleto - idoso - roupa de cama_vestir e despir.pdf",
+    "_id": {
+      "$oid": "61d3b5647178fd5b04c90ae9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b57c7178fd5b04c90b03"
+  },
+  "titulo": "Idosos - Vida ativa",
+  "data_publicacao": "2022-01-04T02:48:28.700Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - idosos_vida ativa.pdf",
+    "tamanho": "496.84 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264508695-Panfleto - idosos_vida ativa.pdf",
+    "_id": {
+      "$oid": "61d3b57c7178fd5b04c90b04"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b58e7178fd5b04c90b1f"
+  },
+  "titulo": "Mobilização",
+  "data_publicacao": "2022-01-04T02:48:46.292Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - mobilização.pdf",
+    "tamanho": "423.90 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264526287-Panfleto - mobilização.pdf",
+    "_id": {
+      "$oid": "61d3b58e7178fd5b04c90b20"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b5a67178fd5b04c90b3c"
+  },
+  "titulo": "Prevenção de quedas",
+  "data_publicacao": "2022-01-04T02:49:10.719Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - prevenção de quedas.pdf",
+    "tamanho": "399.75 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264550715-Panfleto - prevenção de quedas.pdf",
+    "_id": {
+      "$oid": "61d3b5a67178fd5b04c90b3d"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b5ba7178fd5b04c90b5a"
+  },
+  "titulo": "Produtos de apoio",
+  "data_publicacao": "2022-01-04T02:49:30.851Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - produtos de apoio.pdf",
+    "tamanho": "483.35 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264570846-Panfleto - produtos de apoio.pdf",
+    "_id": {
+      "$oid": "61d3b5ba7178fd5b04c90b5b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b71e7178fd5b04c90b96"
+  },
+  "titulo": "Rede nacional de cuidados continuados integrados",
+  "data_publicacao": "2022-01-04T02:55:26.392Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - RNCCI.pdf",
+    "tamanho": "421.48 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264926392-Panfleto - RNCCI.pdf",
+    "_id": {
+      "$oid": "61d3b71e7178fd5b04c90b97"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b73b7178fd5b04c90bb6"
+  },
+  "titulo": "Sonda nasogástrica",
+  "data_publicacao": "2022-01-04T02:55:55.215Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - sonda nasogástrica.pdf",
+    "tamanho": "502.38 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641264955211-Panfleto - sonda nasogástrica.pdf",
+    "_id": {
+      "$oid": "61d3b73b7178fd5b04c90bb7"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b76f7178fd5b04c90bd7"
+  },
+  "titulo": "Subsídios de dependência",
+  "data_publicacao": "2022-01-04T02:56:47.755Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - subsídios de dependencia.pdf",
+    "tamanho": "526.07 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265007750-Panfleto - subsídios de dependencia.pdf",
+    "_id": {
+      "$oid": "61d3b76f7178fd5b04c90bd8"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b7857178fd5b04c90bf9"
+  },
+  "titulo": "Úlceras de pressão",
+  "data_publicacao": "2022-01-04T02:57:09.933Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dependentes",
+  "caminho_categorias": [
+    "categorias",
+    "dependentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - úlceras de pressão.pdf",
+    "tamanho": "391.86 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265029925-Panfleto - úlceras de pressão.pdf",
+    "_id": {
+      "$oid": "61d3b7857178fd5b04c90bfa"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b8997178fd5b04c90c3d"
+  },
+  "titulo": "Seringas só no agulhão",
+  "data_publicacao": "2022-01-04T03:01:45.901Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Flyer - Seringas  só no Agulhão.pdf",
+    "tamanho": "2.78 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265305898-Flyer - Seringas  só no Agulhão.pdf",
+    "_id": {
+      "$oid": "61d3b8997178fd5b04c90c3e"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b8b97178fd5b04c90c61"
+  },
+  "titulo": "Risco de diabetes",
+  "data_publicacao": "2022-01-04T03:02:17.700Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Folheto risco de diabetes (2).pdf",
+    "tamanho": "945.71 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265337697-Folheto risco de diabetes (2).pdf",
+    "_id": {
+      "$oid": "61d3b8b97178fd5b04c90c62"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b8d07178fd5b04c90c86"
+  },
+  "titulo": "Administração de insulina",
+  "data_publicacao": "2022-01-04T03:02:40.297Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Administração de insulina.pdf",
+    "tamanho": "416.65 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265360278-Panfleto - Administração de insulina.pdf",
+    "_id": {
+      "$oid": "61d3b8d07178fd5b04c90c87"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b8ef7178fd5b04c90cac"
+  },
+  "titulo": "Alimentação e exercício físico",
+  "data_publicacao": "2022-01-04T03:03:11.187Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Alimentação e exercicio fisico.pdf",
+    "tamanho": "407.06 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265391183-Panfleto - Alimentação e exercicio fisico.pdf",
+    "_id": {
+      "$oid": "61d3b8ef7178fd5b04c90cad"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9097178fd5b04c90cd3"
+  },
+  "titulo": "Hipoglicemias",
+  "data_publicacao": "2022-01-04T03:03:37.265Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Hipoglicemias.pdf",
+    "tamanho": "611.31 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265417260-Panfleto - Hipoglicemias.pdf",
+    "_id": {
+      "$oid": "61d3b9097178fd5b04c90cd4"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9177178fd5b04c90cfb"
+  },
+  "titulo": "Pés",
+  "data_publicacao": "2022-01-04T03:03:51.397Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Pés.pdf",
+    "tamanho": "396.64 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265431392-Panfleto - Pés.pdf",
+    "_id": {
+      "$oid": "61d3b9177178fd5b04c90cfc"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9617178fd5b04c90d24"
+  },
+  "titulo": "Roteiro do utente com diabetes",
+  "data_publicacao": "2022-01-04T03:05:05.399Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - roteiro do utente com diabetes.pdf",
+    "tamanho": "473.87 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265505392-Panfleto - roteiro do utente com diabetes.pdf",
+    "_id": {
+      "$oid": "61d3b9617178fd5b04c90d25"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9727178fd5b04c90d4e"
+  },
+  "titulo": "Registo de glicemias capilares - 3 meses",
+  "data_publicacao": "2022-01-04T03:05:22.617Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Registo de glicemias capilares - 3meses.pdf",
+    "tamanho": "336.34 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265522612-Registo de glicemias capilares - 3meses.pdf",
+    "_id": {
+      "$oid": "61d3b9727178fd5b04c90d4f"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b97e7178fd5b04c90d79"
+  },
+  "titulo": "Registo de glicemias capilares",
+  "data_publicacao": "2022-01-04T03:05:34.245Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "diabetes",
+  "caminho_categorias": [
+    "categorias",
+    "diabetes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Registo de glicemias capilares.pdf",
+    "tamanho": "339.75 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265534238-Registo de glicemias capilares.pdf",
+    "_id": {
+      "$oid": "61d3b97e7178fd5b04c90d7a"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9cc7178fd5b04c90da5"
+  },
+  "titulo": "Aerolizer",
+  "data_publicacao": "2022-01-04T03:06:52.382Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Aerolizer_panfleto.pdf",
+    "tamanho": "625.54 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265612378-Aerolizer_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3b9cc7178fd5b04c90da6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9e97178fd5b04c90dd2"
+  },
+  "titulo": "Autohaler",
+  "data_publicacao": "2022-01-04T03:07:21.267Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "autohaler_panfleto.pdf",
+    "tamanho": "622.55 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265641257-autohaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3b9e97178fd5b04c90dd3"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3b9fa7178fd5b04c90e00"
+  },
+  "titulo": "Breezhaler",
+  "data_publicacao": "2022-01-04T03:07:38.801Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Breezhaler_panfleto.pdf",
+    "tamanho": "630.15 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265658797-Breezhaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3b9fa7178fd5b04c90e01"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3ba0d7178fd5b04c90e2f"
+  },
+  "titulo": "Diskus",
+  "data_publicacao": "2022-01-04T03:07:57.213Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Diskus_panfleto.pdf",
+    "tamanho": "651.74 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265677207-Diskus_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3ba0d7178fd5b04c90e30"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3ba1a7178fd5b04c90e5f"
+  },
+  "titulo": "Easyhaler",
+  "data_publicacao": "2022-01-04T03:08:10.508Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Easyhaler_panfleto.pdf",
+    "tamanho": "630.48 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265690496-Easyhaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3ba1a7178fd5b04c90e60"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3ba517178fd5b04c90e90"
+  },
+  "titulo": "Ellipta",
+  "data_publicacao": "2022-01-04T03:09:05.135Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Ellipta_panfleto.pdf",
+    "tamanho": "622.46 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265745131-Ellipta_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3ba517178fd5b04c90e91"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3baa47178fd5b04c90ec2"
+  },
+  "titulo": "Dispositivos Inalatórios (Folheto GRESP - Setembro 2018)",
+  "data_publicacao": "2022-01-04T03:10:28.544Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Folheto_GRESP_ Dispositivos Inala_Setembro_2018.pdf",
+    "tamanho": "768.37 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265828540-Folheto_GRESP_ Dispositivos Inala_Setembro_2018.pdf",
+    "_id": {
+      "$oid": "61d3baa47178fd5b04c90ec3"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3badc7178fd5b04c90ef5"
+  },
+  "titulo": "Técnica inalatória (Folheto GRESP - Setembro 2018)",
+  "data_publicacao": "2022-01-04T03:11:24.725Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Folheto_GRESP_ Tecnica inalatória_Setembro_2018.pdf",
+    "tamanho": "644.02 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265884723-Folheto_GRESP_ Tecnica inalatória_Setembro_2018.pdf",
+    "_id": {
+      "$oid": "61d3badc7178fd5b04c90ef6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3baed7178fd5b04c90f29"
+  },
+  "titulo": "Forspiro",
+  "data_publicacao": "2022-01-04T03:11:41.116Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Forspiro_panfleto.pdf",
+    "tamanho": "640.79 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265901111-Forspiro_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3baed7178fd5b04c90f2a"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3baf97178fd5b04c90f5e"
+  },
+  "titulo": "Genuair",
+  "data_publicacao": "2022-01-04T03:11:53.736Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Genuair_panfleto.pdf",
+    "tamanho": "630.45 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265913731-Genuair_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3baf97178fd5b04c90f5f"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bb067178fd5b04c90f94"
+  },
+  "titulo": "Handihaler",
+  "data_publicacao": "2022-01-04T03:12:06.531Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Handihaler_panfleto.pdf",
+    "tamanho": "625.23 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265926527-Handihaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bb067178fd5b04c90f95"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bb4a7178fd5b04c90fcb"
+  },
+  "titulo": "Inalador pressurizado + Câmara expansora",
+  "data_publicacao": "2022-01-04T03:13:14.063Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "inalador pressurizado CE _panfleto.pdf",
+    "tamanho": "530.41 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641265994058-inalador pressurizado CE _panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bb4a7178fd5b04c90fcc"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bb637178fd5b04c91003"
+  },
+  "titulo": "Inalador Pressurizado",
+  "data_publicacao": "2022-01-04T03:13:39.696Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "inalador pressurizado_panfleto.pdf",
+    "tamanho": "526.69 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266019692-inalador pressurizado_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bb637178fd5b04c91004"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc127178fd5b04c9103c"
+  },
+  "titulo": "Novolizer",
+  "data_publicacao": "2022-01-04T03:16:34.437Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Novolizer_panfleto.pdf",
+    "tamanho": "630.11 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266194436-Novolizer_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc127178fd5b04c9103d"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc207178fd5b04c91076"
+  },
+  "titulo": "Respimat",
+  "data_publicacao": "2022-01-04T03:16:48.761Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Respimat_panfleto.pdf",
+    "tamanho": "635.95 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266208752-Respimat_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc207178fd5b04c91077"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc2d7178fd5b04c910b1"
+  },
+  "titulo": "Spiromax",
+  "data_publicacao": "2022-01-04T03:17:01.141Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Spiromax_panfleto.pdf",
+    "tamanho": "623.20 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266221135-Spiromax_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc2d7178fd5b04c910b2"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc3b7178fd5b04c910ed"
+  },
+  "titulo": "Turbohaler",
+  "data_publicacao": "2022-01-04T03:17:15.812Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Turbohaler_panfleto.pdf",
+    "tamanho": "624.72 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266235800-Turbohaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc3b7178fd5b04c910ee"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc457178fd5b04c9112a"
+  },
+  "titulo": "Twisthaler",
+  "data_publicacao": "2022-01-04T03:17:25.801Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Twisthaler_panfleto.pdf",
+    "tamanho": "624.74 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266245797-Twisthaler_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc457178fd5b04c9112b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3bc507178fd5b04c91168"
+  },
+  "titulo": "Zonda",
+  "data_publicacao": "2022-01-04T03:17:36.487Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "dispositivos_inalatorios",
+  "caminho_categorias": [
+    "categorias",
+    "dispositivos_inalatorios"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Zonda_panfleto.pdf",
+    "tamanho": "621.46 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641266256483-Zonda_panfleto.pdf",
+    "_id": {
+      "$oid": "61d3bc507178fd5b04c91169"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c4d67178fd5b04c91395"
+  },
+  "titulo": "Tradutores solidários",
+  "data_publicacao": "2022-01-04T03:53:58.132Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "APT - TRADUTORES SOLIDÁRIOS.pdf",
+    "tamanho": "325.83 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641268438127-APT - TRADUTORES SOLIDÁRIOS.pdf",
+    "_id": {
+      "$oid": "61d3c4d67178fd5b04c91396"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c6467178fd5b04c913d5"
+  },
+  "titulo": "Comunicação difícil",
+  "data_publicacao": "2022-01-04T04:00:06.493Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Cartão - Comunicação dificil.pdf",
+    "tamanho": "628.42 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641268806490-Cartão - Comunicação dificil.pdf",
+    "_id": {
+      "$oid": "61d3c6467178fd5b04c913d6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c8857178fd5b04c91416"
+  },
+  "titulo": "Notifica (cartaz)",
+  "data_publicacao": "2022-01-04T04:09:41.455Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Notifica - cartaz.pdf",
+    "tamanho": "1.33 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641269381454-Notifica - cartaz.pdf",
+    "_id": {
+      "$oid": "61d3c8857178fd5b04c91417"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c8a77178fd5b04c91458"
+  },
+  "titulo": "Notifica (folheto)",
+  "data_publicacao": "2022-01-04T04:10:15.796Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Notifica - folheto.pdf",
+    "tamanho": "633.39 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641269415791-Notifica - folheto.pdf",
+    "_id": {
+      "$oid": "61d3c8a77178fd5b04c91459"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c8ba7178fd5b04c9149b"
+  },
+  "titulo": "Área do cidadão Portal SNS",
+  "data_publicacao": "2022-01-04T04:10:34.725Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Área do cidadão Portal SNS.pdf",
+    "tamanho": "415.21 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641269434715-Panfleto - Área do cidadão Portal SNS.pdf",
+    "_id": {
+      "$oid": "61d3c8ba7178fd5b04c9149c"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c8d77178fd5b04c914df"
+  },
+  "titulo": "Guia de acolhimento",
+  "data_publicacao": "2022-01-04T04:11:03.386Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - guia de acolhimento.pdf",
+    "tamanho": "706.43 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641269463382-Panfleto - guia de acolhimento.pdf",
+    "_id": {
+      "$oid": "61d3c8d77178fd5b04c914e0"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3c8ec7178fd5b04c91524"
+  },
+  "titulo": "Proteção de dados",
+  "data_publicacao": "2022-01-04T04:11:24.254Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - proteção de dados.pdf",
+    "tamanho": "425.46 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641269484247-Panfleto - proteção de dados.pdf",
+    "_id": {
+      "$oid": "61d3c8ec7178fd5b04c91525"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cec47178fd5b04c9156a"
+  },
+  "titulo": "Resolução de conflitos éticos",
+  "data_publicacao": "2022-01-04T04:36:20.138Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Resolução de conflitos éticos.pdf",
+    "tamanho": "397.16 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641270980138-Panfleto - Resolução de conflitos éticos.pdf",
+    "_id": {
+      "$oid": "61d3cec47178fd5b04c9156b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cf027178fd5b04c915b1"
+  },
+  "titulo": "Substituição na tomada de decisão",
+  "data_publicacao": "2022-01-04T04:37:22.163Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto substituição na tomada decisão.pdf",
+    "tamanho": "420.27 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271042157-Panfleto substituição na tomada decisão.pdf",
+    "_id": {
+      "$oid": "61d3cf027178fd5b04c915b2"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cf187178fd5b04c915f9"
+  },
+  "titulo": "Portal RAM",
+  "data_publicacao": "2022-01-04T04:37:44.085Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "informacao_para_os_utentes",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Portal RAM - cartaz.pdf",
+    "tamanho": "269.11 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271064084-Portal RAM - cartaz.pdf",
+    "_id": {
+      "$oid": "61d3cf187178fd5b04c915fa"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cf9d7178fd5b04c91642"
+  },
+  "titulo": "Boletim nº1 (2015)",
+  "data_publicacao": "2022-01-04T04:39:57.560Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2015",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2015"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº1_2015.pdf",
+    "tamanho": "874.12 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271197556-Boletim nº1_2015.pdf",
+    "_id": {
+      "$oid": "61d3cf9d7178fd5b04c91643"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cfb77178fd5b04c9168c"
+  },
+  "titulo": "Boletim nº2 (2015 - Especial Natal)",
+  "data_publicacao": "2022-01-04T04:40:23.030Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2015",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2015"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº2_2015-especial Natal USF MRP.pdf",
+    "tamanho": "707.52 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271223025-Boletim nº2_2015-especial Natal USF MRP.pdf",
+    "_id": {
+      "$oid": "61d3cfb77178fd5b04c9168d"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cfd67178fd5b04c916d7"
+  },
+  "titulo": "Boletim nº1 (2016)",
+  "data_publicacao": "2022-01-04T04:40:54.422Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2016",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2016"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "boletim nº1_2016 - USFMRP.pdf",
+    "tamanho": "882.15 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271254405-boletim nº1_2016 - USFMRP.pdf",
+    "_id": {
+      "$oid": "61d3cfd67178fd5b04c916d8"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cfed7178fd5b04c91723"
+  },
+  "titulo": "Boletim nº2 (2016)",
+  "data_publicacao": "2022-01-04T04:41:17.294Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2016",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2016"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº2_2016.pdf",
+    "tamanho": "877.17 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271277290-Boletim nº2_2016.pdf",
+    "_id": {
+      "$oid": "61d3cfed7178fd5b04c91724"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3cff57178fd5b04c91770"
+  },
+  "titulo": "Boletim nº3 (2016)",
+  "data_publicacao": "2022-01-04T04:41:25.845Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2016",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2016"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº3_2016.pdf",
+    "tamanho": "676.82 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271285841-Boletim nº3_2016.pdf",
+    "_id": {
+      "$oid": "61d3cff57178fd5b04c91771"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0007178fd5b04c917be"
+  },
+  "titulo": "Boletim nº4 (2016)",
+  "data_publicacao": "2022-01-04T04:41:36.417Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2016",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2016"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº4_2016.pdf",
+    "tamanho": "621.78 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271296414-Boletim nº4_2016.pdf",
+    "_id": {
+      "$oid": "61d3d0007178fd5b04c917bf"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0107178fd5b04c9180d"
+  },
+  "titulo": "Boletim nº1 (2017)",
+  "data_publicacao": "2022-01-04T04:41:52.033Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2017",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2017"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº1_2017.pdf",
+    "tamanho": "821.15 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271312029-Boletim nº1_2017.pdf",
+    "_id": {
+      "$oid": "61d3d0107178fd5b04c9180e"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0187178fd5b04c9185d"
+  },
+  "titulo": "Boletim nº2 (2017)",
+  "data_publicacao": "2022-01-04T04:42:00.638Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2017",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2017"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº2_2017.pdf",
+    "tamanho": "1.42 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271320635-Boletim nº2_2017.pdf",
+    "_id": {
+      "$oid": "61d3d0187178fd5b04c9185e"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0217178fd5b04c918ae"
+  },
+  "titulo": "Boletim nº3 (2017)",
+  "data_publicacao": "2022-01-04T04:42:09.856Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2017",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2017"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº3_2017.pdf",
+    "tamanho": "727.81 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271329852-Boletim nº3_2017.pdf",
+    "_id": {
+      "$oid": "61d3d0217178fd5b04c918af"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d02a7178fd5b04c91900"
+  },
+  "titulo": "Boletim nº4 (2017)",
+  "data_publicacao": "2022-01-04T04:42:18.875Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2017",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2017"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº4_2017.pdf",
+    "tamanho": "1.01 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271338872-Boletim nº4_2017.pdf",
+    "_id": {
+      "$oid": "61d3d02a7178fd5b04c91901"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d03d7178fd5b04c91953"
+  },
+  "titulo": "Boletim nº1 (2018)",
+  "data_publicacao": "2022-01-04T04:42:37.710Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2018",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2018"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº1_ 2018.pdf",
+    "tamanho": "1.06 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271357709-Boletim nº1_ 2018.pdf",
+    "_id": {
+      "$oid": "61d3d03d7178fd5b04c91954"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0637178fd5b04c919a7"
+  },
+  "titulo": "Boletim nº2 (2018)",
+  "data_publicacao": "2022-01-04T04:43:15.147Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2018",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2018"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº2_2018.pdf",
+    "tamanho": "1.11 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271395126-Boletim nº2_2018.pdf",
+    "_id": {
+      "$oid": "61d3d0637178fd5b04c919a8"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d06c7178fd5b04c919fc"
+  },
+  "titulo": "Boletim nº3 (2018)",
+  "data_publicacao": "2022-01-04T04:43:24.364Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2018",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2018"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº3_2018.pdf",
+    "tamanho": "1.40 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271404361-Boletim nº3_2018.pdf",
+    "_id": {
+      "$oid": "61d3d06c7178fd5b04c919fd"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0787178fd5b04c91a52"
+  },
+  "titulo": "Boletim nº4 (2018)",
+  "data_publicacao": "2022-01-04T04:43:36.017Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2018",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2018"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº4_2018.pdf",
+    "tamanho": "609.31 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271416013-Boletim nº4_2018.pdf",
+    "_id": {
+      "$oid": "61d3d0787178fd5b04c91a53"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d08a7178fd5b04c91aa9"
+  },
+  "titulo": "Boletim nº1 (2019)",
+  "data_publicacao": "2022-01-04T04:43:54.649Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2019",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2019"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº1_ 2019.pdf",
+    "tamanho": "332.71 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271434640-Boletim nº1_ 2019.pdf",
+    "_id": {
+      "$oid": "61d3d08a7178fd5b04c91aaa"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0967178fd5b04c91b01"
+  },
+  "titulo": "Boletim nº2 (2019)",
+  "data_publicacao": "2022-01-04T04:44:06.252Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2019",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2019"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº2_2019.pdf",
+    "tamanho": "1.49 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271446230-Boletim nº2_2019.pdf",
+    "_id": {
+      "$oid": "61d3d0967178fd5b04c91b02"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d09e7178fd5b04c91b5a"
+  },
+  "titulo": "Boletim nº3 (2019)",
+  "data_publicacao": "2022-01-04T04:44:14.519Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2019",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2019"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº3_2019.pdf",
+    "tamanho": "475.68 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271454515-Boletim nº3_2019.pdf",
+    "_id": {
+      "$oid": "61d3d09e7178fd5b04c91b5b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0a77178fd5b04c91bb4"
+  },
+  "titulo": "Boletim nº4 (2019)",
+  "data_publicacao": "2022-01-04T04:44:23.283Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2019",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2019"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº4_2019.pdf",
+    "tamanho": "1.26 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271463278-Boletim nº4_2019.pdf",
+    "_id": {
+      "$oid": "61d3d0a77178fd5b04c91bb5"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0b17178fd5b04c91c0f"
+  },
+  "titulo": "Questionário",
+  "data_publicacao": "2022-01-04T04:44:33.084Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2019",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2019"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "questionário.pdf",
+    "tamanho": "239.48 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271473083-questionário.pdf",
+    "_id": {
+      "$oid": "61d3d0b17178fd5b04c91c10"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0bf7178fd5b04c91c6b"
+  },
+  "titulo": "Boletim nº1 (2020)",
+  "data_publicacao": "2022-01-04T04:44:47.337Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2020",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2020"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim nº1_2020.pdf",
+    "tamanho": "1.63 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271487336-Boletim nº1_2020.pdf",
+    "_id": {
+      "$oid": "61d3d0bf7178fd5b04c91c6c"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0cf7178fd5b04c91cc8"
+  },
+  "titulo": "Boletim nº2 (2020)",
+  "data_publicacao": "2022-01-04T04:45:03.616Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2020",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2020"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim_Julho_Agosto_2020.pdf",
+    "tamanho": "342.50 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271503611-Boletim_Julho_Agosto_2020.pdf",
+    "_id": {
+      "$oid": "61d3d0cf7178fd5b04c91cc9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0db7178fd5b04c91d26"
+  },
+  "titulo": "Boletim nº3 (2020)",
+  "data_publicacao": "2022-01-04T04:45:15.960Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2020",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2020"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Boletim_Set_Dez_2020.pdf",
+    "tamanho": "305.69 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271515959-Boletim_Set_Dez_2020.pdf",
+    "_id": {
+      "$oid": "61d3d0db7178fd5b04c91d27"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0ec7178fd5b04c91d85"
+  },
+  "titulo": "Boletim nº1 (2021)",
+  "data_publicacao": "2022-01-04T04:45:32.567Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2021",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2021"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "boletim nº1_jan_mar2021.pdf",
+    "tamanho": "555.19 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271532567-boletim nº1_jan_mar2021.pdf",
+    "_id": {
+      "$oid": "61d3d0ec7178fd5b04c91d86"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0f47178fd5b04c91de5"
+  },
+  "titulo": "Boletim nº2 (2021)",
+  "data_publicacao": "2022-01-04T04:45:40.042Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2021",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2021"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "boletim nº2_abr_jun2021.pdf",
+    "tamanho": "461.70 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271540042-boletim nº2_abr_jun2021.pdf",
+    "_id": {
+      "$oid": "61d3d0f47178fd5b04c91de6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d0fc7178fd5b04c91e46"
+  },
+  "titulo": "Boletim nº3 (2021)",
+  "data_publicacao": "2022-01-04T04:45:48.281Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2021",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2021"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "boletim nº3_jul_set2021.pdf",
+    "tamanho": "2.49 MB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271548280-boletim nº3_jul_set2021.pdf",
+    "_id": {
+      "$oid": "61d3d0fc7178fd5b04c91e47"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1197178fd5b04c91ea8"
+  },
+  "titulo": "Boletim nº4 (2021)",
+  "data_publicacao": "2022-01-04T04:46:17.087Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "2021",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "boletim_informativo",
+    "2021"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "boletim nº4_out_dez2021.pdf",
+    "tamanho": "851.78 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271577086-boletim nº4_out_dez2021.pdf",
+    "_id": {
+      "$oid": "61d3d1197178fd5b04c91ea9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1307178fd5b04c91f0b"
+  },
+  "titulo": "Direitos e deveres para profissionais",
+  "data_publicacao": "2022-01-04T04:46:40.372Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Direitos e Deveres para profissionais - A4.pdf",
+    "tamanho": "127.76 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271600372-Direitos e Deveres para profissionais - A4.pdf",
+    "_id": {
+      "$oid": "61d3d1307178fd5b04c91f0c"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1467178fd5b04c91f6f"
+  },
+  "titulo": "Direitos e deveres (poster)",
+  "data_publicacao": "2022-01-04T04:47:02.250Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "direitosdeveres_poster-A3.pdf",
+    "tamanho": "214.43 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271622249-direitosdeveres_poster-A3.pdf",
+    "_id": {
+      "$oid": "61d3d1467178fd5b04c91f70"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1607178fd5b04c91fd4"
+  },
+  "titulo": "Direitos e deveres (Espanhol)",
+  "data_publicacao": "2022-01-04T04:47:28.034Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em ESPANHOL.pdf",
+    "tamanho": "374.19 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271648029-Panfleto Direitos e Deveres em ESPANHOL.pdf",
+    "_id": {
+      "$oid": "61d3d1607178fd5b04c91fd5"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1717178fd5b04c9203a"
+  },
+  "titulo": "Direitos e deveres (Francês)",
+  "data_publicacao": "2022-01-04T04:47:45.556Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em Francês.pdf",
+    "tamanho": "374.68 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271665555-Panfleto Direitos e Deveres em Francês.pdf",
+    "_id": {
+      "$oid": "61d3d1717178fd5b04c9203b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d18a7178fd5b04c920a1"
+  },
+  "titulo": "Direitos e deveres (Inglês)",
+  "data_publicacao": "2022-01-04T04:48:10.368Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em Inglês.pdf",
+    "tamanho": "374.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271690363-Panfleto Direitos e Deveres em Inglês.pdf",
+    "_id": {
+      "$oid": "61d3d18a7178fd5b04c920a2"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1967178fd5b04c92109"
+  },
+  "titulo": "Direitos e deveres (Mandarim)",
+  "data_publicacao": "2022-01-04T04:48:22.911Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em Mandarim.pdf",
+    "tamanho": "558.39 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271702907-Panfleto Direitos e Deveres em Mandarim.pdf",
+    "_id": {
+      "$oid": "61d3d1967178fd5b04c9210a"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1a67178fd5b04c92172"
+  },
+  "titulo": "Direitos e deveres (Português)",
+  "data_publicacao": "2022-01-04T04:48:38.224Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em Português.pdf",
+    "tamanho": "375.67 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271718219-Panfleto Direitos e Deveres em Português.pdf",
+    "_id": {
+      "$oid": "61d3d1a67178fd5b04c92173"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1b27178fd5b04c921dc"
+  },
+  "titulo": "Direitos e deveres (Ucraniano)",
+  "data_publicacao": "2022-01-04T04:48:50.155Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "direitos_e_deveres",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "direitos_e_deveres"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Direitos e Deveres em ucraniano.pdf",
+    "tamanho": "588.01 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271730142-Panfleto Direitos e Deveres em ucraniano.pdf",
+    "_id": {
+      "$oid": "61d3d1b27178fd5b04c921dd"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1ef7178fd5b04c92247"
+  },
+  "titulo": "Cartaz RENNDA",
+  "data_publicacao": "2022-01-04T04:49:51.570Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rennda_-_doacao_de_orgaos",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "rennda_-_doacao_de_orgaos"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Cartaz_RENNDA.pdf",
+    "tamanho": "163.75 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271791569-Cartaz_RENNDA.pdf",
+    "_id": {
+      "$oid": "61d3d1ef7178fd5b04c92248"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d1fd7178fd5b04c922b3"
+  },
+  "titulo": "Impresso RENNDA",
+  "data_publicacao": "2022-01-04T04:50:05.839Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rennda_-_doacao_de_orgaos",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "rennda_-_doacao_de_orgaos"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Impresso_RENNDA.pdf",
+    "tamanho": "101.21 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271805838-Impresso_RENNDA.pdf",
+    "_id": {
+      "$oid": "61d3d1fd7178fd5b04c922b4"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d20c7178fd5b04c92320"
+  },
+  "titulo": "Procedimento RENNDA",
+  "data_publicacao": "2022-01-04T04:50:20.159Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rennda_-_doacao_de_orgaos",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "rennda_-_doacao_de_orgaos"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Procedimento RENNDA.pdf",
+    "tamanho": "490.62 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271820159-Procedimento RENNDA.pdf",
+    "_id": {
+      "$oid": "61d3d20c7178fd5b04c92321"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d2337178fd5b04c9238e"
+  },
+  "titulo": "Testamento vital (Inglês)",
+  "data_publicacao": "2022-01-04T04:50:59.614Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "testamento_vital",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "testamento_vital"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Testamento Vital Inglês.pdf",
+    "tamanho": "401.29 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271859602-Panfleto - Testamento Vital Inglês.pdf",
+    "_id": {
+      "$oid": "61d3d2337178fd5b04c9238f"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d2487178fd5b04c923fd"
+  },
+  "titulo": "Testamento vital (Português)",
+  "data_publicacao": "2022-01-04T04:51:20.186Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "testamento_vital",
+  "caminho_categorias": [
+    "categorias",
+    "informacao_para_os_utentes",
+    "testamento_vital"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Testamento Vital português.pdf",
+    "tamanho": "400.24 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271880182-Panfleto - Testamento Vital português.pdf",
+    "_id": {
+      "$oid": "61d3d2487178fd5b04c923fe"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d3d28a7178fd5b04c9246d"
+  },
+  "titulo": "Contracetivos",
+  "data_publicacao": "2022-01-04T04:52:26.042Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "planeamento_familiar",
+  "caminho_categorias": [
+    "categorias",
+    "planeamento_familiar"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - contracetivos.pdf",
+    "tamanho": "715.60 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641271946029-Panfleto - contracetivos.pdf",
+    "_id": {
+      "$oid": "61d3d28a7178fd5b04c9246e"
     }
   },
   "__v": 0
