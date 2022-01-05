@@ -150,6 +150,7 @@ import ModalMessage from '../ModalMessage.vue'
 
         //MODAIS
         modalEditarSug:false,
+        dialog:false,
 
         //EDITAR SUGESTAO
         titulo:'',
@@ -168,16 +169,6 @@ import ModalMessage from '../ModalMessage.vue'
           this.linkNotificacao()
         }
       }
-    },
-    created() {
-        //BUSCAR O HISTORICO DE SUGESTOES
-        axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
-          .then( data => {
-            this.sugestoes = data.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
     },
     mounted() {
       if(this.$route.query.id){

@@ -76,7 +76,7 @@ import ModalMessage from '../ModalMessage.vue'
 
 
   export default {
-    name: "Perfil_Medicacao",
+    name: "PerfilMedicacao",
     props: {
         ide: String,
         id:String,
@@ -87,7 +87,8 @@ import ModalMessage from '../ModalMessage.vue'
       return {
         //GERAL
         token: localStorage.getItem('jwt'),
-        up:false
+        up:false,
+        modalCancelarPedido:false
       }
     },
     watch: {
