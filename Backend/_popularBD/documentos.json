@@ -2481,4 +2481,888 @@
     }
   },
   "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50538f2ce70415a5fce6f"
+  },
+  "titulo": "Roteiro do utente com pré obesidade",
+  "data_publicacao": "2022-01-05T02:40:56.418Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "pre_obesidade",
+  "caminho_categorias": [
+    "categorias",
+    "pre_obesidade"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - roteiro do utente com Pré obesidade.pdf",
+    "tamanho": "480.30 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641350456416-Panfleto - roteiro do utente com Pré obesidade.pdf",
+    "_id": {
+      "$oid": "61d50538f2ce70415a5fce70"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d5054bf2ce70415a5fcee1"
+  },
+  "titulo": "Rótulos -  como interpretá-los",
+  "data_publicacao": "2022-01-05T02:41:15.559Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "pre_obesidade",
+  "caminho_categorias": [
+    "categorias",
+    "pre_obesidade"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto – Rótulos como interpretá-los.pdf",
+    "tamanho": "450.27 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641350475557-Panfleto – Rótulos como interpretá-los.pdf",
+    "_id": {
+      "$oid": "61d5054bf2ce70415a5fcee2"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50562f2ce70415a5fcf54"
+  },
+  "titulo": "Riscos pré-obesidade",
+  "data_publicacao": "2022-01-05T02:41:38.274Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "pre_obesidade",
+  "caminho_categorias": [
+    "categorias",
+    "pre_obesidade"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto 01 - Riscos Pré-Obesidade.pdf",
+    "tamanho": "697.77 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641350498259-Panfleto 01 - Riscos Pré-Obesidade.pdf",
+    "_id": {
+      "$oid": "61d50562f2ce70415a5fcf55"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50578f2ce70415a5fcfc8"
+  },
+  "titulo": "Recomendações sobre comportamentos alimentares saudáveis",
+  "data_publicacao": "2022-01-05T02:42:00.073Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "pre_obesidade",
+  "caminho_categorias": [
+    "categorias",
+    "pre_obesidade"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto 02 - Recomendações sobre comportamentos alimentares saudaveis.pdf",
+    "tamanho": "522.28 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641350520069-Panfleto 02 - Recomendações sobre comportamentos alimentares saudaveis.pdf",
+    "_id": {
+      "$oid": "61d50578f2ce70415a5fcfc9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d505f8f2ce70415a5fd03d"
+  },
+  "titulo": "Recomendações sobre exercício físico no adulto",
+  "data_publicacao": "2022-01-05T02:44:08.748Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "pre_obesidade",
+  "caminho_categorias": [
+    "categorias",
+    "pre_obesidade"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto 03 - Recomendações sobre exercicio físico no adulto.pdf",
+    "tamanho": "406.14 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641350648744-Panfleto 03 - Recomendações sobre exercicio físico no adulto.pdf",
+    "_id": {
+      "$oid": "61d505f8f2ce70415a5fd03e"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d507a7f2ce70415a5fd0b3"
+  },
+  "titulo": "Informação sobre colonoscopia",
+  "data_publicacao": "2022-01-05T02:51:19.716Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.001.01112018 - Informação sobre Colonoscopia.pdf",
+    "tamanho": "211.01 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351079711-FI.GASTRO.001.01112018 - Informação sobre Colonoscopia.pdf",
+    "_id": {
+      "$oid": "61d507a7f2ce70415a5fd0b4"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d507caf2ce70415a5fd12a"
+  },
+  "titulo": "Cuidados em casa após polipectomia",
+  "data_publicacao": "2022-01-05T02:51:54.359Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.009.01112018 -  Cuidados em casa após Polipectomia.pdf",
+    "tamanho": "100.74 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351114358-FI.GASTRO.009.01112018 -  Cuidados em casa após Polipectomia.pdf",
+    "_id": {
+      "$oid": "61d507caf2ce70415a5fd12b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d5080af2ce70415a5fd1a2"
+  },
+  "titulo": "Polipectomia",
+  "data_publicacao": "2022-01-05T02:52:58.016Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.010.01112018 -  POLIPECTOMIA.pdf",
+    "tamanho": "190.62 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351178015-FI.GASTRO.010.01112018 -  POLIPECTOMIA.pdf",
+    "_id": {
+      "$oid": "61d5080af2ce70415a5fd1a3"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50829f2ce70415a5fd21b"
+  },
+  "titulo": "Preparação intestinal (Citrafleet: 9h-10h)",
+  "data_publicacao": "2022-01-05T02:53:29.856Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.011.01072019- Preparação Intestinal - Citrafleet 9h HBr.pdf",
+    "tamanho": "278.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351209853-FI.GASTRO.011.01072019- Preparação Intestinal - Citrafleet 9h HBr.pdf",
+    "_id": {
+      "$oid": "61d50829f2ce70415a5fd21c"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d5086ff2ce70415a5fd295"
+  },
+  "titulo": "Preparação intestinal (Citrafleet: 10h-14h)",
+  "data_publicacao": "2022-01-05T02:54:39.686Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.012.00102015 - Preparação Intestinal - Citrafleet 10_14 horas HB.pdf",
+    "tamanho": "268.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351279682-FI.GASTRO.012.00102015 - Preparação Intestinal - Citrafleet 10_14 horas HB.pdf",
+    "_id": {
+      "$oid": "61d5086ff2ce70415a5fd296"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d509cef2ce70415a5fd47f"
+  },
+  "titulo": "Preparação intestinal (MOVIPREP: 9h-10h)",
+  "data_publicacao": "2022-01-05T03:00:30.519Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.023.00112018 - MOVIPREP 09-10 H.pdf",
+    "tamanho": "235.72 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641351630514-FI.GASTRO.023.00112018 - MOVIPREP 09-10 H.pdf",
+    "_id": {
+      "$oid": "61d509cef2ce70415a5fd480"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50b51f2ce70415a5fd8d1"
+  },
+  "titulo": "Preparação intestinal (MOVIPREP: 10h-14h)",
+  "data_publicacao": "2022-01-05T03:06:57.692Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.021.01112018 - MOVIPREP 10-14 horas 27-10-2015.pdf",
+    "tamanho": "236.34 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352017687-FI.GASTRO.021.01112018 - MOVIPREP 10-14 horas 27-10-2015.pdf",
+    "_id": {
+      "$oid": "61d50b51f2ce70415a5fd8d2"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50be2f2ce70415a5fd94e"
+  },
+  "titulo": "Preparação intestinal (PICOPREP: 9h-10h)",
+  "data_publicacao": "2022-01-05T03:09:22.879Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.024.01112018- PICOPREP  - 9H -10h.pdf",
+    "tamanho": "240.39 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352162878-FI.GASTRO.024.01112018- PICOPREP  - 9H -10h.pdf",
+    "_id": {
+      "$oid": "61d50be2f2ce70415a5fd94f"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50c00f2ce70415a5fd9cc"
+  },
+  "titulo": "Preparação intestinal (PICOPREP: 10h-14h)",
+  "data_publicacao": "2022-01-05T03:09:52.973Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.025.01112018- PICOPREP  - 10 - 14 horas.pdf",
+    "tamanho": "240.89 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352192966-FI.GASTRO.025.01112018- PICOPREP  - 10 - 14 horas.pdf",
+    "_id": {
+      "$oid": "61d50c00f2ce70415a5fd9cd"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50d74f2ce70415a5fdbc2"
+  },
+  "titulo": "Preparação intestinal (Plenvu: 8h-10h)",
+  "data_publicacao": "2022-01-05T03:16:04.637Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.039.00122018 - Preparação Intestinal - Plenvu - Exame Marcado entre as 8h e as 10h.pdf",
+    "tamanho": "231.66 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352564636-FI.GASTRO.039.00122018 - Preparação Intestinal - Plenvu - Exame Marcado entre as 8h e as 10h.pdf",
+    "_id": {
+      "$oid": "61d50d74f2ce70415a5fdbc3"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50dd6f2ce70415a5fdc42"
+  },
+  "titulo": "Preparação intestinal (Plenvu: 10h-14h)",
+  "data_publicacao": "2022-01-05T03:17:42.570Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "FI.GASTRO.038.00122018 - Preparação Intestinal - Plenvu - Exame Marcado entre as 10h e as 14h.pdf",
+    "tamanho": "231.58 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352662569-FI.GASTRO.038.00122018 - Preparação Intestinal - Plenvu - Exame Marcado entre as 10h e as 14h.pdf",
+    "_id": {
+      "$oid": "61d50dd6f2ce70415a5fdc43"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50e17f2ce70415a5fdcc3"
+  },
+  "titulo": "Manual de Procedimentos RCCR",
+  "data_publicacao": "2022-01-05T03:18:47.440Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Manual de Procedimentos RCCR - ARS Norte.pdf",
+    "tamanho": "479.33 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641352727435-Manual de Procedimentos RCCR - ARS Norte.pdf",
+    "_id": {
+      "$oid": "61d50e17f2ce70415a5fdcc4"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50f50f2ce70415a5fdd45"
+  },
+  "titulo": "Rastreios de CCR",
+  "data_publicacao": "2022-01-05T03:24:00.545Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "rastreio_de_cancro_colorretal",
+  "caminho_categorias": [
+    "categorias",
+    "rastreio_de_cancro_colorretal"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Rastreios de CCR.pdf",
+    "tamanho": "866.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641353040542-Rastreios de CCR.pdf",
+    "_id": {
+      "$oid": "61d50f50f2ce70415a5fdd46"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d50ffdf2ce70415a5fddc8"
+  },
+  "titulo": "Roteiro da pessoa com RV",
+  "data_publicacao": "2022-01-05T03:26:53.890Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "risco_cardiovascular",
+  "caminho_categorias": [
+    "categorias",
+    "risco_cardiovascular"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Roteiro da pessoa com RV.pdf",
+    "tamanho": "468.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641353213883-Roteiro da pessoa com RV.pdf",
+    "_id": {
+      "$oid": "61d50ffdf2ce70415a5fddc9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51193f2ce70415a5fdece"
+  },
+  "titulo": "Vacinas Extra PNV",
+  "data_publicacao": "2022-01-05T03:33:39.296Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo III - Panfleto Vacinas Extra PNV.pdf",
+    "tamanho": "625.97 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641353619291-Anexo III - Panfleto Vacinas Extra PNV.pdf",
+    "_id": {
+      "$oid": "61d51193f2ce70415a5fdecf"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d512d4f2ce70415a5fdf53"
+  },
+  "titulo": "Síndrome de morte súbita",
+  "data_publicacao": "2022-01-05T03:39:00.585Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo IV - Panfleto - Sindrome de morte súbita.pdf",
+    "tamanho": "586.81 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641353940580-Anexo IV - Panfleto - Sindrome de morte súbita.pdf",
+    "_id": {
+      "$oid": "61d512d4f2ce70415a5fdf54"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d513a3f2ce70415a5fdfd9"
+  },
+  "titulo": "Prevenção de acidentes no 1º ano de vida",
+  "data_publicacao": "2022-01-05T03:42:27.124Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo V - Panfleto - Prevençao de acidentes no 1º ano de vida.pdf",
+    "tamanho": "610.40 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354147109-Anexo V - Panfleto - Prevençao de acidentes no 1º ano de vida.pdf",
+    "_id": {
+      "$oid": "61d513a3f2ce70415a5fdfda"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d513bcf2ce70415a5fe060"
+  },
+  "titulo": "Alimentação no 1º ano de vida",
+  "data_publicacao": "2022-01-05T03:42:52.463Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo VII - Panfleto - Alimentação no 1º ano de vida.pdf",
+    "tamanho": "647.76 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354172459-Anexo VII - Panfleto - Alimentação no 1º ano de vida.pdf",
+    "_id": {
+      "$oid": "61d513bcf2ce70415a5fe061"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d513d8f2ce70415a5fe0e8"
+  },
+  "titulo": "Higienização dentária",
+  "data_publicacao": "2022-01-05T03:43:20.405Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo X - Panfleto - Higienização dentária.pdf",
+    "tamanho": "617.11 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354200400-Anexo X - Panfleto - Higienização dentária.pdf",
+    "_id": {
+      "$oid": "61d513d8f2ce70415a5fe0e9"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d513fbf2ce70415a5fe171"
+  },
+  "titulo": "Prevenção de acidentes entre o 1º e o 3º ano de vida",
+  "data_publicacao": "2022-01-05T03:43:55.273Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XI - Panfleto - Prevençao de acidentes entre o 1º eo 3º ano de vida.pdf",
+    "tamanho": "624.56 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354235269-Anexo XI - Panfleto - Prevençao de acidentes entre o 1º eo 3º ano de vida.pdf",
+    "_id": {
+      "$oid": "61d513fbf2ce70415a5fe172"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51437f2ce70415a5fe283"
+  },
+  "titulo": "Roteiro do utente SI",
+  "data_publicacao": "2022-01-05T03:44:55.719Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XXI - Panfleto - roteiro do utente SI.pdf",
+    "tamanho": "499.43 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354295715-Anexo XXI - Panfleto - roteiro do utente SI.pdf",
+    "_id": {
+      "$oid": "61d51437f2ce70415a5fe284"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51470f2ce70415a5fe30e"
+  },
+  "titulo": "Auxiliar de decisão - vacina contra o meningococo B ",
+  "data_publicacao": "2022-01-05T03:45:52.656Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_infantil",
+  "caminho_categorias": [
+    "categorias",
+    "saude_infantil"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto - Auxiliar de decisão Men B.pdf",
+    "tamanho": "397.36 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354352646-Panfleto - Auxiliar de decisão Men B.pdf",
+    "_id": {
+      "$oid": "61d51470f2ce70415a5fe30f"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51499f2ce70415a5fe39a"
+  },
+  "titulo": "Alimentação na gravidez",
+  "data_publicacao": "2022-01-05T03:46:33.631Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo I - Folheto Alimentação na Gravidez.pdf",
+    "tamanho": "474.92 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354393627-Anexo I - Folheto Alimentação na Gravidez.pdf",
+    "_id": {
+      "$oid": "61d51499f2ce70415a5fe39b"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d514b0f2ce70415a5fe427"
+  },
+  "titulo": "Criopreservação de células estaminais",
+  "data_publicacao": "2022-01-05T03:46:56.979Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XI - Folheto Criopreservação de Células Estaminais.pdf",
+    "tamanho": "629.11 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354416977-Anexo XI - Folheto Criopreservação de Células Estaminais.pdf",
+    "_id": {
+      "$oid": "61d514b0f2ce70415a5fe428"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d514d4f2ce70415a5fe4b5"
+  },
+  "titulo": "Mala de grávida",
+  "data_publicacao": "2022-01-05T03:47:32.953Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XIII - Folheto Mala de Grávida.pdf",
+    "tamanho": "399.74 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354452949-Anexo XIII - Folheto Mala de Grávida.pdf",
+    "_id": {
+      "$oid": "61d514d4f2ce70415a5fe4b6"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d5150ff2ce70415a5fe544"
+  },
+  "titulo": "Amamentação - como resolver pequenos problemas",
+  "data_publicacao": "2022-01-05T03:48:31.220Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XIVa - Folheto Amamentacao como resolver pequenos problemas.pdf",
+    "tamanho": "817.17 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354511216-Anexo XIVa - Folheto Amamentacao como resolver pequenos problemas.pdf",
+    "_id": {
+      "$oid": "61d5150ff2ce70415a5fe545"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d5151ef2ce70415a5fe5d4"
+  },
+  "titulo": "Como conservar o leite materno",
+  "data_publicacao": "2022-01-05T03:48:46.952Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XIVb - Como conservar o leite materno.pdf",
+    "tamanho": "107.43 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354526952-Anexo XIVb - Como conservar o leite materno.pdf",
+    "_id": {
+      "$oid": "61d5151ef2ce70415a5fe5d5"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51537f2ce70415a5fe665"
+  },
+  "titulo": "Roteiro do utente SM",
+  "data_publicacao": "2022-01-05T03:49:11.663Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "saude_materna",
+  "caminho_categorias": [
+    "categorias",
+    "saude_materna"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Anexo XX - Panfleto - roteiro de SM.pdf",
+    "tamanho": "493.48 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354551659-Anexo XX - Panfleto - roteiro de SM.pdf",
+    "_id": {
+      "$oid": "61d51537f2ce70415a5fe666"
+    }
+  },
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61d51553f2ce70415a5fe6f7"
+  },
+  "titulo": "Uso seguro e responsável do medicamento",
+  "data_publicacao": "2022-01-05T03:49:39.793Z",
+  "visibilidade": "0",
+  "_id_autor": {
+    "$oid": "61a40d27d0586f00f0d059df"
+  },
+  "nome_autor": "Admin",
+  "id_categoria": "uso_seguro_do_medicamento",
+  "caminho_categorias": [
+    "categorias",
+    "uso_seguro_do_medicamento"
+  ],
+  "ficheiro": {
+    "nome_ficheiro": "Panfleto Uso Seguro e Responsável do medicamento.pdf",
+    "tamanho": "529.84 KB",
+    "tipo_mime": "application/pdf",
+    "diretoria": "public/fileStore/documentos/1641354579789-Panfleto Uso Seguro e Responsável do medicamento.pdf",
+    "_id": {
+      "$oid": "61d51553f2ce70415a5fe6f8"
+    }
+  },
+  "__v": 0
 }]

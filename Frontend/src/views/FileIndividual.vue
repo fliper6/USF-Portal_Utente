@@ -161,7 +161,7 @@
           this.visibilidade = data.data.visibilidade
           this.diretoria = "http://localhost:3333" + data.data.ficheiro.diretoria.substring(6)
           this.nome_ficheiro = data.data.ficheiro.nome_ficheiro
-          this.formato = this.nome_ficheiro.split(".")[1]
+          this.formato = this.nome_ficheiro.split(".").at(-1)
           this.tamanho = data.data.ficheiro.tamanho
           this.tipo_mime = data.data.ficheiro.tipo_mime
         })
