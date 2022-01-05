@@ -86,7 +86,7 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog3 = false; deleteNoticia(idApagar); dialog5 = true">
+            @click="dialog3 = false; deleteNoticia(idApagar);">
             Confirmar
             </v-btn>
           </v-card-actions>
@@ -133,7 +133,7 @@
             <v-btn
               class="button-confirmar"
               text
-              @click="putPublic(idVisibilidade); dialog2 = false; dialog4 = true">
+              @click="putPublic(idVisibilidade); dialog2 = false;">
               Confirmar
             </v-btn>
           </v-card-actions>
@@ -159,7 +159,28 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog> 
+      </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>        
     </div>
 </template>
 
@@ -189,6 +210,7 @@ export default {
       dialog5: false,
       dialog6: false,
       dialogVer: false,
+      dialogErr: false,
       noticia: null,
       nomeApagar: null,
       nomeEdit: null,
@@ -216,13 +238,16 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
+              this.dialog5 = true
               this.noticias = dados.data
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })
         })
         .catch(err => {
+            this.dialogErr = true
             console.log(err)
         })
     },
@@ -236,14 +261,17 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
+              this.dialog4 = true
               this.noticias = dados.data
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })
         })
         .catch(err => {
-            console.log(err)
+          this.dialogErr = true
+          console.log(err)
         })        
     }
   }  

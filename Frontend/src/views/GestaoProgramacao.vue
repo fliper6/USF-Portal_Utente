@@ -114,6 +114,7 @@
             </v-btn>
           </v-card-actions>
         </v-card>
+      </v-dialog>  
       <v-dialog
         v-model="dialog2"
         :retain-focus="false"
@@ -135,7 +136,6 @@
           </v-card-actions>
         </v-card>
       </v-dialog>  
-      </v-dialog>
       <modal-message
         title="Programar publicação da notícia"
         :visible="modalProgNorm"
@@ -225,7 +225,7 @@
         :retain-focus="false"
         max-width="550">
         <v-card>
-          <v-card-title class="text-h5 grey lighten-2">Alerta</v-card-title> <br/>
+          <v-card-title class="text-h5 grey lighten-2">Sucesso</v-card-title> <br/>
           <v-col style="margin: auto; padding: 0px 50px;">
             <p style="margin-bottom: 5px; color:var(--grey3-color)">
               Notícia "<b>{{nomeEdit}}</b>" programada com sucesso!</p>
@@ -240,7 +240,28 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>              
+      </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>                     
     </div>
 </template>
 
@@ -273,6 +294,7 @@ export default {
       dialog2: false,
       dialog3: false,
       dialogVer: false,
+      dialogErr: false,
       modalProgNorm: false,
       modalProg: false,
       noticia: null,
@@ -300,6 +322,7 @@ export default {
           this.noticias = dados.data.noticiasNormais
         })
         .catch(err => {
+          this.dialogErr = true
           console.log(err)
         })
       } 
@@ -314,8 +337,13 @@ export default {
               this.dialog2 = true
             })
             .catch(err => {
+              this.dialogErr = true
               console.log(err)
             })            
+        })
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)          
         })
     },
     editaNotprog(){
@@ -342,10 +370,14 @@ export default {
             this.noticias = dados.data.noticiasProg
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })          
 
-      }).catch((err) => { console.log(err) });      
+      }).catch((err) => { 
+          this.dialogErr = true
+          console.log(err) 
+        });      
     },
     programaNot(){
       let data_pub = this.publishNow ? 'now' : this.date
@@ -381,10 +413,14 @@ export default {
             this.noticias = dados.data.noticiasNormais
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })             
 
-      }).catch((err) => { console.log(err) });
+      }).catch((err) => {
+          this.dialogErr = true 
+          console.log(err) 
+        });
     },
     alteraLista(){
       if(this.color1 == 1){

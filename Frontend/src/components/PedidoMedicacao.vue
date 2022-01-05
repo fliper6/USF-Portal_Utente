@@ -104,6 +104,27 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>       
     </div>
   </div>  
 </template>
@@ -159,7 +180,8 @@ export default {
       medicamentosFlag: false,
       contactoFlag: false,
       dialog: false,
-      dialog2:false
+      dialog2:false,
+      dialogErr: false
     }  
   },
   methods: {
@@ -219,7 +241,14 @@ export default {
             }
           }
         })
-         this.dialog2 = true
+        .then(() => {
+          this.dialog2 = true
+        })
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)
+        })
+         
       }
     },
       

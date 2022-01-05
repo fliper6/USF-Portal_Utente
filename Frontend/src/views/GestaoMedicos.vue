@@ -134,7 +134,7 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog3 = false; deleteMedico(idApagar); dialog4 = true">
+            @click="dialog3 = false; deleteMedico(idApagar);">
             Confirmar
             </v-btn>
           </v-card-actions>
@@ -161,6 +161,27 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>       
     </div>
 </template>
 
@@ -183,6 +204,7 @@ export default {
       dialog2: false,
       dialog3: false,
       dialog4: false,
+      dialogErr: false,
       medico: {
         nome: null
       },
@@ -209,13 +231,16 @@ export default {
         .then(() =>{
           axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
+              this.dialog4 = true
               this.medicos = dados.data
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })
         })
         .catch(err => {
+            this.dialogErr = true
             console.log(err)
         })
     },
@@ -238,10 +263,12 @@ export default {
                 this.medico.nome = ''
             })
             .catch(err => {
+              this.dialogErr = true
               console.log(err)
             })
           })
           .catch(err => {
+              this.dialogErr = true
               console.log(err)
           })
         

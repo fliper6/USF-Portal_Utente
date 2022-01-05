@@ -62,7 +62,7 @@
             <v-btn
             class="button-confirmar"
             text
-            @click="dialog3 = false; deleteDocumento(idApagar); dialog5 = true">
+            @click="dialog3 = false; deleteDocumento(idApagar);">
             Confirmar
             </v-btn>
           </v-card-actions>
@@ -109,7 +109,7 @@
             <v-btn
               class="button-confirmar"
               text
-              @click="putPublic(idVisibilidade); dialog2 = false; dialog4 = true">
+              @click="putPublic(idVisibilidade); dialog2 = false;">
               Confirmar
             </v-btn>
           </v-card-actions>
@@ -165,6 +165,27 @@
         </v-card-actions>                             
       </v-card>
       </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>       
     </div>
 </template>
 
@@ -189,6 +210,7 @@ export default {
       dialog4: false,
       dialog5: false,
       dialogVer: false,
+      dialogErr: false,
       nomeApagar: null,
       idApagar: null,
       nomeVisibilidade: null,
@@ -229,7 +251,10 @@ export default {
             link.click();
             this.dialogVer = false;
           })
-        .catch(err => console.log(err))
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)
+        })
     },     
     changeVarDoc(d){
       this.docTitulo =  d.titulo,
@@ -244,13 +269,16 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
+              this.dialog5 = true
               this.documentos = dados.data
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })
         })
         .catch(err => {
+            this.dialogErr = true
             console.log(err)
         })
     },
@@ -264,13 +292,16 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
+              this.dialog4 = true
               this.documentos = dados.data
           })
           .catch(err => {
+            this.dialogErr = true
             console.log(err)
           })
         })
         .catch(err => {
+            this.dialogErr = true
             console.log(err)
         })        
     }

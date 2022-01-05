@@ -93,7 +93,28 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>    
+      </v-dialog>
+      <v-dialog
+        v-model="dialogErr"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Ocorreu um erro na operação.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogErr = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>          
     </div>
   </div>  
 </template>
@@ -130,7 +151,8 @@ export default {
       objs: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
         "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"],
       dialog: false,
-      dialog2:false  
+      dialog2:false,
+      dialogErr: false  
     }  
   },
   methods: {
@@ -171,7 +193,13 @@ export default {
           tipo: this.consulta.objetivo
         }
       })
-      this.dialog2 = true
+      .then(() => {
+        this.dialog2 = true
+      })
+      .catch(err => {
+        this.dialogErr = true
+        console.log(err)
+      })
     }
       
     function parseNumOpcional(num){
@@ -209,6 +237,9 @@ export default {
         meds.data.forEach(med=> {
           this.meds.push(med.nome)
         });
+      })
+      .catch(err => {
+        console.log(err)
       })
     
        
