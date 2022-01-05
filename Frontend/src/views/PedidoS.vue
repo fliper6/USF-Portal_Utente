@@ -32,7 +32,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn class="button-cancelar" text @click="dialog = false; descricao=''"> Cancelar </v-btn>
-              <v-btn class="button-confirmar" text @click="saveSug(id)"> Confirmar </v-btn>
+              <v-btn class="button-confirmar" text @click="saveSug(id, user)"> Confirmar </v-btn>
             </v-card-actions> 
           </v-card>
         </v-dialog> 
@@ -70,7 +70,7 @@
             <v-btn
               depressed
               style="background-color:var(--secondary-color)"
-              @click="resp(item._id)"
+              @click="resp(item._id, item.user)"
             >
               Responder
             </v-btn>
@@ -129,6 +129,7 @@ export default {
         modalResponderSug:false,
         dialog:false,
         id:'',
+        user:'',
         up:false
       }
     },
@@ -162,13 +163,14 @@ export default {
         }
     },
     methods: {
-      saveSug(id){
+      saveSug(id,user){
         var data = {}
         data['_id'] = id
+        data['user'] = user
         data['resposta'] = this.descricao
         data['data_resposta'] = Date.now()
         data['estado'] = 1
-        axios.put("http://localhost:3333/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
+        axios.put("http://localhost:3333/sugestao/altE",data , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.modalResponderSug=true
         })
@@ -176,8 +178,9 @@ export default {
           console.log(err)
         })
       },
-      resp(id){
+      resp(id, user){
         this.id = id
+        this.user = user
         this.dialog = true
       },
       orderData(bol){

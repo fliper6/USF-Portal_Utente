@@ -35,22 +35,20 @@ router.post('/', JWTUtils.validate ,function(req, res){
     .catch(e => res.status(500).jsonp({error: e}))
 })
 
-//Aceitar ou recusar sugestão
+//responder sugestão
 router.put('/altE', JWTUtils.validate, async (req, res) =>{
     try {
         
         const cos = await Sugestao.alterar(req.body)
-        let estado= ""
-        req.body.estado==1 ? estado = "aceite" :  estado = "recusada"
+
         let not= {
             "idReferente": req.body._id,
             "user": req.body.user,
-            "descricao": "A sua sugestão foi "+estado+"!",
+            "descricao": "A sua sugestão foi respondida! Veja a resposta",
             "tipo": "sugestao", 
         }
 
         const noti = await Notificacao.inserir(not)
-            
        
         let socket = req.app.get("socket")
         let usersSockets = req.app.get("usersSockets")
