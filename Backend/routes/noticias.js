@@ -15,7 +15,7 @@ let Ficheiro = require('../controllers/ficheiro');
 
 // Obter lista de notícias
 router.get('/', (req,res) => {
-    Noticia.listar(req.query.visibilidade)
+    Noticia.listar(parseInt(req.query.pagina), parseInt(req.query.visibilidade))
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
 })

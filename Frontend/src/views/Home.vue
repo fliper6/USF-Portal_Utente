@@ -33,9 +33,9 @@ export default {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
-    axios.get('http://localhost:3333/noticias?visibilidade=0')
+    axios.get('http://localhost:3333/noticias?pagina=2&visibilidade=0')
       .then(data => {
-        this.noticias = data.data 
+        this.noticias = data.data
       })
       .catch(err => console.log(err))
   } ,

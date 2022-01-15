@@ -1,7 +1,12 @@
 var Noticia = require('../models/Noticia')
 
-module.exports.listar = visibilidade => {
-    return Noticia.find({visibilidade}).sort('-data_criacao').exec()
+module.exports.listar = (pagina, visibilidade) => {
+    return Noticia.aggregate([
+        {$match: {visibilidade}},
+        {$sort: {data_criacao: -1}},
+        {$skip: (pagina-1)*10},
+        {$limit: 10}
+    ])
 }
 
 module.exports.listarOriginais = ids_originais => {
