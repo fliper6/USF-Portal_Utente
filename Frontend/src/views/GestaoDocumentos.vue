@@ -35,7 +35,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <h2 style="text-align:center;">Não há documentos eliminados</h2>
+              <h2 style="text-align:center;">Não há documentos removidos</h2>
             </v-col>
           </v-row>
         </v-container>
