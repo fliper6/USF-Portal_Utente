@@ -212,17 +212,20 @@
                 headers: {
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
-              }).then(() => {
-                this.modal = true;
-                // Atualizar árvore de categorias
-                axios.get("http://localhost:3333/documentos/categorias")
-                  .then(data => {
-                    this.options = data.data.categorias[0].children
-                    this.options2 = data.data.categorias
-                  })
-                  .catch(e => {
-                    console.log(e)
-                  })
+              }).then(data => {
+                if ("erro" in data.data) alert(data.data.erro)
+                else {
+                  this.modal = true;
+                  // Atualizar árvore de categorias
+                  axios.get("http://localhost:3333/documentos/categorias")
+                    .then(data => {
+                      this.options = data.data.categorias[0].children
+                      this.options2 = data.data.categorias
+                    })
+                    .catch(e => {
+                      console.log(e)
+                    })
+                }
               }).catch(e => {
                 this.modalError = true;
                 console.log(e)
