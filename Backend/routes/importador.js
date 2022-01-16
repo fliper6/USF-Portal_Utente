@@ -83,7 +83,8 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
     }
 }
 
-// Obter árvore de categorias de documentos
+// Importar a diretoria em questão para a aplicação
+// Pastas -> Categorias; Ficheiros -> Documentos
 router.post('/',  JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     axios.get("http://localhost:3333/documentos/categorias")
         .then(dados => {
