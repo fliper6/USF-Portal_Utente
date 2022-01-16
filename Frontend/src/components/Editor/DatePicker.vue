@@ -86,7 +86,7 @@
     created () {
       const auxData = new Date(this.$props.date)
       const year = auxData.getFullYear();
-      const month = auxData.getMonth();
+      const month = auxData.getMonth() + 1;
       const day = auxData.getDate();
       const hour = auxData.getHours();
       const minute = auxData.getMinutes();
@@ -103,7 +103,7 @@
         date.setMinutes(minutes)
         this.$emit("input", date.toISOString())
         const year = date.getFullYear();
-        const month = date.getMonth();
+        const month = date.getMonth() + 1;
         const day = date.getDate();
         const hour = date.getHours();
         const minute = date.getMinutes();
