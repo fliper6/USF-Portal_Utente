@@ -4,6 +4,11 @@
       <v-icon dense>mdi-newspaper</v-icon> Criar nova noticia
     </v-btn>
     <Noticia v-for="(noticia,n) in noticias" :noticia='noticia' @deleteMe="deleteMe" :timeAgo="timeAgo" :key="n" />
+    <v-progress-circular
+      v-if="loadingNews"
+      indeterminate
+      color="#800000"
+    ></v-progress-circular>
     <div v-if="noticias.length < 1 || !noticias">
       <br/> Não existem noticias neste momento
     </div>
@@ -24,7 +29,10 @@ export default {
   },
   data () {
     return {
+      lastPage: false,
+      loadingNews: true,
       noticias: [],
+      nextPage: 1,
       timeAgo: null,
       token: localStorage.getItem('jwt'),
     }
@@ -33,12 +41,24 @@ export default {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
-    axios.get('http://localhost:3333/noticias?pagina=1&visibilidade=0')
+    axios.get('http://localhost:3333/noticias?visibilidade=0&pagina=1')
       .then(data => {
-        this.noticias = data.data
+        this.noticias = this.noticias.concat(data.data) 
+        this.loadingNews = false;
       })
       .catch(err => console.log(err))
-  } ,
+  },
+  mounted () {
+    window.onscroll = () => {
+      let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+      if (bottomOfWindow && !this.loadingNews && !this.lastPage) {
+        console.log(this.nextPage)
+        this.loadingNews = true;
+        this.nextPage += 1;
+        this.getNextPage();
+      }
+    }
+  },
   methods: {
     testNivel () {
       if(this.token) {
@@ -50,6 +70,15 @@ export default {
     },
     deleteMe(id) {
       this.noticias = this.noticias.filter(elem => elem._id != id)
+    },
+    getNextPage() {
+      axios.get('http://localhost:3333/noticias?visibilidade=0&pagina=' + this.nextPage)
+        .then(data => {
+          if(!data.data || data.data.length < 10) this.lastPage = true
+          this.noticias = this.noticias.concat(data.data) 
+          this.loadingNews = false; 
+        })
+        .catch(err => console.log(err))
     }
   }
 }

@@ -53,7 +53,7 @@
       :visible="modal"
       @close="goHome"
     >
-      Notícia publicada com sucesso
+      {{modalMessage}}
     </modal-message>
     <modal-message
       title="Erro"
@@ -109,6 +109,7 @@ export default {
       publishRepeat: false,
 
       modal: false,
+      modalMessage: "",
       modalConfirm: false,
       modalError:false,
 
@@ -140,7 +141,9 @@ export default {
           }
         }
       ).then(() => {
-       this.modal = true
+        console.log(this.publishNow)
+        this.modalMessage = `Noticia ${!this.publishNow ? 'agendada' : 'publicada'} ${this.publishNow && this.publishRepeat ? 'e agendada' : ''} com sucesso` 
+        this.modal = true
       }).catch(() => { this.modalError = true })
     },
     goHome() {
