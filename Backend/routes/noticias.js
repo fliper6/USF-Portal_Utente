@@ -25,7 +25,7 @@ router.get('/download', (req,res) => {
     Noticia.consultar(req.query.id_noticia)
         .then(dados => {
             let ficheiro = dados.ficheiros.filter(x => x._id == req.query.id_ficheiro)[0]
-            res.download((__dirname + "/" + ficheiro.diretoria).replace("routes","").replace(/\\/g, "/"))
+            res.download((__dirname + "/" + ficheiro.diretoria).replace("routes","").replace(/\\/g, "/"), ficheiro.nome_ficheiro)
         })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a notícia."})) 
 })
