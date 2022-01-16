@@ -25,6 +25,7 @@ var noticiasProgRouter = require('./routes/noticiasProgramadas');
 var sugestaoRouter = require('./routes/sugestao');
 var verificarRouter = require('./routes/verificar')
 var notificacaoRouter = require('./routes/notificacao');
+var importRouter = require('./routes/importador');
 
 
 var app = express();
@@ -68,6 +69,7 @@ app.use('/noticias_programadas', noticiasProgRouter);
 app.use('/sugestao', sugestaoRouter);
 app.use('/verificar', verificarRouter)
 app.use('/notificacao', notificacaoRouter);
+app.use('/importar', importRouter);
 
 
 // catch 404 and forward to error handler

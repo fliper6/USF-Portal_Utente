@@ -35,6 +35,9 @@
             <v-btn v-if="testNivel()==true" class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
               + Novo Documento
             </v-btn>
+            <v-btn v-if="false && testNivel()==true" class="button-principal" @click = "importar()">
+              Importar
+            </v-btn>
           </template>
             <form>
               <v-card>
@@ -238,6 +241,37 @@
     },
 
     methods: {
+        importar: function() {
+          axios.post("http://localhost:3333/importar/", 
+            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\USF-Portal_Utente\\PANFLETOS"}, 
+            {
+              headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+              }
+            }).then(categorias => {
+              // atualizar a árvore de categorias
+              this.options = categorias.data.categorias[0].children
+              this.options2 = categorias.data.categorias
+              
+              // atualizar a listagem de documentos
+              axios.get("http://localhost:3333/documentos?visibilidade=0")
+                .then(data => {
+                  this.docs = data.data
+                  this.docs.forEach(item => {              
+                    item.titulo = item.titulo + "##" + item._id
+                    item.data_publicacao = item.data_publicacao.slice(0,10)
+                    item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
+                  })
+                  this.docsfiltrados = this.docs
+                })
+                .catch(e => {
+                  console.log(e)
+                })
+            }).catch(e => {
+                this.modalError2 = true;
+                console.log(e)
+            }) 
+        },
         download: function (item) {
           window.open("http://localhost:3333/documentos/download/" + item.titulo.split("##")[1])
         },
@@ -295,7 +329,7 @@
                     this.docs.forEach(item => {              
                       item.titulo = item.titulo + "##" + item._id
                       item.data_publicacao = item.data_publicacao.slice(0,10)
-                      item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
+                      item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
                     })
                     this.docsfiltrados = this.docs
                   })
@@ -374,7 +408,7 @@
           this.docs.forEach(item => {
             item.titulo = item.titulo + "##" + item._id
             item.data_publicacao = item.data_publicacao.slice(0,10)
-            item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".")[1]
+            item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
           })
           this.docsfiltrados = this.docs
         })

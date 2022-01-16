@@ -6,5 +6,5 @@ module.exports.listar = () => {
 }
 
 module.exports.atualizar = categorias => {
-    return Categoria.findOneAndUpdate({}, {$set: {categorias}}, {upsert:true, returnNewDocument: true});
+    return Categoria.findOneAndUpdate({}, {$set: {categorias}}, {upsert: true, new: true});
 }

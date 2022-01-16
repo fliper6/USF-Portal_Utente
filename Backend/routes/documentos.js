@@ -67,20 +67,23 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
                         if (arr[i].id == id_pai) {
                             let nomes = arr[i].children.map(x => x.label)
 
-                            if (nomes.includes(req.body.nova_categoria)) {
-                                return res.status(201).jsonp({erro: "Já existe uma categoria com o mesmo nome neste local da árvore!"})
-                            }
+                            if (nomes.includes(req.body.nova_categoria)) return "Já existe uma categoria com o mesmo nome neste local da árvore!"
                             else {
                                 arr[i].children.push(nova_cat)
                                 return arr
                             }
                         }
-                        else if (arr[i].children.length > 0) arr[i].children = atualizarArvore(nova_cat, id_pai, arr[i].children)
+                        else if (arr[i].children.length > 0) {
+                            let atualizada = atualizarArvore(nova_cat, id_pai, arr[i].children)
+                            if (typeof atualizada == "string") return atualizada
+                            else arr[i].children = atualizada
+                        }
                     }
                     return arr
                 }
 
                 categorias = atualizarArvore(nova_cat, req.body.id_pai, categorias)
+                if (typeof categorias == "string") return res.status(201).jsonp({erro: categorias})
             }
 
             Categoria.atualizar(categorias)
