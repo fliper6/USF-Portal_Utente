@@ -2,7 +2,6 @@
   <v-dialog
       v-model="dialog"
       width="500px"
-      style="overflow-x: hidden !important"
     >
       <template v-slot:activator="{ on, attrs }">
         <button v-bind="attrs" v-on="on">
@@ -10,7 +9,7 @@
           </button>
       </template>
 
-      <v-card>
+      <v-card style="overflow: hidden">
         <v-card-title class="text-h5 grey lighten-2">
           Nova Imagem
         </v-card-title>
