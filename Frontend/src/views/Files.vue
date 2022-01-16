@@ -35,7 +35,7 @@
             <v-btn v-if="testNivel()==true" class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
               + Novo Documento
             </v-btn>
-            <v-btn v-if="testNivel()==true" class="button-principal" @click = "importar()">
+            <v-btn v-if="false && testNivel()==true" class="button-principal" @click = "importar()">
               Importar
             </v-btn>
           </template>
