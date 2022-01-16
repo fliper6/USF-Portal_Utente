@@ -2,7 +2,7 @@
   <div>
     <v-card flat color="var(--grey1-color)" style="font-size:120%;">
         <v-container>
-          <h1 style="color:var(--primary-color)">Documentos</h1>
+          <h1 style="color:var(--primary-color)">Documentos removidos</h1>
             <v-row justify="center">
             </v-row>
         </v-container>

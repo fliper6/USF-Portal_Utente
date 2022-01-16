@@ -60,7 +60,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <h2 style="text-align:center;">Não há notícias programadas removidas</h2>
+              <h2 style="text-align:center;">Não há notícias programadas</h2>
             </v-col>
           </v-row>
         </v-container>

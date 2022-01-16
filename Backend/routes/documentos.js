@@ -168,8 +168,8 @@ router.delete('/categoria/:id', (req,res) => {
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
 })
 
-//Apagar permanentemente um documento
-router.delete('/:id', JWTUtils.validate , JWTUtils.isAdmin, function(req, res) {
+// Apagar permanentemente um documento
+router.delete('/:id', JWTUtils.validate, JWTUtils.isMedico, function(req, res) {
     Documento.eliminar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(404).jsonp({error: e}))
