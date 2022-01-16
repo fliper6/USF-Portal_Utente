@@ -13,8 +13,8 @@
         <v-container>
           <v-divider/>
         </v-container>
-        <div v-if="this.noticias.length > 0 && this.color1 == 1">
-          <v-container v-for="(n,index) in noticias" v-bind:key="n._id">
+        <div v-if="this.noticiasNormais.length > 0 && this.color1 == 1">
+          <v-container v-for="(n,index) in noticiasNormais" v-bind:key="n._id">
           <v-row>
             <v-col>
               <h3>{{n.titulo}}</h3>
@@ -26,7 +26,7 @@
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo; programaNot">Programar publicação</v-btn>
             </v-col>
           </v-row>
-          <v-row v-if="noticias.length > 1 && index < noticias.length - 1">
+          <v-row v-if="noticiasNormais.length > 1 && index < noticiasNormais.length - 1">
             <v-col><v-divider>
                   
             </v-divider></v-col>
@@ -34,8 +34,8 @@
           </v-row>
           </v-container>
       </div>
-        <div v-else-if="this.noticias.length > 0 && this.color2 == 1">
-          <v-container v-for="(n,index) in noticias" v-bind:key="n._id">
+        <div v-else-if="this.noticiasProg.length > 0 && this.color2 == 1">
+          <v-container v-for="(n,index) in noticiasProg" v-bind:key="n._id">
           <v-row>
             <v-col>
               <h3>{{n.noticia.titulo}}</h3>
@@ -48,7 +48,7 @@
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog = true; nomeApagar = n.noticia.titulo; idApagar = n._id; cancelaProg">Cancelar programação</v-btn>
             </v-col>
           </v-row>
-          <v-row v-if="noticias.length > 1 && index < noticias.length - 1">
+          <v-row v-if="noticiasProg.length > 1 && index < noticiasProg.length - 1">
             <v-col><v-divider>
                   
             </v-divider></v-col>
@@ -60,7 +60,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <h2 style="text-align:center;">Não existem notícias</h2>
+              <h2 style="text-align:center;">Não há notícias programadas removidas</h2>
             </v-col>
           </v-row>
         </v-container>
@@ -289,7 +289,8 @@ export default {
   data(){
     return {
       token: localStorage.getItem('jwt'),
-      noticias: [],
+      noticiasNormais: [],
+      noticiasProg: [],
       dialog: false,
       dialog2: false,
       dialog3: false,
@@ -319,7 +320,7 @@ export default {
     if (this.token) {
       axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
-          this.noticias = dados.data.noticiasNormais
+          this.noticiasNormais = dados.data.noticiasNormais
         })
         .catch(err => {
           this.dialogErr = true
@@ -333,7 +334,7 @@ export default {
         .then(() => {
           axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
-              this.noticias = dados.data.noticiasProg
+              this.noticiasProg = dados.data.noticiasProg
               this.dialog2 = true
             })
             .catch(err => {
@@ -367,7 +368,7 @@ export default {
         this.dialog3 = true
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data.noticiasProg
+            this.noticiasProg = dados.data.noticiasProg
           })
           .catch(err => {
             this.dialogErr = true
@@ -410,7 +411,7 @@ export default {
         this.dialog3 = true
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data.noticiasNormais
+            this.noticiasNormais = dados.data.noticiasNormais
           })
           .catch(err => {
             this.dialogErr = true
@@ -426,7 +427,7 @@ export default {
       if(this.color1 == 1){
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data.noticiasNormais
+            this.noticiasNormais = dados.data.noticiasNormais
           })
           .catch(err => {
             console.log(err)
@@ -435,7 +436,7 @@ export default {
       else if(this.color2 == 1){
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
-            this.noticias = dados.data.noticiasProg
+            this.noticiasProg = dados.data.noticiasProg
           })
           .catch(err => {
             console.log(err)

@@ -23,6 +23,7 @@
           @click="removeSpanMedicos"
           v-model="medicacao.medico"
           label="Médico de família"
+          color= var(--secondary-dark-color)
           dense
           outlined
         ></v-select>
