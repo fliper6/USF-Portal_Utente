@@ -9,14 +9,14 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
     <form id="formMed">
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
-        <input type="text" class="input-text" required v-model="consulta.nome">
+        <input disabled type="text" class="input-text" required v-model="consulta.nome">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.nome.$invalid">Nome é um campo obrigatório.</span>
         <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
-        <input type="number" class="input-text" required v-model="consulta.numUtente">
-        <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
+        <input disabled type="number" class="input-text" required v-model="consulta.numUtente">
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
         <p class="p2">Caso pretenda pedir um contacto para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
-        <input type="number" class="input-text" v-model="consulta.numUtentePedido">
+        <input type="number" class="input-text" v-model="consulta.numUtentePedido" @input="checkNum = false" @click="checkNum = false">
+        <span style="color: #ff5252; font-size: 12px;" v-if="checkNum">Número tem de ter 9 dígitos</span>
         <label class="label">4.Médico de Família</label>
         <div class="select-area">
           <v-select
@@ -125,7 +125,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
 import axios from 'axios'
 import jwt from 'jsonwebtoken';
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { required, between } from 'vuelidate/lib/validators'
 export default {
   mixins: [validationMixin],
   props: ["token"],
@@ -133,6 +133,7 @@ export default {
     consulta: {
       nome: { required },
       numUtente: { required },
+      numUtentePedido: { between: between(100000000, 999999999)},
       medico: { required },
       objetivo: { required }
     }
@@ -154,7 +155,8 @@ export default {
         "Pedido de contato telefónico - médico", "Pedido de contato telefónico - enfermagem"],
       dialog: false,
       dialog2:false,
-      dialogErr: false  
+      dialogErr: false,
+      checkNum: false,
     }  
   },
   methods: {
@@ -176,6 +178,9 @@ export default {
       }
       if(!this.$v.consulta.$invalid){
         this.dialog = true
+      }
+      if(this.$v.consulta.numUtentePedido.$invalid){
+        this.checkNum = true
       }
     },
     sendPedidoCons: function(){
