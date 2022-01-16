@@ -36,6 +36,7 @@
                 <v-col class="d-flex pa-2" sm="2">
                     <v-text-field
                       v-model="name"
+                      color=var(--secondary-dark-color)
                       label="Nome"
                       dense
                       outlined
@@ -46,6 +47,7 @@
                 <!-- FILTROS (EMAIL) -->
                 <v-col class="d-flex pa-2"  sm="2">
                     <v-text-field
+                      color=var(--secondary-dark-color)
                       v-model="email"
                       label="Email"
                       dense
@@ -57,6 +59,7 @@
                 <!-- FILTROS (NIVEL) -->
                 <v-col offset="6" sm="2">
                     <v-select
+                      color=var(--secondary-dark-color)
                       v-model="nivelFiltro"
                       @change="filtro()"
                       :items="niveis"
