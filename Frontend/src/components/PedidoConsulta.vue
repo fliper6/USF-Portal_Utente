@@ -24,6 +24,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
           @click= "removeSpanMedicos"
           v-model="consulta.medico"
           label="Médico de família"
+          color=var(--secondary-dark-color)
           dense
           outlined
         ></v-select>
@@ -36,6 +37,7 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
           @click="removeSpanObj"
           v-model="consulta.objetivo"
           label="O que pretende?"
+          color=var(--secondary-dark-color)
           dense
           outlined
         ></v-select>
