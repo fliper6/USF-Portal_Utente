@@ -289,7 +289,7 @@ export default {
   data(){
     return {
       token: localStorage.getItem('jwt'),
-      noticias: null,
+      noticias: [],
       dialog: false,
       dialog2: false,
       dialog3: false,
