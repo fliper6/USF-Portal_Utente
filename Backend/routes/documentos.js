@@ -77,6 +77,8 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
                                         arr[i].children.push(nova_cat); break
                                     }
                                 }
+
+                                if (!arr[i].children.length) arr[i].children.push(nova_cat)
                                 return arr
                             }
                         }
