@@ -122,7 +122,7 @@ export default {
         this.conteudo = content
         this.modalConfirm = true
       } else {
-        this.errorMessage = "Por favor introduza um titulo para a notícia."
+        this.errorMessage = "Por favor introduza um título para a notícia."
         this.modalError = true;
       }
     },

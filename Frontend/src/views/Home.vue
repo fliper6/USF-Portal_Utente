@@ -52,7 +52,6 @@ export default {
     window.onscroll = () => {
       let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
       if (bottomOfWindow && !this.loadingNews && !this.lastPage) {
-        console.log(this.nextPage)
         this.loadingNews = true;
         this.nextPage += 1;
         this.getNextPage();
