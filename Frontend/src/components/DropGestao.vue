@@ -27,7 +27,7 @@
           </router-link>
 
           <!-- MÉDICOS -->
-          <router-link class="opcao" :to="'/gestao/medicos'">
+          <router-link v-if="nivel=='Administrador'" class="opcao" :to="'/gestao/medicos'">
             <v-list-item class="opcao">
               <b>Médicos</b>
             </v-list-item>
@@ -73,10 +73,13 @@
 </template>
 
 <script>
+import jwt from 'jsonwebtoken'
+
     export default {
         name: "dropgestao",
         data: () => ({
             token: localStorage.getItem('jwt'),
+            nivel: jwt.decode(localStorage.getItem('jwt')).nivel,
         }),
         props: {
           path: String
