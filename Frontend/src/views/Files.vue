@@ -127,7 +127,7 @@
           :multiple="true" :options="options" 
           :flatten-search-results="true"
           :normalizer="normalizer"
-          placeholder="Filtar por..."/> <br/>
+          placeholder="Filtrar por..."/> <br/>
       </v-col>
     </v-row>
 
@@ -445,4 +445,44 @@
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size:18px !important;
 }
+
+.vue-treeselect__multi-value-item{
+  color: var(--secondary-dark-color);
+  background: #f9e1e1;
+}
+
+.vue-treeselect__value-remove {
+  color: var(--secondary-dark-color);
+}
+
+.vue-treeselect--focused:not(.vue-treeselect--open) .vue-treeselect__control {
+  border-color: var(--secondary-dark-color) !important;
+  box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+.vue-treeselect__checkbox--checked {
+  background: white !important ;
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--unchecked  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--unchecked:hover  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--checked:hover  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected {
+  background: var(--secondary-color);
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected:hover {
+  background: var(--grey1-color);
+}
+
 </style>
