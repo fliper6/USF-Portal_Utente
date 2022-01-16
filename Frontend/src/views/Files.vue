@@ -249,7 +249,7 @@
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
               }
             }).then(categorias => {
-              if ("error" in categorias.data) alert(categorias.data.error)
+              if ("erro" in categorias.data) alert(categorias.data.erro)
               else {
                 // atualizar a árvore de categorias
                 this.options = categorias.data.categorias[0].children
