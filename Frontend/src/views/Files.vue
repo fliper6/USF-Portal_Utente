@@ -183,7 +183,7 @@
         nivel: 'utente',
       
         /* FILTRO */
-        valueFiltro: null,
+        valueFiltro: [],
         options: null,
         options2: null,
 
@@ -293,7 +293,7 @@
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              if(this.docs[i].caminho_categorias.includes(this.valueFiltro[0])) {
+              if(this.valueFiltro.some(x => this.docs[i].caminho_categorias.includes(x))) {
                 this.docsfiltrados.push(this.docs[i])
               }
             }
@@ -334,7 +334,7 @@
                       item.data_publicacao = item.data_publicacao.slice(0,10)
                       item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
                     })
-                    this.docsfiltrados = this.docs
+                    this.filtrar()
                   })
                   .catch(e => {
                     console.log(e)
