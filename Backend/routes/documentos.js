@@ -157,7 +157,7 @@ router.delete('/categoria/:id', (req,res) => {
 
             Documento.listarEmCategoria(req.params.id)
                 .then(docs => {
-                    if (docs.length > 0) return res.status(200).jsonp({error: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
+                    if (docs.length > 0) return res.status(200).jsonp({erro: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
                     
                     Categoria.atualizar(JWTUtils.removerCategoria(categorias, req.params.id))
                         .then(dados => res.status(200).jsonp(dados))
