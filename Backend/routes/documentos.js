@@ -144,9 +144,20 @@ router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 
 // Tornar publico um documento
 router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Documento.adicionar(req.params.id)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+    Documento.consultar(req.params.id)
+        .then(dados => {
+            Categoria.listar()
+                .then(dados => {
+                    let categorias = dados !== null ? dados.categorias : categorias_base
+
+                    Documento.adicionar(req.params.id)
+                        .then(dados => res.status(200).jsonp(dados))
+                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+                })
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
+
+        })
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."}))
 })
 
 // Remover uma categoria da árvore
