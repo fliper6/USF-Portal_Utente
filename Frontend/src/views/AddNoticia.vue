@@ -58,9 +58,9 @@
     <modal-message
       title="Erro"
       :visible="modalError"
-      @close="goHome"
+      @close="modalError=false"
     >
-      Erro ao publicar notícia
+      {{errorMessage}}
     </modal-message>
 
     <!--
@@ -110,6 +110,7 @@ export default {
 
       modal: false,
       modalMessage: "",
+      errorMessage: "",
       modalConfirm: false,
       modalError:false,
 
@@ -117,11 +118,36 @@ export default {
   },
   methods: {
     prompt (content) {
-      this.conteudo = content
-      this.modalConfirm = true
+      if(this.titulo) {
+        this.conteudo = content
+        this.modalConfirm = true
+      } else {
+        this.errorMessage = "Por favor introduza um titulo para a notícia."
+        this.modalError = true;
+      }
     },
     submit () {
       this.modalConfirm=false
+      if (!this.publishNow && (new Date(this.date).getTime() < Date.now())) {
+        this.errorMessage = "Por favor introduza uma data futura válida."
+        this.modalError=true
+      } else {
+        this.submitNoticia();
+      }
+    },
+    goHome() {
+      this.modal=false
+      this.modalError=false
+      this.$router.push('/')
+    },
+    upFile(file) {
+      this.files.push(file)
+    },
+    deleteFile(file) {
+      let id = this.files.indexOf(file)
+      this.files.splice(id, 1);
+    },
+    submitNoticia() {
       let formData = new FormData();
       for (const i of Object.keys(this.files)) {
         formData.append('ficheiros', this.files[i])
@@ -141,23 +167,13 @@ export default {
           }
         }
       ).then(() => {
-        console.log(this.publishNow)
         this.modalMessage = `Noticia ${!this.publishNow ? 'agendada' : 'publicada'} ${this.publishNow && this.publishRepeat ? 'e agendada' : ''} com sucesso` 
         this.modal = true
-      }).catch(() => { this.modalError = true })
-    },
-    goHome() {
-      this.modal=false
-      this.modalError=false
-      this.$router.push('/')
-    },
-    upFile(file) {
-      this.files.push(file)
-    },
-    deleteFile(file) {
-      let id = this.files.indexOf(file)
-      this.files.splice(id, 1);
-    },
+      }).catch(() => { 
+        this.errorMessage = "Erro ao publicar a noticia."
+        this.modalError = true 
+      })
+    }
   }
 }
 </script>
