@@ -91,10 +91,11 @@ router.post('/',  JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
             let categorias = dados.data.categorias
             let ids = JWTUtils.getIDsCategorias(categorias)
             let tree = dirTree(req.body.diretoria, {attributes:['type','extension']});
-
-            if (tree.type != "directory") return res.status(500).jsonp({error: "A diretoria indicada não é uma pasta!"})
-            else if (!tree.children.length) return res.status.apply(500).jsonp({error: "A diretoria que pretende importar está vazia!"})
-            else importarDir(tree, [0], ids, ["categorias"], dados.data, req.token, res)
+            
+            if (tree === null) return res.status(201).jsonp({error: "A diretoria indicada não existe!"})
+            if (tree.type != "directory") return res.status(201).jsonp({error: "A diretoria indicada não é uma pasta!"})
+            else if (!tree.children.length) return res.status.apply(201).jsonp({error: "A diretoria que pretende importar está vazia!"})
+            else return importarDir(tree, [0], ids, ["categorias"], dados.data, req.token, res)
         })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
