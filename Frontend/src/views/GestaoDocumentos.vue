@@ -35,7 +35,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <h2 style="text-align:center;">Não existem documentos</h2>
+              <h2 style="text-align:center;">Não há documentos eliminados</h2>
             </v-col>
           </v-row>
         </v-container>
@@ -203,7 +203,7 @@ export default {
   data(){
     return {
       token: localStorage.getItem('jwt'),
-      documentos: null,
+      documentos: [],
       dialog: false,
       dialog2: false,
       dialog3: false,
