@@ -69,7 +69,14 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
 
                             if (nomes.includes(req.body.nova_categoria)) return "Já existe uma categoria com o mesmo nome neste local da árvore!"
                             else {
-                                arr[i].children.push(nova_cat)
+                                for (let j = 0; j < arr[i].children.length; j++) {
+                                    if (arr[i].children[j].label > nova_cat.label) {
+                                        arr[i].children.splice(j, 0, nova_cat); break
+                                    }
+                                    if (j == arr[i].children.length-1) {
+                                        arr[i].children.push(nova_cat); break
+                                    }
+                                }
                                 return arr
                             }
                         }
