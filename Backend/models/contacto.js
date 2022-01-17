@@ -12,6 +12,9 @@ var contactoSchema = new mongoose.Schema({
     type: Number,
     coordenadas: String,
     equipa: Number,
+    lat : String,
+    lng : String
+
   });
 
 module.exports = mongoose.model('contacto', contactoSchema)

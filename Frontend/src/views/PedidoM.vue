@@ -1,5 +1,13 @@
 <template>
     <div class="pedidoM">
+      <!-- MODAL DE CONFIRMAÇÃO DE EDIÇÃO DE PEDIDO-->
+        <modal-message
+          title="Sucesso"
+          :visible="modal"
+          @close="$router.go()"
+        >
+          Pedido atualizado com sucesso.
+        </modal-message>
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
             <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
@@ -26,7 +34,7 @@
                 <v-col cols=1>
                   <v-tooltip v-if="!item.nr_utente_pedido" left>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon @click="copy(item.nr_utente_titular,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                    <v-btn icon @click="copy(item.nr_utente_titular,item.contacto.tipo,item.contacto.valor,item.medicacao)" v-bind="attrs" v-on="on">
                       <v-icon>mdi-content-copy</v-icon>
                     </v-btn>
                     </template>
@@ -34,7 +42,7 @@
                   </v-tooltip>
                   <v-tooltip v-else left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn icon @click="copy(item.nr_utente_pedido,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                      <v-btn icon @click="copy(item.nr_utente_pedido,item.contacto.tipo,item.contacto.valor,item.medicacao)" v-bind="attrs" v-on="on">
                         <v-icon>mdi-content-copy</v-icon>
                       </v-btn>
                     </template>
@@ -84,6 +92,7 @@
 
 <script>
 import axios from 'axios'
+import ModalMessage from '../components/ModalMessage.vue'
 
 
   //npm install --save @riophae/vue-treeselect
@@ -97,9 +106,13 @@ import axios from 'axios'
         lista: '',
         color1: 1,
         color2: 0,
-        up:false
+        up:false,
+        modal:false
         
       }
+    },
+    components: {
+      ModalMessage
     },
     created(){
     if (this.token) {
@@ -130,12 +143,12 @@ import axios from 'axios'
     }
     },
     methods: {
-      copy(sns,sms_email,medi){
+      copy(sns,sms_email,value,medi){
         if(sms_email == 0){
-          navigator.clipboard.writeText(sns + '\nEmail\n' + medi);
+          navigator.clipboard.writeText(sns + '\nEmail : ' + value + '\n' + medi);
         }
         else{
-          navigator.clipboard.writeText(sns + '\nSMS\n' + medi);
+          navigator.clipboard.writeText(sns + '\nSMS : ' + value + '\n' + medi);
         }
 
       },
@@ -146,7 +159,7 @@ import axios from 'axios'
         data['estado'] = estado
         axios.put("http://localhost:3333/medicacao/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modal=true
         })
         .catch(err => {
           console.log(err)

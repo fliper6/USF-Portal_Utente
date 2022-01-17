@@ -1,5 +1,13 @@
 </<template>
     <div class="pedidoC">
+      <!-- MODAL DE CONFIRMAÇÃO DE EDIÇÃO DE PEDIDO-->
+        <modal-message
+          title="Sucesso"
+          :visible="modal"
+          @close="$router.go()"
+        >
+          Pedido atualizado com sucesso.
+        </modal-message>
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Contacto</h1>
@@ -65,7 +73,7 @@
 
 <script>
 import axios from 'axios'
-
+import ModalMessage from '../components/ModalMessage.vue'
 
   //npm install --save @riophae/vue-treeselect
   export default {
@@ -79,7 +87,8 @@ import axios from 'axios'
         color1: 1,
         color2: 0,
         cons:false,
-        up:false
+        up:false,
+        modal:false
         
       }
     },
@@ -111,6 +120,9 @@ import axios from 'axios'
       
     }
     },
+    components: {
+      ModalMessage
+    },
     methods: {
       alteraEstado (id,user,estado){
         var data = {}
@@ -119,7 +131,7 @@ import axios from 'axios'
         data['estado'] = estado
         axios.put("http://localhost:3333/consultas/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modal=true
         })
         .catch(err => {
           console.log(err)

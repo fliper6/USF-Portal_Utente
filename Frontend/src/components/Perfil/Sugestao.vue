@@ -19,12 +19,14 @@
         <v-container style="padding:20px;">
           <!-- TITULO -->
           <v-text-field 
+            color="var(--secondary-dark-color)"
             label="Título" 
             v-model="titulo">
           </v-text-field>
 
           <!-- DESCRIÇÃO -->
           <v-textarea 
+            color="var(--secondary-dark-color)"
             label="Sugestão" 
             v-model="descricao">
           </v-textarea>
