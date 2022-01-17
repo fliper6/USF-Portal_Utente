@@ -13,6 +13,10 @@
         <v-card-title class="text-h5 grey lighten-2">
           Colocar Link
         </v-card-title>
+        
+        <div class='help-text'>
+          O texto selecionado passará a ser um link para a URL que escolher
+        </div>
 
         <v-text-field color="#800000" v-model="link" class="info-input" label="Link" required></v-text-field>
 
@@ -63,4 +67,9 @@ export default {
     outline-color: var(--primary-color)
   }
 
+  .help-text {
+    margin: 10px 50px;
+    color: var(--grey3-color);
+    font-size: 12px;
+  }
 </style>

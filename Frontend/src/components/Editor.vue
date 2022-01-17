@@ -104,14 +104,16 @@ export default {
       this.$emit("submit", this.editor.getHTML())
     },
     newLink (event) {
-      this.editor.commands.insertContent('<a href="//' + event.link + '">' + event.text + '</a>')
+      console.log(event.link)
+      let htmlLink = '<a href="' + event.link + '" target="_blank">' + event.text + '</a>'
+      this.editor.commands.insertContent(htmlLink)
     },
     setLink (event) {
       this.editor
         .chain()
         .focus()
         .extendMarkRange('link')
-        .setLink({ href: "//" + event })
+        .setLink({ href: event, target: '_blank' })
         .run()
     },
     addImage (event) {
