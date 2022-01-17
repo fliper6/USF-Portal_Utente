@@ -1,5 +1,15 @@
 <template>
   <div class="perfil_medicacao">
+    <!-- MODAL DE CONFIRMAÇÃO CANCELAMENTO DE PEDIDO DE MEDICAÇÃO-->
+    <modal-message
+      title="Alerta"
+      :visible="modalConfirmarCancelarPedido"
+      @close="modalConfirmarCancelarPedido=false"
+      @confirm="deleteEstado(ida)"
+      options=true
+    >
+      Deseja cancelar o pedido de medicação?
+    </modal-message>
     <!-- MODAL DE CANCELAMENTO DE PEDIDO DE MEDICAÇÃO-->
     <modal-message
       title="Sucesso"
@@ -41,7 +51,7 @@
               <v-col> {{item.medicacao}} </v-col>
               <!-- ESTADO -->
               <v-col class="text-right">
-                <v-btn v-if="item.estado===0" depressed color="var(--grey2-color)" @click="deleteEstado(item._id)">Cancelar Pedido</v-btn>
+                <v-btn v-if="item.estado===0" depressed color="var(--grey2-color)" @click="modalConfirmarCancelarPedido = true;ida=item._id">Cancelar Pedido</v-btn>
                 <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Pedido Aceite</div>
                 <div v-if="item.estado === 2" style="color:var(--primary-color)">Pedido Recusado</div>
               </v-col>
@@ -88,7 +98,9 @@ import ModalMessage from '../ModalMessage.vue'
         //GERAL
         token: localStorage.getItem('jwt'),
         up:false,
-        modalCancelarPedido:false
+        modalCancelarPedido:false,
+        modalConfirmarCancelarPedido :false,
+        ida:''
       }
     },
     watch: {
@@ -139,6 +151,7 @@ import ModalMessage from '../ModalMessage.vue'
         .catch(err => {
           console.log(err)
         })
+
       },
       orderData(bol){
         if(bol) {

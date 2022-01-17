@@ -8,9 +8,9 @@
     <div class="form-area">
     <form id="formMed">
       <div class="info-area">
-        <label class="label">Titulo</label>
+        <label class="label">Título</label>
         <input type="text" class="input-text" required v-model="titulo">
-        <span style="color: #ff5252; font-size: 12px;" v-if="false"> Titulo é um campo obrigatório.</span>
+        <span style="color: #ff5252; font-size: 12px;" v-if="false"> Título é um campo obrigatório.</span>
         <label class="label">Sugestão</label>
         <textarea v-model="sugestao" class="input-box">
 

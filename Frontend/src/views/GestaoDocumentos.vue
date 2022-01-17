@@ -2,7 +2,7 @@
   <div>
     <v-card flat color="var(--grey1-color)" style="font-size:120%;">
         <v-container>
-          <h1 style="color:var(--primary-color)">Documentos</h1>
+          <h1 style="color:var(--primary-color)">Documentos removidos</h1>
             <v-row justify="center">
             </v-row>
         </v-container>
@@ -35,7 +35,7 @@
         <v-container>
           <v-row>
             <v-col>
-              <h2 style="text-align:center;">Não existem documentos</h2>
+              <h2 style="text-align:center;">Não há documentos removidos</h2>
             </v-col>
           </v-row>
         </v-container>
@@ -203,7 +203,7 @@ export default {
   data(){
     return {
       token: localStorage.getItem('jwt'),
-      documentos: null,
+      documentos: [],
       dialog: false,
       dialog2: false,
       dialog3: false,

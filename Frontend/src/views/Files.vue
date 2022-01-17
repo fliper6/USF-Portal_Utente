@@ -44,7 +44,7 @@
                 <v-card-title class="text-h5 grey lighten-2"> Carregar novo documento </v-card-title> <br/>
                 <v-col style="margin: auto; padding: 0px 50px;">
 
-                  <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" v-model="titulo" label="Título"></v-text-field> <br/>
+                  <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="100" v-model="titulo" label="Título"></v-text-field> <br/>
                   
                   <p style="margin-bottom: 5px; color:#666666">Categoria associada:</p>
                   <v-row style="height: 55px;">
@@ -127,7 +127,7 @@
           :multiple="true" :options="options" 
           :flatten-search-results="true"
           :normalizer="normalizer"
-          placeholder="Filtar por..."/> <br/>
+          placeholder="Filtrar por..."/> <br/>
       </v-col>
     </v-row>
 
@@ -183,7 +183,7 @@
         nivel: 'utente',
       
         /* FILTRO */
-        valueFiltro: null,
+        valueFiltro: [],
         options: null,
         options2: null,
 
@@ -293,7 +293,7 @@
           if(this.valueFiltro.length > 0) { 
             this.docsfiltrados = []
             for(var i = 0; i < this.docs.length; i++) {
-              if(this.docs[i].caminho_categorias.includes(this.valueFiltro[0])) {
+              if(this.valueFiltro.some(x => this.docs[i].caminho_categorias.includes(x))) {
                 this.docsfiltrados.push(this.docs[i])
               }
             }
@@ -334,7 +334,7 @@
                       item.data_publicacao = item.data_publicacao.slice(0,10)
                       item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
                     })
-                    this.docsfiltrados = this.docs
+                    this.filtrar()
                   })
                   .catch(e => {
                     console.log(e)
@@ -445,4 +445,44 @@
 .v-data-table > .v-data-table__wrapper > table > tbody > tr > td {
   font-size:18px !important;
 }
+
+.vue-treeselect__multi-value-item{
+  color: var(--secondary-dark-color);
+  background: #f9e1e1;
+}
+
+.vue-treeselect__value-remove {
+  color: var(--secondary-dark-color);
+}
+
+.vue-treeselect--focused:not(.vue-treeselect--open) .vue-treeselect__control {
+  border-color: var(--secondary-dark-color) !important;
+  box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+.vue-treeselect__checkbox--checked {
+  background: white !important ;
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--unchecked  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--unchecked:hover  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect__checkbox--checked:hover  {
+  border-color: var(--secondary-dark-color) !important;
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected {
+  background: var(--secondary-color);
+}
+
+.vue-treeselect--single .vue-treeselect__option--selected:hover {
+  background: var(--grey1-color);
+}
+
 </style>

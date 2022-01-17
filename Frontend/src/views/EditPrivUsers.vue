@@ -36,6 +36,7 @@
                 <v-col class="d-flex pa-2" sm="2">
                     <v-text-field
                       v-model="name"
+                      color=var(--secondary-dark-color)
                       label="Nome"
                       dense
                       outlined
@@ -46,6 +47,7 @@
                 <!-- FILTROS (EMAIL) -->
                 <v-col class="d-flex pa-2"  sm="2">
                     <v-text-field
+                      color=var(--secondary-dark-color)
                       v-model="email"
                       label="Email"
                       dense
@@ -57,6 +59,8 @@
                 <!-- FILTROS (NIVEL) -->
                 <v-col offset="6" sm="2">
                     <v-select
+                      color=var(--secondary-dark-color)
+                      item-color=var(--secondary-dark-color)
                       v-model="nivelFiltro"
                       @change="filtro()"
                       :items="niveis"
@@ -91,6 +95,8 @@
                   </v-col>
                   <v-col align="right" sm="2">
                       <v-select
+                        color=var(--secondary-dark-color)
+                        item-color=var(--secondary-dark-color)
                         v-model="item.newPriv"
                         @change="modificou(item)"
                         :items="levels"
@@ -231,5 +237,14 @@ export default {
 
 
 <style scoped>
+.v-list-item__title:hover{
+  color: #ffd54f !important;
+}
 
+.v-list .v-list-item--active { 
+  background-color: green!important; 
+}
+.v-list .v-list-item--active .v-list-item__title {
+  color: #ffd54f !important;
+}
 </style>
