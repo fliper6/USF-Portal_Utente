@@ -2,7 +2,7 @@
   <div>
     <v-card flat color="var(--grey1-color)" style="font-size:120%;">
         <v-container>
-          <h1 style="color:var(--primary-color)">Notícias</h1>
+          <h1 style="color:var(--primary-color)">Notícias removidas</h1>
             <v-row justify="center">
               <v-col class="text-right">
               </v-col>

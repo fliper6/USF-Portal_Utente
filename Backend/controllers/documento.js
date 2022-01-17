@@ -6,7 +6,7 @@ module.exports.listar = visibilidade => {
 
 module.exports.listarEmCategoria = id_cat => {
     return Documento.find(
-        {caminho_categorias: { $regex: "^"+id_cat+"$", $options: "i" } },
+        {visibilidade: "0", caminho_categorias: { $regex: "^"+id_cat+"$", $options: "i" } },
         {_id: 1}
     ).exec()
 }

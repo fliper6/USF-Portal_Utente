@@ -37,7 +37,7 @@
           </v-col>
           <v-col class="text-right" v-else>
             <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Contacto Aceite</div>
-            <div v-if="item.estado === 2" style="color:var(--primary-color)">Contacto Recusada</div>
+            <div v-if="item.estado === 2" style="color:var(--primary-color)">Contacto Recusado</div>
           </v-col>
         </v-row>
         <v-row v-if="lista.length > 1 && index < lista.length - 1">

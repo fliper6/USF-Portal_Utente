@@ -144,9 +144,20 @@ router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 
 // Tornar publico um documento
 router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
-    Documento.adicionar(req.params.id)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+    Documento.consultar(req.params.id)
+        .then(dados => {
+            Categoria.listar()
+                .then(dados => {
+                    let categorias = dados !== null ? dados.categorias : categorias_base
+
+                    Documento.adicionar(req.params.id)
+                        .then(dados => res.status(200).jsonp(dados))
+                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+                })
+                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
+
+        })
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."}))
 })
 
 // Remover uma categoria da árvore
@@ -157,7 +168,7 @@ router.delete('/categoria/:id', (req,res) => {
 
             Documento.listarEmCategoria(req.params.id)
                 .then(docs => {
-                    if (docs.length > 0) return res.status(200).jsonp({error: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
+                    if (docs.length > 0) return res.status(200).jsonp({erro: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
                     
                     Categoria.atualizar(JWTUtils.removerCategoria(categorias, req.params.id))
                         .then(dados => res.status(200).jsonp(dados))
@@ -168,8 +179,8 @@ router.delete('/categoria/:id', (req,res) => {
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
 })
 
-//Apagar permanentemente um documento
-router.delete('/:id', JWTUtils.validate , JWTUtils.isAdmin, function(req, res) {
+// Apagar permanentemente um documento
+router.delete('/:id', JWTUtils.validate, JWTUtils.isMedico, function(req, res) {
     Documento.eliminar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(404).jsonp({error: e}))
