@@ -4,7 +4,7 @@
       Modals 
     -->
     <modal-message
-      title="Remover?"
+      title="Submeter?"
       :visible="modalConfirm"
       options
       @close="modalConfirm = false"
@@ -40,13 +40,9 @@
       <form id="formMed">
         <div class="info-area">
           <label class="label">Título</label>
-          <input type="text" class="input-text" required v-model="titulo" @blur="checkTitulo" @input="missTitulo=false" />
-          <span style="color: #ff5252; font-size: 12px;" v-if="missTitulo"> Título é um campo obrigatório.</span>
-
+          <v-text-field outlined color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="100" v-model="titulo"></v-text-field> <br/>
           <label class="label">Sugestão</label>
-          <textarea required v-model="sugestao" class="input-box" @blur="checkSugestao" @input="missSugestao=false" />
-          <span style="color: #ff5252; font-size: 12px;" v-if="missSugestao">Sugestão é um campo obrigatório.</span>
-
+          <v-textarea outlined color=var(--secondary-dark-color) @input="$v.sugestao.$touch()" @blur="$v.sugestao.$touch()" :error-messages="sugestaoErrors" v-model="sugestao"></v-textarea>
           <div>
             <v-btn class="button" @click="modalConfirm=true">Submeter</v-btn>
           </div> 
@@ -61,12 +57,21 @@
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
 import ModalMessage from './ModalMessage.vue'
+import { validationMixin } from 'vuelidate'
+import { required } from 'vuelidate/lib/validators'
+
 
   export default {
+    mixins: [validationMixin],
     name: "MakeSugestao",
     components: {
       ModalMessage
     },
+    validations: {
+      titulo: { required },
+      sugestao: { required },
+    },
+
     data() {
       return {
         token: localStorage.getItem('jwt'),
@@ -80,50 +85,44 @@ import ModalMessage from './ModalMessage.vue'
         modalError: false
       }
     },
+    
+    computed: {
+      tituloErrors () {
+        const errors = []
+        if (!this.$v.titulo.$dirty) return errors
+        !this.$v.titulo.required && errors.push('Título é um campo obrigatório.')
+        return errors
+      },
+      sugestaoErrors () {
+        const errors = []
+        if (!this.$v.sugestao.$dirty) return errors
+        !this.$v.sugestao.required && errors.push('Corpo da sugestão é um campo obrigatório.')
+        return errors
+      },
+    },
+
     methods: {
       sendSugestao (){
-        if(!this.checkRequired()) return false
-        let user = jwt.decode(this.token)
-        let body = {
-          user: user._id,
-          nr_utente: user.nr_utente,
-          titulo: this.titulo,
-          descricao: this.sugestao
+        this.$v.$touch()
+        if (this.$v.titulo.required && this.$v.sugestao.required) {
+          let user = jwt.decode(this.token)
+          let body = {
+            user: user._id,
+            nr_utente: user.nr_utente,
+            titulo: this.titulo,
+            descricao: this.sugestao
+          }
+          axios.post("http://localhost:3333/sugestao", body, {headers:{'authorization':'Bearer '+ this.token}} )
+          .then(() => {
+            this.modalConfirm = false
+            this.modal = true
+          })
+          .catch(err => {
+            this.modalConfirm = false
+            this.modalError = true
+            console.log(JSON.stringify(err))
+          })
         }
-        axios.post("http://localhost:3333/sugestao", body, {headers:{'authorization':'Bearer '+ this.token}} )
-        .then(() => {
-          this.modalConfirm = false
-          this.modal = true
-        })
-        .catch(err => {
-          this.modalConfirm = false
-          this.modalError = true
-          console.log(JSON.stringify(err))
-        })
-      },
-      checkRequired () {
-        let titulo = this.checkTitulo()
-        let sugestao = this.checkSugestao()
-
-        if(!titulo)
-          return false
-        if(!sugestao)
-          return false
-        return true
-      },
-      checkTitulo () {
-        if(!this.titulo) {
-          this.missTitulo = true
-          return false
-        }
-        return true
-      },
-      checkSugestao () {
-        if(!this.sugestao) {
-          this.missSugestao = true
-          return false
-        }
-        return true
       },
       goHome () {
         this.modal=false
@@ -176,24 +175,6 @@ import ModalMessage from './ModalMessage.vue'
     font-size: 1em;
     letter-spacing: 0.5px;
     font-weight: bold;
-  }
-  .input-text {
-    display: block;
-    padding: 10px 6px;
-    height:30px;
-    box-sizing: border-box;
-    border: 1px solid #96918F;
-    color: var(--grey3-color);
-  }
-
-  .input-box {
-    display: block;
-    padding: 10px 6px;
-    height:200px;
-    box-sizing: border-box;
-    border: 1px solid #96918F;
-    color: var(--grey3-color);
-    resize:none;
   }
 
   .h1 {
