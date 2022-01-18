@@ -20,7 +20,7 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver Notícia</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = n.titulo; idVisibilidade = n._id">Colocar pública</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = n.titulo; idApagar = n._id">Eliminar</v-btn>
             </v-col>
