@@ -32,7 +32,6 @@ export default {
       lastPage: false,
       loadingNews: true,
       noticias: [],
-      nextPage: 1,
       timeAgo: null,
       token: localStorage.getItem('jwt'),
     }
@@ -41,7 +40,7 @@ export default {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
-    axios.get('http://localhost:3333/noticias?visibilidade=0&pagina=1')
+    axios.get('http://localhost:3333/noticias?visibilidade=0&skip=0')
       .then(data => {
         this.noticias = this.noticias.concat(data.data) 
         this.loadingNews = false;
@@ -53,7 +52,6 @@ export default {
       let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
       if (bottomOfWindow && !this.loadingNews && !this.lastPage) {
         this.loadingNews = true;
-        this.nextPage += 1;
         this.getNextPage();
       }
     }
@@ -71,7 +69,7 @@ export default {
       this.noticias = this.noticias.filter(elem => elem._id != id)
     },
     getNextPage() {
-      axios.get('http://localhost:3333/noticias?visibilidade=0&pagina=' + this.nextPage)
+      axios.get('http://localhost:3333/noticias?visibilidade=0&skip=' + this.noticias.length)
         .then(data => {
           if(!data.data || data.data.length < 10) this.lastPage = true
           this.noticias = this.noticias.concat(data.data) 

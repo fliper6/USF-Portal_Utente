@@ -11,11 +11,6 @@
         </v-container>
         <div v-if="this.documentos.length > 0">
           <v-container v-for="(d,index) in documentos" v-bind:key="d._id">
-          <v-progress-circular
-            v-if="loadingDocs"
-            indeterminate
-            color="#800000"
-          ></v-progress-circular>
           <v-row>
             <v-col>
               <h3>{{d.titulo}}</h3>
@@ -45,6 +40,11 @@
           </v-row>
         </v-container>
       </div>
+      <v-progress-circular
+        v-if="loadingDocs"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular>
       </v-card>
       <v-dialog
         v-model="dialog3"
