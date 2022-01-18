@@ -14,9 +14,16 @@ let categorias_base = [{id: "categorias", label: "Categorias", removed: false, c
 
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    Documento.listar(req.query.visibilidade)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    if (!("skip" in req.query)) {
+        Documento.listar(req.query.visibilidade)
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }
+    else {
+        Documento.listarPagina(req.query.visibilidade, parseInt(req.query.skip))
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }
 })
 
 // Obter árvore de categorias de documentos
