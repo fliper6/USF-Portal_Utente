@@ -216,7 +216,6 @@ export default {
         this.contactoFlag = true
       }
       if(this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel == ""){
-        console.log(this.medicacao.valorContacto.telemovel)
         this.checkTele = true
       } 
       if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel != ""){

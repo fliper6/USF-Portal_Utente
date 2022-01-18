@@ -55,7 +55,6 @@ export default {
       this.$emit("add-image", this.url)
       this.url = ""
       this.file = null
-      console.log(this.$refs.file)
     },
     uploadImage() {
       let formData = new FormData();
