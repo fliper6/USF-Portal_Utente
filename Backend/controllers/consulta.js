@@ -1,11 +1,15 @@
 var Consulta = require('../models/consulta')
 
-module.exports.listar = () => {
-    return Consulta
-        .find()
-        .exec()
+module.exports.listar = (estado, skip) => {
+    let match = !estado ? {estado: 0} : {$or: [{estado: 1}, {estado: 2}]}
+    
+    return Consulta.aggregate([
+        {$match: match},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
-
 module.exports.listarPorUser = (nr, pagina) => {
     return Consulta.aggregate([
         {$match: {user: nr}},
