@@ -243,7 +243,7 @@
     methods: {
         importar: function() {
           axios.post("http://localhost:3333/importar/", 
-            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\USF-Portal_Utente\\PANFLETOS"}, 
+            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\PANFLETOS"}, 
             {
               headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
@@ -380,14 +380,8 @@
                   this.modal2 = true;
 
                   // Atualizar árvore de categorias
-                  axios.get("http://localhost:3333/documentos/categorias")
-                    .then(data => {
-                      this.options = data.data.categorias[0].children
-                      this.options2 = data.data.categorias
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
+                  this.options = data.data.categorias[0].children
+                  this.options2 = data.data.categorias
                 }
               }).catch(e => {
                 this.modalError2 = true;

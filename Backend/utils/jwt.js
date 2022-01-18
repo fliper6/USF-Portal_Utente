@@ -136,11 +136,23 @@ module.exports.criarIdCategoria = (nova_categoria, ids) => {
     return novo_id + i
 }
 
+function removerTodasCategorias(categorias) {
+    let aux = arr => {
+        for (let i = 0; i < arr.length; i++) {
+            arr[i].removed = true
+            if (arr[i].children.length > 0) arr[i].children = aux(arr[i].children)
+        }
+        return arr
+    }
+    return aux(categorias)
+}
+
 module.exports.removerCategoria = (categorias, id) => {
     let aux = arr => {
         for (let i = 0; i < arr.length; i++) {
             if (arr[i].id == id) {
-                arr.splice(i, 1)
+                arr[i].removed = true
+                if (arr[i].children.length > 0) arr[i].children = removerTodasCategorias(arr[i].children)
                 break
             }
             else if (arr[i].children.length > 0) arr[i].children = aux(arr[i].children)
@@ -149,6 +161,70 @@ module.exports.removerCategoria = (categorias, id) => {
     }
 
     return aux(categorias)
+}
+
+module.exports.categoriasNaoRemovidas = categorias => {
+    let aux = arr => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].removed) arr.splice(i--, 1)
+            else if (arr[i].children.length > 0) arr[i].children = aux(arr[i].children)
+        }
+        return arr
+    }
+
+    return aux(categorias)
+}
+
+module.exports.adicionarCategoria = (nova_cat, id_pai, arr) => {
+    let aux = (nova_cat, id_pai, arr) => {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i].id == id_pai) {
+                let nomesExistentes = arr[i].children.filter(x => !x.removed).map(x => x.label)
+                let nomesRemovidos = arr[i].children.filter(x => x.removed).map(x => x.label)
+
+                if (nomesExistentes.includes(nova_cat.label)) return "Já existe uma categoria com o mesmo nome neste local da árvore!"
+                else if (nomesRemovidos.includes(nova_cat.label)) {
+                    for (let j = 0; j < arr[i].children.length; j++) {
+                        if (arr[i].children[j].label == nova_cat.label) {
+                            arr[i].children[j].removed = false
+                            return arr
+                        }
+                    }
+                }
+                else {
+                    for (let j = 0; j < arr[i].children.length; j++) {
+                        if (arr[i].children[j].label > nova_cat.label) {
+                            arr[i].children.splice(j, 0, nova_cat); break
+                        }
+                        if (j == arr[i].children.length-1) {
+                            arr[i].children.push(nova_cat); break
+                        }
+                    }
+
+                    if (!arr[i].children.length) arr[i].children.push(nova_cat)
+                    return arr
+                }
+            }
+            else if (arr[i].children.length > 0) {
+                let atualizada = aux(nova_cat, id_pai, arr[i].children)
+                if (typeof atualizada == "string") return atualizada
+                else arr[i].children = atualizada
+            }
+        }
+        return arr
+    }
+
+    return aux(nova_cat, id_pai, arr)
+}
+
+module.exports.restaurarCategorias = (caminho, categorias) => {
+    let cats = categorias
+    for (let i = 0; i < caminho.length; i++) {
+        let ind = cats.findIndex(x => x.id == caminho[i])
+        cats[ind].removed = false
+        cats = cats[ind].children
+    }
+    return categorias
 }
 
 module.exports.SECRET = SECRET

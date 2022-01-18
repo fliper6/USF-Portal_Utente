@@ -217,14 +217,8 @@
                 else {
                   this.modal = true;
                   // Atualizar árvore de categorias
-                  axios.get("http://localhost:3333/documentos/categorias")
-                    .then(data => {
-                      this.options = data.data.categorias[0].children
-                      this.options2 = data.data.categorias
-                    })
-                    .catch(e => {
-                      console.log(e)
-                    })
+                  this.options = data.data.categorias[0].children
+                  this.options2 = data.data.categorias
                 }
               }).catch(e => {
                 this.modalError = true;
@@ -248,7 +242,7 @@
             this.warning_arvore2 = true
           if (this.$v.arvore.required) {
 
-            axios.delete("http://localhost:3333/documentos/categoria/" + this.arvore, 
+            axios.put("http://localhost:3333/documentos/categoria/" + this.arvore, 
               {
                 headers: 
                   {
