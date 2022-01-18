@@ -66,7 +66,7 @@
     <!--
       Content
     -->
-    <v-text-field color="#000000" v-model="titulo" counter="100" label="Título"  required hide-details outlined dense></v-text-field>
+    <v-text-field outlined color=var(--secondary-dark-color) v-model="titulo" maxlength="100" counter="100" label="Título"  required dense></v-text-field>
     <div class="files">
       <File 
         v-for="file,index in files" 

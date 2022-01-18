@@ -40,7 +40,7 @@
       <form id="formMed">
         <div class="info-area">
           <label class="label">Título</label>
-          <v-text-field outlined color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="100" v-model="titulo"></v-text-field> <br/>
+          <v-text-field outlined color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" maxlength="100" counter="100" v-model="titulo"></v-text-field> <br/>
           <label class="label">Sugestão</label>
           <v-textarea outlined color=var(--secondary-dark-color) @input="$v.sugestao.$touch()" @blur="$v.sugestao.$touch()" :error-messages="sugestaoErrors" v-model="sugestao"></v-textarea>
           <div>
