@@ -44,16 +44,16 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
             <input type="radio" class="input-radio" @click="showEmail = true; showTele = false; contactoFlag = false; getContactos()" required v-model="medicacao.contacto" value="Email">
           </div>
           <span style="color: #ff5252; font-size: 12px;" v-if="contactoFlag">Campo obrigatório.</span>
-          <modal v-if="showTele">
+          <div v-if="showTele">
               <label class="label">Número de telemóvel</label>
               <input type="number" class="input-modal" v-model="medicacao.valorContacto.telemovel" @click="checkTele = false" @input="checkTele = false">
               <span style="color: #ff5252; font-size: 12px;" v-if="checkTele">Número de Telémovel é um campo obrigatório.</span>
-          </modal>
-          <modal v-if="showEmail">
+          </div>
+          <div v-if="showEmail">
               <label class="label">Email</label>
               <input type="text" class="input-modal" v-model="medicacao.valorContacto.email">
               <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.valorContacto.email.$invalid">Email é um campo obrigatório.</span>
-          </modal>
+          </div>
         <div>
           <v-btn class="button" @click="verifica()">Submeter</v-btn>
         </div> 
