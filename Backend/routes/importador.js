@@ -68,8 +68,11 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
     }
     else {
         let formData = new FormData();
+        let titulo = elem.name.slice(0, -(elem.extension.length))
+        if (titulo.length > 65) titulo = titulo.slice(0, -(titulo.length - 65))
+
         formData.append('documento', fs.createReadStream(elem.path))
-        formData.append('titulo', elem.name.slice(0, -(elem.extension.length)))
+        formData.append('titulo', titulo)
         formData.append('id_categoria', ids_pai[ids_pai.length-1])
 
         axios.post("http://localhost:3333/documentos/", 
