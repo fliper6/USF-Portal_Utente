@@ -352,7 +352,7 @@ export default {
 
       let noticiaProg = {
         _id: this.noticia._id,
-        recorrencia: this.recurrenceArrayP.map(x => parseInt(x)),
+        recorrencia: this.publishRepeat ? this.recurrenceArrayP.map(x => parseInt(x)) : [0,0,0,0,0,0],
         data_pub: data_pub,
         noticia: this.noticia.noticia
       }
@@ -384,7 +384,7 @@ export default {
       let data_pub = this.publishNow ? 'now' : this.date
 
       let noticiaProg = {
-        recorrencia: this.recurrenceArray.map(x => parseInt(x)),
+        recorrencia: this.publishRepeat ? this.recurrenceArray.map(x => parseInt(x)) : [0,0,0,0,0,0],
         data_pub: data_pub,
         noticia: {
           titulo: this.noticia.titulo,
