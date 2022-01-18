@@ -206,6 +206,7 @@ export default {
             .then( data => {
               this.lista = data.data
               this.loading = false;
+              this.lastPage = false
             })
             .catch(err => {
               console.log(err)
@@ -220,6 +221,7 @@ export default {
             .then( data => {
               this.lista = data.data
               this.loading = false;
+              this.lastPage = false
             })
             .catch(err => {
               console.log(err)
