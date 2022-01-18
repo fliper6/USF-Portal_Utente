@@ -47,8 +47,8 @@
                     <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
                   </v-col>
                   <v-col class="text-right">
-                    <v-btn depressed @click="color1=1; color2=0; lista=sugestao" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Pendetes</v-btn>
-                    <v-btn depressed @click="color1=0; color2=1; lista=sugestao_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Respondidas</v-btn>
+                    <v-btn depressed @click="changeTab('pendentes')" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Pendentes</v-btn>
+                    <v-btn depressed @click="changeTab('respondidas')" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Sugestões Respondidas</v-btn>
                   </v-col>
                 </v-row>
           </v-container>
@@ -106,6 +106,11 @@
           </v-row>
         </v-container>
       </div>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular> 
     </v-card>
     </div>
 
@@ -121,17 +126,17 @@ export default {
     data() {
       return {
         token: localStorage.getItem('jwt'),
-        sugestao:[], 
-        sugestao_r :[],
         descricao:'', 
-        lista:'', 
+        lista: [], 
         color1: 1,
         color2: 0,
         modalResponderSug:false,
         dialog:false,
         id:'',
         user:'',
-        up:false
+        up:false,
+        lastPage: false,
+        loading: true
       }
     },
     components: {
@@ -139,29 +144,24 @@ export default {
     },
     created(){
         if (this.token) {
-          axios.get("http://localhost:3333/sugestao/" , {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get("http://localhost:3333/sugestao?estado=0&skip=0", {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
-              data.data.forEach(element => {
-                if(element.estado === 1){
-                  this.sugestao_r.push(element)
-                }
-                else{
-                  this.sugestao.push(element)
-                }
-              });
-              this.sugestao.sort((b, a) => {
-                return new Date(a.data_criacao) - new Date(b.data_criacao);
-              })
-              this.sugestao_r.sort((b, a) => {
-                return new Date(a.data_criacao) - new Date(b.data_criacao);
-              })
+              this.lista = this.lista.concat(data.data)
+              this.loading = false;
             })
             .catch(err => {
               console.log(err)
             })
-
-            this.lista = this.sugestao
         }
+    },
+    mounted () {
+      window.onscroll = () => {
+        let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+        if (bottomOfWindow && !this.loading && !this.lastPage) {
+          this.loading = true;
+          this.getNextPage();
+        }
+      }
     },
     methods: {
       saveSug(id,user){
@@ -189,25 +189,51 @@ export default {
           this.lista.sort((a, b) => {
             return new Date(a.data_criacao) - new Date(b.data_criacao);
           })
-          this.sugestao.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-          this.sugestao_r.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
         }
         else {
           this.lista.sort((b, a) => {
             return new Date(a.data_criacao) - new Date(b.data_criacao);
           })
-          this.sugestao.sort((b, a) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-          this.sugestao_r.sort((b, a) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
         }
         this.up=!this.up
+      },
+      changeTab(to) {
+        if (!this.color1 && to == "pendentes") {
+          this.color1 = 1; this.color2 = 0
+          this.loading = true
+
+          axios.get("http://localhost:3333/sugestao?estado=0&skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+            .then( data => {
+              this.lista = data.data
+              this.loading = false;
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+        
+        if (!this.color2 && to == "respondidas") {
+          this.color1 = 0; this.color2 = 1
+          this.loading = true
+
+          axios.get("http://localhost:3333/sugestao?estado=1&skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+            .then( data => {
+              this.lista = data.data
+              this.loading = false;
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      },
+      getNextPage() {
+        axios.get(`http://localhost:3333/sugestao?estado=${!this.color2 ? 0 : 1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+          .then(data => {
+            if(!data.data || data.data.length < 10) this.lastPage = true
+            this.lista = this.lista.concat(data.data)
+            this.loading = false;
+          })
+          .catch(err => console.log(err))
       }
     }
 }

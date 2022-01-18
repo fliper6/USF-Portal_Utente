@@ -8,7 +8,7 @@ let Sugestao = require('../controllers/sugestao')
 
 //Devolve todos as sugestões
 router.get('/', JWTUtils.validate ,function(req, res) {
-    Sugestao.listar()
+    Sugestao.listar(parseInt(req.query.estado), parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });

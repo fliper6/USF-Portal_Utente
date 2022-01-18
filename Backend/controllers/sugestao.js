@@ -1,16 +1,19 @@
 var Sugestao = require('../models/sugestao')
 
-module.exports.listar = () => {
-    return Sugestao
-        .find()
-        .exec()
+module.exports.listar = (estado, skip) => {
+    return Sugestao.aggregate([
+        {$match: {estado}},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
 
-module.exports.listarPorUser = (id, pagina) => {
+module.exports.listarPorUser = (id, skip) => {
     return Sugestao.aggregate([
         {$match: {user: id}},
         {$sort: {data_criacao: -1}},
-        {$skip: (pagina-1)*10},
+        {$skip: skip},
         {$limit: 10}
     ])
 }
