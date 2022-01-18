@@ -8,7 +8,7 @@ let Medicacao = require('../controllers/medicacao')
 
 //Devolve todos os pedidos de medicação
 router.get('/', JWTUtils.validate, function(req, res) {
-    Medicacao.listar()
+    Medicacao.listar(parseInt(req.query.estado), parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });

@@ -1,9 +1,14 @@
 var Medicacao = require('../models/medicacao')
 
-module.exports.listar = () => {
-    return Medicacao
-        .find()
-        .exec()
+module.exports.listar = (estado, skip) => {
+    let match = !estado ? {estado: 0} : {$or: [{estado: 1}, {estado: 2}]}
+    
+    return Medicacao.aggregate([
+        {$match: match},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
 
 module.exports.listarPorUser = (id, pagina) => {
