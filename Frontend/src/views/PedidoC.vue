@@ -8,6 +8,16 @@
         >
           Pedido atualizado com sucesso.
         </modal-message>
+        <!-- MODAL DE CONFIRMAÇÃO -->
+        <modal-message
+          title="Alerta"
+          :visible="modalConf"
+          @confirm="alteraEstado(id,user,estado)"
+          @close="modalConf=false"
+          options
+        >
+          Tem a certeza que pertende mudar o estado do pedido?
+        </modal-message>
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
           <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Contacto</h1>
@@ -40,8 +50,8 @@
             {{item.medico}}
           </v-col>
           <v-col class="text-right" v-if="item.estado===0">
-            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,item.user,1)">Aceitar Pedido</v-btn>
-            <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,item.user,2)">Recusar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="confirmMessage(item._id,item.user,1)">Aceitar Pedido</v-btn>
+            <v-btn depressed style="background-color:var(--grey2-color)" @click="confirmMessage(item._id,item.user,2)">Recusar Pedido</v-btn>
           </v-col>
           <v-col class="text-right" v-else>
             <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Contacto Aceite</div>
@@ -88,7 +98,11 @@ import ModalMessage from '../components/ModalMessage.vue'
         color2: 0,
         cons:false,
         up:false,
-        modal:false
+        modal:false,
+        modalConf:false,
+        id:'',
+        user:'',
+        estado:''
         
       }
     },
@@ -131,11 +145,18 @@ import ModalMessage from '../components/ModalMessage.vue'
         data['estado'] = estado
         axios.put("http://localhost:3333/consultas/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
+          this.modalConf=false
           this.modal=true
         })
         .catch(err => {
           console.log(err)
         })
+      },
+      confirmMessage(id,user,estado){
+        this.modalConf=true;
+        this.id=id;
+        this.user=user;
+        this.estado=estado
       },
       orderData(bol){
         if(bol) {
