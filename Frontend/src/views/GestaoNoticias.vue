@@ -42,6 +42,11 @@
           </v-row>
         </v-container>
       </div>
+      <v-progress-circular
+        v-if="loadingNews"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular> 
       </v-card>
       <v-dialog
         v-model="dialogVer"
@@ -62,7 +67,7 @@
             <v-icon style="color: var(--primary-color)">mdi-close</v-icon>
           </v-btn>         
         </v-card-title>
-        <VerNoticia :noticia='noticia' :key="n" />       
+        <VerNoticia :noticia='noticia' :key="n" />      
       </v-card>
       </v-dialog>
       <v-dialog
@@ -218,33 +223,38 @@ export default {
       nomeVisibilidade: null,
       idVisibilidade: null,
       nomeFlag: false,
-      n: null
+      n: null,
+      lastPage: false,
+      loadingNews: true
     }
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(`http://localhost:3333/noticias?visibilidade=1&skip=0` , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
-          this.noticias = dados.data
+          this.noticias = this.noticias.concat(dados.data)
+          this.loadingNews = false;
         })
         .catch(err => {
           console.log(err)
         })
       } 
     },
+  mounted () {
+    window.onscroll = () => {
+      let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+      if (bottomOfWindow && !this.loadingNews && !this.lastPage) {
+        this.loadingNews = true;
+        this.getNextPage();
+      }
+    }
+  },
   methods: {
     deleteNoticia(id){
       axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=2', {}, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.dialog5 = true
-              this.noticias = dados.data
-          })
-          .catch(err => {
-            this.dialogErr = true
-            console.log(err)
-          })
+          this.dialog5 = true
+          this.noticias.splice(this.noticias.findIndex(x => x._id == id), 1)
         })
         .catch(err => {
             this.dialogErr = true
@@ -259,20 +269,22 @@ export default {
           }
         })
         .then(() => {
-          axios.get("http://localhost:3333/noticias?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.dialog4 = true
-              this.noticias = dados.data
-          })
-          .catch(err => {
-            this.dialogErr = true
-            console.log(err)
-          })
+          this.dialog4 = true
+          this.noticias.splice(this.noticias.findIndex(x => x._id == id), 1)
         })
         .catch(err => {
           this.dialogErr = true
           console.log(err)
         })        
+    },
+    getNextPage() {
+      axios.get('http://localhost:3333/noticias?visibilidade=1&skip=' + this.noticias.length)
+        .then(data => {
+          if(!data.data || data.data.length < 10) this.lastPage = true
+            this.noticias = this.noticias.concat(data.data) 
+            this.loadingNews = false; 
+          })
+        .catch(err => console.log(err))
     }
   }  
 }

@@ -4,6 +4,15 @@ module.exports.listar = visibilidade => {
     return Documento.find({visibilidade}).sort('-data_publicacao').exec()
 }
 
+module.exports.listarPagina = (visibilidade, skip) => {
+    return Documento.aggregate([
+        {$match: {visibilidade}},
+        {$sort: {data_publicacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
+}
+
 module.exports.listarEmCategoria = id_cat => {
     return Documento.find(
         {visibilidade: "0", caminho_categorias: { $regex: "^"+id_cat+"$", $options: "i" } },
