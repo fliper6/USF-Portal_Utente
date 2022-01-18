@@ -8,10 +8,10 @@
     <form id="formMed">
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
-        <input type="text" class="input-text" required v-model="medicacao.nome">
+        <input disabled type="text" class="input-text" required v-model="medicacao.nome">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.nome.$invalid">Nome é um campo obrigatório.</span>
         <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
-        <input type="number" class="input-text" required v-model="medicacao.numUtente">
+        <input disabled type="number" class="input-text" required v-model="medicacao.numUtente">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
         <p class="p2">Caso pretenda pedir medicação para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
