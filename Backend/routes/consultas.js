@@ -20,7 +20,7 @@ router.get('/:id', JWTUtils.validate, function(req, res) {
 
 // Devolver histórico pedidos de contacto de um utente
 router.get('/historico/:_id', JWTUtils.validate, function(req, res) {
-    Consulta.listarPorUser(req.params._id, parseInt(req.query.pagina))
+    Consulta.listarPorUser(req.params._id, parseInt(req.query.skip))
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });

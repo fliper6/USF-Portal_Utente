@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 var Consulta = require('../models/consulta')
 
 module.exports.listar = (estado, skip) => {
@@ -10,11 +11,11 @@ module.exports.listar = (estado, skip) => {
         {$limit: 10}
     ])
 }
-module.exports.listarPorUser = (nr, pagina) => {
+module.exports.listarPorUser = (id, skip) => {
     return Consulta.aggregate([
-        {$match: {user: nr}},
+        {$match: {user: new mongoose.Types.ObjectId(id)}},
         {$sort: {data_criacao: -1}},
-        {$skip: (pagina-1)*10},
+        {$skip: skip},
         {$limit: 10}
     ])
 }

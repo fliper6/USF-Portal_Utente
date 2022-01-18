@@ -1,3 +1,4 @@
+const mongoose = require('mongoose')
 var Sugestao = require('../models/sugestao')
 
 module.exports.listar = (estado, skip) => {
@@ -11,7 +12,7 @@ module.exports.listar = (estado, skip) => {
 
 module.exports.listarPorUser = (id, skip) => {
     return Sugestao.aggregate([
-        {$match: {user: id}},
+        {$match: {user: new mongoose.Types.ObjectId(id)}},
         {$sort: {data_criacao: -1}},
         {$skip: skip},
         {$limit: 10}

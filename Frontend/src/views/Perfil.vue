@@ -374,6 +374,11 @@
       <PerfilMedicacao v-if="this.med" :ide="this.ide" :id="this.id" :medicacoes="this.medicacoes" :not="this.not"></PerfilMedicacao>
       <PerfilContacto v-if="this.cons" :ide="this.ide" :id="this.id" :contacto="this.contacto" :not="this.not"></PerfilContacto>
       <PerfilSugestao v-if="this.sug" :ide="this.ide" :id="this.id" :sugestoes="this.sugestoes" :not="this.not"></PerfilSugestao>
+      <v-progress-circular
+        v-if="loadingNextPage"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular> 
     </v-container>
 
   </div>
@@ -520,7 +525,11 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         //EDITAR SUGESTAO
         titulo:'',
         descricao:'', 
-        id_desc:'',      
+        id_desc:'',  
+        
+        //PAGINACAO
+        lastPage: false,
+        loadingNextPage: true
       }
     },
     components: {
@@ -559,39 +568,32 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         else this.med = true
         
         //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
-        axios.get("http://localhost:3333/medicacao/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/medicacao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.medicacoes = data.data
+            this.loadingNextPage = false;
           })
           .catch(err => {
             console.log(err)
           })
-        this.medicacoes.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
+          
         //BUSCAR O HISTORICO DE PEDIDOS DE CONTACTO
-        axios.get("http://localhost:3333/consultas/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/consultas/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.contacto = data.data
           })
           .catch(err => {
             console.log(err)
           })
-        this.contacto.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
+          
         //BUSCAR O HISTORICO DE SUGESTOES
-        axios.get("http://localhost:3333/sugestao/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/sugestao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.sugestoes = data.data
           })
           .catch(err => {
             console.log(err)
           })
-        this.sugestoes.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-
       }
     },
     mounted() {
@@ -603,8 +605,34 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
             window.scrollTo(0, top);
           }, 100)
       }
+      
+      window.onscroll = () => {
+        let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+        if (bottomOfWindow && !this.loadingNextPage && !this.lastPage) {
+          this.loadingNextPage = true;
+          this.getNextPage();
+        }
+      }
     },
     methods: {
+      getNextPage() {
+        let what_tab = "medicacao"
+        let lista = this.medicacoes
+        if (this.cons) {what_tab = "consultas"; lista = this.contacto}
+        if (this.sug) {what_tab = "sugestao"; lista = this.sugestoes}
+
+        axios.get(`http://localhost:3333/${what_tab}/historico/${this.id}?skip=` + lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+          .then(data => {
+            if(!data.data || data.data.length < 10) this.lastPage = true
+
+            if (this.med) this.medicacoes = this.medicacoes.concat(data.data)
+            if (this.cons) this.contacto = this.contacto.concat(data.data)
+            if (this.sug) this.sugestoes = this.sugestoes.concat(data.data)
+            
+            this.loadingNextPage = false;
+          })
+          .catch(err => console.log(err))
+      },
       
       //MODAL SUCESSO/ERRO
       ok(){
@@ -765,6 +793,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
       changeTab(func) {
         this.tipo = ''
         this.ide = ''
+        this.lastPage = false
         func()
       },
 
