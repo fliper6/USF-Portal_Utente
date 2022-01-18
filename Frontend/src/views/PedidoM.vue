@@ -1,5 +1,23 @@
 <template>
     <div class="pedidoM">
+      <!-- MODAL DE CONFIRMAÇÃO DE EDIÇÃO DE PEDIDO-->
+        <modal-message
+          title="Sucesso"
+          :visible="modal"
+          @close="$router.go()"
+        >
+          Pedido atualizado com sucesso.
+        </modal-message>
+        <!-- MODAL DE CONFIRMAÇÃO -->
+        <modal-message
+          title="Alerta"
+          :visible="modalConf"
+          @confirm="alteraEstado(id,user,estado)"
+          @close="modalConf=false"
+          options
+        >
+          Tem a certeza que pertende mudar o estado do pedido?
+        </modal-message>
         <v-card flat color="var(--grey1-color)" style="font-size:120%;">
             <v-container>
                 <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
@@ -26,7 +44,7 @@
                 <v-col cols=1>
                   <v-tooltip v-if="!item.nr_utente_pedido" left>
                     <template v-slot:activator="{ on, attrs }">
-                    <v-btn icon @click="copy(item.nr_utente_titular,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                    <v-btn icon @click="copy(item.nr_utente_titular,item.contacto.tipo,item.contacto.valor,item.medicacao)" v-bind="attrs" v-on="on">
                       <v-icon>mdi-content-copy</v-icon>
                     </v-btn>
                     </template>
@@ -34,7 +52,7 @@
                   </v-tooltip>
                   <v-tooltip v-else left>
                     <template v-slot:activator="{ on, attrs }">
-                      <v-btn icon @click="copy(item.nr_utente_pedido,item.medicacao.tipo,item.medicacao)" v-bind="attrs" v-on="on">
+                      <v-btn icon @click="copy(item.nr_utente_pedido,item.contacto.tipo,item.contacto.valor,item.medicacao)" v-bind="attrs" v-on="on">
                         <v-icon>mdi-content-copy</v-icon>
                       </v-btn>
                     </template>
@@ -51,8 +69,8 @@
                   {{item.medicacao}}
                 </v-col>
                 <v-col class="text-right" v-if="item.estado===0">
-                  <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="alteraEstado(item._id,item.user,1)">Aceitar Pedido</v-btn>
-                  <v-btn depressed style="background-color:var(--grey2-color)" @click="alteraEstado(item._id,item.user,2)">Recusar Pedido</v-btn>
+                  <v-btn depressed style="background-color:var(--secondary-color); margin:0 10px 0 0;" @click="confirmMessage(item._id,item.user,1)">Aceitar Pedido</v-btn>
+                  <v-btn depressed style="background-color:var(--grey2-color)" @click="confirmMessage(item._id,item.user,2)">Recusar Pedido</v-btn>
                 </v-col>
                 <v-col class="text-right" v-else>
                   <div v-if="item.estado === 1" style="color:var(--secondary-dark-color)">Pedido Aceite</div>
@@ -84,6 +102,7 @@
 
 <script>
 import axios from 'axios'
+import ModalMessage from '../components/ModalMessage.vue'
 
 
   //npm install --save @riophae/vue-treeselect
@@ -97,9 +116,17 @@ import axios from 'axios'
         lista: '',
         color1: 1,
         color2: 0,
-        up:false
+        up:false,
+        modal:false,
+        modalConf:false,
+        id:'',
+        user:'',
+        estado:'',
         
       }
+    },
+    components: {
+      ModalMessage
     },
     created(){
     if (this.token) {
@@ -130,12 +157,12 @@ import axios from 'axios'
     }
     },
     methods: {
-      copy(sns,sms_email,medi){
+      copy(sns,sms_email,value,medi){
         if(sms_email == 0){
-          navigator.clipboard.writeText(sns + '\nEmail\n' + medi);
+          navigator.clipboard.writeText(sns + '\nEmail : ' + value + '\n' + medi);
         }
         else{
-          navigator.clipboard.writeText(sns + '\nSMS\n' + medi);
+          navigator.clipboard.writeText(sns + '\nSMS : ' + value + '\n' + medi);
         }
 
       },
@@ -146,11 +173,19 @@ import axios from 'axios'
         data['estado'] = estado
         axios.put("http://localhost:3333/medicacao/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
-          this.$router.go()
+          this.modalConf=false
+          this.modal=true
+          
         })
         .catch(err => {
           console.log(err)
         })
+      },
+      confirmMessage(id,user,estado){
+        this.modalConf=true;
+        this.id=id;
+        this.user=user;
+        this.estado=estado
       },
       orderData(bol){
         if(bol) {

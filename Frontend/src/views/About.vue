@@ -19,22 +19,24 @@
       </div>
     </div>
     <div v-else>
-        <v-text-field label="Morada" v-model="dados.morada"></v-text-field>
-        <v-text-field label="Telefone" v-model="dados.telefone"></v-text-field>
-        <v-text-field label="Email" v-model="dados.email"></v-text-field>
-        <v-text-field label="Horario de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Morada" v-model="dados.morada"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Telefone" v-model="dados.telefone"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Email" v-model="dados.email"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Horário de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Latitude" v-model="dados.lat"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Longitude" v-model="dados.lng"></v-text-field>
         <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
     </div>
         </v-col>
         <v-col>
           <GmapMap
-            :center="center"
+            :center="this.center"
             :zoom="16"
             map-type-id="terrain"
             style="width: 500px; height: 300px"
           >
             <GmapMarker
-              :position="center"
+              :position="this.center"
               @click="center=center"
             />
           </GmapMap>
@@ -42,8 +44,8 @@
       </v-row>
     </v-container>
     
-    <h1 style="margin-bottom:20px">Equipas <v-dialog
-              :v-model="dialogo"
+    <h1 style="margin-bottom:20px">Equipas<v-dialog
+              v-model="dialogo"
               width="700"
             >
               <template v-slot:activator="{ on, attrs }">
@@ -66,13 +68,13 @@
                 <v-container>
                   <v-row v-for="(p,i) in equipa" :key="i">
                     <v-col>
-                      <v-select :items="items" label="Título" v-model="p.profissao"></v-select>
+                      <v-select color="var(--primary-color)" :items="items" label="Título" v-model="p.profissao"></v-select>
                     </v-col>
                     <v-col >
-                      <v-text-field label="Nome" v-model="p.nome"></v-text-field>
+                      <v-text-field color="var(--secondary-dark-color)" label="Nome" v-model="p.nome"></v-text-field>
                     </v-col>
                     <v-col>
-                      <v-text-field label="Email" v-model="p.email"></v-text-field>
+                      <v-text-field color="var(--secondary-dark-color)" label="Email" v-model="p.email"></v-text-field>
                     </v-col>
                   </v-row>
                   <v-row>
@@ -96,7 +98,7 @@
                   <v-btn
                     class="button-cancelar"
                     text
-                    @click="dialog = false"
+                    @click="dialogo = false"
                   >
                     Cancel
                   </v-btn>
@@ -129,7 +131,7 @@
             <div :style="'margin:0 0 0 '+ windowWidth*-0.03+ 'px' " class="text-left"> {{person.email}} </div>
           </v-col>
           <v-col cols=1>
-            <v-btn title="Editar Contacto" icon v-if="nivel === 'Administrador' && edit != person._id" @click="edit = person._id">
+            <v-btn title="Editar Contacto" icon v-if="nivel === 'Administrador' && edit != person._id" @click="edit = person._id; pessoa_edit={...person}">
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
           </v-col>
@@ -138,12 +140,12 @@
         <v-row v-else style="margin:25px 0 0 0">
           <v-col cols=1>
             <v-dialog
-              :v-model="dialog"
+              v-model="dialog"
               width="500"
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-btn
-                  style="margin:15px 0 0 0" icon color="var(--primary-color)"
+                  style="margin:15px 0 0 0" icon
                   v-bind="attrs"
                   v-on="on"
                   title="Eliminar Contacto"
@@ -183,16 +185,16 @@
 
           </v-col>
           <v-col cols=2>
-            <v-select :items="items" label="Título" v-model="person.profissao"></v-select>
+            <v-select color="var(--secondary-dark-color)" :items="items" label="Título" v-model="pessoa_edit.profissao"></v-select>
           </v-col>
           <v-col cols=3>
-            <v-text-field label="Nome" v-model="person.nome"></v-text-field>
+            <v-text-field color="var(--primary-color)" label="Nome" v-model="pessoa_edit.nome"></v-text-field>
           </v-col>
           <v-col cols=3>
-            <v-text-field label="Email" v-model="person.email"></v-text-field>
+            <v-text-field color="var(--primary-color)" label="Email" v-model="pessoa_edit.email"></v-text-field>
           </v-col>
           <v-col cols=1>
-            <v-btn title="Guardar Contacto" icon style="margin:15px 0 0 0" @click="save_person(person)">
+            <v-btn title="Guardar Contacto" icon style="margin:15px 0 0 0" @click="save_person(pessoa_edit,index ,indice)">
               <v-icon>mdi-content-save</v-icon>
             </v-btn>
           </v-col>
@@ -208,13 +210,13 @@
             </v-btn>
           </v-col>
           <v-col cols=2>
-            <v-select :items="items" label="Título" v-model="pessoa.profissao"></v-select>
+            <v-select color="var(--secondary-dark-color)" :items="items" label="Título" v-model="pessoa.profissao"></v-select>
           </v-col>
           <v-col cols=3>
-            <v-text-field label="Nome" v-model="pessoa.nome"></v-text-field>
+            <v-text-field color="var(--secondary-dark-color)" label="Nome" v-model="pessoa.nome"></v-text-field>
           </v-col>
           <v-col cols=3>
-            <v-text-field label="Email" v-model="pessoa.email"></v-text-field>
+            <v-text-field color="var(--secondary-dark-color)" label="Email" v-model="pessoa.email"></v-text-field>
           </v-col>
           <v-col cols=1>
             <v-btn title="Adicionar Contacto" icon style="margin:15px 0 0 0" @click="add_person(index)">
@@ -253,7 +255,7 @@ export default {
   data () {
     return { 
       windowWidth: window.innerWidth,
-      center: { lat: 41.54738349797038, lng: -8.428102644182273 },
+      center:  { lat: '', lng: '' },
       info: [
         "Morada",
         "USF Linha de Apoio",
@@ -272,6 +274,7 @@ export default {
         email:'',
         equipa:''
       },
+      pessoa_edit:'',
       equipa:[{
         nome:'',
         profissao:'',
@@ -289,8 +292,8 @@ export default {
       }],
       edit:'',
       add_team : '',
-      dialog:'',
-      dialogo:''
+      dialog:false,
+      dialogo:false
     }
   },
   mounted () {
@@ -304,6 +307,8 @@ export default {
     axios.get("http://localhost:3333/contactos" , {headers:{'authorization':'Bearer '+ this.token}})
       .then(data => {
         this.dados = data.data.shift()
+        this.center.lat = parseFloat(this.dados.lat)
+        this.center.lng = parseFloat(this.dados.lng)
         var teams = data.data
         var team = []
         var equipa = 0
@@ -358,7 +363,8 @@ export default {
         console.log(err)
       })
     },
-    save_person(person){
+    save_person(person,equipa,pessoa){
+      this.equipas[equipa][pessoa] = {...person}
       axios.put("http://localhost:3333/contactos" , person, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
       })

@@ -22,6 +22,7 @@
 
               <!-- DESCRIÇÃO -->
               <v-textarea 
+                color="var(--secondary-dark-color)"
                 label="Resposta" 
                 v-model="descricao">
               </v-textarea>

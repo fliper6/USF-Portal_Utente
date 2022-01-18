@@ -15,7 +15,8 @@
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
         <p class="p2">Caso pretenda pedir medicação para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
-        <input type="number" class="input-text" v-model="medicacao.numUtentePedido">
+        <input type="number" class="input-text" v-model="medicacao.numUtentePedido" @input="checkNum = false" @click="checkNum = false">
+        <span style="color: #ff5252; font-size: 12px;" v-if="checkNum">Número tem de ter 9 dígitos</span>
         <label class="label">4.Médico de Família</label>
         <div class="select-area">
           <v-select
@@ -45,8 +46,8 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
           <span style="color: #ff5252; font-size: 12px;" v-if="contactoFlag">Campo obrigatório.</span>
           <modal v-if="showTele">
               <label class="label">Número de telemóvel</label>
-              <input type="text" class="input-modal" v-model="medicacao.valorContacto.telemovel">
-              <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.valorContacto.telemovel.$invalid">Número de Telémovel é um campo obrigatório.</span>
+              <input type="number" class="input-modal" v-model="medicacao.valorContacto.telemovel" @click="checkTele = false" @input="checkTele = false">
+              <span style="color: #ff5252; font-size: 12px;" v-if="checkTele">Número de Telémovel é um campo obrigatório.</span>
           </modal>
           <modal v-if="showEmail">
               <label class="label">Email</label>
@@ -134,7 +135,7 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
 import axios from 'axios'
 import jwt from 'jsonwebtoken';
 import { validationMixin } from 'vuelidate'
-import { required } from 'vuelidate/lib/validators'
+import { required, between } from 'vuelidate/lib/validators'
 export default {
   mixins: [validationMixin],
   props: ["token"],
@@ -142,20 +143,12 @@ export default {
     medicacao: {
       nome: { required },
       numUtente: { required },
+      numUtentePedido: { between: between(100000000, 999999999)},
       medicamentos: { required },
       contacto: { required },
       medico: {required},
       valorContacto: {
-        email: {
-          required (v) {
-            return this.medicacao.valorContacto.email || required(v)
-          }
-        },
-        telemovel: {
-          required (v) {
-            return this.medicacao.valorContacto.telemovel || required(v)
-          }
-        }
+        email: {required},
       }
     }
   },
@@ -182,7 +175,9 @@ export default {
       contactoFlag: false,
       dialog: false,
       dialog2:false,
-      dialogErr: false
+      dialogErr: false,
+      checkNum: false,
+      checkTele: false
     }  
   },
   methods: {
@@ -214,15 +209,25 @@ export default {
       if(this.$v.medicacao.medicamentos.$invalid){
         this.medicamentosFlag = true
       }
+      if(this.$v.medicacao.numUtentePedido.$invalid){
+        this.checkNum = true
+      }
       if(this.$v.medicacao.contacto.$invalid){
         this.contactoFlag = true
       }
-      if(!this.$v.medicacao.$invalid){
+      if(this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel == ""){
+        console.log(this.medicacao.valorContacto.telemovel)
+        this.checkTele = true
+      } 
+      if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel != ""){
         this.dialog = true
       }
+      if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "Email"){
+        this.dialog = true
+      }                     
     },
     sendPedidoMed(){
-      if(!this.$v.medicacao.$invalid){
+      if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel != ""){
         axios({
           method: 'post',
           url: "http://localhost:3333/medicacao",
@@ -238,7 +243,7 @@ export default {
             medico: this.medicacao.medico,
             contacto: {
               tipo: this.converteContacto(this.medicacao.contacto),
-              valor: (this.medicacao.contacto == 'SMS') ?  this.medicacao.valorContacto.telemovel : this.medicacao.valorContacto.email
+              valor: this.medicacao.valorContacto.telemovel
             }
           }
         })
@@ -250,6 +255,35 @@ export default {
           console.log(err)
         })
          
+      }
+      else if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "Email"){
+        axios({
+          method: 'post',
+          url: "http://localhost:3333/medicacao",
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+          }, 
+          data: {
+            nome: this.medicacao.nome,
+            user: this.medicacao.user,
+            nr_utente_titular: parseInt(this.medicacao.numUtente),
+            nr_utente_pedido: this.parseNumOpcional(this.medicacao.numUtentePedido),
+            medicacao: this.medicacao.medicamentos,
+            medico: this.medicacao.medico,
+            contacto: {
+              tipo: this.converteContacto(this.medicacao.contacto),
+              valor: this.medicacao.valorContacto.email
+            }
+          }
+        })
+        .then(() => {
+          this.dialog2 = true
+        })
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)
+        })
+                 
       }
     },
       
