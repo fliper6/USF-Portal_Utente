@@ -26,7 +26,9 @@
 
     <v-row class="doc-container">
       <v-col>
-        <v-row style="margin-bottom: 10px"> <h1 class="tituloDoc">{{this.titulo}}</h1> </v-row>
+        <v-row style="margin-bottom: 10px;"> 
+          <div style=" display: table; table-layout: fixed; width: 100%; word-wrap: break-word;"> <h1 class="tituloDoc">{{this.titulo}}</h1> </div>
+        </v-row>
         <v-row> <h3>Criador: <span class="infos">{{this.nome_autor}}</span></h3> </v-row>
         <v-row> <h3>Data de data publicação: <span class="infos">{{this.data_publicacao}}</span></h3> </v-row>
         <v-row> <h3>Nome do ficheiro: <span class="infos">{{this.nome_ficheiro}}</span></h3> </v-row>

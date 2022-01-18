@@ -44,7 +44,7 @@
                 <v-card-title class="text-h5 grey lighten-2"> Carregar novo documento </v-card-title> <br/>
                 <v-col style="margin: auto; padding: 0px 50px;">
 
-                  <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="100" v-model="titulo" label="Título"></v-text-field> <br/>
+                  <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="70" maxlength="70" v-model="titulo" label="Título"></v-text-field> <br/>
                   
                   <p style="margin-bottom: 5px; color:#666666">Categoria associada:</p>
                   <v-row style="height: 55px;">
