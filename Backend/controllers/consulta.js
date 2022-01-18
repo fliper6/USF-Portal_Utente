@@ -6,11 +6,13 @@ module.exports.listar = () => {
         .exec()
 }
 
-module.exports.listarPorUser = nr => {
-    return Consulta
-        .find({user: nr})
-        .sort({"data_criacao":-1})
-        .exec()
+module.exports.listarPorUser = (nr, pagina) => {
+    return Consulta.aggregate([
+        {$match: {user: nr}},
+        {$sort: {data_criacao: -1}},
+        {$skip: (pagina-1)*10},
+        {$limit: 10}
+    ])
 }
 
 module.exports.consultar = id => {

@@ -7,21 +7,21 @@ let Notificacao = require('../controllers/notificacao');
 let Medicacao = require('../controllers/medicacao')
 
 //Devolve todos os pedidos de medicação
-router.get('/', JWTUtils.validate ,function(req, res) {
+router.get('/', JWTUtils.validate, function(req, res) {
     Medicacao.listar()
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });
 
 // Devolver histórico de pedidos de medicação de um utente
-router.get('/historico/:_id', JWTUtils.validate , JWTUtils.compareId, function(req, res) {
-    Medicacao.listarPorUser(req.params._id)
+router.get('/historico/:_id', JWTUtils.validate, JWTUtils.compareId, function(req, res) {
+    Medicacao.listarPorUser(req.params._id, parseInt(req.query.pagina))
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });
 
 //Devolve o pedido de medicação de um id especifico
-router.get('/:id', JWTUtils.validate ,function(req, res) {
+router.get('/:id', JWTUtils.validate, function(req, res) {
   Medicacao.consultar(req.params.id)
     .then(dados => res.status(200).jsonp(dados) )
     .catch(e => res.status(404).jsonp({error: e}))
@@ -29,7 +29,7 @@ router.get('/:id', JWTUtils.validate ,function(req, res) {
 
 
 // Inserir um pedido de medicação
-router.post('/', JWTUtils.validate ,function(req, res){
+router.post('/', JWTUtils.validate, function(req, res){
     Medicacao.inserir(req.body)
     .then(dados => res.status(201).jsonp(dados))
     .catch(e => res.status(500).jsonp({error: e}))

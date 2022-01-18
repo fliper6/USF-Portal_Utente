@@ -559,7 +559,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         else this.med = true
         
         //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
-        axios.get("http://localhost:3333/medicacao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/medicacao/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.medicacoes = data.data
           })
@@ -570,7 +570,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
             return new Date(a.data_criacao) - new Date(b.data_criacao);
           })
         //BUSCAR O HISTORICO DE PEDIDOS DE CONTACTO
-        axios.get("http://localhost:3333/consultas/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/consultas/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.contacto = data.data
           })
@@ -581,7 +581,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
             return new Date(a.data_criacao) - new Date(b.data_criacao);
           })
         //BUSCAR O HISTORICO DE SUGESTOES
-        axios.get("http://localhost:3333/sugestao/historico/" + this.id, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get("http://localhost:3333/sugestao/historico/" + this.id + "?pagina=1", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.sugestoes = data.data
           })
