@@ -1,16 +1,22 @@
+const mongoose = require('mongoose')
 var Sugestao = require('../models/sugestao')
 
-module.exports.listar = () => {
-    return Sugestao
-        .find()
-        .exec()
+module.exports.listar = (estado, skip) => {
+    return Sugestao.aggregate([
+        {$match: {estado}},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
 
-module.exports.listarPorUser = id => {
-    return Sugestao
-        .find({user: id})
-        .sort({"data_criacao":-1})
-        .exec()
+module.exports.listarPorUser = (id, skip) => {
+    return Sugestao.aggregate([
+        {$match: {user: new mongoose.Types.ObjectId(id)}},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
 
 module.exports.consultar = id => {

@@ -6,7 +6,7 @@
       :visible="modalConfirmarCancelarPedido"
       @close="modalConfirmarCancelarPedido=false"
       @confirm="deleteEstado(ida)"
-      options=true
+      options
     >
       Deseja cancelar o pedido de medicação?
     </modal-message>
@@ -146,6 +146,7 @@ import ModalMessage from '../ModalMessage.vue'
       deleteEstado (id){
         axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
+          this.modalConfirmarCancelarPedido = false
           this.modalCancelarPedido = true
         })
         .catch(err => {

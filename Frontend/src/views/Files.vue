@@ -118,6 +118,11 @@
               </v-card>
             </form>
         </v-dialog> 
+        <v-progress-circular
+          v-if="importing"
+          indeterminate
+          color="#800000"
+        ></v-progress-circular>
       </v-col>
       <v-col style="max-width:400px">
         <treeselect 
@@ -181,6 +186,7 @@
       return {
         token: localStorage.getItem('jwt'),
         nivel: 'utente',
+        importing: false,
       
         /* FILTRO */
         valueFiltro: [],
@@ -242,8 +248,10 @@
 
     methods: {
         importar: function() {
+          this.importing = true
+
           axios.post("http://localhost:3333/importar/", 
-            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\USF-Portal_Utente\\PANFLETOS"}, 
+            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\PANFLETOS"}, 
             {
               headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
@@ -265,6 +273,7 @@
                       item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
                     })
                     this.docsfiltrados = this.docs
+                    this.importing = false
                   })
                   .catch(e => {
                     console.log(e)
@@ -272,6 +281,7 @@
               }
             }).catch(e => {
                 this.modalError2 = true;
+                this.importing = false
                 console.log(e)
             }) 
         },
@@ -380,14 +390,8 @@
                   this.modal2 = true;
 
                   // Atualizar árvore de categorias
-                  axios.get("http://localhost:3333/documentos/categorias")
-                    .then(data => {
-                      this.options = data.data.categorias[0].children
-                      this.options2 = data.data.categorias
-                    })
-                    .catch(e => {
-                        console.log(e)
-                    })
+                  this.options = data.data.categorias[0].children
+                  this.options2 = data.data.categorias
                 }
               }).catch(e => {
                 this.modalError2 = true;

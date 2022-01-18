@@ -1,10 +1,10 @@
 var Noticia = require('../models/Noticia')
 
-module.exports.listar = (pagina, visibilidade) => {
+module.exports.listar = (skip, visibilidade) => {
     return Noticia.aggregate([
         {$match: {visibilidade}},
         {$sort: {data_criacao: -1}},
-        {$skip: (pagina-1)*10},
+        {$skip: skip},
         {$limit: 10}
     ])
 }

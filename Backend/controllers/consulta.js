@@ -1,16 +1,23 @@
+const mongoose = require('mongoose')
 var Consulta = require('../models/consulta')
 
-module.exports.listar = () => {
-    return Consulta
-        .find()
-        .exec()
+module.exports.listar = (estado, skip) => {
+    let match = !estado ? {estado: 0} : {$or: [{estado: 1}, {estado: 2}]}
+    
+    return Consulta.aggregate([
+        {$match: match},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
-
-module.exports.listarPorUser = nr => {
-    return Consulta
-        .find({user: nr})
-        .sort({"data_criacao":-1})
-        .exec()
+module.exports.listarPorUser = (id, skip) => {
+    return Consulta.aggregate([
+        {$match: {user: new mongoose.Types.ObjectId(id)}},
+        {$sort: {data_criacao: -1}},
+        {$skip: skip},
+        {$limit: 10}
+    ])
 }
 
 module.exports.consultar = id => {

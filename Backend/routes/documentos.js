@@ -10,19 +10,30 @@ const JWTUtils = require('../utils/jwt')
 let Documento = require('../controllers/documento')
 let Categoria = require('../controllers/categoria')
 
-let categorias_base = [{id: "categorias", label: "Categorias", children: []}]
+let categorias_base = [{id: "categorias", label: "Categorias", removed: false, children: []}]
 
 // Obter lista de documentos
 router.get('/', (req,res) => {
-    Documento.listar(req.query.visibilidade)
-        .then(dados => res.status(200).jsonp(dados))
-        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    if (!("skip" in req.query)) {
+        Documento.listar(req.query.visibilidade)
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }
+    else {
+        Documento.listarPagina(req.query.visibilidade, parseInt(req.query.skip))
+            .then(dados => res.status(200).jsonp(dados))
+            .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem de notícias."}))
+    }
 })
 
 // Obter árvore de categorias de documentos
 router.get('/categorias', (req,res) => {
     Categoria.listar()
-        .then(dados => res.status(200).jsonp(dados !== null ? dados : {categorias: categorias_base}))
+        .then(dados => {
+            let arvore = dados !== null ? dados : {categorias: categorias_base}
+            arvore.categorias = JWTUtils.categoriasNaoRemovidas(arvore.categorias)
+            res.status(200).jsonp(arvore)
+        })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
@@ -55,48 +66,18 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : categorias_base
-
             let ids = JWTUtils.getIDsCategorias(categorias)
             let novo_id = JWTUtils.criarIdCategoria(req.body.nova_categoria, ids)
-            let nova_cat = {id: novo_id, label: req.body.nova_categoria, children: []}
+            let nova_cat = {id: novo_id, label: req.body.nova_categoria, removed: false, children: []}
             
             if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
             else {
-                let atualizarArvore = (nova_cat, id_pai, arr) => {
-                    for (let i = 0; i < arr.length; i++) {
-                        if (arr[i].id == id_pai) {
-                            let nomes = arr[i].children.map(x => x.label)
-
-                            if (nomes.includes(req.body.nova_categoria)) return "Já existe uma categoria com o mesmo nome neste local da árvore!"
-                            else {
-                                for (let j = 0; j < arr[i].children.length; j++) {
-                                    if (arr[i].children[j].label > nova_cat.label) {
-                                        arr[i].children.splice(j, 0, nova_cat); break
-                                    }
-                                    if (j == arr[i].children.length-1) {
-                                        arr[i].children.push(nova_cat); break
-                                    }
-                                }
-
-                                if (!arr[i].children.length) arr[i].children.push(nova_cat)
-                                return arr
-                            }
-                        }
-                        else if (arr[i].children.length > 0) {
-                            let atualizada = atualizarArvore(nova_cat, id_pai, arr[i].children)
-                            if (typeof atualizada == "string") return atualizada
-                            else arr[i].children = atualizada
-                        }
-                    }
-                    return arr
-                }
-
-                categorias = atualizarArvore(nova_cat, req.body.id_pai, categorias)
+                categorias = JWTUtils.adicionarCategoria(nova_cat, req.body.id_pai, categorias)
                 if (typeof categorias == "string") return res.status(201).jsonp({erro: categorias})
             }
 
             Categoria.atualizar(categorias)
-                .then(dados => res.status(200).jsonp(dados))
+                .then(dados => res.status(200).jsonp({categorias: JWTUtils.categoriasNaoRemovidas(dados.categorias)}))
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao atualizar a árvore de categorias de documentos."}))
         })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
@@ -145,23 +126,26 @@ router.put('/remover/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 // Tornar publico um documento
 router.put('/adicionar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     Documento.consultar(req.params.id)
-        .then(dados => {
+        .then(doc => {
             Categoria.listar()
                 .then(dados => {
                     let categorias = dados !== null ? dados.categorias : categorias_base
-
-                    Documento.adicionar(req.params.id)
-                        .then(dados => res.status(200).jsonp(dados))
-                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+                    
+                    Categoria.atualizar(JWTUtils.restaurarCategorias(doc.caminho_categorias, categorias))
+                        .then(cats => {
+                            Documento.adicionar(req.params.id)
+                                .then(dados => res.status(200).jsonp({categorias: JWTUtils.categoriasNaoRemovidas(cats.categorias)}))
+                                .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover o documento."}))
+                        })
+                        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
                 })
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
-
         })
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter o documento."}))
 })
 
 // Remover uma categoria da árvore
-router.delete('/categoria/:id', (req,res) => {
+router.put('/categoria/:id', (req,res) => {
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : categorias_base
@@ -171,7 +155,7 @@ router.delete('/categoria/:id', (req,res) => {
                     if (docs.length > 0) return res.status(200).jsonp({erro: "Não pode apagar esta categoria, porque existem documentos associados à mesma ou a alguma das suas subcategorias."})
                     
                     Categoria.atualizar(JWTUtils.removerCategoria(categorias, req.params.id))
-                        .then(dados => res.status(200).jsonp(dados))
+                        .then(dados => res.status(200).jsonp({categorias: JWTUtils.categoriasNaoRemovidas(dados.categorias)}))
                         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))
                 })
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao remover a categoria de documentos."}))

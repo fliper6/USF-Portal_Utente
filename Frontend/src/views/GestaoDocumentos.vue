@@ -18,7 +18,7 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; changeVarDoc(d)">Ver</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; changeVarDoc(d)">Ver Documento</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="dialog2 = true; nomeVisibilidade = d.titulo; idVisibilidade = d._id">Colocar público</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog3 = true; nomeApagar = d.titulo; idApagar = d._id">Eliminar</v-btn>
             </v-col>
@@ -40,6 +40,11 @@
           </v-row>
         </v-container>
       </div>
+      <v-progress-circular
+        v-if="loadingDocs"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular>
       </v-card>
       <v-dialog
         v-model="dialog3"
@@ -222,20 +227,32 @@ export default {
       docData: null,
       docNome: null,
       docNomeFile: null,
-      docTamanho: null
+      docTamanho: null,
+      lastPage: false,
+      loadingDocs: true
     }
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get("http://localhost:3333/documentos?visibilidade=1&skip=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
-          this.documentos = dados.data
+          this.documentos = this.documentos.concat(dados.data)
+          this.loadingDocs = false;
         })
         .catch(err => {
           console.log(err)
         })
       } 
     },
+  mounted () {
+    window.onscroll = () => {
+      let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+      if (bottomOfWindow && !this.loadingDocs && !this.lastPage) {
+        this.loadingDocs = true;
+        this.getNextPage();
+      }
+    }
+  },
   methods: {
     download(){
         axios.get('http://localhost:3333/documentos/download/' + this.docId,
@@ -267,15 +284,8 @@ export default {
     deleteDocumento(id){
       axios.delete('http://localhost:3333/documentos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
-          axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.dialog5 = true
-              this.documentos = dados.data
-          })
-          .catch(err => {
-            this.dialogErr = true
-            console.log(err)
-          })
+          this.dialog5 = true
+          this.documentos.splice(this.documentos.findIndex(x => x._id == id), 1)
         })
         .catch(err => {
             this.dialogErr = true
@@ -290,20 +300,22 @@ export default {
           }
         })
         .then(() => {
-          axios.get("http://localhost:3333/documentos?visibilidade=1" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.dialog4 = true
-              this.documentos = dados.data
-          })
-          .catch(err => {
-            this.dialogErr = true
-            console.log(err)
-          })
+          this.dialog4 = true
+          this.documentos.splice(this.documentos.findIndex(x => x._id == id), 1)
         })
         .catch(err => {
             this.dialogErr = true
             console.log(err)
         })        
+    },
+    getNextPage() {
+      axios.get('http://localhost:3333/documentos?visibilidade=1&skip=' + this.documentos.length)
+        .then(data => {
+          if(!data.data || data.data.length < 10) this.lastPage = true
+          this.documentos = this.documentos.concat(data.data) 
+          this.loadingDocs = false; 
+        })
+        .catch(err => console.log(err))
     }
   }  
 }

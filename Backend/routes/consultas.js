@@ -3,11 +3,10 @@ var router = require("express-promise-router")();
 const JWTUtils = require('../utils/jwt')
 let Consulta = require('../controllers/consulta')
 let Notificacao = require('../controllers/notificacao');
-const { notify } = require("./users");
 
 //Devolve todos os pedidos de contacto
 router.get('/', JWTUtils.validate, function(req, res) {
-    Consulta.listar()
+    Consulta.listar(parseInt(req.query.estado), parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });
@@ -21,7 +20,7 @@ router.get('/:id', JWTUtils.validate, function(req, res) {
 
 // Devolver histórico pedidos de contacto de um utente
 router.get('/historico/:_id', JWTUtils.validate, function(req, res) {
-    Consulta.listarPorUser(req.params._id)
+    Consulta.listarPorUser(req.params._id, parseInt(req.query.skip))
       .then(dados => res.status(200).jsonp(dados))
       .catch(e => res.status(404).jsonp({error: e}))
   });

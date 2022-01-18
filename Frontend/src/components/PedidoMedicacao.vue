@@ -8,10 +8,10 @@
     <form id="formMed">
       <div class="info-area">
         <label class="label">1. Nome Completo</label>
-        <input type="text" class="input-text" required v-model="medicacao.nome">
+        <input disabled type="text" class="input-text" required v-model="medicacao.nome">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.nome.$invalid">Nome é um campo obrigatório.</span>
         <label class="label">2. Número de utente titular (Serviço Nacional de Saúde)</label>
-        <input type="number" class="input-text" required v-model="medicacao.numUtente">
+        <input disabled type="number" class="input-text" required v-model="medicacao.numUtente">
         <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.numUtente.$invalid">Número de utente é um campo obrigatório.</span>
         <label class="label">3. Número de utente a pedir (Serviço Nacional de Saúde)</label>
         <p class="p2">Caso pretenda pedir medicação para um utente do seu agregado familiar que não tenha capacidade para o fazer preencha este campo.</p>
@@ -44,16 +44,16 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
             <input type="radio" class="input-radio" @click="showEmail = true; showTele = false; contactoFlag = false; getContactos()" required v-model="medicacao.contacto" value="Email">
           </div>
           <span style="color: #ff5252; font-size: 12px;" v-if="contactoFlag">Campo obrigatório.</span>
-          <modal v-if="showTele">
+          <div v-if="showTele">
               <label class="label">Número de telemóvel</label>
               <input type="number" class="input-modal" v-model="medicacao.valorContacto.telemovel" @click="checkTele = false" @input="checkTele = false">
               <span style="color: #ff5252; font-size: 12px;" v-if="checkTele">Número de Telémovel é um campo obrigatório.</span>
-          </modal>
-          <modal v-if="showEmail">
+          </div>
+          <div v-if="showEmail">
               <label class="label">Email</label>
               <input type="text" class="input-modal" v-model="medicacao.valorContacto.email">
               <span style="color: #ff5252; font-size: 12px;" v-if="$v.medicacao.valorContacto.email.$invalid">Email é um campo obrigatório.</span>
-          </modal>
+          </div>
         <div>
           <v-btn class="button" @click="verifica()">Submeter</v-btn>
         </div> 
@@ -216,7 +216,6 @@ export default {
         this.contactoFlag = true
       }
       if(this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel == ""){
-        console.log(this.medicacao.valorContacto.telemovel)
         this.checkTele = true
       } 
       if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel != ""){

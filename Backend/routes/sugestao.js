@@ -8,14 +8,14 @@ let Sugestao = require('../controllers/sugestao')
 
 //Devolve todos as sugestões
 router.get('/', JWTUtils.validate ,function(req, res) {
-    Sugestao.listar()
+    Sugestao.listar(parseInt(req.query.estado), parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });
 
 // Devolver histórico de sugestões de um utente
 router.get('/historico/:_id', JWTUtils.validate ,function(req, res) {
-  Sugestao.listarPorUser(req.params._id)
+  Sugestao.listarPorUser(req.params._id, parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados))
     .catch(e => res.status(404).jsonp({error: e}))
 });

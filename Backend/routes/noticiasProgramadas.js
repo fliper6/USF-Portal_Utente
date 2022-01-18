@@ -40,9 +40,9 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
         noticiaProg.noticia.data_ultima_mod = data_publicacao
 
         Noticia.inserir(JSON.parse(JSON.stringify(noticiaProg.noticia)))
-            .then((dados) => {
+            .then(() => {
                 // se for recorrente, atualiza a notícia programada na bd e reagenda-a
-                if (noticiaProg.recorrencia.some((x) => x !== 0)) {
+                if (noticiaProg.recorrencia.some(x => x !== 0)) {
                     noticiaProg.data_pub = data_publicacao;
         
                     while (noticiaProg.data_pub <= data_publicacao) {
@@ -52,14 +52,15 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
                     np.atualizarNoticiaProg(noticiaProg, res)
                 }
                 // senão, remove a notícia programada da bd e cancela o job
-                else {
+                else if ("_id" in noticiaProg) {
                     NoticiaProg.remover(req.params.id)
                         .then(d => {
                             np.cancelarProgramacao(req.params.id)
-                            res.status(200).jsonp(d)
+                            res.status(200).jsonp({})
                         })
                         .catch(e => res.status(500).jsonp({error: `Erro ao terminar a programação da notícia '${req.params.id}'.`}))
                 }
+                else res.status(200).jsonp({})
             })
             .catch((e) =>  res.status(500).jsonp({ error: "Ocorreu um erro ao dar upload à notícia." }));
     } 

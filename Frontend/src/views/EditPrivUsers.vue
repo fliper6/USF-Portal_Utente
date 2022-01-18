@@ -184,7 +184,7 @@ export default {
           .catch(err => {
             this.modalErro = true
             this.loading = false
-            console.log("Erro a alterar permissões de users:",err)
+            console.log("Erro ao alterar permissões de users:",err)
           })
     },
     alteracaoSucesso() {
@@ -220,7 +220,7 @@ export default {
           this.listaFiltrada = res.data
         })
         .catch(err => {
-          console.log("Erro a obter a lista de users:",err)
+          console.log("Erro ao obter a lista de users:",err)
         })
     }
   },

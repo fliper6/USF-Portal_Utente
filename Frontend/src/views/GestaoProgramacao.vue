@@ -22,8 +22,8 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo; programaNot">Programar publicação</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n">Ver Notícia</v-btn>
+              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProgNorm = true; noticia = n; nomeEdit = n.titulo">Programar publicação</v-btn>
             </v-col>
           </v-row>
           <v-row v-if="noticiasNormais.length > 1 && index < noticiasNormais.length - 1">
@@ -43,8 +43,8 @@
           </v-row>
           <v-row>
             <v-col class="text-right">
-              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n.noticia">Ver</v-btn>
-              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="modalProg= true; noticia = n; recurrenceArrayP = n.recorrencia; dateP = new Date(n.data_pub).toISOString(); nomeEdit = n.noticia.titulo">Editar programação de publicação</v-btn>
+              <v-btn depressed style="background-color:var(--secondary-color);  margin:0 10px 0 0;" @click="dialogVer = true; noticia = n.noticia">Ver Notícia</v-btn>
+              <v-btn depressed style="background-color:var(--grey2-color);  margin:0 10px 0 0;" @click="buildEdit(n)">Editar programação de publicação</v-btn>
               <v-btn depressed style="background-color:var(--grey2-color);" @click="dialog = true; nomeApagar = n.noticia.titulo; idApagar = n._id; cancelaProg">Cancelar programação</v-btn>
             </v-col>
           </v-row>
@@ -140,8 +140,8 @@
         title="Programar publicação da notícia"
         :visible="modalProgNorm"
         options
-        @close="modalProgNorm = false"
-        @confirm="programaNot"
+        @close="revert"
+        @confirm="checkDateCreate"
       >
         Quando deseja publicar esta notícia?
         <div class="parameters">
@@ -185,8 +185,8 @@
         title="Editar publicação da notícia"
         :visible="modalProg"
         options
-        @close="modalProg = false"
-        @confirm="editaNotprog"
+        @close="revertEdit"
+        @confirm="checkDateEdit"
       >
         Editar data de publicação da noticia
         <div class="parameters">
@@ -214,8 +214,14 @@
           <v-divider class="publish-divider" />
           <div style="align-self: start">Editar recorrência da notícia</div>
           <div class="publish-time">          
+            <v-checkbox
+              v-model="publishRepeat"
+              label="Notícia recorrente"
+              color="#800000"
+            />            
             <input-recurrence
               v-model="recurrenceArrayP"
+              :disabled="!publishRepeat"
             />
           </div>
         </div>
@@ -261,7 +267,28 @@
             </v-btn>
           </v-card-actions>
         </v-card>
-      </v-dialog>                     
+      </v-dialog>
+      <v-dialog
+        v-model="dialogDataInvalida"
+        :retain-focus="false"
+        max-width="550">
+        <v-card>
+          <v-card-title class="text-h5 grey lighten-2">Erro</v-card-title> <br/>
+          <v-col style="margin: auto; padding: 0px 50px;">
+            <p style="margin-bottom: 5px; color:var(--grey3-color)">
+              Por favor introduza uma data futura válida.</p>
+          </v-col>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+            class="button-confirmar"
+            text
+            @click="dialogDataInvalida = false">
+            Confirmar
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>                             
     </div>
 </template>
 
@@ -296,6 +323,7 @@ export default {
       dialog3: false,
       dialogVer: false,
       dialogErr: false,
+      dialogDataInvalida: false,
       modalProgNorm: false,
       modalProg: false,
       noticia: null,
@@ -329,6 +357,63 @@ export default {
       } 
     },
   methods: {
+    revertEdit(){
+      this.publishRepeat = false
+      this.modalProg = false
+    },
+    revert(){
+      this.modalProgNorm = false
+      this.date = Date.now()
+      this.recurrenceArray = [0,6,0,0,0,0]
+      this.publishNow = true
+      this.publishRepeat = false      
+    },
+    buildEdit(n){
+      this.noticia = n
+      this.recurrenceArrayP = n.recorrencia;
+      if(this.checkRecurrenceArray(this.recurrenceArrayP)){
+        this.publishRepeat = false
+        this.publishNow = false
+        this.recurrenceArrayP = [0,6,0,0,0,0]
+      }
+      else{
+        this.publishRepeat = true
+        this.publishNow = true
+      }
+
+      this.dateP = new Date(n.data_pub).toISOString()
+
+      
+      console.log("Data depois: " + this.dateP)
+      //console.log(this.recurrenceArrayP)
+      this.nomeEdit = n.noticia.titulo
+      this.modalProg= true 
+    },    
+    checkRecurrenceArray(array){
+      let res = true
+      array.forEach(element => {
+        if(element != 0){
+          res = false
+        }
+      })
+      return res
+    },
+    checkDateEdit(){
+      if (!this.publishNow && new Date(this.dateP).getTime() < Date.now()){
+        this.dialogDataInvalida = true
+      }
+      else {
+        this.editaNotprog()
+      }
+    },
+    checkDateCreate(){
+      if (!this.publishNow && (new Date(this.date).getTime() < Date.now())){
+        this.dialogDataInvalida = true
+      }
+      else {
+        this.programaNot()
+      }
+    },    
     cancelaProg(){
       axios.delete('http://localhost:3333/noticias_programadas/' + this.idApagar, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
@@ -349,13 +434,14 @@ export default {
     },
     editaNotprog(){
       let data_pub = this.publishNow ? 'now' : this.dateP
-
+      let rec_array = this.publishRepeat ? this.recurrenceArrayP : [0,0,0,0,0,0]
       let noticiaProg = {
         _id: this.noticia._id,
-        recorrencia: this.recurrenceArrayP.map(x => parseInt(x)),
+        recorrencia: rec_array.map(x => parseInt(x)),
         data_pub: data_pub,
         noticia: this.noticia.noticia
       }
+      this.publishRepeat = false
       axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
         noticiaProg,
         {
@@ -382,9 +468,8 @@ export default {
     },
     programaNot(){
       let data_pub = this.publishNow ? 'now' : this.date
-
       let noticiaProg = {
-        recorrencia: this.recurrenceArray.map(x => parseInt(x)),
+        recorrencia: this.publishRepeat ? this.recurrenceArray.map(x => parseInt(x)) : [0,0,0,0,0,0],
         data_pub: data_pub,
         noticia: {
           titulo: this.noticia.titulo,
@@ -398,7 +483,10 @@ export default {
           ficheiros: this.noticia.ficheiros,
         }
       }
-
+      this.date = Date.now()
+      this.recurrenceArray = [0,6,0,0,0,0]
+      this.publishNow = true
+      this.publishRepeat = false
       axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
         noticiaProg,
         {
