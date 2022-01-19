@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 var Sugestao = require('../models/sugestao')
 
-module.exports.listar = (estado, skip) => {
+module.exports.listar = (estado, ordem, skip) => {
     return Sugestao.aggregate([
         {$match: {estado}},
-        {$sort: {data_criacao: -1}},
+        {$sort: {data_criacao: ordem}},
         {$skip: skip},
         {$limit: 10}
     ])
