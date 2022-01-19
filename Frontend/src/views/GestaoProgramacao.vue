@@ -461,9 +461,10 @@ export default {
       ).then(() => {        
         this.modalProg = false
         this.dialog3 = true
-        if (noticiaProg.data_pub == "now" && noticiaProg.recorrencia.every(x => !x)) {
-          this.noticiasProg.splice(this.noticiasProg.findIndex(x => x._id == this.noticia._id), 1)
-        }
+
+        let indice_noticia = this.noticiasProg.findIndex(x => x._id == this.noticia._id)
+        if (noticiaProg.data_pub == "now" && noticiaProg.recorrencia.every(x => !x)) this.noticiasProg.splice(indice_noticia, 1)
+        else this.noticiasProg[indice_noticia] = noticiaProg
       }).catch((err) => {
           this.dialogErr = true
           console.log(err) 
