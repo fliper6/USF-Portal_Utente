@@ -65,6 +65,11 @@
           </v-row>
         </v-container>
       </div>
+      <v-progress-circular
+        v-if="loading"
+        indeterminate
+        color="#800000"
+      ></v-progress-circular>
       </v-card>
       <v-dialog
         v-model="dialogVer"
@@ -318,6 +323,7 @@ export default {
       token: localStorage.getItem('jwt'),
       noticiasNormais: [],
       noticiasProg: [],
+      idsOriginais: [],
       dialog: false,
       dialog2: false,
       dialog3: false,
@@ -341,7 +347,9 @@ export default {
       recurrenceArrayP: null,      
       publishNow: true,
       publishRepeat: false,
-      n: null
+      n: null,
+      lastPage: false,
+      loading: true
     }
   },
   created(){
@@ -349,6 +357,9 @@ export default {
       axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.noticiasNormais = dados.data.noticiasNormais
+          this.noticiasProg = dados.data.noticiasProg
+          this.ids_originais = this.noticiasProg.reduce((acc,cur) => {if ("id_original" in cur.noticia) acc.push(cur.noticia.id_original); return acc}, [])
+          this.loading = false
         })
         .catch(err => {
           this.dialogErr = true
@@ -356,6 +367,15 @@ export default {
         })
       } 
     },
+  mounted () {
+    window.onscroll = () => {
+      let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+      if (bottomOfWindow && this.color1==1 && !this.loading && !this.lastPage) {
+        this.loading = true;
+        this.getNextPage();
+      }
+    }
+  },
   methods: {
     revertEdit(){
       this.publishRepeat = false
@@ -382,10 +402,6 @@ export default {
       }
 
       this.dateP = new Date(n.data_pub).toISOString()
-
-      
-      console.log("Data depois: " + this.dateP)
-      //console.log(this.recurrenceArrayP)
       this.nomeEdit = n.noticia.titulo
       this.modalProg= true 
     },    
@@ -417,15 +433,8 @@ export default {
     cancelaProg(){
       axios.delete('http://localhost:3333/noticias_programadas/' + this.idApagar, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
-          axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-            .then( dados => {
-              this.noticiasProg = dados.data.noticiasProg
-              this.dialog2 = true
-            })
-            .catch(err => {
-              this.dialogErr = true
-              console.log(err)
-            })            
+          this.noticiasProg.splice(this.noticiasProg.findIndex(x => x._id == this.idApagar), 1)
+          this.dialog2 = true
         })
         .catch(err => {
           this.dialogErr = true
@@ -452,16 +461,10 @@ export default {
       ).then(() => {        
         this.modalProg = false
         this.dialog3 = true
-        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-          .then( dados => {
-            this.noticiasProg = dados.data.noticiasProg
-          })
-          .catch(err => {
-            this.dialogErr = true
-            console.log(err)
-          })          
-
-      }).catch((err) => { 
+        if (noticiaProg.data_pub == "now" && noticiaProg.recorrencia.every(x => !x)) {
+          this.noticiasProg.splice(this.noticiasProg.findIndex(x => x._id == this.noticia._id), 1)
+        }
+      }).catch((err) => {
           this.dialogErr = true
           console.log(err) 
         });      
@@ -495,42 +498,45 @@ export default {
           }
         }
       ).then(() => {
-        this.modalProgNorm = false
-        this.dialog3 = true
         axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
+            this.modalProgNorm = false
+            this.dialog3 = true
             this.noticiasNormais = dados.data.noticiasNormais
+            this.noticiasProg = dados.data.noticiasProg
+            this.ids_originais = this.noticiasProg.reduce((acc,cur) => {if ("id_original" in cur.noticia) acc.push(cur.noticia.id_original); return acc}, [])
+            this.loading = false
           })
           .catch(err => {
             this.dialogErr = true
             console.log(err)
-          })             
-
+          })
       }).catch((err) => {
           this.dialogErr = true 
           console.log(err) 
         });
     },
     alteraLista(){
-      if(this.color1 == 1){
-        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-          .then( dados => {
-            this.noticiasNormais = dados.data.noticiasNormais
-          })
-          .catch(err => {
-            console.log(err)
-          })        
-      }
-      else if(this.color2 == 1){
-        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
-          .then( dados => {
-            this.noticiasProg = dados.data.noticiasProg
-          })
-          .catch(err => {
-            console.log(err)
-          })        
-      }
+      axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+        .then( dados => {
+          this.noticiasNormais = dados.data.noticiasNormais
+          this.noticiasProg = dados.data.noticiasProg
+          this.ids_originais = this.noticiasProg.reduce((acc,cur) => {if ("id_original" in cur.noticia) acc.push(cur.noticia.id_original); return acc}, [])
+          this.lastPage = false
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
+    getNextPage() {
+      axios.post('http://localhost:3333/noticias_programadas/originais?skip=' + this.noticiasNormais.length, {ids_originais: this.ids_originais})
+        .then(data => {
+          if(!data.data || data.data.length < 10) this.lastPage = true
+          this.noticiasNormais = this.noticiasNormais.concat(data.data) 
+          this.loading = false; 
+        })
+        .catch(err => console.log(err))
+    }
   }  
 
 }

@@ -13,7 +13,7 @@ router.get('/', (req,res) => {
         .then(noticiasProg => {
             let ids_originais = noticiasProg.reduce((acc,cur) => {if ("id_original" in cur.noticia) acc.push(cur.noticia.id_original); return acc}, [])
 
-            Noticia.listarOriginais(ids_originais)
+            Noticia.listarOriginais(ids_originais, 0)
                 .then(noticiasNormais => res.status(200).jsonp({noticiasNormais, noticiasProg}))
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter as listas de notícias programadas e não programadas."}))
         })
@@ -25,6 +25,13 @@ router.get('/:id', (req,res) => {
     NoticiaProg.consultar(req.params.id)
         .then(dados => res.status(200).jsonp(dados))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a notícia programada."}))
+})
+
+// Obter notícias originais
+router.post('/originais', (req,res) => {
+    Noticia.listarOriginais(req.body.ids_originais, parseInt(req.query.skip))
+        .then(dados => res.status(200).jsonp(dados))
+        .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter as listas de notícias programadas e não programadas."}))
 })
 
 // Editar uma notícia programada
@@ -68,7 +75,7 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
 })
 
 // Terminar a programação de uma notícia
-router.delete('/:id', (req,res) => {
+router.delete('/:id', JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
     NoticiaProg.remover(req.params.id)
         .then(dados => {
             np.cancelarProgramacao(req.params.id)
