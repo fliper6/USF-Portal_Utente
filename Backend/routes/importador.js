@@ -39,13 +39,15 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
     }
 
     if (elem.type == "directory") {
-        let novo_id = JWTUtils.criarIdCategoria(elem.name, ids)
+        let categoria = elem.name
+        if (categoria.length > 35) categoria = categoria.slice(0, -(categoria.length - 35))
+        let novo_id = JWTUtils.criarIdCategoria(categoria, ids)
         
         axios.post("http://localhost:3333/documentos/criar_categoria", 
-            {id_pai: ids_pai[ids_pai.length-1], nova_categoria: elem.name},
+            {id_pai: ids_pai[ids_pai.length-1], nova_categoria: categoria},
             {headers: { 'Authorization': 'Bearer ' + token }})
             .then(dados => {
-                console.log(`Categoria ${"erro" in dados.data ? "já existe" : "criada"}:`, elem.name)
+                console.log(`Categoria ${"erro" in dados.data ? "já existe" : "criada"}:`, categoria)
 
                 if (!("erro" in dados.data)) {
                     categorias = dados.data
@@ -54,7 +56,7 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
                 else {
                     let cats = JSON.parse(JSON.stringify(categorias.categorias))
                     for (let i = 0; i < ids_pai.length; i++) cats = cats[cats.findIndex(x => x.id == ids_pai[i])].children
-                    novo_id = cats[cats.findIndex(x => x.label == elem.name)].id
+                    novo_id = cats[cats.findIndex(x => x.label == categoria)].id
                 }
 
                 if (elem.children.length > 0) {
@@ -66,7 +68,7 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
             })
             .catch(e => console.log("Erro ao criar categoria:", elem.name))
     }
-    else {
+    else if (ids_pai.length > 1) {
         let formData = new FormData();
         let titulo = elem.name.slice(0, -(elem.extension.length))
         if (titulo.length > 65) titulo = titulo.slice(0, -(titulo.length - 65))
@@ -84,6 +86,7 @@ function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
             })
             .catch(e => console.log("Erro ao importar ficheiro:", elem.name))
     }
+    else return proxIteracao(pai, tree, indices, ids, ids_pai, categorias, token, res)
 }
 
 // Importar a diretoria em questão para a aplicação

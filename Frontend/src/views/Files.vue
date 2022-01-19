@@ -122,11 +122,12 @@
                 </v-col>
 
                 <v-col v-else style="margin: auto; padding: 10px 50px 20px 50px;">
-                  Selecione a diretoria da pasta a ser importada. Atenção:
+                  Selecione a pasta que pretende importar. Atenção:
                   <ul style="font-size:14px">
-                    <li>Pastas são consideradas categorias e os documentos dentro são colocados nessas respetivas categorias</li>
-                    <li>Ficheiros na root, isto é, que não estejam em nenhuma categoria, não serão importados</li>
-                    <li>O título de cada documento terá, no máximo, 65 caracteress (se o nome do ficheiro ultrapassar este limite, será cortado)</li>
+                    <li>Pastas são consideradas categorias e os documentos dentro são colocados nessas respetivas categorias;</li>
+                    <li>Todos os documentos devem estar associados a uma categoria. Como tal, ficheiros que estejam na raiz da pasta selecionada serão ignorados;</li>
+                    <li>O nome de cada categoria terá, no máximo, 35 caracteres (se o nome da pasta ultrapassar este limite, será cortado);</li>
+                    <li>O título de cada documento terá, no máximo, 65 caracteres (se o nome do ficheiro ultrapassar este limite, será cortado).</li>
                   </ul>
                   <v-file-input 
                       color=var(--secondary-dark-color) 
