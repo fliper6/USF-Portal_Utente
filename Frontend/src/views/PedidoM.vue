@@ -129,7 +129,7 @@ import ModalMessage from '../components/ModalMessage.vue'
     },
     created(){
     if (this.token) {
-      axios.get("http://localhost:3333/medicacao?estado=0&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
+      axios.get("http://localhost:3333/medicacao?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
               data.data.forEach(element => {
                 if(element.estado === 1 || element.estado === 2){

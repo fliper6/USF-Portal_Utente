@@ -6,7 +6,7 @@ let Notificacao = require('../controllers/notificacao');
 
 //Devolve todos os pedidos de contacto
 router.get('/', JWTUtils.validate, function(req, res) {
-    Consulta.listar(parseInt(req.query.estado), parseInt(req.query.skip))
+    Consulta.listar(parseInt(req.query.estado), parseInt(req.query.ordem), parseInt(req.query.skip))
     .then(dados => res.status(200).jsonp(dados)) 
     .catch(e => res.status(404).jsonp({error: e}))
 });

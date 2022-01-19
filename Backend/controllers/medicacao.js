@@ -1,12 +1,12 @@
 const mongoose = require('mongoose')
 var Medicacao = require('../models/medicacao')
 
-module.exports.listar = (estado, skip) => {
+module.exports.listar = (estado, ordem, skip) => {
     let match = !estado ? {estado: 0} : {$or: [{estado: 1}, {estado: 2}]}
     
     return Medicacao.aggregate([
         {$match: match},
-        {$sort: {data_criacao: -1}},
+        {$sort: {data_criacao: ordem}},
         {$skip: skip},
         {$limit: 10}
     ])
