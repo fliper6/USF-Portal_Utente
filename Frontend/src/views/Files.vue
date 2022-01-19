@@ -5,14 +5,14 @@
       :visible="modal"
       @close="closeSucesso()"
     >
-      Documento adicionado com sucesso
+      Documento(s) adicionado(s) com sucesso
     </modal-message>
     <modal-message
       title="Erro"
       :visible="modalError"
       @close="closeErro()"
     >
-      Não foi possível adicionar documento
+      Não foi possível adicionar documento(s)
     </modal-message>
     <modal-message
       title="Sucesso"
@@ -35,14 +35,26 @@
             <v-btn v-if="testNivel()==true" class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
               + Novo Documento
             </v-btn>
-            <v-btn v-if="false && testNivel()==true" class="button-principal" @click = "importar()">
-              Importar
-            </v-btn>
+  
           </template>
             <form>
               <v-card>
-                <v-card-title class="text-h5 grey lighten-2"> Carregar novo documento </v-card-title> <br/>
-                <v-col style="margin: auto; padding: 0px 50px;">
+                <v-card-title class="text-h5 grey lighten-2">
+                    Carregar novo documento <br/> 
+                    <v-row v-if="modo" style="flex-direction: row; justify-content: flex-end;">
+                      <div> <v-label style="margin-top: 10px;">ou importar em lote: &nbsp; </v-label> </div>
+                      <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=false">
+                        Importar
+                      </v-btn>
+                    </v-row>
+                    <v-row v-else style="flex-direction: row; justify-content: flex-end;">
+                      <div> <v-label style="margin-top: 10px;">ou criar novo documento: &nbsp; </v-label> </div>
+                      <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=true">
+                        Novo Documento
+                      </v-btn>
+                    </v-row>
+                </v-card-title> <br/>
+                <v-col v-if="modo" style="margin: auto; padding: 10px 50px 20px 50px;">
 
                   <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="70" maxlength="70" v-model="titulo" label="Título"></v-text-field> <br/>
                   
@@ -52,7 +64,7 @@
                       <treeselect
                         @input="$v.arvore.$touch()" 
                         @open="warning_arvore = false"
-                        :max-height="100"
+                        :max-height="200"
                         :multiple="false" :options="options" 
                         :flatten-search-results="true"
                         :normalizer="normalizer"
@@ -60,7 +72,8 @@
                         placeholder="Tags"/> 
                       <span style="color: #ff5252; font-size: 12px;" v-if="this.warning_arvore">Categoria é um campo obrigatório.</span>
                     </v-col>  
-                    <br/>
+                    <br/> <br/>
+                    <br/> <br/>
                     <v-col cols="1">
                       <v-dialog v-model="dialog2" width="400">
                         <template v-slot:activator="{ on, attrs }">
@@ -71,12 +84,12 @@
 
                         <v-card>
                           <v-card-title class="text-h5 grey lighten-2"> Adicionar nova categoria</v-card-title> <br/>
-                          <v-col style="margin: auto; padding: 0px 50px;">
+                          <v-col style="margin: auto; padding: 20px 50px 40px 50px;">
                             <p style="margin-bottom: 5px; color:#666666">Ramo da categoria</p>
                             <treeselect
                               @input="$v.arvore_pai.$touch()" 
                               @open="warning_arvore2 = false"
-                              :max-height="100"
+                              :max-height="200"
                               :multiple="false" :options="options2" 
                               :flatten-search-results="true"
                               :normalizer="normalizer"
@@ -84,7 +97,7 @@
                               placeholder="Tags"/> 
                             <span style="color: #ff5252; font-size: 12px;" v-if="this.warning_arvore2">Ramo da categoria é um campo obrigatório.</span>
                             <br/>
-                            <v-text-field color=var(--secondary-dark-color) @input="$v.categoria.$touch()" @blur="$v.categoria.$touch()" :error-messages="categoriaErrors" v-model="categoria" :counter="50" label="Nome da categoria"></v-text-field> <br/>
+                            <v-text-field color=var(--secondary-dark-color) @input="$v.categoria.$touch()" @blur="$v.categoria.$touch()" :error-messages="categoriaErrors" v-model="categoria" counter="35" maxlength="35" label="Nome da categoria"></v-text-field> <br/>
                           </v-col>
                           <v-divider></v-divider>
 
@@ -105,9 +118,27 @@
                     @blur="$v.file.$touch()" 
                     truncate-length="15" 
                     :error-messages="ficheiroErrors" 
-                    v-model="file"> </v-file-input> <br/>
-
+                    v-model="file"> </v-file-input> 
                 </v-col>
+
+                <v-col v-else style="margin: auto; padding: 10px 50px 20px 50px;">
+                  Selecione a diretoria da pasta a ser importada. Atenção:
+                  <ul style="font-size:14px">
+                    <li>Pastas são consideradas categorias e os documentos dentro são colocados nessas respetivas categorias</li>
+                    <li>Ficheiros na root, isto é, que não estejam em nenhuma categoria, não serão importados</li>
+                    <li>O título de cada documento terá, no máximo, 65 caracteress (se o nome do ficheiro ultrapassar este limite, será cortado)</li>
+                  </ul>
+                  <v-file-input 
+                      color=var(--secondary-dark-color) 
+                      @input="$v.files.$touch()" 
+                      @blur="$v.files.$touch()" 
+                      truncate-length="100" 
+                      :error-messages="multErrors" 
+                      multiple
+                      webkitdirectory
+                      v-model="files"> </v-file-input> 
+                </v-col>
+                
                 <v-divider></v-divider>
 
                 <v-card-actions>
@@ -180,6 +211,7 @@
       file: { required },
       categoria: { required },
       arvore_pai: { required },
+      files: { required }
     },
 
     data() {
@@ -187,7 +219,10 @@
         token: localStorage.getItem('jwt'),
         nivel: 'utente',
         importing: false,
-      
+
+        modo: true, 
+        files: null,
+
         /* FILTRO */
         valueFiltro: [],
         options: null,
@@ -244,14 +279,20 @@
         !this.$v.categoria.required && errors.push('Categoria é um campo obrigatório.')
         return errors
       },
+      multErrors () {
+        const errors = []
+        if (!this.$v.files.$dirty) return errors
+        !this.$v.files.required && errors.push('Diretoria dos documentos é um campo obrigatório.')
+        return errors
+      },
     },
 
     methods: {
-        importar: function() {
+        importar: function(dir) {
           this.importing = true
 
           axios.post("http://localhost:3333/importar/", 
-            {diretoria: "C:\\Users\\hacar\\OneDrive\\Ambiente de Trabalho\\PANFLETOS"}, 
+            {diretoria: dir}, 
             {
               headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
@@ -280,7 +321,7 @@
                   })
               }
             }).catch(e => {
-                this.modalError2 = true;
+                this.modalError = true;
                 this.importing = false
                 console.log(e)
             }) 
@@ -315,45 +356,53 @@
           return { children: node.children && node.children.length ? node.children : 0 } 
         },
         addDocumento: function () {
-          this.$v.$touch()
-          if (!this.$v.arvore.required)
-            this.warning_arvore = true
-          if (this.$v.titulo.required && this.$v.arvore.required && this.$v.file.required) {
+          if(this.modo) {
+            this.$v.$touch()
+            if (!this.$v.arvore.required)
+              this.warning_arvore = true
+            if (this.$v.titulo.required && this.$v.arvore.required && this.$v.file.required) {
 
-            let formData = new FormData();
-            formData.append('documento', this.file)
-            formData.append('titulo', this.titulo)
-            formData.append('id_categoria', this.arvore)
+              let formData = new FormData();
+              formData.append('documento', this.file)
+              formData.append('titulo', this.titulo)
+              formData.append('id_categoria', this.arvore)
 
-            axios.post("http://localhost:3333/documentos/", 
-              formData, 
-              {
-                headers: {
-                  'Content-Type': 'multipart/form-data', 
-                  'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-                }
-              }).then(() => {
-                this.modal = true;
+              axios.post("http://localhost:3333/documentos/", 
+                formData, 
+                {
+                  headers: {
+                    'Content-Type': 'multipart/form-data', 
+                    'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+                  }
+                }).then(() => {
+                  this.modal = true;
 
-                // Atualizar documentos
-                axios.get("http://localhost:3333/documentos?visibilidade=0")
-                  .then(data => {
-                    this.docs = data.data
-                    this.docs.forEach(item => {              
-                      item.titulo = item.titulo + "##" + item._id
-                      item.data_publicacao = item.data_publicacao.slice(0,10)
-                      item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
+                  // Atualizar documentos
+                  axios.get("http://localhost:3333/documentos?visibilidade=0")
+                    .then(data => {
+                      this.docs = data.data
+                      this.docs.forEach(item => {              
+                        item.titulo = item.titulo + "##" + item._id
+                        item.data_publicacao = item.data_publicacao.slice(0,10)
+                        item.ficheiro.nome_ficheiro = item.ficheiro.nome_ficheiro.split(".").pop()
+                      })
+                      this.filtrar()
                     })
-                    this.filtrar()
-                  })
-                  .catch(e => {
-                    console.log(e)
-                  })
-                    
-              }).catch(e => {
-                this.modalError = true;
-                console.log(e)
-              })
+                    .catch(e => {
+                      console.log(e)
+                    })
+                      
+                }).catch(e => {
+                  this.modalError = true;
+                  console.log(e)
+                })
+            }
+          }
+          else {
+            this.$v.$touch()
+            if (this.$v.files.required)
+              this.importar(this.files)
+
           }
         },
         closeSucesso () { this.modal = false; this.close() },
@@ -365,6 +414,7 @@
           this.file = null
           this.warning_arvore = false
           this.dialog = false
+          this.modo = true
         },
         addCategoria: function () {
           this.$v.arvore_pai.$touch()
@@ -442,6 +492,15 @@
 </script>
 
 <style>
+.separate {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  color: var(--gray);
+  margin: 10px 0;
+}
+
 .v-data-table > .v-data-table__wrapper > table > thead > tr > th  {
   font-size:16px !important;
 }

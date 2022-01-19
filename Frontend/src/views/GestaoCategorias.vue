@@ -15,6 +15,15 @@
       Não foi possível adicionar categoria
     </modal-message>
     <modal-message
+      title="Apagar?"
+      options
+      :visible="modalConfirm"
+      @close="modalConfirm = false"
+      @confirm="deleteCategoria()"
+    >
+      Deseja apagar esta categoria?
+    </modal-message>
+    <modal-message
       title="Sucesso"
       :visible="modal2"
       @close="closeSucesso2()"
@@ -47,12 +56,12 @@
 
                 <v-card>
                   <v-card-title class="text-h5 grey lighten-2">Adicionar nova categoria</v-card-title> <br/>
-                  <v-col style="margin: auto; padding: 0px 50px;">
+                  <v-col style="margin: auto; padding: 20px 50px 40px 50px;">
                     <p style="margin-bottom: 5px; color:#666666">Ramo da categoria</p>
                     <treeselect
                         @input="$v.arvore_pai.$touch()" 
                         @open="warning_arvore = false"
-                        :max-height="150"
+                        :max-height="200"
                         :multiple="false" :options="options2" 
                         :flatten-search-results="true"
                         :normalizer="normalizer"
@@ -60,7 +69,7 @@
                         placeholder="Tags"/> 
                     <span style="color: #ff5252; font-size: 12px;" v-if="this.warning_arvore">Ramo da categoria é um campo obrigatório.</span>
                     <br/>
-                    <v-text-field color=var(--secondary-dark-color) @input="$v.categoria.$touch()" @blur="$v.categoria.$touch()" :error-messages="categoriaErrors" v-model="categoria" :counter="50" label="Nome da categoria"></v-text-field> <br/>
+                    <v-text-field color=var(--secondary-dark-color) @input="$v.categoria.$touch()" @blur="$v.categoria.$touch()" :error-messages="categoriaErrors" v-model="categoria" counter="35" maxlength="35" label="Nome da categoria"></v-text-field> <br/>
                   </v-col>
                   <v-divider></v-divider>
 
@@ -74,19 +83,19 @@
 
               <v-dialog v-model="dialog2" width="400">
                 <template v-slot:activator="{ on, attrs }">
-                  <v-btn class="button-secundário" @click = "close2()" v-bind="attrs" v-on="on">
+                  <v-btn class="button-secundário" @click="close2()" v-bind="attrs" v-on="on">
                     Apagar
                   </v-btn>
                 </template>
 
                 <v-card>
-                  <v-card-title class="text-h5 grey lighten-2"> Eliminar categoria</v-card-title> <br/> 
-                  <v-col style="margin: auto; padding: 0px 50px;">
+                  <v-card-title class="text-h5 grey lighten-2"> Eliminar categoria</v-card-title> 
+                  <v-col style="margin: auto; padding: 20px 50px 60px 50px;">
                   <br/>
                   <treeselect
                       @input="$v.arvore.$touch()" 
                       @open="warning_arvore2 = false"
-                      :max-height="100"
+                      :max-height="150"
                       :multiple="false" :options="options" 
                       :flatten-search-results="true"
                       :normalizer="normalizer"
@@ -100,7 +109,7 @@
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn class="button-cancelar" text @click="close2()"> Cancelar </v-btn>
-                    <v-btn class="button-confirmar" text @click="deleteCategoria()"> Confirmar </v-btn>
+                    <v-btn class="button-confirmar" text @click="confirmDelete()"> Confirmar </v-btn>
                   </v-card-actions> 
                 </v-card>
               </v-dialog> 
@@ -165,6 +174,7 @@
         categoria: null,
 
         /* - CATEGORIA */
+        modalConfirm: false,
         modal2: false,
         modalError2: false,
         dialog2: false,
@@ -226,8 +236,8 @@
               })  
           }
         },
-        closeSucesso () { this.modal = false; this.close() },
-        closeErro () { this.modalError = false; this.close() },
+        closeSucesso () {  this.valueFiltro = null; this.modal = false; this.close() },
+        closeErro () {  this.valueFiltro = null; this.modalError = false; this.close() },
         close() {
           this.$v.categoria.$reset()
           this.$v.arvore_pai.$reset()
@@ -236,41 +246,42 @@
           this.warning_arvore = false
           this.dialog = false
         },
+        confirmDelete: function () {
+        this.$v.arvore.$touch()
+        if (!this.$v.arvore.required)
+          this.warning_arvore2 = true
+        else 
+          this.modalConfirm = true
+        },
         deleteCategoria: function () {
-          this.$v.arvore.$touch()
-          if (!this.$v.arvore.required)
-            this.warning_arvore2 = true
-          if (this.$v.arvore.required) {
-
-            axios.put("http://localhost:3333/documentos/categoria/" + this.arvore, 
-              {
-                headers: 
-                  {
-                    'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-                  }
-              }).then(data => {
-                if ("erro" in data.data) alert(data.data.erro)
-                else {
-                  this.modal2 = true;
-
-                  // Atualizar árvore de categorias
-                  axios.get("http://localhost:3333/documentos/categorias")
-                    .then(data => {
-                      this.options = data.data.categorias[0].children
-                      this.options2 = data.data.categorias
-                    })
-                    .catch(e => {
-                      console.log(e)
-                    })
+          axios.put("http://localhost:3333/documentos/categoria/" + this.arvore, 
+            {
+              headers: 
+                {
+                  'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
-              }).catch(e => {
-                this.modalError2 = true;
-                console.log(e)
-              })  
-          }
+            }).then(data => {
+              if ("erro" in data.data) alert(data.data.erro)
+              else {
+                this.modal2 = true;
+
+                // Atualizar árvore de categorias
+                axios.get("http://localhost:3333/documentos/categorias")
+                  .then(data => {
+                    this.options = data.data.categorias[0].children
+                    this.options2 = data.data.categorias
+                  })
+                  .catch(e => {
+                    console.log(e)
+                  })
+              }
+            }).catch(e => {
+              this.modalError2 = true;
+              console.log(e)
+            })  
         },  
-        closeSucesso2 () { this.modal2 = false; this.close2() },
-        closeErro2 () { this.modalError2 = false; this.close2() },
+        closeSucesso2 () { this.valueFiltro = null; this.modal2 = false; this.modalConfirm = false; this.close2() },
+        closeErro2 () { this.valueFiltro = null; this.modalError2 = false; this.modalConfirm = false; this.close2() },
         close2() {
           this.$v.arvore.$reset()
           this.arvore = null
