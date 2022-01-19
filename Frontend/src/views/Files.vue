@@ -1,6 +1,13 @@
 <template>
   <div class="files">
     <modal-message
+      title="Erro"
+      :visible="modalErroDetail"
+      @close="closeErroDetail()"
+    >
+      {{erro}}
+    </modal-message>
+    <modal-message
       title="Sucesso"
       :visible="modal"
       @close="closeSucesso()"
@@ -33,28 +40,41 @@
         <v-dialog v-model="dialog" width="750" style="overflow-x: hidden;">
           <template v-slot:activator="{ on, attrs }">
             <v-btn v-if="testNivel()==true" class="button-principal" @click = "close()" v-bind="attrs" v-on="on">
-              + Novo Documento
+              + Documento
             </v-btn>
   
           </template>
             <form>
               <v-card>
                 <v-card-title class="text-h5 grey lighten-2">
-                    Carregar novo documento <br/> 
-                    <v-row v-if="modo" style="flex-direction: row; justify-content: flex-end;">
-                      <div> <v-label style="margin-top: 10px;">ou importar em lote: &nbsp; </v-label> </div>
-                      <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=false">
-                        Importar
-                      </v-btn>
+                    <v-row v-if="modo">
+                      <v-col>
+                        Carregar novo documento <br/> 
+                      </v-col> 
+                      <v-col>
+                        <v-row style="padding: 12px; flex-direction: row; justify-content: flex-end;"> 
+                          <div> <v-label style="margin-top: 10px;">ou importar em lote: &nbsp; </v-label> </div>
+                          <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=false">
+                            Importar
+                          </v-btn>
+                        </v-row>
+                      </v-col> 
                     </v-row>
-                    <v-row v-else style="flex-direction: row; justify-content: flex-end;">
-                      <div> <v-label style="margin-top: 10px;">ou criar novo documento: &nbsp; </v-label> </div>
-                      <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=true">
-                        Novo Documento
-                      </v-btn>
+                    <v-row v-else>
+                      <v-col>
+                        Importar em lote <br/> 
+                      </v-col>
+                      <v-col>
+                        <v-row style="padding: 12px; flex-direction: row; justify-content: flex-end;"> 
+                          <div> <v-label style="margin-top: 10px;">ou criar novo documento: &nbsp; </v-label> </div>
+                          <v-btn v-if="testNivel()==true" style="background-color: var(--white) !important; margin-right: 10px" @click = "modo=true">
+                            Novo
+                          </v-btn>
+                        </v-row>
+                      </v-col>
                     </v-row>
                 </v-card-title> <br/>
-                <v-col v-if="modo" style="margin: auto; padding: 10px 50px 20px 50px;">
+                <v-col v-if="modo" style="margin: auto; padding: 10px 50px 60px 50px;">
 
                   <v-text-field color=var(--secondary-dark-color) @input="$v.titulo.$touch()" @blur="$v.titulo.$touch()" :error-messages="tituloErrors" counter="70" maxlength="70" v-model="titulo" label="Título"></v-text-field> <br/>
                   
@@ -137,7 +157,7 @@
                       :error-messages="multErrors" 
                       multiple
                       webkitdirectory
-                      v-model="files"> </v-file-input> 
+                      v-model="files"> </v-file-input> <br/>
                 </v-col>
                 
                 <v-divider></v-divider>
@@ -219,10 +239,6 @@
       return {
         token: localStorage.getItem('jwt'),
         nivel: 'utente',
-        importing: false,
-
-        modo: true, 
-        files: null,
 
         /* FILTRO */
         valueFiltro: [],
@@ -237,6 +253,13 @@
         arvore: null,
         warning_arvore: false,
         file: null,
+        
+        /* IMPORTACAO EM LOTE */
+        importing: false,
+        modalErroDetail: false,
+        modo: true, 
+        files: null,
+        erro: null, 
 
         /* + CATEGORIA */
         modal2: false,
@@ -299,8 +322,10 @@
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
               }
             }).then(categorias => {
-              if ("erro" in categorias.data) alert(categorias.data.erro)
+              if ("erro" in categorias.data) {this.erro = categorias.data.erro; this.modalErroDetail = true}
               else {
+                this.modal = true;
+
                 // atualizar a árvore de categorias
                 this.options = categorias.data.categorias[0].children
                 this.options2 = categorias.data.categorias
@@ -327,6 +352,7 @@
                 console.log(e)
             }) 
         },
+        closeErroDetail () { this.modalErroDetail = false; },
         download: function (item) {
           window.open("http://localhost:3333/documentos/download/" + item.titulo.split("##")[1])
         },
@@ -407,7 +433,7 @@
           }
         },
         closeSucesso () { this.modal = false; this.close() },
-        closeErro () { this.modalError = false; this.close() },
+        closeErro () { this.modalError = false; },
         close() {
           this.$v.$reset()
           this.titulo = null
@@ -436,7 +462,7 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
               }).then(data => {
-                if ("erro" in data.data) alert(data.data.erro)
+                if ("erro" in data.data) {this.erro = data.data.erro; this.modalErroDetail = true;}
                 else {
                   this.modal2 = true;
 
@@ -451,7 +477,7 @@
           }
         },
         closeSucesso2 () { this.modal2 = false; this.close2() },
-        closeErro2 () { this.modalError2 = false; this.close2() },
+        closeErro2 () { this.modalError2 = false; },
         close2() {
           this.$v.categoria.$reset()
           this.$v.arvore_pai.$reset()

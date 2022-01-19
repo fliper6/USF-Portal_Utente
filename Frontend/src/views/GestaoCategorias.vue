@@ -1,6 +1,13 @@
 <template>
   <div class="gestaocats">
     <modal-message
+      title="Erro"
+      :visible="modalErroDetail"
+      @close="closeErroDetail()"
+    >
+      {{erro}}
+    </modal-message>
+    <modal-message
       title="Sucesso"
       :visible="modal"
       @close="closeSucesso()"
@@ -166,6 +173,8 @@
         options2: null,
 
         /* + CATEGORIA */
+        erro: null, 
+        modalErroDetail: false,
         modal: false,
         modalError: false,
         dialog: false,
@@ -223,7 +232,7 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
               }).then(data => {
-                if ("erro" in data.data) alert(data.data.erro)
+                if ("erro" in data.data) {this.erro = data.data.erro; this.modalErroDetail = true;}
                 else {
                   this.modal = true;
                   // Atualizar árvore de categorias
@@ -236,6 +245,7 @@
               })  
           }
         },
+        closeErroDetail () { this.modalErroDetail = false; },
         closeSucesso () {  this.valueFiltro = null; this.modal = false; this.close() },
         closeErro () {  this.valueFiltro = null; this.modalError = false; this.close() },
         close() {

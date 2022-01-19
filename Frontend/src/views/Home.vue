@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <v-btn v-if="testNivel()==true" class="button-principal" to="/noticia/publicar">
-      <v-icon dense>mdi-newspaper</v-icon> Criar nova noticia
+      <v-icon dense>mdi-newspaper</v-icon> &nbsp; Criar nova noticia
     </v-btn>
     <Noticia v-for="(noticia,n) in noticias" :noticia='noticia' @deleteMe="deleteMe" :timeAgo="timeAgo" :key="n" />
     <v-progress-circular
