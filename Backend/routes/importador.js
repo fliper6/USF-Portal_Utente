@@ -26,13 +26,16 @@ function ficheiro(atual, ficheiros, paths, categorias, id_categoria, token, res)
         { headers: {...formData.getHeaders(), 'Authorization': 'Bearer ' + token} })
         .then(() => {
             console.log("Documento importado:", f.originalname)
+            fs.unlink((__dirname + ficheiros[atual].path).replace("routes","").replace(/\\/g, "/"), err => {
+                if (err) console.log(`Ocorreu um erro ao remover o ficheiro ${ficheiros[atual].originalname} da pasta 'uploads'.`)
+            })
             return categoria(atual+1, ficheiros, paths, categorias, token, res)
         })
         .catch(e => console.log("Erro ao importar ficheiro:", f.originalname))
 }
 
 function categoria(atual, ficheiros, paths, categorias, token, res) {
-    if (atual == ficheiros.length) res.status(201).jsonp(categorias)
+    if (atual == ficheiros.length) return res.status(201).jsonp(categorias)
     
     let cat_criada = false
     let cat = categorias.categorias[0]
@@ -67,7 +70,12 @@ function categoria(atual, ficheiros, paths, categorias, token, res) {
     }
 
     if (!cat_criada) {
-        if (!pastas.length) return categoria(atual+1, ficheiros, paths, categorias, token, res)
+        if (!pastas.length) {
+            fs.unlink((__dirname + ficheiros[atual].path).replace("routes","").replace(/\\/g, "/"), err => {
+                if (err) console.log(`Ocorreu um erro ao remover o ficheiro ${ficheiros[atual].originalname} da pasta 'uploads'.`)
+            })
+            return categoria(atual+1, ficheiros, paths, categorias, token, res)
+        }
         return ficheiro(atual, ficheiros, paths, categorias, cat.id, token, res)
     }
 }
