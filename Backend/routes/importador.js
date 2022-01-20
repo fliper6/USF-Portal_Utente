@@ -39,7 +39,10 @@ function categoria(atual, ficheiros, paths, categorias, token, res) {
     let id_pai = "categorias"
 
     let pastas = paths[atual].split('/').slice(1,-1)
-    pastas.map((x,i) => { if (x.length > 35) pastas[i] = x.slice(0, -(x.length - 35)) })
+    pastas.map((x,i) => {
+        if (x.length > 35) pastas[i] = x.slice(0, -(x.length - 35))
+        if (x.charAt(0) == x.charAt(0).toLowerCase()) pastas[i] = x.charAt(0).toUpperCase() + x.slice(1)
+    })
 
     for (let i = 0; i < pastas.length; i++) {
         let indice = cat.children.findIndex(c => c.label == pastas[i])
