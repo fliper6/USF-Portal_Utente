@@ -174,6 +174,7 @@
           v-if="importing"
           indeterminate
           color="#800000"
+          style="margin-left: 15px"
         ></v-progress-circular>
       </v-col>
       <v-col style="max-width:400px">
@@ -450,6 +451,8 @@
           this.warning_arvore = false
           this.dialog = false
           this.modo = true
+          this.files = null
+          this.importing = false
         },
         addCategoria: function () {
           this.$v.arvore_pai.$touch()
@@ -559,7 +562,7 @@
 }
 
 .vue-treeselect__checkbox--checked {
-  background: white !important ;
+  background: var(--secondary-dark-color) !important ;
   border-color: var(--secondary-dark-color) !important;
 }
 

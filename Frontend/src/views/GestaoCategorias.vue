@@ -126,12 +126,12 @@
 
         <v-col style="margin: auto; padding: 0px 50px;">
           <treeselect
-              @input="$v.arvore.$touch()" 
               :max-height="400"
               :multiple="false" :options="options"
               :always-open="true"
               :searchable="false"
               :clearable="false"
+              v-model="valueFiltro"
               :normalizer="normalizer"
               placeholder="Categorias"/> 
         </v-col>
@@ -245,7 +245,7 @@
               })  
           }
         },
-        closeErroDetail () { this.modalErroDetail = false; },
+        closeErroDetail () { this.valueFiltro = null; this.modalErroDetail = false; this.modalConfirm = false},
         closeSucesso () {  this.valueFiltro = null; this.modal = false; this.close() },
         closeErro () {  this.valueFiltro = null; this.modalError = false; this.close() },
         close() {
@@ -271,7 +271,7 @@
                   'Authorization': 'Bearer ' + localStorage.getItem('jwt')
                 }
             }).then(data => {
-              if ("erro" in data.data) alert(data.data.erro)
+              if ("erro" in data.data) {this.erro = data.data.erro; this.modalErroDetail = true;}
               else {
                 this.modal2 = true;
 
