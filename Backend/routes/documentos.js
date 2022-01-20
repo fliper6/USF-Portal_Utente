@@ -67,8 +67,12 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : categorias_base
             let ids = JWTUtils.getIDsCategorias(categorias)
-            let novo_id = JWTUtils.criarIdCategoria(req.body.nova_categoria, ids)
-            let nova_cat = {id: novo_id, label: req.body.nova_categoria, removed: false, children: []}
+
+            let novo_label = req.body.nova_categoria
+            if (novo_label.charAt(0) == novo_label.charAt(0).toLowerCase()) novo_label = novo_label.charAt(0).toUpperCase() + novo_label.slice(1);
+
+            let novo_id = JWTUtils.criarIdCategoria(novo_label, ids)
+            let nova_cat = {id: novo_id, label: novo_label, removed: false, children: []}
             
             if (!ids.includes(req.body.id_pai)) return res.status(201).jsonp({erro: "O id do nodo pai enviado no pedido não existe!"})
             else {
