@@ -3,7 +3,8 @@
     "email": "usf.apoio@gmail.com",
     "telefone": "+351 937 344 557",
     "horario_atendimento": "2ª a 6ª feira: das 08:00 horas às 20:00 horas",
-    "center": { "lat": 41.54738349797038, "lng": -8.428102644182273 }
+    "lat": 41.54738349797038, 
+    "lng": -8.428102644182273
   },
 {
     "nome":"Ana Filipa Pimentel",

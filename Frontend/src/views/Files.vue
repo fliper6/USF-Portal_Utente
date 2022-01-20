@@ -314,11 +314,19 @@
     methods: {
         importar: function(dir) {
           this.importing = true
+          let formData = new FormData();
+          let paths = []
 
-          axios.post("http://localhost:3333/importar/", 
-            {diretoria: dir}, 
+          dir.forEach(f => {
+            paths.push(f.webkitRelativePath)
+            formData.append('diretoria', f)
+          })
+          formData.append('paths', JSON.stringify(paths))
+
+          axios.post("http://localhost:3333/importar/", formData, 
             {
               headers: {
+                'Content-Type': 'multipart/form-data',
                 'Authorization': 'Bearer ' + localStorage.getItem('jwt')
               }
             }).then(categorias => {

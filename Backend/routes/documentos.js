@@ -89,6 +89,7 @@ router.post('/criar_categoria', JWTUtils.validate, JWTUtils.isMedico, (req,res) 
 
 // Dar upload a um novo documento
 router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'), (req,res) => {
+    if ("originalname" in req.body) req.file.originalname = req.body.originalname
     let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
     let nova_diretoria = (__dirname + 'public/fileStore/documentos/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
     fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })

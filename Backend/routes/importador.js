@@ -3,106 +3,77 @@ var router = express.Router();
 
 const fs = require('fs');
 const axios = require('axios');
-const dirTree = require("directory-tree");
+var multer = require('multer');
+var upload = multer({dest: './uploads'});
 const FormData = require('form-data');
 const JWTUtils = require('../utils/jwt');
 
 
-function importarPai(tree, indices, ids, ids_pai, categorias, token, res) {
-    if (ids_pai[ids_pai.length-1] == "categorias") res.status(201).jsonp(categorias)
-    else {
-        ids_pai.pop()
-        indices.pop()
-        indices[indices.length-1]++
-        return importarDir(tree, indices, ids, ids_pai, categorias, token, res)
-    }
+function ficheiro(atual, ficheiros, paths, categorias, id_categoria, token, res) {
+    let f = ficheiros[atual]
+    
+    let formData = new FormData();
+    let titulo = f.originalname.slice(0, f.originalname.lastIndexOf("."))
+    if (titulo.length > 65) titulo = titulo.slice(0, -(titulo.length - 65))
+
+    formData.append('documento', fs.createReadStream(f.path))
+    formData.append('titulo', titulo)
+    formData.append('id_categoria', id_categoria)
+    formData.append('originalname', f.originalname)
+
+    axios.post("http://localhost:3333/documentos/", 
+        formData, 
+        { headers: {...formData.getHeaders(), 'Authorization': 'Bearer ' + token} })
+        .then(() => {
+            console.log("Documento importado:", f.originalname)
+            return categoria(atual+1, ficheiros, paths, categorias, token, res)
+        })
+        .catch(e => console.log("Erro ao importar ficheiro:", f.originalname))
 }
 
-function proxIteracao(pai, tree, indices, ids, ids_pai, categorias, token, res) {
-    if (indices[indices.length-1]+1 == pai.children.length) {
-        return importarPai(tree, indices, ids, ids_pai, categorias, token, res)
-    }
-    else {
-        indices[indices.length-1]++
-        return importarDir(tree, indices, ids, ids_pai, categorias, token, res)
-    }
-}
+function categoria(atual, ficheiros, paths, categorias, token, res) {
+    if (atual == ficheiros.length) res.status(201).jsonp(categorias)
+    
+    let cat_criada = false
+    let cat = categorias.categorias[0]
+    let id_pai = "categorias"
 
-function importarDir(tree, indices, ids, ids_pai, categorias, token, res) {
-    let elem = tree, pai = null
-    for (let i = 0; i < indices.length; i++) {
-        if (elem.children.length > indices[i]) {
-            pai = elem
-            elem = elem.children[indices[i]]
+    let pastas = paths[atual].split('/').slice(1,-1)
+    pastas.map((x,i) => { if (x.length > 35) pastas[i] = x.slice(0, -(x.length - 35)) })
+
+    for (let i = 0; i < pastas.length; i++) {
+        let indice = cat.children.findIndex(c => c.label == pastas[i])
+
+        if (indice == -1) {
+            axios.post("http://localhost:3333/documentos/criar_categoria", 
+                {id_pai, nova_categoria: pastas[i]},
+                {headers: { 'Authorization': 'Bearer ' + token }})
+                .then(dados => {
+                    console.log("Categoria criada:", pastas[i])
+                    return categoria(atual, ficheiros, paths, dados.data, token, res)
+                })
+                .catch(e => console.log("Erro ao criar categoria:", pastas[i]))
+
+            cat_criada = true
+            break
         }
-        else return importarPai(tree, indices, ids, ids_pai, categorias, token, res)
+        else {
+            cat = cat.children[indice]
+            id_pai = cat.id
+        }
     }
 
-    if (elem.type == "directory") {
-        let categoria = elem.name
-        if (categoria.length > 35) categoria = categoria.slice(0, -(categoria.length - 35))
-        let novo_id = JWTUtils.criarIdCategoria(categoria, ids)
-        
-        axios.post("http://localhost:3333/documentos/criar_categoria", 
-            {id_pai: ids_pai[ids_pai.length-1], nova_categoria: categoria},
-            {headers: { 'Authorization': 'Bearer ' + token }})
-            .then(dados => {
-                console.log(`Categoria ${"erro" in dados.data ? "já existe" : "criada"}:`, categoria)
-
-                if (!("erro" in dados.data)) {
-                    categorias = dados.data
-                    ids.push(novo_id)
-                }
-                else {
-                    let cats = JSON.parse(JSON.stringify(categorias.categorias))
-                    for (let i = 0; i < ids_pai.length; i++) cats = cats[cats.findIndex(x => x.id == ids_pai[i])].children
-                    novo_id = cats[cats.findIndex(x => x.label == categoria)].id
-                }
-
-                if (elem.children.length > 0) {
-                    indices.push(0)
-                    ids_pai.push(novo_id)
-                    return importarDir(tree, indices, ids, ids_pai, categorias, token, res)
-                }
-                return proxIteracao(pai, tree, indices, ids, ids_pai, categorias, token, res)
-            })
-            .catch(e => console.log("Erro ao criar categoria:", elem.name))
+    if (!cat_criada) {
+        if (!pastas.length) return categoria(atual+1, ficheiros, paths, categorias, token, res)
+        return ficheiro(atual, ficheiros, paths, categorias, cat.id, token, res)
     }
-    else if (ids_pai.length > 1) {
-        let formData = new FormData();
-        let titulo = elem.name.slice(0, -(elem.extension.length))
-        if (titulo.length > 65) titulo = titulo.slice(0, -(titulo.length - 65))
-
-        formData.append('documento', fs.createReadStream(elem.path))
-        formData.append('titulo', titulo)
-        formData.append('id_categoria', ids_pai[ids_pai.length-1])
-
-        axios.post("http://localhost:3333/documentos/", 
-            formData, 
-            { headers: {...formData.getHeaders(), 'Authorization': 'Bearer ' + token} })
-            .then(() => {
-                console.log("Documento importado:", elem.name)
-                return proxIteracao(pai, tree, indices, ids, ids_pai, categorias, token, res)
-            })
-            .catch(e => console.log("Erro ao importar ficheiro:", elem.name))
-    }
-    else return proxIteracao(pai, tree, indices, ids, ids_pai, categorias, token, res)
 }
 
 // Importar a diretoria em questão para a aplicação
 // Pastas -> Categorias; Ficheiros -> Documentos
-router.post('/',  JWTUtils.validate, JWTUtils.isMedico, (req,res) => {
+router.post('/',  JWTUtils.validate, JWTUtils.isMedico, upload.any('diretoria'), (req,res) => {
     axios.get("http://localhost:3333/documentos/categorias")
-        .then(dados => {
-            let categorias = dados.data.categorias
-            let ids = JWTUtils.getIDsCategorias(categorias)
-            let tree = dirTree(req.body.diretoria, {attributes:['type','extension']});
-            
-            if (tree === null) return res.status(201).jsonp({erro: "A diretoria indicada não existe!"})
-            if (tree.type != "directory") return res.status(201).jsonp({erro: "A diretoria indicada não é uma pasta!"})
-            else if (!tree.children.length) return res.status.apply(201).jsonp({erro: "A diretoria que pretende importar está vazia!"})
-            else return importarDir(tree, [0], ids, ["categorias"], dados.data, req.token, res)
-        })
+        .then(dados => categoria(0, req.files, JSON.parse(req.body.paths), dados.data, req.token, res))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })
 
