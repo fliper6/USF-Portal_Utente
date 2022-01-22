@@ -111,7 +111,7 @@ import ModalMessage from '../components/ModalMessage.vue'
     data() {
       return {
         token: localStorage.getItem('jwt'),
-        lista: '',
+        lista: [],
         color1: 1,
         color2: 0,
         up:false,
@@ -139,7 +139,7 @@ import ModalMessage from '../components/ModalMessage.vue'
     if (this.token) {
       axios.get("http://localhost:3333/medicacao?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-              this.lista = this.lista.concat(data.data)
+              this.lista = data.data
               this.loading = false;
             })
             .catch(err => {
