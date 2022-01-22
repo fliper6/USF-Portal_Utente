@@ -23,12 +23,12 @@
                 <h1 style="color:var(--primary-color)">Pedidos de Medicação</h1>
                 <v-row justify="center">
                   <v-col>
-                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Descendente" v-if="up" icon @click="orderData(0)" ><v-icon>mdi-arrow-down</v-icon></v-btn>
-                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData(1)"><v-icon>mdi-arrow-up</v-icon></v-btn>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Descendente" v-if="up" icon @click="orderData()" ><v-icon>mdi-arrow-down</v-icon></v-btn>
+                    <v-btn style="margin:10px 0 0 0;" title="Mudar Ordem: Data Ascendente" v-else icon @click="orderData()"><v-icon>mdi-arrow-up</v-icon></v-btn>
                   </v-col>
                   <v-col class="text-right">
-                    <v-btn depressed @click="color1=1; color2=0; lista=medicacao" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Pendentes</v-btn>
-                    <v-btn depressed @click="color1=0; color2=1; lista=medicacao_r" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Respondidos</v-btn>
+                    <v-btn depressed @click="changeTab('pendentes')" v-bind:color="color1 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Pendentes</v-btn>
+                    <v-btn depressed @click="changeTab('respondidas')" v-bind:color="color2 === 1 ? 'var(--secondary-color)' : 'var(--grey2-color)'" style="margin:0 10px 0 0;">Pedidos Respondidos</v-btn>
                   </v-col>
                 </v-row>
             </v-container>
@@ -111,8 +111,6 @@ import ModalMessage from '../components/ModalMessage.vue'
     data() {
       return {
         token: localStorage.getItem('jwt'),
-        medicacao:[],
-        medicacao_r : [],
         lista: '',
         color1: 1,
         color2: 0,
@@ -122,35 +120,32 @@ import ModalMessage from '../components/ModalMessage.vue'
         id:'',
         user:'',
         estado:'',
+        lastPage:false
       }
     },
     components: {
       ModalMessage
     },
+    mounted () {
+      window.onscroll = () => {
+        let bottomOfWindow = (window.innerHeight + window.scrollY) >= document.body.offsetHeight
+        if (bottomOfWindow && !this.loading && !this.lastPage) {
+          this.loading = true;
+          this.getNextPage();
+        }
+      }
+    },
     created(){
     if (this.token) {
       axios.get("http://localhost:3333/medicacao?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-              data.data.forEach(element => {
-                if(element.estado === 1 || element.estado === 2){
-                  this.medicacao_r.push(element)
-                }
-                else{
-                  this.medicacao.push(element)
-                }
-                this.medicacao.sort((b, a) => {
-                return new Date(a.data_criacao) - new Date(b.data_criacao);
-                })
-                this.medicacao_r.sort((b, a) => {
-                  return new Date(a.data_criacao) - new Date(b.data_criacao);
-                })
-              });
+              this.lista = this.lista.concat(data.data)
+              this.loading = false;
             })
             .catch(err => {
               console.log(err)
             })
 
-            this.lista = this.medicacao
     }
     },
     methods: {
@@ -183,31 +178,65 @@ import ModalMessage from '../components/ModalMessage.vue'
         this.user=user;
         this.estado=estado
       },
-      orderData(bol){
-        if(bol) {
-          this.lista.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
+      orderData(){
+        this.loading = true
+        let estado = this.color1 == 1 ? 0 : 1
+        let ordem = this.up ? -1 : 1
+
+        axios.get(`http://localhost:3333/medicacao?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          .then(data => {
+            this.lista = data.data
+            this.loading = false;
+            this.lastPage = false
           })
-          this.medicacao.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
+          .catch(err => {
+            console.log(err)
           })
-          this.medicacao_r.sort((a, b) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-        }
-        else {
-          this.lista.sort((b, a) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-          this.medicacao.sort((b, a) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-          this.medicacao_r.sort((b, a) => {
-            return new Date(a.data_criacao) - new Date(b.data_criacao);
-          })
-        }
+        
         this.up=!this.up
-      }
+      },
+      changeTab(to) {
+        let ordem = this.up ? 1 : -1
+
+        if (!this.color1 && to == "pendentes") {
+          this.color1 = 1; this.color2 = 0
+          this.loading = true
+
+          axios.get(`http://localhost:3333/medicacao?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+            .then( data => {
+              this.lista = data.data
+              this.loading = false;
+              this.lastPage = false
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+        
+        if (!this.color2 && to == "respondidas") {
+          this.color1 = 0; this.color2 = 1
+          this.loading = true
+
+          axios.get(`http://localhost:3333/medicacao?estado=1&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+            .then( data => {
+              this.lista = data.data
+              this.loading = false;
+              this.lastPage = false
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
+      },
+      getNextPage() {
+        axios.get(`http://localhost:3333/medicacao?estado=${!this.color2 ? 0 : 1}&ordem=${this.up ? 1 : -1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+          .then(data => {
+            if(!data.data || data.data.length < 10) this.lastPage = true
+            this.lista = this.lista.concat(data.data)
+            this.loading = false;
+          })
+          .catch(err => console.log(err))
+      },
   }
   
   }
