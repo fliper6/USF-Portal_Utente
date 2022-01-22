@@ -65,7 +65,7 @@
         <div class="text-caption">{{item.data_criacao.split('T')[0]}}</div>
         <v-row>
           <v-col>
-            {{item.descricao}}
+            <p class="break-word-container">{{item.descricao}}</p>
           </v-col> 
           <v-col class="text-right" cols=2 v-if="item.estado===0">
             <v-btn
@@ -255,5 +255,12 @@ export default {
   width: 30px !important;
     border-width: 0 4px 0 0 !important;
 
+}
+
+.break-word-container {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  word-wrap: break-word;
 }
 </style>
