@@ -46,8 +46,9 @@ Ex: Metformina 500 mg, 60 comprimidos, 2 caixas.</p>
           <span style="color: #ff5252; font-size: 12px;" v-if="contactoFlag">Campo obrigatório.</span>
           <div v-if="showTele">
               <label class="label">Número de telemóvel</label>
-              <input type="number" class="input-modal" v-model="medicacao.valorContacto.telemovel" @click="checkTele = false" @input="checkTele = false">
+              <input type="number" class="input-modal" v-model="medicacao.valorContacto.telemovel" @click="checkTele = false; checkTele2 = false" @input="checkTele = false; checkTele2 = false">
               <span style="color: #ff5252; font-size: 12px;" v-if="checkTele">Número de Telémovel é um campo obrigatório.</span>
+              <span style="color: #ff5252; font-size: 12px;" v-if="checkTele2">Número de Telémovel tem de conter 9 digitos.</span>
           </div>
           <div v-if="showEmail">
               <label class="label">Email</label>
@@ -177,7 +178,8 @@ export default {
       dialog2:false,
       dialogErr: false,
       checkNum: false,
-      checkTele: false
+      checkTele: false,
+      checkTele2:false,
     }  
   },
   methods: {
@@ -217,6 +219,9 @@ export default {
       }
       if(this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel == ""){
         this.checkTele = true
+      }
+      if(this.medicacao.contacto == "SMS" && Math.ceil(Math.log10(this.medicacao.valorContacto.telemovel)) != 9){
+        this.checkTele2 = true
       } 
       if(!this.$v.medicacao.$invalid && this.medicacao.contacto == "SMS" && this.medicacao.valorContacto.telemovel != ""){
         this.dialog = true
