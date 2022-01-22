@@ -44,7 +44,7 @@
         </v-row>
         <div class="text-subtitle-2" v-if="!item.nr_utente_pedido">Número de utente : {{item.nr_utente_titular}}</div>
         <div class="text-subtitle-2" v-else>Número de utente : {{item.nr_utente_pedido}}</div>
-        <div class="text-subtitle-2">Tipo : {{item.tipo}}</div>
+        <div class="text-subtitle-2">Motivo : {{item.tipo}}</div>
         <v-row>
           <v-col v-if="!cons">
             {{item.medico}}
@@ -93,7 +93,7 @@ import ModalMessage from '../components/ModalMessage.vue'
         token: localStorage.getItem('jwt'),
         contacto:[],
         contacto_r : [],
-        lista: '',
+        lista: [],
         color1: 1,
         color2: 0,
         cons:false,
@@ -120,7 +120,7 @@ import ModalMessage from '../components/ModalMessage.vue'
     if (this.token) {
       axios.get("http://localhost:3333/consultas?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
-              this.lista = this.lista.concat(data.data)
+              this.lista = data.data
               this.loading = false;
             })
             .catch(err => {
@@ -157,7 +157,7 @@ import ModalMessage from '../components/ModalMessage.vue'
         let estado = this.color1 == 1 ? 0 : 1
         let ordem = this.up ? -1 : 1
 
-        axios.get(`http://localhost:3333/medicacao?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(`http://localhost:3333/consultas?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             this.lista = data.data
             this.loading = false;
@@ -176,7 +176,7 @@ import ModalMessage from '../components/ModalMessage.vue'
           this.color1 = 1; this.color2 = 0
           this.loading = true
 
-          axios.get(`http://localhost:3333/medicacao?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(`http://localhost:3333/consultas?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = data.data
               this.loading = false;
