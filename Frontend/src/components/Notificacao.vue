@@ -175,6 +175,7 @@ import { io } from 'socket.io-client';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
 const host = require('../../../config.json').backend
+const host_socket = require('../../../config.json').socket
     export default {
         name: "notificacao",
         data: () => ({
@@ -190,9 +191,8 @@ const host = require('../../../config.json').backend
         created() {
           //ao iniciar vai buscar as notificações iniciais
           this.getNotificacoes()
-
           //cria socket
-          this.socket = io(host,{
+          this.socket = io(host_socket,{
             query: {
               uid: jwt.decode(this.token)._id
             }

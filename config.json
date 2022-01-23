@@ -1,6 +1,7 @@
 {
-    "frontend": "http://localhost:8080",
+    "frontend": "http://localhost:13333",
     "backend": "/api",
+    "socket": "http://localhost:13333/",
     "mongo": "mongodb://usf-mongo:27017",
     "sendgrid_key": "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",
     "jwt": {

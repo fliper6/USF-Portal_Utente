@@ -35,7 +35,6 @@ router.post('/', JWTUtils.validate, function(req, res){
 //Aceitar ou recusar pedido de contacto
 router.put('/altE', JWTUtils.validate, async (req, res) =>{
     try {
-        
         const cos = await Consulta.alterar(req.body)
         let estado= ""
         req.body.estado==1 ? estado = "aceite" :  estado = "recusado"
@@ -45,14 +44,11 @@ router.put('/altE', JWTUtils.validate, async (req, res) =>{
             "descricao": "O seu pedido de contacto foi "+estado+"!",
             "tipo": "pedidoContacto", 
         }
-
         const noti = await Notificacao.inserir(not)
             
-        
         let socket = req.app.get("socket")
         let usersSockets = req.app.get("usersSockets")
         await socket.broadcast.to(usersSockets[req.body.user]).emit('update notificacoes', noti);
-       
         res.status(201).jsonp(noti)
     } catch (error) {
         res.status(500).jsonp({error: error})

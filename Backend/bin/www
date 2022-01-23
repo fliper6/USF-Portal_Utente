@@ -9,15 +9,15 @@ var debug = require('debug')('backend:server');
 var http = require('http');
 
 const config = require('../../config.json')
-const corsHost = config.frontend
+//const corsHost = config.frontend
+//const corsHost2 = config.internal_socket
 /**
  * Create HTTP server.
  */
 var server = http.createServer(app);
-
 const io = require('socket.io')(server, {
   cors: {
-    origins: [corsHost]
+    origins: "*" //[corsHost, corsHost2]
   }
 });
 
@@ -31,9 +31,12 @@ io.on('connection', (socket) => {
 
   //console.log(usersSockets)
   socket.on('disconnect', () => {
+    let key = Object.keys(usersSockets).find(key => usersSockets[key] === socket.id)
+    delete usersSockets[key]
     console.log('user disconnected: '+socket.id);
   });
 });
+
 app.set("usersSockets",usersSockets)
 app.set("io", io);
 
