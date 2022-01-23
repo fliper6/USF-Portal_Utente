@@ -18,13 +18,6 @@ services:
         restart: always
         environment:
             MONGO_INITDB_DATABASE: USF_PORTAL_UTENTE
-            #MONGO_INITDB_ROOT_USERNAME: root
-            #MONGO_INITDB_ROOT_PASSWORD: toor
-        #volumes:
-            #- ./mongo/seed.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-            #- ./mongo/
-        ports: 
-            - "27018:27017"
     mongo-seed:
         build:
             context: ./
