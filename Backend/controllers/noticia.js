@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-var Noticia = require('../models/Noticia')
+var Noticia = require('../models/noticia')
 
 module.exports.listar = (skip, visibilidade) => {
     return Noticia.aggregate([

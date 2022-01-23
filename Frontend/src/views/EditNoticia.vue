@@ -60,6 +60,7 @@ import Editor from "../components/Editor.vue"
 import File from '../components/Editor/File.vue'
 import ModalMessage from '../components/ModalMessage.vue'
 import axios from 'axios'
+const host = require('../../../config.json').backend
 
 export default {
   name: 'Home',
@@ -80,7 +81,7 @@ export default {
     }
   },
   created () {
-   axios.get('http://localhost:3333/noticias/' + this.$route.params.id)
+   axios.get(host + '/noticias/' + this.$route.params.id)
     .then(data => {
        this.noticia = data.data
        this.loading = false
@@ -102,7 +103,7 @@ export default {
         formData.append('ficheiros', this.files[i])
       }
 
-      axios.put('http://localhost:3333/noticias/editar/' + this.noticia._id,
+      axios.put(host + '/noticias/editar/' + this.noticia._id,
         formData,
         {
           headers: {

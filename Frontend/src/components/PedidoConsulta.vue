@@ -123,6 +123,8 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
+
 import jwt from 'jsonwebtoken';
 import { validationMixin } from 'vuelidate'
 import { required, between } from 'vuelidate/lib/validators'
@@ -187,7 +189,7 @@ export default {
       if(!this.$v.consulta.$invalid){
         axios({
         method: 'post',
-        url: "http://localhost:3333/consultas",
+        url: host + "/consultas",
         headers: {
           'Authorization': 'Bearer ' + localStorage.getItem('jwt')
         }, 
@@ -220,7 +222,7 @@ export default {
     }
   },
   created(){
-    axios.get("http://localhost:3333/users/validar/" + this.token)
+    axios.get(host + "/users/validar/" + this.token)
       .then( () => {
         this.consulta.user = jwt.decode(this.token)._id
         this.consulta.numUtente = jwt.decode(this.token).nr_utente
@@ -234,7 +236,7 @@ export default {
       
     axios({
       method: 'get',
-      url: "http://localhost:3333/medicos",
+      url: host + "/medicos",
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('jwt')
       }, 

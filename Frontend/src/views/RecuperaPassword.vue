@@ -89,6 +89,7 @@ import { validationMixin } from 'vuelidate'
 import { required, sameAs } from 'vuelidate/lib/validators'
 import ModalMessage from '../components/ModalMessage.vue'
 import axios from 'axios'
+const host = require('../../../config.json').backend
 
     export default {
         name: 'recuperaPass',
@@ -144,7 +145,7 @@ import axios from 'axios'
                     var json = {}
                     json['password'] = this.pass
                     json['codigo'] = this.$route.query.codigo
-                    axios.post("http://localhost:3333/verificar/recuperar/confirmar", json)
+                    axios.post(host + "/verificar/recuperar/confirmar", json)
                         .then(() => {
                             this.loading = false
                             this.modalSucesso = true   

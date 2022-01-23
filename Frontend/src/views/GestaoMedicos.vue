@@ -187,6 +187,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 export default {
@@ -216,7 +217,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + "/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.medicos = dados.data
         })
@@ -227,9 +228,9 @@ export default {
     },
   methods: {
     deleteMedico(id){
-      axios.delete('http://localhost:3333/medicos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.delete(host + '/medicos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() =>{
-          axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+          axios.get(host + "/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( dados => {
               this.dialog4 = true
               this.medicos = dados.data
@@ -254,10 +255,10 @@ export default {
         this.dialog = false
         this.dialog2 = true
         this.nomeFlag = false   
-        axios.post("http://localhost:3333/medicos", {nome:this.medico.nome}, {
+        axios.post(host + "/medicos", {nome:this.medico.nome}, {
           headers: {'Authorization': 'Bearer ' + localStorage.getItem('jwt')}})
           .then(() => {
-            axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+            axios.get(host + "/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
               .then( dados => {
                 this.medicos = dados.data
                 this.medico.nome = ''

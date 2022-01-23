@@ -8,6 +8,7 @@ var upload = multer({dest: './uploads'});
 const FormData = require('form-data');
 const JWTUtils = require('../utils/jwt');
 
+const HOST = require('../../config.json').backend
 
 function ficheiro(atual, ficheiros, paths, categorias, id_categoria, token, res) {
     let f = ficheiros[atual]
@@ -21,7 +22,7 @@ function ficheiro(atual, ficheiros, paths, categorias, id_categoria, token, res)
     formData.append('id_categoria', id_categoria)
     formData.append('originalname', f.originalname)
 
-    axios.post("http://localhost:3333/documentos/", 
+    axios.post(HOST + "/documentos/", 
         formData, 
         { headers: {...formData.getHeaders(), 'Authorization': 'Bearer ' + token} })
         .then(() => {
@@ -51,7 +52,7 @@ function categoria(atual, ficheiros, paths, categorias, token, res) {
         let indice = cat.children.findIndex(c => c.label == pastas[i])
 
         if (indice == -1) {
-            axios.post("http://localhost:3333/documentos/criar_categoria", 
+            axios.post(HOST + "/documentos/criar_categoria", 
                 {id_pai, nova_categoria: pastas[i]},
                 {headers: { 'Authorization': 'Bearer ' + token }})
                 .then(dados => {
@@ -83,7 +84,7 @@ function categoria(atual, ficheiros, paths, categorias, token, res) {
 // Importar a diretoria em questão para a aplicação
 // Pastas -> Categorias; Ficheiros -> Documentos
 router.post('/',  JWTUtils.validate, JWTUtils.isMedico, upload.any('diretoria'), (req,res) => {
-    axios.get("http://localhost:3333/documentos/categorias")
+    axios.get(HOST + "/documentos/categorias")
         .then(dados => categoria(0, req.files, JSON.parse(req.body.paths), dados.data, req.token, res))
         .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao obter a listagem das categorias de documentos."}))
 })

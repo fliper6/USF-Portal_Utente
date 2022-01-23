@@ -83,6 +83,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import ModalMessage from '../components/ModalMessage.vue'
 
   //npm install --save @riophae/vue-treeselect
@@ -118,7 +119,7 @@ import ModalMessage from '../components/ModalMessage.vue'
     },
     created(){
     if (this.token) {
-      axios.get("http://localhost:3333/consultas?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
+      axios.get(host + "/consultas?estado=0&ordem=-1&skip=0" , {headers:{'authorization':'Bearer '+ this.token}})
         .then( data => {
               this.lista = data.data
               this.loading = false;
@@ -137,7 +138,7 @@ import ModalMessage from '../components/ModalMessage.vue'
         data['_id'] = id
         data['user'] = user
         data['estado'] = estado
-        axios.put("http://localhost:3333/consultas/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
+        axios.put(host + "/consultas/altE", data,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.modalConf=false
           this.modal=true
@@ -157,7 +158,7 @@ import ModalMessage from '../components/ModalMessage.vue'
         let estado = this.color1 == 1 ? 0 : 1
         let ordem = this.up ? -1 : 1
 
-        axios.get(`http://localhost:3333/consultas?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + `/consultas?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             this.lista = data.data
             this.loading = false;
@@ -176,7 +177,7 @@ import ModalMessage from '../components/ModalMessage.vue'
           this.color1 = 1; this.color2 = 0
           this.loading = true
 
-          axios.get(`http://localhost:3333/consultas?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(host + `/consultas?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = data.data
               this.loading = false;
@@ -191,7 +192,7 @@ import ModalMessage from '../components/ModalMessage.vue'
           this.color1 = 0; this.color2 = 1
           this.loading = true
 
-          axios.get(`http://localhost:3333/consultas?estado=1&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(host + `/consultas?estado=1&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = data.data
               this.loading = false;
@@ -203,7 +204,7 @@ import ModalMessage from '../components/ModalMessage.vue'
         }
       },
       getNextPage() {
-        axios.get(`http://localhost:3333/consultas?estado=${!this.color2 ? 0 : 1}&ordem=${this.up ? 1 : -1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + `/consultas?estado=${!this.color2 ? 0 : 1}&ordem=${this.up ? 1 : -1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             if(!data.data || data.data.length < 10) this.lastPage = true
             this.lista = this.lista.concat(data.data)

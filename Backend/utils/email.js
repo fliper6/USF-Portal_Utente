@@ -1,6 +1,7 @@
 const sgMail = require('@sendgrid/mail')
-
-const API_KEY = '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'
+const cfg = require('../../config.json')
+const API_KEY = cfg.sendgrid_key
+const host = cfg.frontend
 
 sgMail.setApiKey(API_KEY)
 
@@ -408,7 +409,7 @@ module.exports.sendPasswordReset = (email, codigo) => {
                         </tr> <!-- COPY -->
                         <tr>
                             <td bgcolor="#ffffff" align="center" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;"><a href="http://localhost:8080/recuperacao/password?codigo=${codigo}">http://localhost:8080/recuperacao/password?codigo=${codigo}</a></p>
+                                <p style="margin: 0;"><a href="${host}/recuperacao/password?codigo=${codigo}">${host}/recuperacao/password?codigo=${codigo}</a></p>
                                 <p></p>
                             </td>
                         </tr> <!-- COPY -->
@@ -623,7 +624,7 @@ module.exports.sendEmailConfirmation = (email, codigo) => {
                         </tr> <!-- COPY -->
                         <tr>
                             <td bgcolor="#ffffff" align="center" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;"><a href="http://localhost:8080/alterarEmail/confirmar?codigo=${codigo}">http://localhost:8080/alterarEmail/confirmar?codigo=${codigo}</a></p>
+                                <p style="margin: 0;"><a href="${host}/alterarEmail/confirmar?codigo=${codigo}">${host}/alterarEmail/confirmar?codigo=${codigo}</a></p>
                                 <p></p>
                             </td>
                         </tr> <!-- COPY -->
@@ -844,7 +845,7 @@ module.exports.sendEmailCancel = (email, codigo) => {
                         </tr> <!-- COPY -->
                         <tr>
                             <td bgcolor="#ffffff" align="center" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                                <p style="margin: 0;"><a href="http://localhost:8080/alterarEmail/cancelar?codigo=${codigo}">http://localhost:8080/alterarEmail/cancelar?codigo=${codigo}</a></p>
+                                <p style="margin: 0;"><a href="${host}/alterarEmail/cancelar?codigo=${codigo}">${host}/alterarEmail/cancelar?codigo=${codigo}</a></p>
                                 <p></p>
                             </td>
                         </tr> <!-- COPY -->

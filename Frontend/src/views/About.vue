@@ -247,6 +247,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import jwt from 'jsonwebtoken';
 
 
@@ -304,7 +305,7 @@ export default {
     if (this.token){
       this.nivel = jwt.decode(this.token).nivel
     }
-    axios.get("http://localhost:3333/contactos" , {headers:{'authorization':'Bearer '+ this.token}})
+    axios.get(host + "/contactos" , {headers:{'authorization':'Bearer '+ this.token}})
       .then(data => {
         this.dados = data.data.shift()
         this.center.lat = parseFloat(this.dados.lat)
@@ -336,7 +337,7 @@ export default {
   },
   methods: {
     save_enc(){
-      axios.put("http://localhost:3333/contactos" , this.dados, {headers:{'authorization':'Bearer '+ this.token}})
+      axios.put(host + "/contactos" , this.dados, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })
@@ -346,7 +347,7 @@ export default {
     },
     add_person(index){
       this.pessoa['equipa'] = index
-      axios.post("http://localhost:3333/contactos" , this.pessoa, {headers:{'authorization':'Bearer '+ this.token}})
+      axios.post(host + "/contactos" , this.pessoa, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })
@@ -355,7 +356,7 @@ export default {
       })
     },
     apagar_contacto(id){
-      axios.delete("http://localhost:3333/contactos/" + id , {headers:{'authorization':'Bearer '+ this.token}})
+      axios.delete(host + "/contactos/" + id , {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })
@@ -365,7 +366,7 @@ export default {
     },
     save_person(person,equipa,pessoa){
       this.equipas[equipa][pessoa] = {...person}
-      axios.put("http://localhost:3333/contactos" , person, {headers:{'authorization':'Bearer '+ this.token}})
+      axios.put(host + "/contactos" , person, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
       })
       .catch(err => {
@@ -387,7 +388,7 @@ export default {
 
     },
     add_equipa(){
-      axios.post("http://localhost:3333/contactos/equipa" , this.equipa, {headers:{'authorization':'Bearer '+ this.token}})
+      axios.post(host + "/contactos/equipa" , this.equipa, {headers:{'authorization':'Bearer '+ this.token}})
       .then(() => {
         this.$router.go()
       })

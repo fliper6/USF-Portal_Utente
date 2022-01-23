@@ -387,6 +387,7 @@
 <script>
 import jwt from 'jsonwebtoken'
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import ModalMessage from '../components/ModalMessage.vue'
 import PerfilMedicacao from '../components/Perfil/Medicacao.vue'
 import PerfilContacto from '../components/Perfil/Contacto.vue'
@@ -568,7 +569,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         else this.med = true
         
         //BUSCAR O HISTORICO DE PEDIDOS DE MEDICACAO
-        axios.get("http://localhost:3333/medicacao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + "/medicacao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.medicacoes = data.data
             this.loadingNextPage = false;
@@ -578,7 +579,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           })
           
         //BUSCAR O HISTORICO DE PEDIDOS DE CONTACTO
-        axios.get("http://localhost:3333/consultas/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + "/consultas/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.contacto = data.data
           })
@@ -587,7 +588,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           })
           
         //BUSCAR O HISTORICO DE SUGESTOES
-        axios.get("http://localhost:3333/sugestao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + "/sugestao/historico/" + this.id + "?skip=0", {headers:{'authorization':'Bearer '+ this.token}})
           .then( data => {
             this.sugestoes = data.data
           })
@@ -621,7 +622,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
         if (this.cons) {what_tab = "consultas"; lista = this.contacto}
         if (this.sug) {what_tab = "sugestao"; lista = this.sugestoes}
 
-        axios.get(`http://localhost:3333/${what_tab}/historico/${this.id}?skip=` + lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + `/${what_tab}/historico/${this.id}?skip=` + lista.length, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             if(!data.data || data.data.length < 10) this.lastPage = true
 
@@ -661,7 +662,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           data['nome'] = this.newNome
           data['nr_utente'] = this.newNUtente
           data['nr_telemovel'] = this.newNTelemovel
-          axios.put("http://localhost:3333/users/alterar/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+          axios.put(host + "/users/alterar/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
             .then(data => {
               this.token= data.data.token
               localStorage.setItem('jwt',data.data.token)
@@ -697,7 +698,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           var data = {}
           data['password_antiga'] = this.passAntiga
           data['password_nova'] = this.passNova
-          axios.put("http://localhost:3333/users/alterar/password/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+          axios.put(host + "/users/alterar/password/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
             .then(() => {
               this.loading = false
               this.modalAlterarPassword = false
@@ -737,7 +738,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           var data = {}
           data['password'] = this.passInserir
           data['email'] = this.email
-          axios.post("http://localhost:3333/users/login", data)
+          axios.post(host + "/users/login", data)
               .then(() => {
                   this.loading = false
                   this.modalInserirPassword = false
@@ -769,7 +770,7 @@ import { required, sameAs, between, email } from 'vuelidate/lib/validators'
           this.loading = true
           var data = {}
           data['email'] = this.emailNovo
-          axios.post("http://localhost:3333/verificar/email/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
+          axios.post(host + "/verificar/email/" + this.id, data,{headers:{'authorization':'Bearer '+ this.token}})
             .then(() => {
               this.loading = false
               this.modalAlterarEmail = false

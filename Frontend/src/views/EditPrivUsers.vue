@@ -118,6 +118,8 @@
 import axios from 'axios';
 import ModalMessage from '../components/ModalMessage.vue'; 
 
+const host = require('../../../config.json').backend
+
 export default {
   name: 'EditPrivUsers',
   data() {
@@ -176,7 +178,7 @@ export default {
       this.dialog = false
       this.loading = true
       var json = {"nivel": this.privAlt}
-        axios.put("http://localhost:3333/users/nivel/"+this.idAlt, json, {headers: {'Authorization': `Bearer ${this.token}`}})
+        axios.put(host + "/users/nivel/"+this.idAlt, json, {headers: {'Authorization': `Bearer ${this.token}`}})
           .then( () => {
             this.modalSucesso = true
             this.loading = false
@@ -214,7 +216,7 @@ export default {
   },
   created() {
     if (this.token) {
-      axios.get("http://localhost:3333/users/listar", {headers: {'Authorization': `Bearer ${this.token}`}})
+      axios.get(host + "/users/listar", {headers: {'Authorization': `Bearer ${this.token}`}})
         .then( res => {
           this.listaInicial = res.data
           this.listaFiltrada = res.data

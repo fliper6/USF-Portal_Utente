@@ -35,6 +35,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 
     export default {
         name: "dropdown",
@@ -50,7 +51,7 @@ import axios from 'axios'
               localStorage.clear(); 
             },
             tokenBlacklist(token) {
-              axios.post("http://localhost:3333/users/logout", token, {headers: {'Authorization': `Bearer ${token}`}})
+              axios.post(host + "users/logout", token, {headers: {'Authorization': `Bearer ${token}`}})
                   .then(() => {
                   })
                   .catch(() => {

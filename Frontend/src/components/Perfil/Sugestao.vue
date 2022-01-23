@@ -131,6 +131,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../../config.json').backend
 import ModalMessage from '../ModalMessage.vue'
 
 
@@ -200,7 +201,7 @@ import ModalMessage from '../ModalMessage.vue'
         this.dialog=true
       },
       deleteSug(id){
-        axios.delete("http://localhost:3333/sugestao/" + id , {headers:{'authorization':'Bearer '+ this.token}})
+        axios.delete(host + "/sugestao/" + id , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.$router.go()
         })
@@ -213,7 +214,7 @@ import ModalMessage from '../ModalMessage.vue'
         data['_id'] = id
         data['titulo'] = this.titulo
         data['descricao'] = this.descricao
-        axios.put("http://localhost:3333/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
+        axios.put(host + "/sugestao",data , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.modalEditarSug = true
         })

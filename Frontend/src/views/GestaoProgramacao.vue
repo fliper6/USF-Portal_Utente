@@ -299,6 +299,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import VerNoticia from '../components/VerNoticia.vue'
@@ -354,7 +355,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + "/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.noticiasNormais = dados.data.noticiasNormais
           this.noticiasProg = dados.data.noticiasProg
@@ -431,7 +432,7 @@ export default {
       }
     },    
     cancelaProg(){
-      axios.delete('http://localhost:3333/noticias_programadas/' + this.idApagar, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.delete(host + '/noticias_programadas/' + this.idApagar, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
           this.noticiasProg.splice(this.noticiasProg.findIndex(x => x._id == this.idApagar), 1)
           this.dialog2 = true
@@ -451,7 +452,7 @@ export default {
         noticia: this.noticia.noticia
       }
       this.publishRepeat = false
-      axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
+      axios.put(host + '/noticias_programadas/editar/' + this.noticia._id,
         noticiaProg,
         {
           headers: {
@@ -494,7 +495,7 @@ export default {
       this.recurrenceArray = [0,6,0,0,0,0]
       this.publishNow = true
       this.publishRepeat = false
-      axios.put('http://localhost:3333/noticias_programadas/editar/' + this.noticia._id,
+      axios.put(host + '/noticias_programadas/editar/' + this.noticia._id,
         noticiaProg,
         {
           headers: {
@@ -502,7 +503,7 @@ export default {
           }
         }
       ).then(() => {
-        axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+        axios.get(host + "/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
           .then( dados => {
             this.modalProgNorm = false
             this.dialog3 = true
@@ -521,7 +522,7 @@ export default {
         });
     },
     alteraLista(){
-      axios.get("http://localhost:3333/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + "/noticias_programadas" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.noticiasNormais = dados.data.noticiasNormais
           this.noticiasProg = dados.data.noticiasProg
@@ -533,7 +534,7 @@ export default {
         })
     },
     getNextPage() {
-      axios.post('http://localhost:3333/noticias_programadas/originais?skip=' + this.noticiasNormais.length, {ids_originais: this.ids_originais})
+      axios.post(host + '/noticias_programadas/originais?skip=' + this.noticiasNormais.length, {ids_originais: this.ids_originais})
         .then(data => {
           if(!data.data || data.data.length < 10) this.lastPage = true
           this.noticiasNormais = this.noticiasNormais.concat(data.data) 

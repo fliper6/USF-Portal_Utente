@@ -86,6 +86,8 @@
 
 <script>
   import axios from 'axios'
+  const host = require('../../../config.json').backend
+  
   import VuePdfApp from "vue-pdf-app";
   import ModalMessage from '../components/ModalMessage.vue'; 
   import "vue-pdf-app/dist/icons/main.css";
@@ -121,7 +123,7 @@
 
     methods: {
         download: function () {
-          window.open("http://localhost:3333/documentos/download/" + this.id_documento)
+          window.open(host + "/documentos/download/" + this.id_documento)
         },
         closeSucesso () {
           this.modal = false
@@ -140,7 +142,7 @@
           return false
         },
         deleteDocumento () {
-          axios.put("http://localhost:3333/documentos/remover/" + this.id_documento, {},
+          axios.put(host + "/documentos/remover/" + this.id_documento, {},
             {
               headers: {
                 'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -153,7 +155,7 @@
     },
     created() {
       // Obter dados do documento
-      axios.get("http://localhost:3333/documentos/" + this.$route.params.id)
+      axios.get(host + "/documentos/" + this.$route.params.id)
         .then(data => {
           this.data_publicacao = data.data.data_publicacao.slice(0,10)
           this.id_categoria = data.data.id_categoria
@@ -161,7 +163,7 @@
           this.id_autor = data.data.id_autor
           this.titulo = data.data.titulo
           this.visibilidade = data.data.visibilidade
-          this.diretoria = "http://localhost:3333" + data.data.ficheiro.diretoria.substring(6)
+          this.diretoria = host + data.data.ficheiro.diretoria.substring(6)
           this.nome_ficheiro = data.data.ficheiro.nome_ficheiro
           this.formato = this.nome_ficheiro.split(".").at(-1)
           this.tamanho = data.data.ficheiro.tamanho

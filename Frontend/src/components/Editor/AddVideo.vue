@@ -28,6 +28,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../../config.json').backend
 
 export default {
   name: 'AddVideo',
@@ -49,7 +50,7 @@ export default {
       let formData = new FormData();
       formData.append('ficheiro', this.file);
 
-      axios.post('http://localhost:3333/noticias/ficheiro',
+      axios.post(host + '/noticias/ficheiro',
           formData,
           {
           headers: {
@@ -59,7 +60,7 @@ export default {
         }
       ).then(({data}) => {
 
-        this.url = "http://localhost:3333/" + data.url
+        this.url = host + "/" + data.url
         this.addVideo()
 
       })

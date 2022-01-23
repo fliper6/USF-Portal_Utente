@@ -55,6 +55,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import jwt from 'jsonwebtoken'
 import ModalMessage from './ModalMessage.vue'
 import { validationMixin } from 'vuelidate'
@@ -112,7 +113,7 @@ import { required } from 'vuelidate/lib/validators'
             titulo: this.titulo,
             descricao: this.sugestao
           }
-          axios.post("http://localhost:3333/sugestao", body, {headers:{'authorization':'Bearer '+ this.token}} )
+          axios.post(host + "/sugestao", body, {headers:{'authorization':'Bearer '+ this.token}} )
           .then(() => {
             this.modalConfirm = false
             this.modal = true

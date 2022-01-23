@@ -17,6 +17,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import jwt from 'jsonwebtoken'
 import TimeAgo from 'javascript-time-ago'
 import pt from 'javascript-time-ago/locale/pt.json'
@@ -40,7 +41,7 @@ export default {
     TimeAgo.addLocale(pt)
     this.timeAgo = new TimeAgo('pt-PT')
 
-    axios.get('http://localhost:3333/noticias?visibilidade=0&skip=0')
+    axios.get(host + '/noticias?visibilidade=0&skip=0')
       .then(data => {
         this.noticias = this.noticias.concat(data.data) 
         this.loadingNews = false;
@@ -69,7 +70,7 @@ export default {
       this.noticias = this.noticias.filter(elem => elem._id != id)
     },
     getNextPage() {
-      axios.get('http://localhost:3333/noticias?visibilidade=0&skip=' + this.noticias.length)
+      axios.get(host + '/noticias?visibilidade=0&skip=' + this.noticias.length)
         .then(data => {
           if(!data.data || data.data.length < 10) this.lastPage = true
           this.noticias = this.noticias.concat(data.data) 

@@ -79,6 +79,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import jwt from 'jsonwebtoken'
 import File from './Editor/File.vue'
 import ModalMessage from './ModalMessage.vue'
@@ -106,7 +107,7 @@ export default {
   },
   methods: {
     deleteNoticia () {
-      axios.put('http://localhost:3333/noticias/' + this.$props.noticia._id + '?visibilidade=1', {},
+      axios.put(host + '/noticias/' + this.$props.noticia._id + '?visibilidade=1', {},
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -118,7 +119,7 @@ export default {
       }).catch(() => { this.modalError = true });
     },
     downloadFile (file) {
-      axios.get('http://localhost:3333/noticias/download',
+      axios.get(host + '/noticias/download',
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

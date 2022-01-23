@@ -1,6 +1,7 @@
 var mongoose = require('mongoose');
+const cfg = require('../../config.json')
 
-const CONNECTION_STRING = 'mongodb://127.0.0.1:27017/USF_PORTAL_UTENTE'
+const CONNECTION_STRING = cfg.mongo + '/USF_PORTAL_UTENTE'
 
 mongoose.connect(CONNECTION_STRING, 
       { useNewUrlParser: true,

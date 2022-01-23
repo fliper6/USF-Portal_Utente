@@ -1,5 +1,7 @@
-const SECRET = 'PI_2021_SECRET_!_HASH'
-const EXPIRES_IN = '4h'
+const cfg = require('../../config.json')
+
+const SECRET = cfg.jwt.secret
+const EXPIRES_IN = cfg.jwt.session
 
 const jwt = require("jsonwebtoken");
 const Blocklist = require('../controllers/blocklist')

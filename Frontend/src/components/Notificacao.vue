@@ -174,7 +174,7 @@ import NotificationBell from 'vue-notification-bell'
 import { io } from 'socket.io-client';
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
-
+const host = require('../../../config.json').backend
     export default {
         name: "notificacao",
         data: () => ({
@@ -192,7 +192,7 @@ import axios from 'axios'
           this.getNotificacoes()
 
           //cria socket
-          this.socket = io(process.env.VUE_APP_SOCKET_ENDPOINT,{
+          this.socket = io(host,{
             query: {
               uid: jwt.decode(this.token)._id
             }
@@ -214,7 +214,7 @@ import axios from 'axios'
         },    
         methods: {
           getNotificacoes (){
-            axios.get("http://localhost:3333/notificacao/PorUser/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+            axios.get(host + "/notificacao/PorUser/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.notifications = data.data
               this.contador = this.getCount(this.notifications)
@@ -230,7 +230,7 @@ import axios from 'axios'
           },
           readAll(){
             if (this.notifications.length>0) {
-              axios.put("http://localhost:3333/notificacao/lidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
+              axios.put(host + "/notificacao/lidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
                   this.getNotificacoes()
                 })
@@ -245,7 +245,7 @@ import axios from 'axios'
               json['_id'] = id
               json['estado'] = 2
 
-              axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+              axios.put(host + "/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
                   this.getNotificacoes()
                 })
@@ -255,7 +255,7 @@ import axios from 'axios'
             }
           },
           removeOne(id){
-            axios.delete("http://localhost:3333/notificacao/"+id, {headers:{'authorization':'Bearer '+ this.token}})
+            axios.delete(host + "/notificacao/"+id, {headers:{'authorization':'Bearer '+ this.token}})
               .then(() => {
                 this.getNotificacoes()
               })
@@ -265,7 +265,7 @@ import axios from 'axios'
           },
           removeAll(){
             if (this.notifications.length>0) {
-              axios.delete("http://localhost:3333/notificacao/all/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
+              axios.delete(host + "/notificacao/all/"+jwt.decode(this.token)._id, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
                   this.notifications = []
                   this.contador = 0
@@ -277,7 +277,7 @@ import axios from 'axios'
           },
           openNotifications(){
             if (this.contador!=0) {
-              axios.put("http://localhost:3333/notificacao/recebidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
+              axios.put(host + "/notificacao/recebidas/"+jwt.decode(this.token)._id, {}, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
                   this.contador=0
                 })
@@ -293,7 +293,7 @@ import axios from 'axios'
               json['_id'] = idNot
               json['estado'] = 2
 
-              axios.put("http://localhost:3333/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
+              axios.put(host + "/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
                   //redirecionar o utilizador para o sitio referente à notificação
                   this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)

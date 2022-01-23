@@ -191,6 +191,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 import VerNoticia from '../components/VerNoticia.vue'
@@ -230,7 +231,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get(`http://localhost:3333/noticias?visibilidade=1&skip=0` , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + `/noticias?visibilidade=1&skip=0` , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.noticias = this.noticias.concat(dados.data)
           this.loadingNews = false;
@@ -251,7 +252,7 @@ export default {
   },
   methods: {
     deleteNoticia(id){
-      axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=2', {}, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.put(host + '/noticias/' + id + '?visibilidade=2', {}, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
           this.dialog5 = true
           this.noticias.splice(this.noticias.findIndex(x => x._id == id), 1)
@@ -262,7 +263,7 @@ export default {
         })
     },
     putPublic(id){
-      axios.put('http://localhost:3333/noticias/' + id + '?visibilidade=0', {},
+      axios.put(host + '/noticias/' + id + '?visibilidade=0', {},
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -278,7 +279,7 @@ export default {
         })        
     },
     getNextPage() {
-      axios.get('http://localhost:3333/noticias?visibilidade=1&skip=' + this.noticias.length)
+      axios.get(host + '/noticias?visibilidade=1&skip=' + this.noticias.length)
         .then(data => {
           if(!data.data || data.data.length < 10) this.lastPage = true
             this.noticias = this.noticias.concat(data.data) 

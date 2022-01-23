@@ -118,6 +118,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import ModalMessage from '../components/ModalMessage.vue'
 
   //npm install --save @riophae/vue-treeselect
@@ -144,7 +145,7 @@ export default {
     },
     created(){
         if (this.token) {
-          axios.get("http://localhost:3333/sugestao?estado=0&ordem=-1&skip=0", {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(host + "/sugestao?estado=0&ordem=-1&skip=0", {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = this.lista.concat(data.data)
               this.loading = false;
@@ -171,7 +172,7 @@ export default {
         data['resposta'] = this.descricao
         data['data_resposta'] = Date.now()
         data['estado'] = 1
-        axios.put("http://localhost:3333/sugestao/altE",data , {headers:{'authorization':'Bearer '+ this.token}})
+        axios.put(host + "/sugestao/altE",data , {headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.modalResponderSug=true
         })
@@ -189,7 +190,7 @@ export default {
         let estado = this.color1 == 1 ? 0 : 1
         let ordem = this.up ? -1 : 1
 
-        axios.get(`http://localhost:3333/sugestao?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + `/sugestao?estado=${estado}&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             this.lista = data.data
             this.loading = false;
@@ -208,7 +209,7 @@ export default {
           this.color1 = 1; this.color2 = 0
           this.loading = true
 
-          axios.get(`http://localhost:3333/sugestao?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(host + `/sugestao?estado=0&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = data.data
               this.loading = false;
@@ -223,7 +224,7 @@ export default {
           this.color1 = 0; this.color2 = 1
           this.loading = true
 
-          axios.get(`http://localhost:3333/sugestao?estado=1&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
+          axios.get(host + `/sugestao?estado=1&ordem=${ordem}&skip=0`, {headers:{'authorization':'Bearer '+ this.token}})
             .then( data => {
               this.lista = data.data
               this.loading = false;
@@ -235,7 +236,7 @@ export default {
         }
       },
       getNextPage() {
-        axios.get(`http://localhost:3333/sugestao?estado=${!this.color2 ? 0 : 1}&ordem=${this.up ? 1 : -1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
+        axios.get(host + `/sugestao?estado=${!this.color2 ? 0 : 1}&ordem=${this.up ? 1 : -1}&skip=` + this.lista.length, {headers:{'authorization':'Bearer '+ this.token}})
           .then(data => {
             if(!data.data || data.data.length < 10) this.lastPage = true
             this.lista = this.lista.concat(data.data)

@@ -1,0 +1,47 @@
+version: "3"
+services: 
+    back-end:
+        container_name: usf-back-end
+        build: 
+            context: ./
+            dockerfile: ./Backend/Dockerfile
+        restart: always
+        links:
+            - mongo
+        networks:
+            default:
+              aliases:
+                - usf-front-end
+    mongo:
+        image: mongo
+        container_name: usf-mongo
+        restart: always
+        environment:
+            MONGO_INITDB_DATABASE: USF_PORTAL_UTENTE
+            #MONGO_INITDB_ROOT_USERNAME: root
+            #MONGO_INITDB_ROOT_PASSWORD: toor
+        #volumes:
+            #- ./mongo/seed.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+            #- ./mongo/
+        ports: 
+            - "27018:27017"
+    mongo-seed:
+        build:
+            context: ./
+            dockerfile: mongo/Dockerfile
+        depends_on:
+            - mongo
+    front-end:
+        container_name: usf-front-end
+        restart: always
+        build:
+            context: ./
+            dockerfile: ./Frontend/Dockerfile
+        ports: 
+            - "13333:80"
+        links:
+            - back-end
+        networks:
+            default:
+              aliases:
+                - usf-back-end

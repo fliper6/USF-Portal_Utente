@@ -7,6 +7,9 @@
 var app = require('../app');
 var debug = require('debug')('backend:server');
 var http = require('http');
+
+const config = require('../../config.json')
+const corsHost = config.frontend
 /**
  * Create HTTP server.
  */
@@ -14,7 +17,7 @@ var server = http.createServer(app);
 
 const io = require('socket.io')(server, {
   cors: {
-    origins: ['http://localhost:8080']
+    origins: [corsHost]
   }
 });
 

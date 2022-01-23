@@ -19,6 +19,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import jwt from 'jsonwebtoken'
 import File from './Editor/File.vue'
 
@@ -36,7 +37,7 @@ export default {
   },
   methods: {
     downloadFile (file) {
-      axios.get('http://localhost:3333/noticias/download',
+      axios.get(host + '/noticias/download',
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,

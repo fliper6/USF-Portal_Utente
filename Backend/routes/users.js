@@ -139,7 +139,7 @@ router.put('/alterar/:_id', JWTUtils.validate, JWTUtils.compareId, (req,res) => 
         dataRegisto: dados.dataRegisto,
         sub: 'PORTAL_UTENTE_2021'}, 
         SECRET,
-        {expiresIn: "4h"},
+        {expiresIn: EXPIRES_IN},
         function(e, token) {
           if(e) res.status(500).jsonp({error: "Erro na geração do token: " + e}) 
           else res.status(201).jsonp({token})

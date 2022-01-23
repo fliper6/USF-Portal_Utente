@@ -196,6 +196,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../config.json').backend
 import { validationMixin } from 'vuelidate'
 import { required } from 'vuelidate/lib/validators'
 export default {
@@ -234,7 +235,7 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/documentos?visibilidade=1&skip=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + "/documentos?visibilidade=1&skip=0" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.documentos = this.documentos.concat(dados.data)
           this.loadingDocs = false;
@@ -255,7 +256,7 @@ export default {
   },
   methods: {
     download(){
-        axios.get('http://localhost:3333/documentos/download/' + this.docId,
+        axios.get(host + '/documentos/download/' + this.docId,
         {
           responseType: 'blob'
         })
@@ -282,7 +283,7 @@ export default {
       this.docId = d._id
     },
     deleteDocumento(id){
-      axios.delete('http://localhost:3333/documentos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.delete(host + '/documentos/' + id, {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then(() => {
           this.dialog5 = true
           this.documentos.splice(this.documentos.findIndex(x => x._id == id), 1)
@@ -293,7 +294,7 @@ export default {
         })
     },
     putPublic(id){
-      axios.put('http://localhost:3333/documentos/adicionar/' + id,{},
+      axios.put(host + '/documentos/adicionar/' + id,{},
         {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
@@ -309,7 +310,7 @@ export default {
         })        
     },
     getNextPage() {
-      axios.get('http://localhost:3333/documentos?visibilidade=1&skip=' + this.documentos.length)
+      axios.get(host + '/documentos?visibilidade=1&skip=' + this.documentos.length)
         .then(data => {
           if(!data.data || data.data.length < 10) this.lastPage = true
           this.documentos = this.documentos.concat(data.data) 

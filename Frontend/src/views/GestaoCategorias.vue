@@ -144,6 +144,7 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import ModalMessage from '../components/ModalMessage.vue'; 
   import axios from 'axios'
+  const host = require('../../../config.json').backend
   import jwt from 'jsonwebtoken'
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
@@ -225,7 +226,7 @@
               'id_pai': this.arvore_pai
             }
 
-            axios.post("http://localhost:3333/documentos/criar_categoria", 
+            axios.post(host + "/documentos/criar_categoria", 
               obj, 
               {
                 headers: {
@@ -264,7 +265,7 @@
           this.modalConfirm = true
         },
         deleteCategoria: function () {
-          axios.put("http://localhost:3333/documentos/categoria/" + this.arvore, 
+          axios.put(host + "/documentos/categoria/" + this.arvore, 
             {
               headers: 
                 {
@@ -276,7 +277,7 @@
                 this.modal2 = true;
 
                 // Atualizar árvore de categorias
-                axios.get("http://localhost:3333/documentos/categorias")
+                axios.get(host + "/documentos/categorias")
                   .then(data => {
                     this.options = data.data.categorias[0].children
                     this.options2 = data.data.categorias
@@ -301,7 +302,7 @@
     },
     created() {
       // Obter árvore de categorias
-      axios.get("http://localhost:3333/documentos/categorias")
+      axios.get(host + "/documentos/categorias")
         .then(data => {
           this.options = data.data.categorias[0].children
           this.options2 = data.data.categorias

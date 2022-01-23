@@ -38,6 +38,7 @@
 import ModalMessage from '../components/ModalMessage.vue'
 import axios from 'axios'
 
+const host = require('../../../config.json').backend
 
     export default {
         name: 'confirmarEmail',
@@ -69,7 +70,7 @@ import axios from 'axios'
                 if (this.$route.params.state=="confirmar" && this.$route.query.codigo) {
                     var data = {}
                     data['codigo'] = this.$route.query.codigo
-                    axios.post("http://localhost:3333/verificar/email/confirmar", data)
+                    axios.post(host + "/verificar/email/confirmar", data)
                         .then(res => { 
                           localStorage.setItem('jwt', res.data.token)
                           this.modalSucessoConfirmar = true
@@ -81,7 +82,7 @@ import axios from 'axios'
                 else if (this.$route.params.state=="cancelar" && this.$route.query.codigo) {
                     var data2 = {}
                     data2['codigo'] = this.$route.query.codigo
-                    axios.post("http://localhost:3333/verificar/email/cancelar", data2)
+                    axios.post(host + "/verificar/email/cancelar", data2)
                         .then(res => {
                           localStorage.setItem('jwt',res.data.token)
                           this.modalSucessoCancelar = true

@@ -215,6 +215,7 @@
   import '@riophae/vue-treeselect/dist/vue-treeselect.css'
   import ModalMessage from '../components/ModalMessage.vue'; 
   import axios from 'axios'
+  const host = require('../../../config.json').backend
   import jwt from 'jsonwebtoken'
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
@@ -324,7 +325,7 @@
           })
           formData.append('paths', JSON.stringify(paths))
 
-          axios.post("http://localhost:3333/importar/", formData, 
+          axios.post(host + "/importar/", formData, 
             {
               headers: {
                 'Content-Type': 'multipart/form-data',
@@ -340,7 +341,7 @@
                 this.options2 = categorias.data.categorias
                 
                 // atualizar a listagem de documentos
-                axios.get("http://localhost:3333/documentos?visibilidade=0")
+                axios.get(host + "/documentos?visibilidade=0")
                   .then(data => {
                     this.docs = data.data
                     this.docs.forEach(item => {              
@@ -363,7 +364,7 @@
         },
         closeErroDetail () { this.modalErroDetail = false; },
         download: function (item) {
-          window.open("http://localhost:3333/documentos/download/" + item.titulo.split("##")[1])
+          window.open(host + "/documentos/download/" + item.titulo.split("##")[1])
         },
         st: function (value) {
           return value.split("##")[1]
@@ -403,7 +404,7 @@
               formData.append('titulo', this.titulo)
               formData.append('id_categoria', this.arvore)
 
-              axios.post("http://localhost:3333/documentos/", 
+              axios.post(host + "/documentos/", 
                 formData, 
                 {
                   headers: {
@@ -414,7 +415,7 @@
                   this.modal = true;
 
                   // Atualizar documentos
-                  axios.get("http://localhost:3333/documentos?visibilidade=0")
+                  axios.get(host + "/documentos?visibilidade=0")
                     .then(data => {
                       this.docs = data.data
                       this.docs.forEach(item => {              
@@ -466,7 +467,7 @@
               'id_pai': this.arvore_pai
             }
 
-            axios.post("http://localhost:3333/documentos/criar_categoria", 
+            axios.post(host + "/documentos/criar_categoria", 
               obj, 
               {
                 headers: {
@@ -500,7 +501,7 @@
     },
     created() {
       // Obter lista de documentos
-      axios.get("http://localhost:3333/documentos?visibilidade=0")
+      axios.get(host + "/documentos?visibilidade=0")
         .then(data => {
           this.docs = data.data
           this.docs.forEach(item => {
@@ -515,7 +516,7 @@
         })
       
       // Obter árvore de categorias
-      axios.get("http://localhost:3333/documentos/categorias")
+      axios.get(host + "/documentos/categorias")
         .then(data => {
           this.options = data.data.categorias[0].children
           this.options2 = data.data.categorias

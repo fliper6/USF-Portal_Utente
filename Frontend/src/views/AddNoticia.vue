@@ -88,6 +88,8 @@ import DatePicker from '../components/Editor/DatePicker.vue'
 import InputRecurrence from '../components/Editor/InputRecurrence.vue'
 
 import axios from 'axios'
+const host = require('../../../config.json').backend
+
 export default {
   name: 'Home',
   components: {
@@ -158,7 +160,7 @@ export default {
       formData.append('data_pub', data_pub)
       let rec_array = this.publishRepeat ? this.recurrenceArray : [0,0,0,0,0,0]
       formData.append('recorrencia', rec_array)
-      axios.post('http://localhost:3333/noticias',
+      axios.post(host + '/noticias',
         formData,
         {
           headers: {

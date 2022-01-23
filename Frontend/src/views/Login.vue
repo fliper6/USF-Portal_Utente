@@ -288,6 +288,7 @@ import { validationMixin } from 'vuelidate'
 import { required, sameAs, between, email } from 'vuelidate/lib/validators'
 import axios from 'axios'
 import ModalMessage from '../components/ModalMessage.vue'
+const host = require('../../../config.json').backend
 
     export default {
         name: 'Login',
@@ -465,7 +466,7 @@ import ModalMessage from '../components/ModalMessage.vue'
                 return re.test(pass)
             },
             postLogin(json) {
-                axios.post("http://localhost:3333/users/login", json)
+                axios.post(host + "/users/login", json)
                     .then(data => {
                         localStorage.setItem('jwt',data.data.token)
                         this.$router.go()
@@ -498,7 +499,7 @@ import ModalMessage from '../components/ModalMessage.vue'
             },
             mandaEmail(){
                 this.alertRegisto=false
-                axios.post("http://localhost:3333/verificar", {'email':this.emailRegisto})
+                axios.post(host + "/verificar", {'email':this.emailRegisto})
                     .then(() => {
                         this.$v.$reset()
                         this.dialog=true
@@ -534,7 +535,7 @@ import ModalMessage from '../components/ModalMessage.vue'
                     json['email'] = this.emailRegisto
                     json['codigo'] = this.codigo
                     
-                    axios.post("http://localhost:3333/verificar/codigo", json)
+                    axios.post(host + "/verificar/codigo", json)
                         .then(() => {
                             this.register()
                         })
@@ -556,7 +557,7 @@ import ModalMessage from '../components/ModalMessage.vue'
                     this.loadingPassword = true
                     var json = {}
                     json['email'] = this.emailRecuperacao
-                    axios.post("http://localhost:3333/verificar/recuperar", json)
+                    axios.post(host + "/verificar/recuperar", json)
                         .then(() => {
                             this.dialogPass = false
                             this.open = false
@@ -584,7 +585,7 @@ import ModalMessage from '../components/ModalMessage.vue'
                 json['nr_utente'] = this.n_utente
                 json['nr_telemovel'] = this.n_telemovel
                 
-                axios.post("http://localhost:3333/users/registar", json)
+                axios.post(host + "/users/registar", json)
                     .then( () => {
                         this.postLogin(json)
                     })

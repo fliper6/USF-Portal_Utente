@@ -154,7 +154,7 @@ import Notificacao from '@/components/Notificacao.vue';
 import ModalMessage from '../components/ModalMessage.vue'; 
 import jwt from 'jsonwebtoken';
 import axios from 'axios'
-
+const host = require('../../../config.json').backend
 export default {
   name: 'App',
   data () {
@@ -178,7 +178,7 @@ export default {
     $route() {
       this.path = window.location.pathname.split('/')[1]
       if (this.token) {
-        axios.get("http://localhost:3333/users/validar/" + this.token)
+        axios.get(host + "/users/validar/" + this.token)
         .then( () => {
           this.nivel = jwt.decode(this.token).nivel
           this.nome = jwt.decode(this.token).nome
@@ -197,7 +197,7 @@ export default {
   },
   created(){
     if (this.token && !(window.location.pathname == 'recuperacao/password' || window.location.pathname ==  '/alterarEmail/confirmar' || window.location.pathname ==  '/alterarEmail/cancelar')) {
-      axios.get("http://localhost:3333/users/validar/" + this.token)
+      axios.get(host + "/users/validar/" + this.token)
         .then( () => {
           this.nivel = jwt.decode(this.token).nivel
           this.nome = jwt.decode(this.token).nome

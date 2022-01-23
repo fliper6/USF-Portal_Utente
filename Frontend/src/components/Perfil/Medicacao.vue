@@ -80,6 +80,7 @@
 
 <script>
 import axios from 'axios'
+const host = require('../../../../config.json').backend
 import ModalMessage from '../ModalMessage.vue'
 
 
@@ -141,7 +142,7 @@ import ModalMessage from '../ModalMessage.vue'
 
       //CANCELAR PEDIDOS MEDICACAO
       deleteEstado (id){
-        axios.delete("http://localhost:3333/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
+        axios.delete(host + "/medicacao/" + id,{headers:{'authorization':'Bearer '+ this.token}})
         .then(() => {
           this.modalConfirmarCancelarPedido = false
           this.modalCancelarPedido = true
