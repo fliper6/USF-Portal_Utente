@@ -6,7 +6,7 @@
       </span>
     </v-row>
     <v-row align="center" justify="center">
-       <b style="font-size:40px;">Oops! Não tem autorização para aceder a esta página 😅</b>
+       <b style="font-size:40px;">Oops! Não tem autorização para aceder a esta página.</b>
     </v-row>
    
   </div>

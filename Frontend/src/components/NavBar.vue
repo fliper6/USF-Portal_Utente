@@ -11,88 +11,72 @@
     </modal-message>
 
 
-    <v-app-bar
-    app
-    color="white"
-    >
-      <!-- LOGO -->
-      <router-link to="/">
-        <div class="d-flex align-center">
-        <v-img
-          class="shrink mr-2"
-          contain
-          src="@/assets/logo.png"
-          width="60"
-        />
-        </div>
-      </router-link>
+    <v-app-bar app color="white">
 
-      <!-- SEPARADOR -->
-      <div style="height:40px; margin: 0px 15px;">
-        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-      </div>
+      <v-app-bar-nav-icon @click="drawer = true" class="d-flex d-md-none"></v-app-bar-nav-icon>
       
-      <!-- NOTICIAS -->
-      <router-link to="/" class="titulo" >
-        <div class="d-flex align-center">
-            <b :style="this.path==''? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
-        </div>
-      </router-link>
+      <!-- CASO SEJA PC -->
+      <div class="d-none d-md-flex align-center">
 
-      <!-- SEPARADOR -->
-      <div style="height:40px; margin: 0px 15px;">
-        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-      </div>
-
-      <!-- DOCUMENTOS -->
-      <router-link to="/documentos" class="titulo">
-        <div class="d-flex align-center">
-            <b :style="this.path=='documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
-        </div>
-      </router-link>
-
-      <!-- SEPARADOR -->
-      <div style="height:40px; margin: 0px 15px;">
-        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-      </div>
-
-      <!-- ENCONTRE-NOS -->
-      <router-link to="/contactos" class="titulo">
-        <div class="d-flex align-center">
-            <b :style="this.path=='contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
-        </div>
-      </router-link>
-      
-      <!-- SEPARADOR -->
-      <div style="height:40px; margin: 0px 15px;">
-        <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-      </div>
-
-      <!-- BALCAO ELETRONICO -->
-      <div :style="this.path=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
-        <DropBalcao :path="this.path"></DropBalcao>
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <!-- APENAS PARA QUEM ESTÁ LOGGED IN -->
-      <div class="d-flex align-center" v-if="this.token">
-        
-        <!-- NOTIFICAÇÕES -->
-        <Notificacao ></Notificacao>
+        <!-- LOGO -->
+        <router-link to="/">
+          <v-img
+            class="shrink mr-2"
+            contain
+            src="@/assets/logo.png"
+            width="60"
+          />
+        </router-link>
 
         <!-- SEPARADOR -->
         <div style="height:40px; margin: 0px 15px;">
           <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
         </div>
-  
-        <!-- PARA QUEM TEM PRIVILÉGIOS ACIMA DE UTENTE -->
-        <div class="d-flex align-center" v-if="this.nivel=='Administrador'||this.nivel=='Secretário'">
-          
-          <!-- GESTÃO -->
-          <div :style="this.path=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
-            <DropGestao :path="this.path"></DropGestao>
-          </div>  
+
+        <!-- NOTICIAS -->
+        <router-link to="/" class="titulo" >
+          <b :style="this.path==''? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
+        </router-link>
+
+        <!-- SEPARADOR -->
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+        </div>
+
+        <!-- DOCUMENTOS -->
+        <router-link to="/documentos" class="titulo">
+          <b :style="this.path=='documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
+        </router-link>
+
+        <!-- SEPARADOR -->
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+        </div>
+
+        <!-- ENCONTRE-NOS -->
+        <router-link to="/contactos" class="titulo">
+          <b :style="this.path=='contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
+        </router-link>
+
+        <!-- SEPARADOR -->
+        <div style="height:40px; margin: 0px 15px;">
+          <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+        </div>
+
+        <!-- BALCAO ELETRONICO -->
+        <div :style="this.path=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+          <DropBalcao :path="this.path"></DropBalcao>
+        </div>
+
+      </div>
+
+      <v-spacer></v-spacer>
+
+        <!-- APENAS PARA QUEM ESTÁ LOGGED IN -->
+        <div v-if="this.token" class=" d-flex align-center">
+
+          <!-- NOTIFICAÇÕES -->
+          <Notificacao ></Notificacao>
 
           <!-- SEPARADOR -->
           <div style="height:40px; margin: 0px 15px;">
@@ -100,40 +84,119 @@
           </div>
 
         </div>
+        
+        <div v-if="this.token" class="d-none d-md-flex align-center">
 
-        <!-- PARA QUEM TEM PRIVILÉGIOS DE ADMIN -->
-        <div class="d-flex align-center" v-if="this.nivel=='Administrador'">
+          <!-- PARA QUEM TEM PRIVILÉGIOS ACIMA DE UTENTE -->
+          <div v-if="this.nivel=='Administrador'||this.nivel=='Secretário'" class="d-none d-md-flex align-center">
 
-          <!-- UTILIZADORES -->
-          <router-link to="/utilizadores/privilegios" class="titulo">
-            <div class="d-flex align-center">
-                <b :style="this.path=='utilizadores'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
+            <!-- GESTÃO -->
+            <div :style="this.path=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+              <DropGestao :path="this.path"></DropGestao>
+            </div>  
+
+            <!-- SEPARADOR -->
+            <div style="height:40px; margin: 0px 15px;">
+              <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+            </div>
+
+          </div>
+
+          <!-- PARA QUEM TEM PRIVILÉGIOS DE ADMIN -->
+          <div v-if="this.nivel=='Administrador'" class="d-none d-md-flex align-center">
+
+            <!-- UTILIZADORES -->
+            <router-link to="/utilizadores/privilegios" class="titulo">
+              <b :style="this.path=='utilizadores'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
+            </router-link>
+
+            <!-- SEPARADOR -->
+            <div style="height:40px; margin: 0px 15px;">
+              <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div div v-if="this.token" class="d-flex align-center">
+        
+          <!-- NOME -->
+          <router-link to="/perfil" style="text-decoration: none;">
+            <div style="margin-right:10px; ">
+              <b :style="this.path=='perfil'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'"> {{nome.split(' ')[0]}} </b>
             </div>
           </router-link>
 
-          <!-- SEPARADOR -->
-          <div style="height:40px; margin: 0px 15px;">
-            <v-divider vertical style="border-width: 1px !important; border-color: var(--grey2-color) !important;"/>
-          </div>
-          
+          <!-- DROPDOWN -->
+          <Dropdown :path="this.path"></Dropdown>
+
         </div>
+
+        <!-- PARA QUEM NÃO ESTÁ LOGGED IN -->
+        <div v-else>
+            <Login :isOpen="false" :show="true"></Login>
+        </div>
+
+
       
-        <!-- NOME -->
-        <router-link to="/perfil" style="text-decoration: none;">
-          <div class="d-flex align-center" style="margin-right:10px; ">
-            <b :style="this.path=='perfil'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'"> {{nome.split(' ')[0]}} </b>
-          </div>
-        </router-link>
-        
-        <!-- DROPDOWN -->
-        <Dropdown :path="this.path"></Dropdown>
 
-      </div>
+      <!-- CASO SEJA TELEMOVEL -->
 
-      <!-- PARA QUEM NÃO ESTÁ LOGGED IN -->
-      <div v-else>
-          <Login :isOpen="false" :show="true"></Login>
-      </div>
+      <v-navigation-drawer
+        v-model="drawer"
+        absolute
+        :height="tam"
+        temporary
+      >
+      <v-list nav dense>
+        <v-list-item-group>
+
+          <v-list-item>
+            <router-link to="/" class="titulo" >
+              <b :style="this.path==''? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Notícias</b>
+            </router-link>
+          </v-list-item>
+
+          <v-list-item>
+            <router-link to="/documentos" class="titulo">
+              <b :style="this.path=='documentos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Documentos</b>
+            </router-link>
+          </v-list-item>
+
+
+          <v-list-item>
+            <router-link to="/contactos" class="titulo">
+              <b :style="this.path=='contactos'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Encontre-nos</b>
+            </router-link>
+          </v-list-item>
+
+
+          <v-list-item>
+            <div :style="this.path=='balcao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+              <DropBalcao :path="this.path"></DropBalcao>
+            </div>
+          </v-list-item>
+          
+
+          <v-list-item v-if="this.nivel=='Administrador'||this.nivel=='Secretário'">
+            <div :style="this.path=='gestao'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">
+              <DropGestao :path="this.path"></DropGestao>
+            </div> 
+          </v-list-item>
+
+
+          <v-list-item  v-if="this.nivel=='Administrador'">
+            <router-link to="/utilizadores/privilegios" class="titulo">
+              <b :style="this.path=='utilizadores'? 'color: var(--primary-color)' : 'color: var(--grey3-color)'">Utilizadores</b>
+            </router-link>
+          </v-list-item>
+
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer> 
+
 
     </v-app-bar>
 
@@ -164,6 +227,8 @@ export default {
       nome: "",
       path: window.location.pathname.split('/')[1],
       modalErro: false,
+      drawer: false,
+      tam: window.innerHeight
     }
   },
   components: {

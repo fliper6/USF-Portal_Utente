@@ -101,6 +101,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoDocumentos.vue')
   },
   {
+    path: '/gestao/sendgrid',
+    name: 'GestaoSendGrid',
+    component: () => import(/* webpackChunkName: "about" */ '../views/SendGrid.vue')
+  },
+  {
     path: '/gestao/programacao',
     name: 'GestaoProgramacao',
     component: () => import(/* webpackChunkName: "about" */ '../views/GestaoProgramacao.vue')
@@ -138,7 +143,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let adminRoutes = ['EditarPrivilegiosUtilizador', 'GestaoMedicos']
+  let adminRoutes = ['EditarPrivilegiosUtilizador', 'GestaoMedicos', 'GestaoSendGrid']
   let medicoRoutes = ['Criar Notícia','Editar Noticia','PedidoM','PedidoC','Sugestao','GestaoNoticias','GestaoCategorias','GestaoDocumentos','GestaoProgramacao']
   let userRoutes = ['Perfil']
   let nivel = ''

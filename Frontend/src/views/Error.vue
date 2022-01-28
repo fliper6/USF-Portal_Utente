@@ -6,7 +6,7 @@
       </span>
     </v-row>
     <v-row align="center" justify="center">
-       <b style="font-size:40px;">Oops! Esta página não existe 😝</b>
+       <b style="font-size:40px;">Oops! Esta página não existe.</b>
     </v-row>
    
   </div>
