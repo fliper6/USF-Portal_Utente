@@ -1,9 +1,8 @@
 {
     "frontend": "http://usf.di.uminho.pt",
     "backend": "/api",
-    "socket": "http://usf.di.uminho.pt/",
+    "socket": "https://usf.di.uminho.pt/",
     "mongo": "mongodb://usf-mongo:27017",
-    "sendgrid_key": "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",
     "jwt": {
         "secret": "PI_2021_SECRET_!_HASH",
         "session": "4h"

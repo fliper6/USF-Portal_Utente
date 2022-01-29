@@ -32,7 +32,7 @@
             
 
             <div style="font-size:26px; margin-top:50px; text-align:center">
-                <b> Chave atual: </b> {{ key }}
+                <b> Chave atual: </b> {{ key.key }}
             </div>
 
             <v-container>
