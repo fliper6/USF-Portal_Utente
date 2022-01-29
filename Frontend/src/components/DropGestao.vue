@@ -67,6 +67,13 @@
             </v-list-item>
           </router-link>
 
+          <!-- SENDGRID -->
+          <router-link v-if="nivel=='Administrador'" class="opcao" :to="'/gestao/sendgrid'">
+            <v-list-item class="opcao">
+              <b>SendGrid</b>
+            </v-list-item>
+          </router-link>
+
         </v-list>
 
     </v-menu>
