@@ -1,160 +1,27 @@
-[{
-    "morada": "Largo Paulo Orósio, 2º andar Maximinos 4700-036 Braga",
-    "email": "usf.apoio@gmail.com",
-    "telefone": "+351 937 344 557",
-    "horario_atendimento": "2ª a 6ª feira: das 08:00 horas às 20:00 horas",
-    "lat": 41.54738349797038, 
-    "lng": -8.428102644182273
-  },
-{
-    "nome":"Ana Filipa Pimentel",
-    "profissao":"Dr.ª",
-    "email":"apimentel@arsnorte.min-saude.pt",
-    "equipa":0
-},
-{
-    "nome":"Pedro Marques",
-    "profissao":"Enf.",
-    "email":"pmmarques@arsnorte.min-saude.pt",
-    "equipa":0
-},
-{
-    "nome":"Paula Sousa",
-    "profissao":"Secretária Clínica",
-    "email":"pmsousa@arsnorte.min-saude.pt",
-    "equipa":0
-},
-{
-    "nome":"André Fernandes",
-    "profissao":"Dr.",
-    "email":"affernandes@arsnorte.min-saude.pt",
-    "equipa":1
-},
-{
-    "nome":"Sandra Loureiro",
-    "profissao":"Enfª",
-    "email":"scloureiro@arsnorte.min-saude.pt",
-    "equipa":1
-},
-{
-    "nome":"Elsa Sofia Fernandes",
-    "profissao":"Secretária Clínica",
-    "email":"esfernandes@arsnorte.min-saude.pt",
-    "equipa":1
-},
-{
-    "nome":"Hélder Lanhas",
-    "profissao":"Dr.",
-    "email":"hlanhas@arsnorte.min-saude.pt",
-    "equipa":2
-},
-{
-    "nome":"Vera Sousa",
-    "profissao":"Enfª",
-    "email":"vlsousa@arsnorte.min-saude.pt",
-    "equipa":2
-},
-{
-    "nome":"José Pedro Silva",
-    "profissao":"Secretário Clínico",
-    "email":"jpcsilva@arsnorte.min-saude.pt",
-    "equipa":2
-},
-{
-    "nome":"Daniela Ribeiro",
-    "profissao":"Dr.ª",
-    "email":"dfpribeiro@arsnorte.min-saude.pt",
-    "equipa":3
-},
-{
-    "nome":"Manuela Macedo",
-    "profissao":"Dr.ª",
-    "email":"mmmacedo@arsnorte.min-saude.pt",
-    "equipa":3
-},
-{
-    "nome":"Diana Figueira",
-    "profissao":"Enfª",
-    "email":"dfigueira@arsnorte.min-saude.pt",
-    "equipa":3
-},
-{
-    "nome":"Sara Gomes",
-    "profissao":"Secretária Clínica",
-    "email":"srfgomes@arsnorte.min-saude.pt",
-    "equipa":3
-},
-{
-    "nome":"José Samarão",
-    "profissao":"Dr.",
-    "email":"jsamarao@arsnorte.min-saude.pt",
-    "equipa":4
-},
-{
-    "nome":"Marla Barbosa",
-    "profissao":"Enfª",
-    "email":"msbarbosa@arsnorte.min-saude.pt",
-    "equipa":4
-},
-{
-    "nome":"Vera Rebelo",
-    "profissao":"Secretária Clínica",
-    "email":"vrebelo@arsnorte.min-saude.pt",
-    "equipa":4
-},
-{
-    "nome":"Vera Peixoto",
-    "profissao":"Dr.ª",
-    "email":"vpeixoto@arsnorte.min-saude.pt",
-    "equipa":5
-},
-{
-    "nome":"Cristina Afonso",
-    "profissao":"Enfª",
-    "email":"caafonso@arsnorte.min-saude.pt",
-    "equipa":5
-},
-{
-    "nome":"Vera Rebelo",
-    "profissao":"Secretária Clínica",
-    "email":"vrebelo@arsnorte.min-saude.pt",
-    "equipa":5
-},
-{
-    "nome":"Teresa Lemos",
-    "profissao":"Dr.ª",
-    "email":"mtlemos@arsnorte.min-saude.pt",
-    "equipa":6
-},
-{
-    "nome":"Nuna Sousa",
-    "profissao":"Enfª",
-    "email":"ncsousa@arsnorte.min-saude.pt",
-    "equipa":6
-},
-{
-    "nome":"Elsa Sofia Fernandes",
-    "profissao":"Secretária Clínica",
-    "email":"esfernandes@arsnorte.min-saude.pt",
-    "equipa":6
-},
-{
-    "nome":"Maria João",
-    "profissao":"Dr.ª",
-    "email":"mjbotelho@arsnorte.min-saude.pt",
-    "equipa":7
-},
-{
-    "nome":"Ana Mónica Ferreira",
-    "profissao":"Enfª",
-    "email":"amferreira@arsnorte.min-saude.pt",
-    "equipa":7
-},
-{
-    "nome":"Lídia Ferraz",
-    "profissao":"Secretária Clínica",
-    "email":"ljfferraz@arsnorte.min-saude.pt",
-    "equipa":7
-}
-
-]    
+[{"_id":{"$oid":"61b1ea021891c55334781934"},"morada":"Largo Paulo Orósio, 2º andar Maximinos 4700-036 Braga","email":"usf.apoio@gmail.com","telefone":"+351 937 344 557","horario_atendimento":"2ª a 6ª feira: das 08:00 horas às 20:00 horas","lat":"41.54738349797038","lng":"-8.428102644182273"},
+    {"_id":{"$oid":"61b1ea021891c55334781935"},"nome":"Ana Filipa Pimentel","profissao":"Dr.ª","email":"apimentel@arsnorte.min-saude.pt","equipa":{"$numberInt":"0"}},
+    {"_id":{"$oid":"61b1ea021891c55334781936"},"nome":"Pedro Marques","profissao":"Enf.","email":"pmmarques@arsnorte.min-saude.pt","equipa":{"$numberInt":"0"}},
+    {"_id":{"$oid":"61b1ea021891c55334781937"},"nome":"Paula Sousa","profissao":"Secretária Clínica","email":"pmsousa@arsnorte.min-saude.pt","equipa":{"$numberInt":"0"}},
+    {"_id":{"$oid":"61b1ea021891c55334781938"},"nome":"André Fernandes","profissao":"Dr.","email":"affernandes@arsnorte.min-saude.pt","equipa":{"$numberInt":"1"}},
+    {"_id":{"$oid":"61b1ea021891c55334781939"},"nome":"Sandra Loureiro","profissao":"Enfª","email":"scloureiro@arsnorte.min-saude.pt","equipa":{"$numberInt":"1"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193a"},"nome":"Elsa Sofia Fernandes","profissao":"Secretária Clínica","email":"esfernandes@arsnorte.min-saude.pt","equipa":{"$numberInt":"1"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193b"},"nome":"Hélder Lanhas","profissao":"Dr.","email":"hlanhas@arsnorte.min-saude.pt","equipa":{"$numberInt":"2"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193c"},"nome":"Vera Sousa","profissao":"Enfª","email":"vlsousa@arsnorte.min-saude.pt","equipa":{"$numberInt":"2"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193d"},"nome":"José Pedro Silva","profissao":"Secretário Clínico","email":"jpcsilva@arsnorte.min-saude.pt","equipa":{"$numberInt":"2"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193e"},"nome":"Daniela Ribeiro","profissao":"Dr.ª","email":"dfpribeiro@arsnorte.min-saude.pt","equipa":{"$numberInt":"3"}},
+    {"_id":{"$oid":"61b1ea021891c5533478193f"},"nome":"Manuela Macedo","profissao":"Dr.ª","email":"mmmacedo@arsnorte.min-saude.pt","equipa":{"$numberInt":"3"}},
+    {"_id":{"$oid":"61b1ea021891c55334781940"},"nome":"Diana Figueira","profissao":"Enfª","email":"dfigueira@arsnorte.min-saude.pt","equipa":{"$numberInt":"3"}},
+    {"_id":{"$oid":"61b1ea021891c55334781941"},"nome":"Sara Gomes","profissao":"Secretária Clínica","email":"srfgomes@arsnorte.min-saude.pt","equipa":{"$numberInt":"3"}},
+    {"_id":{"$oid":"61b1ea021891c55334781942"},"nome":"José Samarão","profissao":"Dr.","email":"jsamarao@arsnorte.min-saude.pt","equipa":{"$numberInt":"4"}},
+    {"_id":{"$oid":"61b1ea021891c55334781943"},"nome":"Marla Barbosa","profissao":"Enfª","email":"msbarbosa@arsnorte.min-saude.pt","equipa":{"$numberInt":"4"}},
+    {"_id":{"$oid":"61b1ea021891c55334781944"},"nome":"Vera Rebelo","profissao":"Secretária Clínica","email":"vrebelo@arsnorte.min-saude.pt","equipa":{"$numberInt":"4"}},
+    {"_id":{"$oid":"61b1ea021891c55334781945"},"nome":"Vera Peixoto","profissao":"Dr.ª","email":"vpeixoto@arsnorte.min-saude.pt","equipa":{"$numberInt":"5"}},
+    {"_id":{"$oid":"61b1ea021891c55334781946"},"nome":"Cristina Afonso","profissao":"Enfª","email":"caafonso@arsnorte.min-saude.pt","equipa":{"$numberInt":"5"}},
+    {"_id":{"$oid":"61b1ea021891c55334781947"},"nome":"Vera Rebelo","profissao":"Secretária Clínica","email":"vrebelo@arsnorte.min-saude.pt","equipa":{"$numberInt":"5"}},
+    {"_id":{"$oid":"61b1ea021891c55334781948"},"nome":"Teresa Lemos","profissao":"Dr.ª","email":"mtlemos@arsnorte.min-saude.pt","equipa":{"$numberInt":"6"}},
+    {"_id":{"$oid":"61b1ea021891c55334781949"},"nome":"Nuna Sousa","profissao":"Enfª","email":"ncsousa@arsnorte.min-saude.pt","equipa":{"$numberInt":"6"}},
+    {"_id":{"$oid":"61b1ea021891c5533478194a"},"nome":"Elsa Sofia Fernandes","profissao":"Secretária Clínica","email":"esfernandes@arsnorte.min-saude.pt","equipa":{"$numberInt":"6"}},
+    {"_id":{"$oid":"61b1ea021891c5533478194b"},"nome":"Maria João","profissao":"Dr.ª","email":"mjbotelho@arsnorte.min-saude.pt","equipa":{"$numberInt":"7"}},
+    {"_id":{"$oid":"61b1ea021891c5533478194c"},"nome":"Ana Mónica Ferreira","profissao":"Enfª","email":"amferreira@arsnorte.min-saude.pt","equipa":{"$numberInt":"7"}},
+    {"_id":{"$oid":"61b1ea021891c5533478194d"},"nome":"Lídia Ferraz","profissao":"Secretária Clínica","email":"ljfferraz@arsnorte.min-saude.pt","equipa":{"$numberInt":"7"}}    
+    ]
