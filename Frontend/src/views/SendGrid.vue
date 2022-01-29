@@ -32,7 +32,7 @@
             
 
             <div style="font-size:26px; margin-top:50px; text-align:center">
-                <b> Chave atual: </b> {{ hide(key,9,58) }}
+                <b> Chave atual: </b> {{ key }}
             </div>
 
             <v-container>
@@ -91,6 +91,7 @@
 <script>
 import axios from 'axios'
 import ModalMessage from '../components/ModalMessage.vue'
+const host = require('../../../config.json').backend
 
 export default {
   name: 'sendgrid',
@@ -110,11 +111,9 @@ export default {
   },
   created(){
     if (this.token) {
-      axios.get("http://localhost:3333/medicos/" , {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+      axios.get(host + "/sendgrid", {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
         .then( dados => {
           this.key = dados.data
-          //isto sai fora:
-          this.key = "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"
         })
         .catch(err => {
           console.log(err)
@@ -125,30 +124,14 @@ export default {
     changeKey(){
         var json = {}
         json['key'] = this.newKey
-        /*
-        axios.put("http://localhost:3333/medicos/" , json,  {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
+        axios.put(host + "/sendgrid" , json,  {headers:{'Authorization':'Bearer '+ localStorage.getItem('jwt')}})
             .then( () => {
               this.modalSucesso = true
             })
             .catch(err => {
               this.modalErro = true
               console.log(err)
-            })*/
-        this.modalSucesso = true
-    },
-    hide(key,value1,value2) {
-        var num = this.key.length
-        var i = 0
-        var k = ""
-        while(i<num) {
-            if (value2>i && i>value1) {
-                k += "•"
-                //k += "*"
-            }
-            else k += key[i]
-            i++
-        }
-        return k
+            })
     },
     alteracaoSucesso() {
       this.modalSucesso = false 
