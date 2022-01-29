@@ -295,6 +295,7 @@ const host_socket = require('../../../config.json').socket
 
               axios.put(host + "/notificacao/", json, {headers:{'authorization':'Bearer '+ this.token}})
                 .then(() => {
+                  this.getNotificacoes()
                   //redirecionar o utilizador para o sitio referente à notificação
                   this.$router.push('/perfil?tipo='+tipo + '&&id='+ idRef)
                 })
