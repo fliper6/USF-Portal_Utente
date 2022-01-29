@@ -15,4 +15,5 @@ mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection notic
 mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection consultas --file /usr/src/data/pedidoC.json --type json --jsonArray && \
 mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection medicacaos --file /usr/src/data/pedidoM.json --type json --jsonArray && \
 mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection sugestaos --file /usr/src/data/sugestoes.json --type json --jsonArray && \
-mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection users --file /usr/src/data/users.json --type json --jsonArray 
+mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection users --file /usr/src/data/users.json --type json --jsonArray && \
+mongoimport --uri mongodb://usf-mongo:27017/USF_PORTAL_UTENTE --collection sendgrids --file /usr/src/data/sendgrids.json --type json --jsonArray 

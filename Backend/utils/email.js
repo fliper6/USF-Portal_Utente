@@ -1,9 +1,9 @@
 const sgMail = require('@sendgrid/mail')
 const cfg = require('../../config.json')
-const API_KEY = cfg.sendgrid_key
 const host = cfg.frontend
+const SendGrid = require('../controllers/sendgrid')
 
-sgMail.setApiKey(API_KEY)
+SendGrid.consultar().then(dados => sgMail.setApiKey(dados.key)).catch(e => console.log(e))
 
 function sendEmail( email, subject, text, html ){
     let msg = {
