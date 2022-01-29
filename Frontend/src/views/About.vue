@@ -1,22 +1,32 @@
 <template>
   <div class="about">
-    <v-container>
+    <v-container v-if="this.windowWidth > 1265">
       <v-row>
         <v-col>
           <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
       <v-icon>mdi-pencil</v-icon>
     </v-btn></h1>
           <div class="contactos" v-if="this.edit_enc">
-      <div class="contactos-labels">
-        <div v-for="label in info" :key="label" class="contactos-label"> {{label}}: </div>
-      </div>
-      <div class="sep"></div>
-      <div class="informacoes">
-        <div class="informacao"> {{dados.morada}} </div>
-        <div class="informacao"> {{dados.telefone}} </div>
-        <div class="informacao"> {{dados.email}} </div>
-        <div class="informacao"> {{dados.horario_atendimento}} </div>
-      </div>
+            <v-container>
+              <v-row v-for="label in info" :key="label" style="margin:0 0 -25px 0">
+          <v-col cols =4 class="text-right">
+            <div 
+            class="contactos-label" 
+            
+            > 
+            {{label[0]}}: 
+            </div>
+          </v-col>
+          <v-col cols=1>
+            <v-divider vertical style="background-color:var(--primary-color);"></v-divider>
+          </v-col>
+          <v-col cols =5>
+            <div  class="text-left"> {{dados[label[1]]}} </div>
+          </v-col>
+        </v-row>
+            </v-container>
+            
+      
     </div>
     <div v-else>
         <v-text-field color="var(--secondary-dark-color)" label="Morada" v-model="dados.morada"></v-text-field>
@@ -28,6 +38,61 @@
         <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
     </div>
         </v-col>
+        <v-col>
+          <GmapMap
+            :center="this.center"
+            :zoom="16"
+            map-type-id="terrain"
+            style="width: 500px; height: 300px"
+          >
+            <GmapMarker
+              :position="this.center"
+              @click="center=center"
+            />
+          </GmapMap>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-else>
+      <v-row>
+        <v-col>
+          <h1 style="margin-bottom:20px">Encontre-nos <v-btn title="Editar Local" icon depressed v-if="nivel === 'Administrador' && this.edit_enc" @click="edit_enc = false">
+      <v-icon>mdi-pencil</v-icon>
+    </v-btn></h1>
+          <div class="contactos" v-if="this.edit_enc">
+            <v-container>
+              <v-row v-for="label in info" :key="label" style="margin:0 0 -25px 0">
+          <v-col cols =4 class="text-right">
+            <div 
+            class="contactos-label" 
+            
+            > 
+            {{label[0]}}: 
+            </div>
+          </v-col>
+          <v-col cols=1>
+            <v-divider vertical style="background-color:var(--primary-color);"></v-divider>
+          </v-col>
+          <v-col cols =5>
+            <div  class="text-left"> {{dados[label[1]]}} </div>
+          </v-col>
+        </v-row>
+            </v-container>
+            
+      
+    </div>
+    <div v-else>
+        <v-text-field color="var(--secondary-dark-color)" label="Morada" v-model="dados.morada"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Telefone" v-model="dados.telefone"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Email" v-model="dados.email"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Horário de Atendimento" v-model="dados.horario_atendimento"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Latitude" v-model="dados.lat"></v-text-field>
+        <v-text-field color="var(--secondary-dark-color)" label="Longitude" v-model="dados.lng"></v-text-field>
+        <v-btn depressed class="button-principal" @click="save_enc">Guardar</v-btn>
+    </div>
+        </v-col>
+      </v-row>
+      <v-row>
         <v-col>
           <GmapMap
             :center="this.center"
@@ -258,12 +323,12 @@ export default {
       windowWidth: window.innerWidth,
       center:  { lat: '', lng: '' },
       info: [
-        "Morada",
-        "USF Linha de Apoio",
-        "Email",
-        "Horário de Atendimento"
+        ["Morada","morada"],
+        ["USF Linha de Apoio","telefone"],
+        ["Email","email"],
+        ["Horário de Atendimento","horario_atendimento"]
       ],
-      dados: '',
+      dados:'',
       equipas:[],
       token:localStorage.getItem('jwt'),
       nivel:'',
@@ -301,7 +366,9 @@ export default {
     
   },
   created(){
-    
+    console.log(this.windowWidth)
+    window.addEventListener('resize', this.handleResize);
+        this.handleResize();
     if (this.token){
       this.nivel = jwt.decode(this.token).nivel
     }
@@ -333,6 +400,9 @@ export default {
         console.log(err)
       })
   },
+  destroyed() {
+        window.removeEventListener('resize', this.handleResize);
+    },
   components:{
   },
   methods: {
@@ -395,7 +465,10 @@ export default {
       .catch(err => {
         console.log(err)
       })
-    }
+    },
+    handleResize() {
+            this.windowWidth = window.innerWidth;
+        }
   }
 }
 </script>
