@@ -43,7 +43,26 @@ Este formulário não pode ser usado para consulta no próprio dia (consulta urg
         ></v-select>
         <span style="color: #ff5252; font-size: 12px;" v-if="objFlag" >Campo obrigatório.</span>
         </div>
-      </div>    
+        <label class="label">6. Forma em que pretende ser contactado</label>
+      </div>
+      <div class="check">
+        <label for="SMS">SMS</label>
+        <input type="radio" class="input-radio" @click="showTele = true; showEmail = false; contactoFlag = false; getContactos()" required v-model="consulta.contacto" value="SMS">
+        <label for="Email">Email</label>
+        <input type="radio" class="input-radio" @click="showEmail = true; showTele = false; contactoFlag = false; getContactos()" required v-model="consulta.contacto" value="Email">
+      </div>
+      <span style="color: #ff5252; font-size: 12px;" v-if="contactoFlag">Campo obrigatório.</span>
+      <div v-if="showTele">
+          <label class="label">Número de telemóvel</label>
+          <input type="number" class="input-modal" v-model="consulta.valorContacto.telemovel" @click="checkTele = false; checkTele2 = false" @input="checkTele = false; checkTele2 = false">
+          <span style="color: #ff5252; font-size: 12px;" v-if="checkTele">Número de Telémovel é um campo obrigatório.</span>
+          <span style="color: #ff5252; font-size: 12px;" v-if="checkTele2">Número de Telémovel tem de conter 9 digitos.</span>
+      </div>
+      <div v-if="showEmail">
+          <label class="label">Email</label>
+          <input type="text" class="input-modal" v-model="consulta.valorContacto.email">
+          <span style="color: #ff5252; font-size: 12px;" v-if="$v.consulta.valorContacto.email.$invalid">Email é um campo obrigatório.</span>
+      </div>          
       <div>
         <v-btn class="button" @click="verifica">Submeter</v-btn>
       </div>  
@@ -137,7 +156,11 @@ export default {
       numUtente: { required },
       numUtentePedido: { between: between(100000000, 999999999)},
       medico: { required },
-      objetivo: { required }
+      objetivo: { required },
+      contacto: { required },
+      valorContacto: {
+        email: { required },
+      }      
     }
   },
   data() {
@@ -148,9 +171,16 @@ export default {
         numUtente: "",
         numUtentePedido: "",
         medico: "",
+        contacto: "",
+        valorContacto: {
+          telemovel: "",
+          email: ""
+        },        
         objetivo: ""
       },
       objFlag: false,
+      showEmail: false,
+      showTele: false,
       medFlag: false,
       meds:[],
       objs: ["Agendar consulta médica", "Confirmar dia e hora da consulta (médica ou de enfermagem)", "Desmarcar consulta (médica ou de enfermagem)", 
@@ -159,12 +189,27 @@ export default {
       dialog2:false,
       dialogErr: false,
       checkNum: false,
+      contactoFlag: false,
+      checkTele: false,
+      checkTele2:false,
     }  
   },
   methods: {
     reload(){
       this.$router.push("/")
     },
+    getContactos(){
+      axios.get(host + "/users/validar/" + this.token)
+      .then( () => {
+        this.consulta.valorContacto.email = jwt.decode(this.token).email
+        this.consulta.valorContacto.telemovel = jwt.decode(this.token).nr_telemovel
+      })
+      .catch(() => {
+        localStorage.clear()
+        window.location.pathname = '/'
+        alert("A sua sessão foi expirada!!")
+      })
+    },    
     removeSpanObj: function(){
       this.objFlag = false
     },
@@ -184,34 +229,93 @@ export default {
       if(this.$v.consulta.numUtentePedido.$invalid){
         this.checkNum = true
       }
+      if(this.$v.consulta.contacto.$invalid){
+        this.contactoFlag = true
+      }
+      if(this.consulta.contacto == "SMS" && this.consulta.valorContacto.telemovel == ""){
+        this.checkTele = true
+      }
+      if(this.consulta.contacto == "SMS" && Math.ceil(Math.log10(this.consulta.valorContacto.telemovel)) != 9){
+        this.checkTele2 = true
+      } 
+      if(!this.$v.consulta.$invalid && this.consulta.contacto == "SMS" && this.consulta.valorContacto.telemovel != ""){
+        this.dialog = true
+      }
+      if(!this.$v.consulta.$invalid && this.consulta.contacto == "Email"){
+        this.dialog = true
+      }         
     },
-    sendPedidoCons: function(){
-      if(!this.$v.consulta.$invalid){
+    sendPedidoCons(){
+      if(!this.$v.consulta.$invalid && this.consulta.contacto == "SMS" && this.consulta.valorContacto.telemovel != ""){
         axios({
-        method: 'post',
-        url: host + "/consultas",
-        headers: {
-          'Authorization': 'Bearer ' + localStorage.getItem('jwt')
-        }, 
-        data: {
-          user: this.consulta.user,
-          nome: this.consulta.nome,
-          nr_utente_titular: parseInt(this.consulta.numUtente),
-          nr_utente_pedido: parseNumOpcional(this.consulta.numUtentePedido),
-          medico: this.consulta.medico,
-          tipo: this.consulta.objetivo
-        }
-      })
-      .then(() => {
-        this.dialog2 = true
-      })
-      .catch(err => {
-        this.dialogErr = true
-        console.log(err)
-      })
-    }
+          method: 'post',
+          url: host + "/consultas",
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+          }, 
+          data: {
+            user: this.consulta.user,
+            nome: this.consulta.nome,
+            nr_utente_titular: parseInt(this.consulta.numUtente),
+            nr_utente_pedido: this.parseNumOpcional(this.consulta.numUtentePedido),
+            medico: this.consulta.medico,
+            tipo: this.consulta.objetivo,
+            contacto: {
+              tipo: this.converteContacto(this.consulta.contacto),
+              valor: this.consulta.valorContacto.telemovel
+            }          
+          }
+        })
+        .then(() => {
+          this.dialog2 = true
+        })
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)
+        })
+         
+      }
+      else if(!this.$v.consulta.$invalid && this.consulta.contacto == "Email"){
+        axios({
+          method: 'post',
+          url: host + "/consultas",
+          headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('jwt')
+          }, 
+          data: {
+            user: this.consulta.user,
+            nome: this.consulta.nome,
+            nr_utente_titular: parseInt(this.consulta.numUtente),
+            nr_utente_pedido: this.parseNumOpcional(this.consulta.numUtentePedido),
+            medico: this.consulta.medico,
+            tipo: this.consulta.objetivo,
+            contacto: {
+              tipo: this.converteContacto(this.consulta.contacto),
+              valor: this.consulta.valorContacto.email
+            }          
+          }
+        })
+        .then(() => {
+          this.dialog2 = true
+        })
+        .catch(err => {
+          this.dialogErr = true
+          console.log(err)
+        })
+                 
+      }
+    },
       
-    function parseNumOpcional(num){
+    converteContacto(cont){
+      if(cont == "SMS"){
+        return 1
+      }
+      else if (cont == "Email"){
+        return 0
+      }
+    },
+
+    parseNumOpcional(num){
       if(num == ""){
         return null
       }
@@ -219,7 +323,9 @@ export default {
         return parseInt(num)
       }
     }
-    }
+    
+    
+    
   },
   created(){
     axios.get(host + "/users/validar/" + this.token)
