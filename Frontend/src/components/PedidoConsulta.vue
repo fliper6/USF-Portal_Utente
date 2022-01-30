@@ -395,7 +395,7 @@ export default {
   .button{
     padding:  3px;
     background-color: var(--secondary-color) !important;
-    margin-top: 10px;
+    margin-top: 30px;
   }
   .label{
     color: var(--grey3-color);
