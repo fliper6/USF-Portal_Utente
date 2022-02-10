@@ -2,6 +2,8 @@ version: "3"
 services: 
     back-end:
         container_name: usf-back-end
+        volumes:
+            - ./storage:/usr/src/app/public/fileStore
         build: 
             context: ./
             dockerfile: ./Backend/Dockerfile

@@ -1,10 +1,11 @@
 var express = require('express');
 var router = express.Router();
+const mv = require('mv');
 
 var multer = require('multer');
 var upload = multer({dest: './uploads'});
 
-var fs = require('fs');
+//var fs = require('fs');
 const JWTUtils = require('../utils/jwt')
 
 let Documento = require('../controllers/documento')
@@ -92,8 +93,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
     if ("originalname" in req.body) req.file.originalname = req.body.originalname
     let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
     let nova_diretoria = (__dirname + 'public/fileStore/documentos/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
-    fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
-    
+    mv(diretoria, nova_diretoria, err => { if (err) throw err })
     let documento = {
         titulo: req.body.titulo,
         data_publicacao: new Date().toISOString(),
@@ -108,12 +108,10 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.single('documento'
             diretoria: "public" + nova_diretoria.split("public")[1]
         }
     }
-
     Categoria.listar()
         .then(dados => {
             let categorias = dados !== null ? dados.categorias : categorias_base
             documento.caminho_categorias = JWTUtils.caminhoParaId(categorias, req.body.id_categoria)
-
             Documento.inserir(documento)
                 .then(d => res.status(200).jsonp(d))
                 .catch(e => res.status(500).jsonp({error: "Ocorreu um erro ao dar upload ao documento."}))

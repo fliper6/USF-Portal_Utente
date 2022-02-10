@@ -5,6 +5,7 @@ var multer = require('multer');
 var upload = multer({dest: './uploads'});
 
 var fs = require('fs');
+const mv = require('mv');
 const JWTUtils = require('../utils/jwt');
 const np = require("../utils/noticiasProgramadas");
 
@@ -46,7 +47,7 @@ router.post('/', JWTUtils.validate, JWTUtils.isMedico, upload.array('ficheiros')
         let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
         let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.files[i].originalname).replace("routes","").replace(/\\/g, "/");
 
-        fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err });
+        mv(diretoria, nova_diretoria, err => { if (err) throw err });
         
         ficheiros.push({
             nome_ficheiro: req.files[i].originalname,
@@ -114,7 +115,7 @@ router.post('/ficheiro', JWTUtils.validate, JWTUtils.isMedico, upload.single('fi
     let diretoria = (__dirname + req.file.path).replace("routes","").replace(/\\/g, "/");
     let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.file.originalname).replace("routes","").replace(/\\/g, "/");
 
-    fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err })
+    mv(diretoria, nova_diretoria, err => { if (err) throw err })
 
     let ficheiro = {
         nome_ficheiro: req.file.originalname,
@@ -137,7 +138,7 @@ router.put('/editar/:id', JWTUtils.validate, JWTUtils.isMedico, upload.array('fi
         let diretoria = (__dirname + req.files[i].path).replace("routes","").replace(/\\/g, "/");
         let nova_diretoria = (__dirname + 'public/fileStore/noticias/' + Date.now() + "-" + req.files[i].originalname).replace("routes","").replace(/\\/g, "/");
 
-        fs.renameSync(diretoria, nova_diretoria, err => { if (err) throw err });
+        mv(diretoria, nova_diretoria, err => { if (err) throw err });
         
         ficheiros_novos.push({
             nome_ficheiro: req.files[i].originalname,
